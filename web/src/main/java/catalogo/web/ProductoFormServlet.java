@@ -1,4 +1,4 @@
-package org.web;
+package catalogo.web;
 
 import java.io.IOException;
 
@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.dal.DALException;
-import org.dal.ProductosDAL;
-import org.tipos.Producto;
+
+import catalogo.dal.DALException;
+import catalogo.dal.ProductosDAL;
+import catalogo.tipos.Producto;
 
 @WebServlet("/admin/productoform")
 public class ProductoFormServlet extends HttpServlet {

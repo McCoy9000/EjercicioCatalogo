@@ -6,7 +6,7 @@
 		<h2>Formulario de usuarios</h2>
 	</div>
 	<jsp:useBean id="usuario" scope="request"
-		class="org.tipos.Usuario" />
+		class="catalogo.tipos.Usuario" />
 
 	<form action="/admin/usuarioform" method="post">
 		<fieldset>

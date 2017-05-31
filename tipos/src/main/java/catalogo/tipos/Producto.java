@@ -1,4 +1,4 @@
-package org.tipos;
+package catalogo.tipos;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package org.web;
+package catalogo.web;
 
 import java.io.IOException;
 
@@ -12,8 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.dal.UsuariosDAL;
-import org.tipos.Usuario;
+
+import catalogo.dal.UsuariosDAL;
+import catalogo.tipos.Usuario;
 
 @WebServlet("/alta")
 public class AltaServlet extends HttpServlet {

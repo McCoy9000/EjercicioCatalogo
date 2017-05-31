@@ -1,4 +1,4 @@
-package org.dal;
+package catalogo.dal;
 
 
 public class UsuariosDALFactory {

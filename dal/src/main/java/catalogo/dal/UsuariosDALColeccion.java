@@ -1,4 +1,4 @@
-package org.dal;
+package catalogo.dal;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.tipos.Usuario;
+import catalogo.tipos.Usuario;
 
 public class UsuariosDALColeccion implements UsuariosDAL {
 

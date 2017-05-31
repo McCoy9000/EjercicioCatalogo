@@ -1,4 +1,4 @@
-package org.web;
+package catalogo.web;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.tipos.Usuario;
+import catalogo.tipos.Usuario;
 
 @WebFilter("/autorizacion")
 public class Autorizacion implements Filter {

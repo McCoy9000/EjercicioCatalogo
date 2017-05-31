@@ -1,4 +1,4 @@
-package org.web;
+package catalogo.web;
 
 import java.io.IOException;
 
@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.tipos.Carrito;
-import org.tipos.Producto;
+
+import catalogo.tipos.Carrito;
+import catalogo.tipos.Producto;
 
 @WebServlet("/checkout")
 public class CheckoutServlet extends HttpServlet {

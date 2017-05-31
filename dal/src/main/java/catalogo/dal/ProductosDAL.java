@@ -1,6 +1,6 @@
-package org.dal;
+package catalogo.dal;
 
-import org.tipos.Producto;
+import catalogo.tipos.Producto;
 
 public interface ProductosDAL {
 

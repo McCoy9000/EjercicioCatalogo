@@ -1,4 +1,4 @@
-package org.web;
+package catalogo.web;
 
 import java.io.IOException;
 
@@ -9,46 +9,49 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.dal.UsuariosDAL;
-import org.tipos.Usuario;
+import catalogo.dal.ProductosDAL;
+import catalogo.tipos.Producto;
 
-@WebServlet("/admin/usuariocrud")
-public class UsuarioCRUDServlet extends HttpServlet {
-	static final String RUTA_FORMULARIO = "/WEB-INF/vistas/usuarioform.jsp";
-	static final String RUTA_LISTADO = "/WEB-INF/vistas/usuariocrud.jsp";
-	static final String RUTA_SERVLET_LISTADO = "/admin/usuariocrud";
-
+@WebServlet("/admin/productocrud")
+public class ProductoCRUDServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	static final String RUTA_FORMULARIO = "/WEB-INF/vistas/productoform.jsp";
+	static final String RUTA_LISTADO = "/WEB-INF/vistas/productocrud.jsp";
+	static final String RUTA_SERVLET_LISTADO = "/admin/productocrud";
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		doPost(request, response);
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ServletContext application = getServletContext();
-		UsuariosDAL usuarios = (UsuariosDAL) application.getAttribute("usuarios");
+
+		ProductosDAL productos = (ProductosDAL) application.getAttribute("productos");
 
 		String op = request.getParameter("op");
 
 		if (op == null) {
-			
-			Usuario[] usuariosArr = usuarios.buscarTodosLosUsuarios();
-			
-			application.setAttribute("usuariosArr", usuariosArr);
 
+			Producto[] productosArr = productos.buscarTodosLosProductos();
+			
+			application.setAttribute("productosArr", productosArr);
+			
 			request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
 
 		} else {
 
-			Usuario usuario;
+			Producto producto;
 
 			switch (op) {
 			case "modificar":
 			case "borrar":
-				String id = request.getParameter("id");
-				usuario = usuarios.buscarPorId(id);
-				request.setAttribute("usuario", usuario);
+				Integer id = Integer.parseInt(request.getParameter("id"));
+				producto = productos.buscarPorId(id);
+				request.setAttribute("producto", producto);
 			case "alta":
 				request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
 				break;

@@ -1,4 +1,4 @@
-package org.dal;
+package catalogo.dal;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
-import org.tipos.Producto;
+import catalogo.tipos.Producto;
 
 public class ProductosDALFichero implements ProductosDAL {
 

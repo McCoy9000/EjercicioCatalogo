@@ -1,4 +1,4 @@
-package org.web;
+package catalogo.web;
 
 import java.util.LinkedList;
 
@@ -8,12 +8,13 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.dal.ProductosDAL;
-import org.dal.ProductosDALFactory;
-import org.dal.UsuariosDAL;
-import org.dal.UsuariosDALFactory;
-import org.tipos.Producto;
-import org.tipos.Usuario;
+
+import catalogo.dal.ProductosDAL;
+import catalogo.dal.ProductosDALFactory;
+import catalogo.dal.UsuariosDAL;
+import catalogo.dal.UsuariosDALFactory;
+import catalogo.tipos.Producto;
+import catalogo.tipos.Usuario;
 
 public class Inicializacion implements ServletContextListener {
 

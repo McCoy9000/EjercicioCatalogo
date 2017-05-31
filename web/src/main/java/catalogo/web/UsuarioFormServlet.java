@@ -1,4 +1,4 @@
-package org.web;
+package catalogo.web;
 
 import java.io.IOException;
 
@@ -11,10 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.dal.DALException;
-import org.dal.UsuarioYaExistenteDALException;
-import org.dal.UsuariosDAL;
-import org.tipos.Usuario;
+
+import catalogo.dal.DALException;
+import catalogo.dal.UsuarioYaExistenteDALException;
+import catalogo.dal.UsuariosDAL;
+import catalogo.tipos.Usuario;
 
 @WebServlet("/admin/usuarioform")
 public class UsuarioFormServlet extends HttpServlet {

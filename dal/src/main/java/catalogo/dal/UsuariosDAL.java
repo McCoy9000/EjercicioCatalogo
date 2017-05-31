@@ -1,6 +1,6 @@
-package org.dal;
+package catalogo.dal;
 
-import org.tipos.Usuario;
+import catalogo.tipos.Usuario;
 
 public interface UsuariosDAL {
 	public void alta(Usuario usuario);

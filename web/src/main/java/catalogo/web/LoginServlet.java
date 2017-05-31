@@ -1,4 +1,4 @@
-package org.web;
+package catalogo.web;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -13,9 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.dal.UsuariosDAL;
-import org.tipos.Carrito;
-import org.tipos.Usuario;
+
+import catalogo.dal.UsuariosDAL;
+import catalogo.tipos.Carrito;
+import catalogo.tipos.Usuario;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {

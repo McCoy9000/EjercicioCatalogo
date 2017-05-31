@@ -9,7 +9,7 @@
 </div>
 	
 	<jsp:useBean id="producto" scope="request"
-		class="org.tipos.Producto" />
+		class="catalogo.tipos.Producto" />
 
 	<form action="/admin/productoform" method="post">
 		<fieldset>

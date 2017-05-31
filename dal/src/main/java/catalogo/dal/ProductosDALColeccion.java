@@ -1,9 +1,9 @@
-package org.dal;
+package catalogo.dal;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.tipos.Producto;
+import catalogo.tipos.Producto;
 
 public class ProductosDALColeccion implements ProductosDAL {
 

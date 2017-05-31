@@ -1,4 +1,4 @@
-package org.tipos;
+package catalogo.tipos;
 
 import java.util.HashMap;
 import org.apache.log4j.Logger;
