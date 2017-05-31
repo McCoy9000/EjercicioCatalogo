@@ -18,10 +18,10 @@ import catalogo.tipos.Producto;
 
 
 @WebServlet("/catalogo")
-public class Catalogo extends HttpServlet {
+public class CatalogoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static Logger log = Logger.getLogger(Catalogo.class);
+	private static Logger log = Logger.getLogger(CatalogoServlet.class);
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

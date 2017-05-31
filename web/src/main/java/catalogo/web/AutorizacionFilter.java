@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import catalogo.tipos.Usuario;
 
 @WebFilter("/autorizacion")
-public class Autorizacion implements Filter {
+public class AutorizacionFilter implements Filter {
 
 	public void destroy() {
 

@@ -16,11 +16,11 @@ import catalogo.dal.UsuariosDALFactory;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
 
-public class Inicializacion implements ServletContextListener {
+public class InicializacionListener implements ServletContextListener {
 
-	private static Logger log = Logger.getLogger(Inicializacion.class);
+	private static Logger log = Logger.getLogger(InicializacionListener.class);
 
-	public Inicializacion() {
+	public InicializacionListener() {
 
 	}
 
@@ -34,7 +34,7 @@ public class Inicializacion implements ServletContextListener {
 		
 		// Configurar Log4j
 
-		PropertyConfigurator.configure(Inicializacion.class.getClassLoader().getResource("log4j.properties"));
+		PropertyConfigurator.configure(InicializacionListener.class.getClassLoader().getResource("log4j.properties"));
 
 		
 		// Inicializar la base de datos de usuarios y hacerla accesible a través del ServletContext

@@ -8,7 +8,7 @@
 		</description>
 		<display-name>Autorizacion</display-name>
 		<filter-name>Autorizacion</filter-name>
-		<filter-class>catalogo.web.Autorizacion</filter-class>
+		<filter-class>catalogo.web.AutorizacionFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>Autorizacion</filter-name>
@@ -17,14 +17,14 @@
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
 	<listener>
-		<listener-class>catalogo.web.Inicializacion</listener-class>
+		<listener-class>catalogo.web.InicializacionListener</listener-class>
 	</listener>
 	<servlet>
 		<description>
 		</description>
 		<display-name>Catalogo</display-name>
 		<servlet-name>Catalogo</servlet-name>
-		<servlet-class>catalogo.web.Catalogo</servlet-class>
+		<servlet-class>catalogo.web.CatalogoServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
