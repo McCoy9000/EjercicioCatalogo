@@ -67,7 +67,7 @@ public class InicializacionListener implements ServletContextListener {
 		
 		LinkedList<Usuario> usuariosLogueados = new LinkedList<>();
 		
-		log.info("Lista de usuarios logueados actualizado");
+		log.info("Lista de usuarios logueados actualizada");
 		
 		application.setAttribute("usuariosLogueados", usuariosLogueados);
 		
@@ -84,14 +84,13 @@ public class InicializacionListener implements ServletContextListener {
 
 		}
 		
-		Usuario javi = new Usuario("javi", "lete");
+		Usuario mikel = new Usuario("mikel", "mikel");
 		
-		if (!usuarios.validar(javi)) {
+		if (!usuarios.validar(mikel)) {
 			
-			usuarios.alta(javi);
+			usuarios.alta(mikel);
 			
-			log.info("Creado usuario estándard. Usuario: 'javi', Password: 'lete'");
-			
+			log.info("Creado usuario estándard. Usuario: 'mikel', Password: 'mikel'");
 		}
 
 		
@@ -109,17 +108,6 @@ public class InicializacionListener implements ServletContextListener {
 			productos.alta(new Producto("Producto de prueba 8", "Descripcion de producto de prueba 8", 100.0, 2));
 			productos.alta(new Producto("Producto de prueba 9", "Descripcion de producto de prueba 9", 100.0, 3));
 			log.info("Creados 9 productos de prueba");
-			
-			
-//		//Crear un carrito para el usuario sin loguear
-//			
-//		Carrito carrito = new Carrito();
-//			
-//		application.setAttribute("carrito", carrito);
-			
-			
 		}
-
 	}
-
 }

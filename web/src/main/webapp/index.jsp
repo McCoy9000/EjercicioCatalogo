@@ -5,13 +5,14 @@
 
 <div>
 	<h2>Catálogo</h2>
-	<nav>
-	<ul>
-	<li>${sessionScope.numeroProductos} productos en el carrito</li>
-	<li><a href="/checkout">Checkout</a></li>
-	</ul>
-	</nav>
 </div>
+<nav>
+	<ul>
+		<li>${sessionScope.numeroProductos} productos en el carrito</li>
+		<li><a href="/checkout">Checkout</a></li>
+	</ul>
+</nav>
+
 <table>
 	<thead>
 		<tr>

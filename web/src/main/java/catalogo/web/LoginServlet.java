@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
 		} else
 			usuario = new Usuario(nombre, password);
 
-		boolean yaLogueado = session.getAttribute("logueado") == "si";
+		boolean yaLogueado = ("si").equals(session.getAttribute("logueado"));
 		boolean sinDatos = nombre == null || nombre == "" || password == "" || password == null;
 		boolean uInexistente = !((UsuariosDAL) usuarios).validarNombre(usuario);
 		boolean esValido = usuarios.validar(usuario);
@@ -102,9 +102,6 @@ public class LoginServlet extends HttpServlet {
 
 			session.setAttribute("errorLogin", "Contraseña incorrecta");
 			login.forward(request, response);
-
 		}
-
 	}
-
 }

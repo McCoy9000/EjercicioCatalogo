@@ -18,7 +18,6 @@ import catalogo.tipos.Usuario;
 public class AutorizacionFilter implements Filter {
 
 	public void destroy() {
-
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -32,18 +31,17 @@ public class AutorizacionFilter implements Filter {
 		if (session != null) {
 
 			usuario = (Usuario) session.getAttribute("usuario");
-
 		}
 
-		boolean nuevoUsuario = usuario == null;
+		boolean esNuevoUsuario = usuario == null;
 		boolean esAdmin = false;
 
-		if (!nuevoUsuario) {
+		if (!esNuevoUsuario) {
 
 			esAdmin = usuario.isAdmin();
-
 		}
 
+		
 		if (!esAdmin) {
 
 			session.setAttribute("errorLogin", "No tienes permiso para acceder a esa sección");
@@ -52,12 +50,9 @@ public class AutorizacionFilter implements Filter {
 		} else {
 
 			chain.doFilter(request, response);
-
 		}
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
-
 	}
-
 }

@@ -15,8 +15,13 @@ import catalogo.tipos.Producto;
 public class ProductosDALFichero implements ProductosDAL {
 
 	File fichero = new File("productos.dat");
-
+	
+	//Elijo un TreeMap sobre un HashMap porque ofrec el método last key que me permite
+	//calcular un valor para la variable siguienteId que me asegura no coincidir con ningun
+	// presente
+	
 	private TreeMap<Integer, Producto> productos = new TreeMap<Integer, Producto>();
+	
 	
 	public ProductosDALFichero() {
 
@@ -29,6 +34,7 @@ public class ProductosDALFichero implements ProductosDAL {
 		} else {
 
 			leerDatabase();
+			
 			try {
 				Producto.siguienteId = (productos.lastKey() + 1);
 			} catch (NoSuchElementException e) {

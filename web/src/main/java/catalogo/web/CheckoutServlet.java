@@ -54,41 +54,39 @@ public class CheckoutServlet extends HttpServlet {
 		
 		if (op == null){
 			
-			log.info("op == null en el checkout");
-			
 			try {
-			session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
+				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 			} catch (NullPointerException npe) {
 				carrito = new Carrito();
 				session.setAttribute("carrito", carrito);
+				session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 			}
+			
 			request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
 			
 		} else {
-			log.info("Pasa por el else del checkout");
+			
 			switch (op) {
-			case "pagar":
-				log.info("Pasa por pagar");
-				carrito = new Carrito();
-				session.setAttribute("carrito", carrito);
-				session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
-				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-				request.getRequestDispatcher("/catalogo").forward(request, response);
-				break;
-			case "quitar":
-				log.info("Pasa por quitar");
-				int id = Integer.parseInt(request.getParameter("id"));
-				producto = carrito.buscarPorId(id);
-				carrito.quitarDelCarrito(id);
-				session.setAttribute("carrito", carrito);
-				session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
-				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-				session.setAttribute("precioTotal", carrito.precioTotal());
-				request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request,response);
-				break;
-			default:
-				request.getRequestDispatcher("WEB-INF/vistas/checkout.jsp").forward(request, response);
+				case "pagar":
+					log.info("Carrito de la compra liquidado");
+					carrito = new Carrito();
+					session.setAttribute("carrito", carrito);
+					session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
+					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
+					request.getRequestDispatcher("/catalogo").forward(request, response);
+					break;
+				case "quitar":
+					log.info("Producto retirado del carro");
+					int id = Integer.parseInt(request.getParameter("id"));
+					producto = carrito.buscarPorId(id);
+					carrito.quitarDelCarrito(id);
+					session.setAttribute("carrito", carrito);
+					session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
+					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
+					session.setAttribute("precioTotal", carrito.precioTotal());
+				default:
+					request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
 			}
 			
 		}

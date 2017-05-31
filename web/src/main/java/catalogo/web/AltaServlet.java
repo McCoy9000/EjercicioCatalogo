@@ -18,6 +18,7 @@ import catalogo.tipos.Usuario;
 
 @WebServlet("/alta")
 public class AltaServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = Logger.getLogger(AltaServlet.class);
@@ -29,13 +30,11 @@ public class AltaServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		doPost(request, response);
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-
 		ServletContext application = request.getServletContext();
 
 		String nombre = request.getParameter("nombre");
@@ -46,37 +45,36 @@ public class AltaServlet extends HttpServlet {
 
 		UsuariosDAL usuarios = (UsuariosDAL) application.getAttribute("usuarios");
 
+		
 		boolean nombreDemasiadoLargo = false;
 
 		if (nombre != null) {
 
 			nombreDemasiadoLargo = nombre.length() > 16;
-
 		}
 
 		boolean usuarioExistente = usuarios.validarNombre(usuario);
 
 		boolean sinDatos = nombre == null || nombre == "" || password == null || password == "" || password2 == null || password2 == "";
 
-		boolean passDistintas = false;
+		boolean passIguales = true;
 
 		if (password != null) {
 
-			passDistintas = !password.equals(password2);
-
+			passIguales = password.equals(password2);
 		}
 
 		boolean esCorrecto = false;
 
 		if (!sinDatos) {
 
-			esCorrecto = !usuarios.validarNombre(usuario) && password.equals(password2);
-
+			esCorrecto = !usuarioExistente && passIguales;
 		}
 
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
 		RequestDispatcher alta = request.getRequestDispatcher(RUTA_ALTA);
 
+		
 		if (sinDatos) {
 
 			session.setAttribute("errorSignup", "Debes rellenar todos los campos");
@@ -92,7 +90,7 @@ public class AltaServlet extends HttpServlet {
 			session.setAttribute("errorSignup", "Usuario ya existente");
 			alta.forward(request, response);
 
-		} else if (passDistintas) {
+		} else if (!passIguales) {
 
 			session.setAttribute("errorSignup", "Las contraseñas no coinciden");
 			alta.forward(request, response);
@@ -108,10 +106,6 @@ public class AltaServlet extends HttpServlet {
 
 			session.setAttribute("errorSignup", "Inténtalo de nuevo, por favor");
 			alta.forward(request, response);
-
 		}
-
 	}
-
-	
 }

@@ -65,7 +65,6 @@ public class ProductoFormServlet extends HttpServlet {
 				imagen = Integer.parseInt(request.getParameter("imagen"));
 			} catch (NumberFormatException e) {
 				imagen = 0;
-
 			}
 		}
 
@@ -78,7 +77,6 @@ public class ProductoFormServlet extends HttpServlet {
 				precio = Double.parseDouble(request.getParameter("precio"));
 			} catch (NumberFormatException e) {
 				precio = 0.0;
-
 			}
 		}
 

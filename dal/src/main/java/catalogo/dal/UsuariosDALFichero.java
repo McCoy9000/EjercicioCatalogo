@@ -32,9 +32,7 @@ public class UsuariosDALFichero implements UsuariosDAL {
 		} else {
 			
 			leerDatabase();
-			
 		}
-
 	}
 
 	
@@ -46,29 +44,25 @@ public class UsuariosDALFichero implements UsuariosDAL {
 			usuarios.put(usuario.getNombre(), usuario);
 		
 		escribirDatabase();
-		
 	}
 
 	public boolean validar(Usuario usuario) {
 
 		return usuarios.containsValue(usuario);
-
 	}
 	
 	public boolean validarNombre(Usuario usuario) {
 		
-		Set<String> database = usuarios.keySet();
+		String[] usuariosArr = (String[]) usuarios.keySet().toArray();
 		
 		if (usuario.getNombre() != null){
 		
-			for (String s : database) {
+			for (String s : usuariosArr) {
 				
 				if (usuario.getNombre().equals(s)){
 					
 					return true;
-					
 				}
-				
 			}
 		}
 		return false;
