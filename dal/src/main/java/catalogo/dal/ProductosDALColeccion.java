@@ -1,6 +1,9 @@
 package catalogo.dal;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.TreeMap;
 
 import catalogo.tipos.Producto;
@@ -8,12 +11,22 @@ import catalogo.tipos.Producto;
 public class ProductosDALColeccion implements ProductosDAL {
 
 	private Map<Integer, Producto> productos = new TreeMap<Integer, Producto>();
-
+	private Map<String, Queue<Producto>> almacen = new HashMap<>();
+	
 	public void alta(Producto producto) {
 		if (productos.containsKey(producto.getId()))
 			throw new ProductoYaExistenteDALException("Ya existe el producto " + producto.getNombre());
-
 		productos.put(producto.getId(), producto);
+		
+		if (almacen.containsKey(producto.getNombre())){
+			Queue<Producto> stock = almacen.get(producto.getNombre());
+			stock.offer(producto);
+			almacen.put(producto.getNombre(), stock);
+		} else {
+			Queue<Producto> stock = new LinkedList<>();
+			almacen.put(producto.getNombre(), stock);
+		}
+		
 		Producto.siguienteId++;
 	}
 
@@ -38,6 +51,18 @@ public class ProductosDALColeccion implements ProductosDAL {
 
 	public boolean validar(Producto producto) {
 		return productos.containsValue(producto);
+	}
+
+	@Override
+	public HashMap<String, Producto> referenciarPorNombre() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Queue<Producto>> getAlmacen() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -7,7 +7,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Queue;
 import java.util.TreeMap;
 
 import catalogo.tipos.Producto;
@@ -21,6 +25,7 @@ public class ProductosDALFichero implements ProductosDAL {
 	// presente
 	
 	private TreeMap<Integer, Producto> productos = new TreeMap<Integer, Producto>();
+	private Map<String, Queue<Producto>> almacen = new HashMap<>();
 	
 	
 	public ProductosDALFichero() {
@@ -53,6 +58,16 @@ public class ProductosDALFichero implements ProductosDAL {
 		} catch (NoSuchElementException e) {
 			Producto.siguienteId = 0;
 		}
+		
+		if (almacen.containsKey(producto.getNombre())){
+			Queue<Producto> stock = almacen.get(producto.getNombre());
+			stock.offer(producto);
+			almacen.put(producto.getNombre(), stock);
+		} else {
+			Queue<Producto> stock = new LinkedList<>();
+			almacen.put(producto.getNombre(), stock);
+		}
+		
 		escribirDatabase();
 	}
 
@@ -119,5 +134,21 @@ public class ProductosDALFichero implements ProductosDAL {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public HashMap<String, Producto> referenciarPorNombre() {
+		
+		HashMap<String, Producto> productosPorNombre = new HashMap<>();
+		Producto[] productosArr = this.buscarTodosLosProductos();
+		for (Producto p: productosArr) {
+			productosPorNombre.put(p.getNombre(), p);
+		}
+		return productosPorNombre;
+	}
+
+	@Override
+	public Map<String, Queue<Producto>> getAlmacen() {
+		return almacen;
 	}
 }

@@ -26,7 +26,7 @@
 			</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${applicationScope.productosArr}" var="producto">
+		<c:forEach items="${applicationScope.catalogo}" var="producto">
 			<tr>
 				<td>${producto.nombre}</td>
 				<td>${producto.descripcion}</td>
