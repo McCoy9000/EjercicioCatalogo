@@ -53,7 +53,7 @@ public class UsuariosDALFichero implements UsuariosDAL {
 	
 	public boolean validarNombre(Usuario usuario) {
 		
-		String[] usuariosArr = (String[]) usuarios.keySet().toArray();
+		String[] usuariosArr = usuarios.keySet().toArray(new String[usuarios.keySet().size()]);
 		
 		if (usuario.getNombre() != null){
 		

@@ -41,4 +41,7 @@
 		<servlet-name>CheckoutServlet</servlet-name>
 		<url-pattern>/checkout</url-pattern>
 	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>/catalogo</welcome-file>
+	</welcome-file-list>
 </web-app>
