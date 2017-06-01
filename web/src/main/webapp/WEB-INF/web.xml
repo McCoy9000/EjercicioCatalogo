@@ -3,45 +3,14 @@
 	      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 	      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	      version="3.0">
-	<filter>
-		<description>
-		</description>
-		<display-name>Autorizacion</display-name>
-		<filter-name>Autorizacion</filter-name>
-		<filter-class>catalogo.web.AutorizacionFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>Autorizacion</filter-name>
-		<url-pattern>/admin/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-		<dispatcher>FORWARD</dispatcher>
-	</filter-mapping>
-	<listener>
-		<listener-class>catalogo.web.InicializacionListener</listener-class>
-	</listener>
-	<servlet>
-		<description>
-		</description>
-		<display-name>Catalogo</display-name>
-		<servlet-name>Catalogo</servlet-name>
-		<servlet-class>catalogo.web.CatalogoServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<description>
-		</description>
-		<display-name>CheckoutServlet</display-name>
-		<servlet-name>CheckoutServlet</servlet-name>
-		<servlet-class>catalogo.web.CheckoutServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Catalogo</servlet-name>
-		<url-pattern>/Catalogo</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>CheckoutServlet</servlet-name>
-		<url-pattern>/checkout</url-pattern>
-	</servlet-mapping>
+	<context-param>
+		<param-name>
+			org.eclipse.jetty.servlet.Default.welcomeServlets
+		</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
 	<welcome-file-list>
-		<welcome-file>/catalogo</welcome-file>
+		<welcome-file>catalogo</welcome-file>
 	</welcome-file-list>
 </web-app>

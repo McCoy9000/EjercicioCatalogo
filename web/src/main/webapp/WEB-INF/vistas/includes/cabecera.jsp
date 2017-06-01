@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8" />
 <title>Euskaliexpress</title>
-<link rel="stylesheet" href="/css/estilos.css" />
+<link rel="stylesheet" href="${applicationScope.rutaBase}/css/estilos.css" />
 <script src="js/funciones.js"></script>
 </head>
 <body>
@@ -18,9 +18,9 @@
 	</header>
 	<nav>
 		<ul>
-		 	 <li><a href="/catalogo">Catálogo</a></li>
-		 	 <li><a href="/login">Login</a></li>
-			 <li><a href="/login?op=logout">Logout</a></li>
+		 	 <li><a href="${applicationScope.rutaBase}/catalogo">Catálogo</a></li>
+		 	 <li><a href="${applicationScope.rutaBase}/login">Login</a></li>
+			 <li><a href="${applicationScope.rutaBase}/login?op=logout">Logout</a></li>
 			 
 		</ul>
 		<ul <c:if test="${usuario.admin != 'true'}">
@@ -28,13 +28,13 @@ style = "display:none"
 </c:if>>
 		
 		
-			<li><a href="/admin/productocrud">Mantenimiento de productos</a></li>
-			<li><a href="/admin/productoform?op=alta">Alta de productos</a></li>
+			<li><a href="${applicationScope.rutaBase}/admin/productocrud">Mantenimiento de productos</a></li>
+			<li><a href="${applicationScope.rutaBase}/admin/productoform?op=alta">Alta de productos</a></li>
 				<!--<c:if test="${param.op == 'alta'}">
 			  		style="display:none;"
 			  	</c:if>-->
 			  
-			 <li><a href="/admin/usuariocrud">Mantenimiento de usuarios</a></li>
-			 <li><a href="/admin/usuarioform?op=alta">Alta de usuarios</a></li>
+			 <li><a href="${applicationScope.rutaBase}/admin/usuariocrud">Mantenimiento de usuarios</a></li>
+			 <li><a href="${applicationScope.rutaBase}/admin/usuarioform?op=alta">Alta de usuarios</a></li>
 		</ul>
 	</nav>

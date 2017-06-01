@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -16,6 +17,7 @@ import catalogo.dal.UsuariosDALFactory;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
 
+@WebListener("/inicializacion")
 public class InicializacionListener implements ServletContextListener {
 
 	private static Logger log = Logger.getLogger(InicializacionListener.class);
@@ -109,5 +111,12 @@ public class InicializacionListener implements ServletContextListener {
 			productos.alta(new Producto("Producto de prueba 9", "Descripcion de producto de prueba 9", 100.0, 3));
 			log.info("Creados 9 productos de prueba");
 		}
+		
+		
+		// Apuntar el pathInfo
+		
+		String path = servletContextEvent.getServletContext().getContextPath();
+		log.info(path);
+		application.setAttribute("rutaBase", path);
 	}
 }

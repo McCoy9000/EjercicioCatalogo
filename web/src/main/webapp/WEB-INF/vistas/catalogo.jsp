@@ -9,7 +9,7 @@
 <nav>
 	<ul>
 	<li>${sessionScope.numeroProductos} productos en el carrito</li>
-	<li><a href="/checkout">Checkout</a></li>
+	<li><a href="${applicationScope.rutaBase}/checkout">Checkout</a></li>
 	</ul>
 </nav>
 
@@ -30,9 +30,9 @@
 			<tr>
 				<td>${producto.nombre}</td>
 				<td>${producto.descripcion}</td>
-				<td><img src="/img/${producto.imagen}.jpg" height="128" width="128"/></td>
+				<td><img src="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128"/></td>
 				<td>${producto.precio} €</td>
-				<td><a href="/catalogo?op=anadir&id=${producto.id}">Añadir al carro</a></td>
+				<td><a href="${applicationScope.rutaBase}/catalogo?op=anadir&id=${producto.id}">Añadir al carro</a></td>
 			</tr>
 		</c:forEach>
 	</tbody>

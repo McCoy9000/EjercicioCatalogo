@@ -20,7 +20,7 @@
 </form>
 
 <div class="signup">
-	<a href="/alta">SIGN UP!</a>
+	<a href="${applicationScope.rutaBase}/alta">SIGN UP!</a>
 </div>
 
 <div>

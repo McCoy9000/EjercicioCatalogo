@@ -62,6 +62,8 @@ public class LoginServlet extends HttpServlet {
 		boolean quiereSalir = ("logout").equals(op);
 
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
+		log.info(request.getContextPath());
+		log.info(RUTA_LOGIN);
 		RequestDispatcher catalogo = request.getRequestDispatcher(RUTA_CATALOGO);
 
 		if (quiereSalir) {

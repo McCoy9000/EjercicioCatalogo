@@ -22,7 +22,8 @@ public class AltaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = Logger.getLogger(AltaServlet.class);
-
+	
+	
 	private final String RUTA = "/WEB-INF/vistas/";
 	private final String RUTA_LOGIN = RUTA + "login.jsp";
 	private final String RUTA_ALTA = RUTA + "signup.jsp";
