@@ -4,22 +4,24 @@ import java.io.Serializable;
 
 public class Producto implements Serializable {
 
-	/**
-	 * 
-	 */
 	static final long serialVersionUID = 1L;
 
+	
+	public static int siguienteId;
+	
 	int id;
+	int groupId;
 	String nombre, descripcion, errores;
 	double precio;
 	int imagen;
 
 	
 
-	public static int siguienteId;
+	
 
 	public Producto() {
 		this.id = siguienteId;
+		this.groupId = 0;
 		this.nombre = "";
 		this.descripcion = "";
 		this.precio = 0.0;
@@ -27,9 +29,10 @@ public class Producto implements Serializable {
 		
 	}
 
-	public Producto(String nombre, String descripcion, double precio, int imagen) {
+	public Producto(int groupId, String nombre, String descripcion, double precio, int imagen) {
 		super();
 		this.id = siguienteId;
+		this.groupId = groupId;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
@@ -43,6 +46,14 @@ public class Producto implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public int getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
 	}
 
 	public String getNombre() {
@@ -87,7 +98,7 @@ public class Producto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Producto [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", precio=" + precio + "]";
+		return groupId + "." + id + ", " + nombre + ", " + descripcion + ", " + precio + " €";
 	}
 
 	@Override

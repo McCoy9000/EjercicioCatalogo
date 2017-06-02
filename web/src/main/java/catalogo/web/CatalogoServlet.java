@@ -40,7 +40,9 @@ public class CatalogoServlet extends HttpServlet {
 		
 		application.setAttribute("productosArr", productosArr);
 		
-		Producto[] catalogo = publicarCatalogo(productos);
+		Producto[] catalogo = productos.getCatalogo();
+		
+		application.setAttribute("catalgo", catalogo);
 		
 		application.setAttribute("catalogo", catalogo);
 		
@@ -92,6 +94,12 @@ public class CatalogoServlet extends HttpServlet {
 					Integer idmap = Integer.parseInt(request.getParameter("id"));
 					
 					producto = productos.buscarPorId(idmap);
+					
+					productos.borrar(producto);
+					
+					application.setAttribute("productos", productos);
+					
+					application.setAttribute("catalogo", productos.getCatalogo());
 						
 					carrito.anadirAlCarrito(producto);
 							
@@ -113,24 +121,5 @@ public class CatalogoServlet extends HttpServlet {
 		}
 	}
 	
-	public Producto[] publicarCatalogo(ProductosDAL productos) {
-		
-		String[] tipos = productos.getAlmacen().keySet().toArray(new String[productos.buscarTodosLosProductos().length]);
-		
-		Producto[] catalogo = new Producto[tipos.length];
-		
-		int i=0;
-		
-		for (String s: tipos){
-			
-			Queue<Producto> tipo = productos.getAlmacen().get(s);
-			catalogo[i] = tipo.poll();
-			i++;
-			log.info("Un bucle en publicarCatalogo");
-			
-		}
-		
-		return catalogo;
-	}
-
+	
 }

@@ -36,6 +36,13 @@
 			<label for="pass2">Contraseña otra vez</label> <input type="password" id="pass2"
 				name="pass2" />
 		</fieldset>
+		<fieldset <c:if test="${param.op == 'borrar'}">
+			style="display:none;"
+			</c:if>
+		>
+			<label for="admin">Permiso de administrador</label> 
+			<input type="checkbox" id="admin" name="admin" value="si" />Si
+		</fieldset>
 		<fieldset>
 			<input type="submit" value="${fn:toUpperCase(param.op)}" 
 			

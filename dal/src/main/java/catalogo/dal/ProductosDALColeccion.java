@@ -2,6 +2,7 @@ package catalogo.dal;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
@@ -53,14 +54,25 @@ public class ProductosDALColeccion implements ProductosDAL {
 		return productos.containsValue(producto);
 	}
 
-	@Override
 	public HashMap<String, Producto> referenciarPorNombre() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Map<String, Queue<Producto>> getAlmacen() {
+	public Map<Integer, List<Producto>> getAlmacen() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getStock(Producto producto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Producto[] getCatalogo() {
 		// TODO Auto-generated method stub
 		return null;
 	}

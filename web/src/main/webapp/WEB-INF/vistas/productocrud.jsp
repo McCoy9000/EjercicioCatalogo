@@ -11,6 +11,7 @@
 	<thead>
 		<tr>
 			<th>Id</th>
+			<th>GroupId</th>
 			<th>Nombre producto</th>
 			<th>Descripción</th>
 			<th>Imagen</th>
@@ -22,6 +23,7 @@
 		<c:forEach items="${applicationScope.productosArr}" var="producto">
 			<tr>
 				<td>${producto.id}</td>
+				<td>${producto.groupId}</td>
 				<td>${producto.nombre}</td>
 				<td>${producto.descripcion}</td>
 				<td><img src="/img/${producto.imagen}.jpg" height="128" width="128"/></td>

@@ -23,6 +23,17 @@
 			  </c:if>   
 		  	/>
 		</fieldset>
+		<fieldset>
+			<label for="groupId">GroupId</label> 
+			
+			<input id="groupId" name="groupId"
+			  required="required"  value="${producto.groupId}" 
+			  
+			  <c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
+			  	readonly="readonly"
+			  </c:if>   
+		  	/>
+		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			readonly="readonly"
 			</c:if>>

@@ -50,7 +50,19 @@ public class ProductoFormServlet extends HttpServlet {
 				id = Producto.siguienteId;
 			}
 		}
-
+		
+		Integer groupId;
+		
+		if (request.getParameter("groupId")== null) {
+			groupId = 0;
+		} else {
+			try {
+				groupId = Integer.parseInt(request.getParameter("groupId"));
+			} catch (NumberFormatException e) {
+				groupId = 0;
+			}
+		}
+		
 		nombre = request.getParameter("nombre");
 		String descripcion = request.getParameter("descripcion");
 		Double precio;
@@ -85,7 +97,7 @@ public class ProductoFormServlet extends HttpServlet {
 			return;
 		}
 
-		Producto producto = new Producto(nombre, descripcion, precio, imagen);
+		Producto producto = new Producto(groupId, nombre, descripcion, precio, imagen);
 		producto.setId(id);
 
 		ProductosDAL productos = (ProductosDAL) application.getAttribute("productos");

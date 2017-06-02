@@ -2,6 +2,7 @@ package catalogo.web;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import catalogo.dal.ProductosDAL;
 import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
 
@@ -27,9 +29,11 @@ public class CheckoutServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		
+		ServletContext application = request.getServletContext();
 		HttpSession session = request.getSession();
 		String op = request.getParameter("op");
+		ProductosDAL productos = (ProductosDAL) application.getAttribute("productos");
 		Carrito carrito = (Carrito) session.getAttribute("carrito");
 		
 		Producto producto;
@@ -81,6 +85,8 @@ public class CheckoutServlet extends HttpServlet {
 					int id = Integer.parseInt(request.getParameter("id"));
 					producto = carrito.buscarPorId(id);
 					carrito.quitarDelCarrito(id);
+					productos.alta(producto);
+					application.setAttribute("productos", productos);
 					session.setAttribute("carrito", carrito);
 					session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
 					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);

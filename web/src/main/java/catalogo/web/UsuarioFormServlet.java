@@ -36,7 +36,12 @@ public class UsuarioFormServlet extends HttpServlet {
 		String nombre = request.getParameter("nombre");
 		String pass = request.getParameter("pass");
 		String pass2 = request.getParameter("pass2");
-
+		String admin = request.getParameter("admin");
+		boolean isAdmin = false;
+			if (("si").equals(admin)) 
+				isAdmin = true;
+		
+		
 		RequestDispatcher rutaListado = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO);
 
@@ -45,7 +50,7 @@ public class UsuarioFormServlet extends HttpServlet {
 			return;
 		}
 
-		Usuario usuario = new Usuario(nombre, pass);
+		Usuario usuario = new Usuario(nombre, pass, isAdmin);
 
 		UsuariosDAL usuarios = (UsuariosDAL) application.getAttribute("usuarios");
 
