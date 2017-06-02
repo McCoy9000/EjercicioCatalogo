@@ -47,6 +47,7 @@ public class LoginServlet extends HttpServlet {
 		
 		//Recogida de datos de aplicación y de sesión
 		UsuariosDAL usuarios = (UsuariosDAL) application.getAttribute("usuarios");
+		@SuppressWarnings("unchecked")
 		LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
 		Usuario usuario;
 		

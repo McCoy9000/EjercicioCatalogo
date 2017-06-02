@@ -64,9 +64,13 @@ input[type=submit] {
 }
 
 header, footer {
+	color: white;
 	background-color: #ff6a6a;
 	padding: 1em;
+	
 }
+
+
 
 fieldset {
 	border: 0;
@@ -87,10 +91,6 @@ table, th, td {
 	border: 1px solid black;
 	padding: 15px;
 	
-}
-
-tr {
-		
 }
 
 th {
@@ -139,4 +139,8 @@ a:active {
 a {
 	display:block;
 	text-align:center;
+}
+
+td a {
+	color:white;
 }

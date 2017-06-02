@@ -1,7 +1,6 @@
 package catalogo.web;
 
 import java.io.IOException;
-import java.util.Queue;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -36,12 +35,9 @@ public class CatalogoServlet extends HttpServlet {
 
 		ProductosDAL productos = (ProductosDAL)application.getAttribute("productos");
 
-//		Producto[] productosArr = productos.buscarTodosLosProductos();
-//		
-//		application.setAttribute("productosArr", productosArr);
 		
 		//Generar el catálogo. El catálogo es un array en el que cada elemento es, a su vez, el primer elemento de la lista de productos
-		//de un determinado grupo.
+		//de un determinado grupo de productos.
 		
 		Producto[] catalogo = productos.getCatalogo();
 		
