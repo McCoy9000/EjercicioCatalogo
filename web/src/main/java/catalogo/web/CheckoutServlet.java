@@ -30,6 +30,8 @@ public class CheckoutServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
+		
 		ServletContext application = request.getServletContext();
 		HttpSession session = request.getSession();
 		String op = request.getParameter("op");

@@ -29,13 +29,11 @@ public class Carrito {
 	public void quitarDelCarrito (Integer idmap) {
 		
 		listaProductos.remove(idmap);
-	
 	}
 	
 	public Producto buscarPorId (Integer idmap) {
 		
 		return listaProductos.get(idmap);
-		
 	}
 	
 	public Producto[] buscarTodosLosProductos() {

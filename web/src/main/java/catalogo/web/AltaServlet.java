@@ -49,28 +49,26 @@ public class AltaServlet extends HttpServlet {
 		
 		boolean nombreDemasiadoLargo = false;
 
-		if (nombre != null) {
-
-			nombreDemasiadoLargo = nombre.length() > 16;
-		}
+			if (nombre != null) {
+	
+				nombreDemasiadoLargo = nombre.length() > 16;
+			}
 
 		boolean usuarioExistente = usuarios.validarNombre(usuario);
-
 		boolean sinDatos = nombre == null || nombre == "" || password == null || password == "" || password2 == null || password2 == "";
-
 		boolean passIguales = true;
 
-		if (password != null) {
-
-			passIguales = password.equals(password2);
-		}
+			if (password != null) {
+	
+				passIguales = password.equals(password2);
+			}
 
 		boolean esCorrecto = false;
 
-		if (!sinDatos) {
-
-			esCorrecto = !usuarioExistente && passIguales;
-		}
+			if (!sinDatos) {
+	
+				esCorrecto = !usuarioExistente && passIguales;
+			}
 
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
 		RequestDispatcher alta = request.getRequestDispatcher(RUTA_ALTA);

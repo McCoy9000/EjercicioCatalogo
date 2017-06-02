@@ -44,16 +44,16 @@ public class UsuarioCRUDServlet extends HttpServlet {
 			Usuario usuario;
 
 			switch (op) {
-			case "modificar":
-			case "borrar":
-				String id = request.getParameter("id");
-				usuario = usuarios.buscarPorId(id);
-				request.setAttribute("usuario", usuario);
-			case "alta":
-				request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
-				break;
-			default:
-				request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+				case "modificar":
+				case "borrar":
+					String id = request.getParameter("id");
+					usuario = usuarios.buscarPorId(id);
+					request.setAttribute("usuario", usuario);
+				case "alta":
+					request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
+					break;
+				default:
+					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
 			}
 		}
 	}

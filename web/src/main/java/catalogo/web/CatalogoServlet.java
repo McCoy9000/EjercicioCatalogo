@@ -34,19 +34,23 @@ public class CatalogoServlet extends HttpServlet {
 
 		ServletContext application = getServletContext();
 
-		ProductosDAL productos = (ProductosDAL) application.getAttribute("productos");
+		ProductosDAL productos = (ProductosDAL)application.getAttribute("productos");
 
-		Producto[] productosArr = productos.buscarTodosLosProductos();
+//		Producto[] productosArr = productos.buscarTodosLosProductos();
+//		
+//		application.setAttribute("productosArr", productosArr);
 		
-		application.setAttribute("productosArr", productosArr);
+		//Generar el catálogo. El catálogo es un array en el que cada elemento es, a su vez, el primer elemento de la lista de productos
+		//de un determinado grupo.
 		
 		Producto[] catalogo = productos.getCatalogo();
-		
-		application.setAttribute("catalgo", catalogo);
 		
 		application.setAttribute("catalogo", catalogo);
 		
 		HttpSession session = request.getSession();
+		
+		//Recoger el carrito asociado a la sesión o, en caso de que no exista (porque el usuario haya entrado directamente al catálogo desde
+		//URL), crearlo.
 		
 		Carrito carrito = (Carrito) session.getAttribute("carrito");
 		

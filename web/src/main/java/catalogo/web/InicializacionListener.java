@@ -96,7 +96,7 @@ public class InicializacionListener implements ServletContextListener {
 		}
 
 		
-		// Rellenar la base de datos de productos
+		// Rellenar la base de datos de productos si está vacía
 
 		if (productos.buscarTodosLosProductos().length == 0) {
 
@@ -139,11 +139,15 @@ public class InicializacionListener implements ServletContextListener {
 			log.info("Creados 36 productos de prueba");
 		}
 		
+		// Inicializar la variable estática de Producto 'siguienteId'
 		
-		// Apuntar el pathInfo
+		Producto.siguienteId = (productos.buscarTodosLosProductos()[((productos.buscarTodosLosProductos()).length) - 1]).getId() + 1;
+		log.info("Inicializada la variable estática de Producto 'siguienteId' con el valor: " + Producto.siguienteId);
+		
+		// Apuntar el ContextPath
 		
 		String path = servletContextEvent.getServletContext().getContextPath();
-		log.info(path);
 		application.setAttribute("rutaBase", path);
+		log.info("Almacenada la ruta relativa de la aplicación:" + path);
 	}
 }

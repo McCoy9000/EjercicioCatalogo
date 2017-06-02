@@ -11,7 +11,7 @@
 	<jsp:useBean id="producto" scope="request"
 		class="catalogo.tipos.Producto" />
 
-	<form action="/admin/productoform" method="post">
+	<form action="${applicationScope.rutaBase}/admin/productoform" method="post">
 		<fieldset>
 			<label for="id">Id</label> 
 			

@@ -46,16 +46,16 @@ public class ProductoCRUDServlet extends HttpServlet {
 			Producto producto;
 
 			switch (op) {
-			case "modificar":
-			case "borrar":
-				Integer id = Integer.parseInt(request.getParameter("id"));
-				producto = productos.buscarPorId(id);
-				request.setAttribute("producto", producto);
-			case "alta":
-				request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
-				break;
-			default:
-				request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+				case "modificar":
+				case "borrar":
+					Integer id = Integer.parseInt(request.getParameter("id"));
+					producto = productos.buscarPorId(id);
+					request.setAttribute("producto", producto);
+				case "alta":
+					request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
+					break;
+				default:
+					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
 			}
 		}
 	}

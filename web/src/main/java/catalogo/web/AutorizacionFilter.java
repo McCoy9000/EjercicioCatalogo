@@ -23,29 +23,28 @@ public class AutorizacionFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
 		HttpServletRequest req = (HttpServletRequest) request;
-
 		HttpSession session = req.getSession();
 
 		Usuario usuario = null;
 
-		if (session != null) {
-
-			usuario = (Usuario) session.getAttribute("usuario");
-		}
+			if (session != null) {
+	
+				usuario = (Usuario) session.getAttribute("usuario");
+			}
 
 		boolean esNuevoUsuario = usuario == null;
 		boolean esAdmin = false;
 
-		if (!esNuevoUsuario) {
-
-			esAdmin = usuario.isAdmin();
-		}
+			if (!esNuevoUsuario) {
+	
+				esAdmin = usuario.isAdmin();
+			}
 
 		
 		if (!esAdmin) {
 
 			session.setAttribute("errorLogin", "No tienes permiso para acceder a esa sección");
-			(req.getRequestDispatcher("/login")).forward(request, response);
+			req.getRequestDispatcher("/login").forward(request, response);
 
 		} else {
 

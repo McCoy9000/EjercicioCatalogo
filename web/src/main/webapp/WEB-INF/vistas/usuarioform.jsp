@@ -8,7 +8,7 @@
 	<jsp:useBean id="usuario" scope="request"
 		class="catalogo.tipos.Usuario" />
 
-	<form action="/admin/usuarioform" method="post">
+	<form action="${applicationScope.rutaBase}/admin/usuarioform" method="post">
 		<fieldset>
 			<label for="nombre">Nombre</label> 
 			

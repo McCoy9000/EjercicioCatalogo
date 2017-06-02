@@ -55,54 +55,54 @@ public class UsuarioFormServlet extends HttpServlet {
 		UsuariosDAL usuarios = (UsuariosDAL) application.getAttribute("usuarios");
 
 		switch (op) {
-		case "alta":
-			if (pass != null && pass != "" && pass.equals(pass2)) {
-				try{
-				usuarios.alta(usuario);
-				log.info("Usuario dado de alta");
-				} catch (UsuarioYaExistenteDALException uyede) {
-					usuario.setErrores("Usuario ya existente");
-					request.setAttribute("usuario", usuario);
-					rutaFormulario.forward(request, response);
-				}
-				rutaListado.forward(request, response);
-			} else {
-				usuario.setErrores("Las contraseñas deben ser iguales y no estar vacías");
-				request.setAttribute("usuario", usuario);
-				rutaFormulario.forward(request, response);
-			}
-
-			break;
-		case "modificar":
-			if (pass != null && pass != "" && pass.equals(pass2)) {
-				try {
-					usuarios.modificar(usuario);
-					log.info("Usuario modificado");
-				} catch (DALException de) {
-					usuario.setErrores(de.getMessage());
-					request.setAttribute("usuario", usuario);
-					rutaFormulario.forward(request, response);
-					
-				}
-				rutaListado.forward(request, response);
-			} else {
-				usuario.setErrores("Las contraseñas no coinciden");
-				request.setAttribute("usuario", usuario);
-				rutaFormulario.forward(request, response);
-			}
-
-			break;
-		case "borrar":
 			
-			if (!("admin").equals(usuario.getNombre())) {
-			usuarios.borrar(usuario);
-			log.info("Usuario borrado");
-			rutaListado.forward(request, response);
-			} else {
-			usuario.setErrores("No es posible borrar el usuario administrador. Sólo modificarlo.");	
-			rutaListado.forward(request, response);
-			}
-			break;
+			case "alta":
+				if (pass != null && pass != "" && pass.equals(pass2)) {
+					try{
+					usuarios.alta(usuario);
+					log.info("Usuario dado de alta");
+					} catch (UsuarioYaExistenteDALException uyede) {
+						usuario.setErrores("Usuario ya existente");
+						request.setAttribute("usuario", usuario);
+						rutaFormulario.forward(request, response);
+					}
+					rutaListado.forward(request, response);
+				} else {
+					usuario.setErrores("Las contraseñas deben ser iguales y no estar vacías");
+					request.setAttribute("usuario", usuario);
+					rutaFormulario.forward(request, response);
+				}
+				break;
+			
+			case "modificar":
+				if (pass != null && pass != "" && pass.equals(pass2)) {
+					try {
+						usuarios.modificar(usuario);
+						log.info("Usuario modificado");
+					} catch (DALException de) {
+						usuario.setErrores(de.getMessage());
+						request.setAttribute("usuario", usuario);
+						rutaFormulario.forward(request, response);
+						
+					}
+					rutaListado.forward(request, response);
+				} else {
+					usuario.setErrores("Las contraseñas no coinciden");
+					request.setAttribute("usuario", usuario);
+					rutaFormulario.forward(request, response);
+				}
+				break;
+	
+			case "borrar":
+				if (!("admin").equals(usuario.getNombre())) {
+				usuarios.borrar(usuario);
+				log.info("Usuario borrado");
+				rutaListado.forward(request, response);
+				} else {
+				usuario.setErrores("No es posible borrar el usuario administrador. Sólo modificarlo.");	
+				rutaListado.forward(request, response);
+				}
+				break;
 		}
 	}
 

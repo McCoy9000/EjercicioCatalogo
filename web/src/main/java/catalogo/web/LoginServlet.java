@@ -35,37 +35,41 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		HttpSession session = request.getSession();
 		session.setMaxInactiveInterval(1800);
-
 		ServletContext application = request.getServletContext();
 
+		//Recogida de datos de la request
 		String nombre = request.getParameter("nombre");
 		String password = request.getParameter("password");
 		String op = request.getParameter("op");
-		Usuario usuario;
+		
+		//Recogida de datos de aplicación y de sesión
 		UsuariosDAL usuarios = (UsuariosDAL) application.getAttribute("usuarios");
 		LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
+		Usuario usuario;
 		
-		if (session.getAttribute("usuario") != null) {
-
-			usuario = (Usuario) session.getAttribute("usuario");
-
-		} else
-			usuario = new Usuario(nombre, password);
-
+			if (session.getAttribute("usuario") != null) {
+	
+				usuario = (Usuario) session.getAttribute("usuario");
+	
+			} else
+				usuario = new Usuario(nombre, password);
+		
+		//Declaración e inicialización de las booleanas que representan las diferentes posibilidades de entrada
 		boolean yaLogueado = ("si").equals(session.getAttribute("logueado"));
 		boolean sinDatos = nombre == null || nombre == "" || password == "" || password == null;
 		boolean uInexistente = !((UsuariosDAL) usuarios).validarNombre(usuario);
 		boolean esValido = usuarios.validar(usuario);
 		boolean quiereSalir = ("logout").equals(op);
-
+		
+		//Declaración e inicialización de los dispatcher ya que en un momento dado me daba problemas inicializarlos
+		//directamente cuando son requeridos.
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
-		log.info(request.getContextPath());
-		log.info(RUTA_LOGIN);
 		RequestDispatcher catalogo = request.getRequestDispatcher(RUTA_CATALOGO);
 
+		//Lógica del servlet según opciones
 		if (quiereSalir) {
 
 			usuariosLogueados.remove(usuario);
@@ -90,7 +94,7 @@ public class LoginServlet extends HttpServlet {
 		} else if (esValido) {
 
 			log.info("Usuario logueado");
-			usuario = usuarios.buscarPorId(usuario.getNombre());
+			usuario = usuarios.buscarPorId(usuario.getNombre()); //Esta línea permite recoger el dato de si tiene permiso de admin o no
 			usuariosLogueados.add(usuario);
 			application.setAttribute("usuariosLogueados", usuariosLogueados);
 			session.removeAttribute("errorLogin");
