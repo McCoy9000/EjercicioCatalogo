@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import catalogo.dal.ProductosDAL;
+import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
 
@@ -35,7 +35,7 @@ public class CheckoutServlet extends HttpServlet {
 		ServletContext application = request.getServletContext();
 		HttpSession session = request.getSession();
 		String op = request.getParameter("op");
-		ProductosDAL productos = (ProductosDAL) application.getAttribute("productos");
+		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 		Carrito carrito = (Carrito) session.getAttribute("carrito");
 		
 		Producto producto;
@@ -87,7 +87,9 @@ public class CheckoutServlet extends HttpServlet {
 					int id = Integer.parseInt(request.getParameter("id"));
 					producto = carrito.buscarPorId(id);
 					carrito.quitarDelCarrito(id);
-					productos.alta(producto);
+					productos.abrir();
+					productos.insert(producto);
+					productos.cerrar();
 					application.setAttribute("productos", productos);
 					session.setAttribute("carrito", carrito);
 					session.setAttribute("productosArr", carrito.buscarTodosLosProductos());

@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebListener;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import catalogo.dal.ProductoDAO;
 import catalogo.dal.ProductosDAL;
 import catalogo.dal.ProductosDALFactory;
 import catalogo.dal.UsuarioDAO;
@@ -56,14 +57,18 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Inicializar la base de datos de productos y hacerla accesible a través del ServletContext
 
-		ProductosDAL productos = ProductosDALFactory.getProductosDAL();
+		ProductoDAO productos = ProductosDALFactory.getProductosDAL();
 
 		log.info("Base de datos de productos inicializada");
 
 		application.setAttribute("productos", productos);
+		
+		productos.abrir();
+		
+		Producto[] productosArr = productos.findAll();
 
-		Producto[] productosArr = productos.buscarTodosLosProductos();
-
+		productos.cerrar();
+		
 		application.setAttribute("productosArr", productosArr);
 
 		// Inicializar una lista de los usuarios logueados y hacerla accesible a través del ServletContext
@@ -104,48 +109,56 @@ public class InicializacionListener implements ServletContextListener {
 		}
 
 		// Rellenar la base de datos de productos si está vacía
-
-		if (productos.buscarTodosLosProductos().length == 0) {
-
-			productos.alta(new Producto(0, "Producto de prueba 1", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 2", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 3", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(1, "Producto de prueba 4", "Descripcion de producto de prueba", 200.0, 2));
-			productos.alta(new Producto(1, "Producto de prueba 5", "Descripcion de producto de prueba", 200.0, 2));
-			productos.alta(new Producto(1, "Producto de prueba 6", "Descripcion de producto de prueba", 200.0, 2));
-			productos.alta(new Producto(2, "Producto de prueba 7", "Descripcion de producto de prueba", 300.0, 3));
-			productos.alta(new Producto(2, "Producto de prueba 8", "Descripcion de producto de prueba", 300.0, 3));
-			productos.alta(new Producto(2, "Producto de prueba 9", "Descripcion de producto de prueba", 300.0, 3));
-			productos.alta(new Producto(3, "Producto de prueba 10", "Descripcion de producto de prueba", 400.0, 4));
-			productos.alta(new Producto(3, "Producto de prueba 11", "Descripcion de producto de prueba", 400.0, 4));
-			productos.alta(new Producto(3, "Producto de prueba 12", "Descripcion de producto de prueba", 400.0, 4));
-			productos.alta(new Producto(0, "Producto de prueba 13", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 14", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 15", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 16", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 17", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 18", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 19", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(1, "Producto de prueba 20", "Descripcion de producto de prueba", 200.0, 2));
-			productos.alta(new Producto(1, "Producto de prueba 21", "Descripcion de producto de prueba", 200.0, 2));
-			productos.alta(new Producto(1, "Producto de prueba 22", "Descripcion de producto de prueba", 200.0, 2));
-			productos.alta(new Producto(1, "Producto de prueba 23", "Descripcion de producto de prueba", 200.0, 2));
-			productos.alta(new Producto(2, "Producto de prueba 24", "Descripcion de producto de prueba", 300.0, 3));
-			productos.alta(new Producto(2, "Producto de prueba 25", "Descripcion de producto de prueba", 300.0, 3));
-			productos.alta(new Producto(2, "Producto de prueba 26", "Descripcion de producto de prueba", 300.0, 3));
-			productos.alta(new Producto(2, "Producto de prueba 27", "Descripcion de producto de prueba", 300.0, 3));
-			productos.alta(new Producto(3, "Producto de prueba 28", "Descripcion de producto de prueba", 400.0, 4));
-			productos.alta(new Producto(3, "Producto de prueba 29", "Descripcion de producto de prueba", 400.0, 4));
-			productos.alta(new Producto(3, "Producto de prueba 30", "Descripcion de producto de prueba", 400.0, 4));
-			productos.alta(new Producto(3, "Producto de prueba 31", "Descripcion de producto de prueba", 400.0, 4));
-			productos.alta(new Producto(0, "Producto de prueba 32", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 33", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 34", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 35", "Descripcion de producto de prueba", 100.0, 1));
-			productos.alta(new Producto(0, "Producto de prueba 36", "Descripcion de producto de prueba", 100.0, 1));
+		
+		productos.abrir();
+		
+		if (productos.findAll().length == 0) {
+			
+			
+			
+			productos.insert(new Producto(0, "Producto de prueba 1", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 2", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 3", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(1, "Producto de prueba 4", "Descripcion de producto de prueba", 200.0, 2));
+			productos.insert(new Producto(1, "Producto de prueba 5", "Descripcion de producto de prueba", 200.0, 2));
+			productos.insert(new Producto(1, "Producto de prueba 6", "Descripcion de producto de prueba", 200.0, 2));
+			productos.insert(new Producto(2, "Producto de prueba 7", "Descripcion de producto de prueba", 300.0, 3));
+			productos.insert(new Producto(2, "Producto de prueba 8", "Descripcion de producto de prueba", 300.0, 3));
+			productos.insert(new Producto(2, "Producto de prueba 9", "Descripcion de producto de prueba", 300.0, 3));
+			productos.insert(new Producto(3, "Producto de prueba 10", "Descripcion de producto de prueba", 400.0, 4));
+			productos.insert(new Producto(3, "Producto de prueba 11", "Descripcion de producto de prueba", 400.0, 4));
+			productos.insert(new Producto(3, "Producto de prueba 12", "Descripcion de producto de prueba", 400.0, 4));
+			productos.insert(new Producto(0, "Producto de prueba 13", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 14", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 15", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 16", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 17", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 18", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 19", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(1, "Producto de prueba 20", "Descripcion de producto de prueba", 200.0, 2));
+			productos.insert(new Producto(1, "Producto de prueba 21", "Descripcion de producto de prueba", 200.0, 2));
+			productos.insert(new Producto(1, "Producto de prueba 22", "Descripcion de producto de prueba", 200.0, 2));
+			productos.insert(new Producto(1, "Producto de prueba 23", "Descripcion de producto de prueba", 200.0, 2));
+			productos.insert(new Producto(2, "Producto de prueba 24", "Descripcion de producto de prueba", 300.0, 3));
+			productos.insert(new Producto(2, "Producto de prueba 25", "Descripcion de producto de prueba", 300.0, 3));
+			productos.insert(new Producto(2, "Producto de prueba 26", "Descripcion de producto de prueba", 300.0, 3));
+			productos.insert(new Producto(2, "Producto de prueba 27", "Descripcion de producto de prueba", 300.0, 3));
+			productos.insert(new Producto(3, "Producto de prueba 28", "Descripcion de producto de prueba", 400.0, 4));
+			productos.insert(new Producto(3, "Producto de prueba 29", "Descripcion de producto de prueba", 400.0, 4));
+			productos.insert(new Producto(3, "Producto de prueba 30", "Descripcion de producto de prueba", 400.0, 4));
+			productos.insert(new Producto(3, "Producto de prueba 31", "Descripcion de producto de prueba", 400.0, 4));
+			productos.insert(new Producto(0, "Producto de prueba 32", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 33", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 34", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 35", "Descripcion de producto de prueba", 100.0, 1));
+			productos.insert(new Producto(0, "Producto de prueba 36", "Descripcion de producto de prueba", 100.0, 1));
+			
+			
+			
 			log.info("Creados 36 productos de prueba");
 		}
-
+		
+		productos.cerrar();
 		// Apuntar el ContextPath
 
 		String path = servletContextEvent.getServletContext().getContextPath();

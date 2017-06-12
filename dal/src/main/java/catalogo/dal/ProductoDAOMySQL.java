@@ -5,6 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import catalogo.tipos.Producto;
 
@@ -12,9 +17,9 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 
 	private final static String FIND_ALL = "SELECT * FROM productos";
 	private final static String FIND_BY_ID = "SELECT * FROM productos WHERE id = ?";
-	private final static String INSERT = "INSERT INTO productos (groupId, nombre, descripcion, precio)" + " VALUES (?, ?, ?, ?)";
+	private final static String INSERT = "INSERT INTO productos (groupId, nombre, descripcion, precio, imagen)" + " VALUES (?, ?, ?, ?, ?)";
 	private final static String FIND_BY_NAME = "SELECT * FROM productos WHERE nombre = ?";
-	private final static String UPDATE = "UPDATE productos " + "SET groupId = ?, nombre = ?, descripcion = ?, precio = ? " + "WHERE nombre = ?";
+	private final static String UPDATE = "UPDATE productos " + "SET groupId = ?, nombre = ?, descripcion = ?, precio = ?, imagen = ? " + "WHERE nombre = ?";
 	private final static String DELETE = "DELETE FROM productos WHERE nombre = ?";
 
 	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete;
@@ -42,11 +47,13 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 			while (rs.next()) {
 				// System.out.println(rs.getString("username"));
 				producto = new Producto();
-
+				
+				producto.setId(rs.getInt("id"));
 				producto.setGroupId(rs.getInt("groupId"));
 				producto.setNombre(rs.getString("nombre"));
 				producto.setDescripcion(rs.getString("descripcion"));
 				producto.setPrecio(rs.getDouble("precio"));
+				producto.setImagen(rs.getInt("imagen"));
 
 				productos.add(producto);
 			}
@@ -92,6 +99,7 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 				producto.setNombre(rs.getString("nombre"));
 				producto.setDescripcion(rs.getString("descripcion"));
 				producto.setPrecio(rs.getDouble("precio"));
+				producto.setImagen(rs.getInt("imagen"));
 			}
 
 		} catch (Exception e) {
@@ -121,6 +129,7 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 				producto.setNombre(rs.getString("nombre"));
 				producto.setDescripcion(rs.getString("descripcion"));
 				producto.setPrecio(rs.getDouble("precio"));
+				producto.setImagen(rs.getInt("imagen"));
 			}
 
 		} catch (Exception e) {
@@ -138,10 +147,11 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 		try {
 			psInsert = con.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 
-			psInsert.setString(1, producto.getNombre());
-			psInsert.setString(2, producto.getDescripcion());
-			psInsert.setDouble(3, producto.getPrecio());
-			psInsert.setInt(4, producto.getGroupId());
+			psInsert.setInt(1, producto.getGroupId());
+			psInsert.setString(2, producto.getNombre());
+			psInsert.setString(3, producto.getDescripcion());
+			psInsert.setDouble(4, producto.getPrecio());
+			psInsert.setInt(5, producto.getImagen());
 
 			int res = psInsert.executeUpdate();
 
@@ -166,12 +176,13 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 		try {
 			psUpdate = con.prepareStatement(UPDATE);
 
-			psUpdate.setString(1, producto.getNombre());
-			psUpdate.setString(2, producto.getDescripcion());
-			psUpdate.setDouble(3, producto.getPrecio());
-			psUpdate.setInt(4, producto.getGroupId());
+			psUpdate.setInt(1, producto.getGroupId());
+			psUpdate.setString(2, producto.getNombre());
+			psUpdate.setString(3, producto.getDescripcion());
+			psUpdate.setDouble(4, producto.getPrecio());
+			psUpdate.setInt(5, producto.getImagen());
 
-			psUpdate.setString(5, producto.getNombre());
+			psUpdate.setString(6, producto.getNombre());
 
 			int res = psUpdate.executeUpdate();
 
@@ -240,5 +251,50 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 		}
 		return false;
 	}
+	
+	public Map<Integer, List<Producto>> getAlmacen() {
+
+		Map<Integer, List<Producto>> almacen = new HashMap<>();
+
+		Producto[] productosArr = this.findAll();
+
+		for (Producto p : productosArr) {
+			if (!almacen.containsKey(p.getGroupId())) {
+				List<Producto> grupo = new ArrayList<>();
+				grupo.add(p);
+				almacen.put(p.getGroupId(), grupo);
+			} else {
+				List<Producto> grupo = almacen.get(p.getGroupId());
+				grupo.add(p);
+				almacen.put(p.getGroupId(), grupo);
+			}
+		}
+
+		return almacen;
+	}
+
+	public int getStock(Producto producto) {
+
+		Producto[] productosArr = this.findAll();
+		return Collections.frequency(Arrays.asList(productosArr), producto);
+	}
+
+	public Producto[] getCatalogo() {
+
+		Producto[] catalogo = new Producto[this.getAlmacen().size()];
+		int i = 0;
+
+		for (List<Producto> grupoProductos : this.getAlmacen().values()) {
+
+			Producto muestra = grupoProductos.get(0);
+			catalogo[i] = muestra;
+			i++;
+
+		}
+
+		return catalogo;
+
+	}
+
 
 }

@@ -32,7 +32,7 @@
 				<td>${producto.descripcion}</td>
 				<td><img src="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128"/></td>
 				<td>${producto.precio} €</td>
-				<td><a href="${applicationScope.rutaBase}/catalogo?op=anadir&id=${producto.id}">Añadir al carro</a></td>
+				<td><a href="${applicationScope.rutaBase}/catalogo?op=anadir&nombre=${producto.nombre}">Añadir al carro</a></td>
 			</tr>
 		</c:forEach>
 	</tbody>

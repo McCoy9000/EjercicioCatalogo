@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import catalogo.dal.ProductosDAL;
+import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
 
 @WebServlet("/admin/productocrud")
@@ -29,13 +29,17 @@ public class ProductoCRUDServlet extends HttpServlet {
 
 		ServletContext application = getServletContext();
 
-		ProductosDAL productos = (ProductosDAL) application.getAttribute("productos");
+		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 
 		String op = request.getParameter("op");
 
 		if (op == null) {
-
-			Producto[] productosArr = productos.buscarTodosLosProductos();
+			
+			productos.abrir();
+			
+			Producto[] productosArr = productos.findAll();
+			
+			productos.cerrar();
 			
 			application.setAttribute("productosArr", productosArr);
 			
@@ -48,8 +52,10 @@ public class ProductoCRUDServlet extends HttpServlet {
 			switch (op) {
 				case "modificar":
 				case "borrar":
-					Integer id = Integer.parseInt(request.getParameter("id"));
-					producto = productos.buscarPorId(id);
+					String nombre = request.getParameter("nombre");
+					productos.abrir();
+					producto = productos.findByName(nombre);
+					productos.cerrar();
 					request.setAttribute("producto", producto);
 				case "alta":
 					request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);

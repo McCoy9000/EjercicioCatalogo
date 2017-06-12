@@ -29,8 +29,8 @@
 				<td><img src="/img/${producto.imagen}.jpg" height="128" width="128"/></td>
 				<td>${producto.precio} €</td>
 				<td>
-					<a href="?op=modificar&id=${producto.id}">Modificar</a>
-					<a href="?op=borrar&id=${producto.id}">Borrar</a>
+					<a href="?op=modificar&nombre=${producto.nombre}">Modificar</a>
+					<a href="?op=borrar&nombre=${producto.nombre}">Borrar</a>
 				</td>
 			</tr>
 		</c:forEach>

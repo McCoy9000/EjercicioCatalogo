@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import catalogo.dal.ProductoDAO;
 import catalogo.dal.ProductosDAL;
 import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
@@ -33,13 +34,17 @@ public class CatalogoServlet extends HttpServlet {
 
 		ServletContext application = getServletContext();
 
-		ProductosDAL productos = (ProductosDAL)application.getAttribute("productos");
+		ProductoDAO productos = (ProductoDAO)application.getAttribute("productos");
 
 		
 		//Generar el catálogo. El catálogo es un array en el que cada elemento es, a su vez, el primer elemento de la lista de productos
 		//de un determinado grupo de productos.
 		
+		productos.abrir();
+		
 		Producto[] catalogo = productos.getCatalogo();
+		
+		productos.cerrar();
 		
 		application.setAttribute("catalogo", catalogo);
 		
@@ -91,16 +96,24 @@ public class CatalogoServlet extends HttpServlet {
 						
 					Producto producto;
 					
-					Integer idmap = Integer.parseInt(request.getParameter("id"));
+					String nombre = request.getParameter("nombre");
 					
-					producto = productos.buscarPorId(idmap);
+					productos.abrir();
 					
-					productos.borrar(producto);
+					producto = productos.findByName(nombre);
+					
+					productos.delete(producto);
+					
+					productos.cerrar();
 					
 					application.setAttribute("productos", productos);
 					
+					productos.abrir();
+					
 					application.setAttribute("catalogo", productos.getCatalogo());
-						
+					
+					productos.cerrar();
+					
 					carrito.anadirAlCarrito(producto);
 							
 					log.info("Añadido un producto al carrito");

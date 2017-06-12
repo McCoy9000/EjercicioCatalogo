@@ -1,7 +1,7 @@
 package catalogo.dal;
 
 public class ProductosDALFactory {
-	public static ProductosDAL getProductosDAL() {
-		return new ProductosDALFichero();
+	public static ProductoDAO getProductosDAL() {
+		return new ProductoDAOMySQL();
 	}
 }

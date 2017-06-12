@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import catalogo.dal.DALException;
-import catalogo.dal.ProductosDAL;
+import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
 
 @WebServlet("/admin/productoform")
@@ -38,16 +38,7 @@ public class ProductoFormServlet extends HttpServlet {
 		RequestDispatcher rutaListado = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO);
 
-		Integer id = 0;
 		String nombre = "";
-
-		if (request.getParameter("id") == null) {
-			try {
-				id = Integer.parseInt(request.getParameter("id"));
-			} catch (NumberFormatException e) {
-				id = 0;
-			}
-		}
 
 		Integer groupId;
 
@@ -96,9 +87,8 @@ public class ProductoFormServlet extends HttpServlet {
 		}
 
 		Producto producto = new Producto(groupId, nombre, descripcion, precio, imagen);
-		producto.setId(id);
-
-		ProductosDAL productos = (ProductosDAL) application.getAttribute("productos");
+		
+		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 
 		switch (op) {
 		case "alta":
@@ -109,8 +99,9 @@ public class ProductoFormServlet extends HttpServlet {
 				rutaFormulario.forward(request, response);
 			} else {
 				if (productos != null && !productos.validar(producto)) {
-
-					productos.alta(producto);
+					productos.abrir();
+					productos.insert(producto);
+					productos.cerrar();
 					log.info("Producto dado de alta");
 					rutaListado.forward(request, response);
 				} else {
@@ -127,7 +118,8 @@ public class ProductoFormServlet extends HttpServlet {
 				rutaFormulario.forward(request, response);
 			} else {
 				try {
-					productos.modificar(producto);
+					productos.abrir();
+					productos.update(producto);
 					log.info("Producto modificado");
 				} catch (DALException de) {
 					producto.setErrores(de.getMessage());
@@ -140,7 +132,9 @@ public class ProductoFormServlet extends HttpServlet {
 			break;
 		case "borrar":
 			try {
-				productos.borrar(producto);
+				productos.abrir();
+				productos.delete(producto);
+				productos.cerrar();
 				log.info("Producto borrado");
 			} catch (DALException de) {
 				producto.setErrores(de.getMessage());
