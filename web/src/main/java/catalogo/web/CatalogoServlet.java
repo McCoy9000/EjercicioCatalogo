@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import catalogo.dal.ProductoDAO;
-import catalogo.dal.ProductosDAL;
 import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
 
