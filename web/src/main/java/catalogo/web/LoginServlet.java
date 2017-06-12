@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import catalogo.dal.UsuariosDAL;
+import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Carrito;
 import catalogo.tipos.Usuario;
 
@@ -28,49 +28,56 @@ public class LoginServlet extends HttpServlet {
 	private final String RUTA_LOGIN = RUTA + "/login.jsp";
 	private final String RUTA_CATALOGO = "/catalogo";
 
-	
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		HttpSession session = request.getSession();
 		session.setMaxInactiveInterval(1800);
 		ServletContext application = request.getServletContext();
 
-		//Recogida de datos de la request
-		String nombre = request.getParameter("nombre");
+		// Recogida de datos de la request
+		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String op = request.getParameter("op");
-		
-		//Recogida de datos de aplicación y de sesión
-		UsuariosDAL usuarios = (UsuariosDAL) application.getAttribute("usuarios");
+
+		// Recogida de datos de aplicación y de sesión
+		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		@SuppressWarnings("unchecked")
 		LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
 		Usuario usuario;
-		
-			if (session.getAttribute("usuario") != null) {
-	
-				usuario = (Usuario) session.getAttribute("usuario");
-	
-			} else
-				usuario = new Usuario(nombre, password);
-		
-		//Declaración e inicialización de las booleanas que representan las diferentes posibilidades de entrada
+
+		if (session.getAttribute("usuario") != null) {
+
+			usuario = (Usuario) session.getAttribute("usuario");
+
+		} else
+			usuario = new Usuario(username, password);
+
+		// Declaración e inicialización de las booleanas que representan las diferentes posibilidades de entrada
 		boolean yaLogueado = ("si").equals(session.getAttribute("logueado"));
-		boolean sinDatos = nombre == null || nombre == "" || password == "" || password == null;
-		boolean uInexistente = !((UsuariosDAL) usuarios).validarNombre(usuario);
-		boolean esValido = usuarios.validar(usuario);
+		boolean sinDatos = username == null || username == "" || password == "" || password == null;
+		boolean uInexistente = false;
+
+		usuarios.abrir();
+		uInexistente = !((UsuarioDAO) usuarios).validarNombre(usuario);
+		usuarios.cerrar();
+
+		boolean esValido = false;
+		usuarios.abrir();
+		esValido = usuarios.validar(usuario);
+		usuarios.cerrar();
+
 		boolean quiereSalir = ("logout").equals(op);
-		
-		//Declaración e inicialización de los dispatcher ya que en un momento dado me daba problemas inicializarlos
-		//directamente cuando son requeridos.
+
+		// Declaración e inicialización de los dispatcher ya que en un momento dado me daba problemas inicializarlos
+		// directamente cuando son requeridos.
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
 		RequestDispatcher catalogo = request.getRequestDispatcher(RUTA_CATALOGO);
 
-		//Lógica del servlet según opciones
+		// Lógica del servlet según opciones
 		if (quiereSalir) {
 
 			usuariosLogueados.remove(usuario);
@@ -95,7 +102,9 @@ public class LoginServlet extends HttpServlet {
 		} else if (esValido) {
 
 			log.info("Usuario logueado");
-			usuario = usuarios.buscarPorId(usuario.getNombre()); //Esta línea permite recoger el dato de si tiene permiso de admin o no
+			usuarios.abrir();
+			usuario = usuarios.findByName(usuario.getUsername()); // Esta línea permite recoger el dato de si tiene permiso de admin o no
+			usuarios.cerrar();
 			usuariosLogueados.add(usuario);
 			application.setAttribute("usuariosLogueados", usuariosLogueados);
 			session.removeAttribute("errorLogin");

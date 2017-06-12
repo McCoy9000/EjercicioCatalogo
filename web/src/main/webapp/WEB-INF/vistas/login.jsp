@@ -7,8 +7,8 @@
 
 <form action="login" method="post">
 	<fieldset>
-		<label for="nombre">Nombre</label>
-		<input id="nombre" name="nombre"/>
+		<label for="username">Username</label>
+		<input id="username" name="username"/>
 	</fieldset>
 	<fieldset>
 		<label for="password">Password</label>

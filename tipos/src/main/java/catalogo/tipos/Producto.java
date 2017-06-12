@@ -4,20 +4,15 @@ import java.io.Serializable;
 
 public class Producto implements Serializable {
 
-	static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6288123677827033015L;
 
-	
-	public static int siguienteId;
-	
+	public static int siguienteId = 0;
+
 	int id;
 	int groupId;
 	String nombre, descripcion, errores;
 	double precio;
 	int imagen;
-
-	
-
-	
 
 	public Producto() {
 		this.id = siguienteId;
@@ -26,7 +21,7 @@ public class Producto implements Serializable {
 		this.descripcion = "";
 		this.precio = 0.0;
 		this.imagen = 0;
-		
+
 	}
 
 	public Producto(int groupId, String nombre, String descripcion, double precio, int imagen) {
@@ -37,7 +32,7 @@ public class Producto implements Serializable {
 		this.descripcion = descripcion;
 		this.precio = precio;
 		this.imagen = imagen;
-		
+
 	}
 
 	public int getId() {
@@ -47,7 +42,7 @@ public class Producto implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public int getGroupId() {
 		return groupId;
 	}

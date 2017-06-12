@@ -13,13 +13,13 @@ public class ProductosDALColeccion implements ProductosDAL {
 
 	private Map<Integer, Producto> productos = new TreeMap<Integer, Producto>();
 	private Map<String, Queue<Producto>> almacen = new HashMap<>();
-	
+
 	public void alta(Producto producto) {
 		if (productos.containsKey(producto.getId()))
 			throw new ProductoYaExistenteDALException("Ya existe el producto " + producto.getNombre());
 		productos.put(producto.getId(), producto);
-		
-		if (almacen.containsKey(producto.getNombre())){
+
+		if (almacen.containsKey(producto.getNombre())) {
 			Queue<Producto> stock = almacen.get(producto.getNombre());
 			stock.offer(producto);
 			almacen.put(producto.getNombre(), stock);
@@ -27,8 +27,7 @@ public class ProductosDALColeccion implements ProductosDAL {
 			Queue<Producto> stock = new LinkedList<>();
 			almacen.put(producto.getNombre(), stock);
 		}
-		
-		Producto.siguienteId++;
+
 	}
 
 	public void modificar(Producto producto) {

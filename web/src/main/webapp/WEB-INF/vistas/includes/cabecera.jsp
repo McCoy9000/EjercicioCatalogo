@@ -16,7 +16,7 @@
 			<header>
 				<h1>Driver</h1>
 				<h3>Venta de coches de segunda mano</h3>
-				<p class="bienvenido">Bienvenido ${sessionScope.usuario.nombre}</p>
+				<p class="bienvenido">Bienvenido ${sessionScope.usuario.username}</p>
 			</header>
 			
 			<nav>
@@ -27,7 +27,7 @@
 					 
 				</ul>
 				
-				<ul <c:if test="${usuario.admin != 'true'}">
+				<ul <c:if test="${usuario.id_roles != '1'}">
 						style = "display:none"
 					</c:if>
 				>

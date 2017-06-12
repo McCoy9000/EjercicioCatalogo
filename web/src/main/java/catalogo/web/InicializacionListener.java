@@ -12,7 +12,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import catalogo.dal.ProductosDAL;
 import catalogo.dal.ProductosDALFactory;
-import catalogo.dal.UsuariosDAL;
+import catalogo.dal.UsuarioDAO;
 import catalogo.dal.UsuariosDALFactory;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
@@ -33,25 +33,27 @@ public class InicializacionListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 
 		ServletContext application = servletContextEvent.getServletContext();
-		
+
 		// Configurar Log4j
 
 		PropertyConfigurator.configure(InicializacionListener.class.getClassLoader().getResource("log4j.properties"));
 
-		
 		// Inicializar la base de datos de usuarios y hacerla accesible a través del ServletContext
 
-		UsuariosDAL usuarios = UsuariosDALFactory.getUsuariosDAL();
+		UsuarioDAO usuarios = UsuariosDALFactory.getUsuarioDAO();
 
 		log.info("Base de datos de usuarios inicializada");
 
 		application.setAttribute("usuarios", usuarios);
-		
-		Usuario[] usuariosArr = usuarios.buscarTodosLosUsuarios();
-		
+
+		usuarios.abrir();
+
+		Usuario[] usuariosArr = usuarios.findAll();
+
+		usuarios.cerrar();
+
 		application.setAttribute("usuariosArr", usuariosArr);
 
-		
 		// Inicializar la base de datos de productos y hacerla accesible a través del ServletContext
 
 		ProductosDAL productos = ProductosDALFactory.getProductosDAL();
@@ -59,43 +61,48 @@ public class InicializacionListener implements ServletContextListener {
 		log.info("Base de datos de productos inicializada");
 
 		application.setAttribute("productos", productos);
-		
+
 		Producto[] productosArr = productos.buscarTodosLosProductos();
-		
+
 		application.setAttribute("productosArr", productosArr);
 
-		
-		//Inicializar una lista de los usuarios logueados y hacerla accesible a través del ServletContext
-		
+		// Inicializar una lista de los usuarios logueados y hacerla accesible a través del ServletContext
+
 		LinkedList<Usuario> usuariosLogueados = new LinkedList<>();
-		
+
 		log.info("Lista de usuarios logueados actualizada");
-		
+
 		application.setAttribute("usuariosLogueados", usuariosLogueados);
-		
-		
+
 		// Crear un usuario administrador y un usuario normal
 
-		Usuario admin = new Usuario("admin", "admin", true);
+		Usuario admin = new Usuario(1, "admin", "admin", "admin");
 
 		if (!usuarios.validar(admin)) {
 
-			usuarios.alta(admin);
+			usuarios.abrir();
+
+			usuarios.insert(admin);
+
+			usuarios.cerrar();
 
 			log.info("Creado usuario administrador. Usuario: 'admin', Password: 'admin'");
 
 		}
-		
-		Usuario mikel = new Usuario("mikel", "mikel");
-		
+
+		Usuario mikel = new Usuario(2, "mikel", "mikel", "mikel");
+
 		if (!usuarios.validar(mikel)) {
-			
-			usuarios.alta(mikel);
-			
+
+			usuarios.abrir();
+
+			usuarios.insert(mikel);
+
+			usuarios.cerrar();
+
 			log.info("Creado usuario estándard. Usuario: 'mikel', Password: 'mikel'");
 		}
 
-		
 		// Rellenar la base de datos de productos si está vacía
 
 		if (productos.buscarTodosLosProductos().length == 0) {
@@ -138,14 +145,9 @@ public class InicializacionListener implements ServletContextListener {
 			productos.alta(new Producto(0, "Producto de prueba 36", "Descripcion de producto de prueba", 100.0, 1));
 			log.info("Creados 36 productos de prueba");
 		}
-		
-		// Inicializar la variable estática de Producto 'siguienteId'
-		
-		Producto.siguienteId = (productos.buscarTodosLosProductos()[((productos.buscarTodosLosProductos()).length) - 1]).getId() + 1;
-		log.info("Inicializada la variable estática de Producto 'siguienteId' con el valor: " + Producto.siguienteId);
-		
+
 		// Apuntar el ContextPath
-		
+
 		String path = servletContextEvent.getServletContext().getContextPath();
 		application.setAttribute("rutaBase", path);
 		log.info("Almacenada la ruta relativa de la aplicación:" + path);

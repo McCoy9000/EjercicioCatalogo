@@ -5,8 +5,8 @@
 
 <form action="alta" method="post">
 <fieldset>
-<label for="nombre">Nombre</label>
-<input id="nombre" name="nombre"/>
+<label for="username">Username</label>
+<input id="username" name="username"/>
 </fieldset>
 <fieldset>
 <label for="password">Password</label>
@@ -15,6 +15,10 @@
 <fieldset>
 <label for="password2">Repita el password</label>
 <input id="password2" name="password2" type="password"/>
+</fieldset>
+<fieldset>
+<label for="nombre_completo">Nombre completo</label>
+<input id="nombre_completo" name="nombre_completo"/>
 </fieldset>
 <fieldset>
 <input type="submit" value="ALTA">

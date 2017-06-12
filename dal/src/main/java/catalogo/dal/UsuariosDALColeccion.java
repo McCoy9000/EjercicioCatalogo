@@ -16,15 +16,14 @@ import catalogo.tipos.Usuario;
 public class UsuariosDALColeccion implements UsuariosDAL {
 
 	private Map<String, Usuario> usuarios = new HashMap<String, Usuario>();
-	
-	File fichero = new File("usuarios.dat");
-	
-	
-	public void alta(Usuario usuario) {
-		if (usuarios.containsKey(usuario.getNombre()))
-			throw new UsuarioYaExistenteDALException("Ya existe el usuario " + usuario.getNombre());
 
-		usuarios.put(usuario.getNombre(), usuario);
+	File fichero = new File("usuarios.dat");
+
+	public void alta(Usuario usuario) {
+		if (usuarios.containsKey(usuario.getNombre_completo()))
+			throw new UsuarioYaExistenteDALException("Ya existe el usuario " + usuario.getNombre_completo());
+
+		usuarios.put(usuario.getNombre_completo(), usuario);
 	}
 
 	public boolean validar(Usuario usuario) {
@@ -32,14 +31,14 @@ public class UsuariosDALColeccion implements UsuariosDAL {
 	}
 
 	public void modificar(Usuario usuario) {
-		if (!usuarios.containsKey(usuario.getNombre()))
+		if (!usuarios.containsKey(usuario.getNombre_completo()))
 			throw new DALException("Intento de modificar usuario no existente " + usuario);
 
-		usuarios.put(usuario.getNombre(), usuario);
+		usuarios.put(usuario.getNombre_completo(), usuario);
 	}
 
 	public void borrar(Usuario usuario) {
-		usuarios.remove(usuario.getNombre());
+		usuarios.remove(usuario.getNombre_completo());
 	}
 
 	public Usuario buscarPorId(String id) {
@@ -58,65 +57,62 @@ public class UsuariosDALColeccion implements UsuariosDAL {
 
 		return usuarios.values().toArray(new Usuario[usuarios.size()]);
 	}
-	
+
 	public boolean validarNombre(Usuario usuario) {
-		
+
 		Collection<Usuario> users = usuarios.values();
-		
-		if (usuario.getNombre() != null){
-		
+
+		if (usuario.getNombre_completo() != null) {
+
 			for (Usuario u : users) {
-				
-				if (usuario.getNombre().equals(u.getNombre())){
-					
+
+				if (usuario.getNombre_completo().equals(u.getNombre_completo())) {
+
 					return true;
-					
+
 				}
-				
+
 			}
 		}
-		
+
 		return false;
 	}
-	
-	
+
 	@SuppressWarnings("unused")
 	private void escribirDatabase() {
-			
-			try {
-				FileOutputStream fos = new FileOutputStream(fichero);
-				ObjectOutputStream oos = new ObjectOutputStream(fos);
-				oos.writeObject(usuarios);
-				oos.close();
-				fos.close();
-			} catch (FileNotFoundException e) {
-				System.out.println("FileNotFoundException");
-				e.printStackTrace();
-			} catch (IOException e) {
-				System.out.println("IOException");
-				e.printStackTrace();
-			}
-			
-		}
-		
-		@SuppressWarnings({ "unchecked", "unused" })
-		private void leerDatabase() {
-			
-			try {
-				FileInputStream fis = new FileInputStream(fichero);
-				ObjectInputStream ois = new ObjectInputStream(fis);
-				usuarios = (Map<String, Usuario>) ois.readObject();
-				ois.close();
-				fis.close();
-			} catch (IOException e) {
-				System.out.println("IOException reading");
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				System.out.println("Class not found Exception reading");
-				e.printStackTrace();
-			}
-			
-		}
-}
 
-	
+		try {
+			FileOutputStream fos = new FileOutputStream(fichero);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(usuarios);
+			oos.close();
+			fos.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("FileNotFoundException");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("IOException");
+			e.printStackTrace();
+		}
+
+	}
+
+	@SuppressWarnings({ "unchecked", "unused" })
+	private void leerDatabase() {
+
+		try {
+			FileInputStream fis = new FileInputStream(fichero);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			usuarios = (Map<String, Usuario>) ois.readObject();
+			ois.close();
+			fis.close();
+		} catch (IOException e) {
+			System.out.println("IOException reading");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.println("Class not found Exception reading");
+			e.printStackTrace();
+		}
+
+	}
+}

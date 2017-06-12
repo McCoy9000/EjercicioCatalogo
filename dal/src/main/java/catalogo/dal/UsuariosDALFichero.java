@@ -11,15 +11,12 @@ import java.util.TreeMap;
 
 import catalogo.tipos.Usuario;
 
-
-
 public class UsuariosDALFichero implements UsuariosDAL {
 
 	private TreeMap<String, Usuario> usuarios = new TreeMap<String, Usuario>();;
-	
+
 	private File fichero = new File("usuarios.dat");;
-	
-	
+
 	public UsuariosDALFichero() {
 
 		super();
@@ -27,21 +24,20 @@ public class UsuariosDALFichero implements UsuariosDAL {
 		if (!fichero.exists()) {
 
 			escribirDatabase();
-			
+
 		} else {
-			
+
 			leerDatabase();
 		}
 	}
 
-	
 	public void alta(Usuario usuario) {
 
-		if (usuarios.containsKey(usuario.getNombre()))
+		if (usuarios.containsKey(usuario.getNombre_completo()))
 			throw new UsuarioYaExistenteDALException("Ya existe el usuario");
-		
-			usuarios.put(usuario.getNombre(), usuario);
-		
+
+		usuarios.put(usuario.getNombre_completo(), usuario);
+
 		escribirDatabase();
 	}
 
@@ -49,17 +45,17 @@ public class UsuariosDALFichero implements UsuariosDAL {
 
 		return usuarios.containsValue(usuario);
 	}
-	
+
 	public boolean validarNombre(Usuario usuario) {
-		
+
 		String[] usuariosArr = usuarios.keySet().toArray(new String[usuarios.keySet().size()]);
-		
-		if (usuario.getNombre() != null){
-		
+
+		if (usuario.getNombre_completo() != null) {
+
 			for (String s : usuariosArr) {
-				
-				if (usuario.getNombre().equals(s)){
-					
+
+				if (usuario.getNombre_completo().equals(s)) {
+
 					return true;
 				}
 			}
@@ -69,16 +65,16 @@ public class UsuariosDALFichero implements UsuariosDAL {
 
 	@Override
 	public void modificar(Usuario usuario) {
-		if (!usuarios.containsKey(usuario.getNombre()))
+		if (!usuarios.containsKey(usuario.getNombre_completo()))
 			throw new DALException("Intento de modificar producto no existente " + usuarios);
 
-		usuarios.put(usuario.getNombre(), usuario);
+		usuarios.put(usuario.getNombre_completo(), usuario);
 		escribirDatabase();
 	}
-	
+
 	@Override
 	public void borrar(Usuario usuario) {
-		usuarios.remove(usuario.getNombre());
+		usuarios.remove(usuario.getNombre_completo());
 		escribirDatabase();
 	}
 
@@ -89,7 +85,7 @@ public class UsuariosDALFichero implements UsuariosDAL {
 
 	@Override
 	public Usuario[] buscarTodosLosUsuarios() {
-		
+
 		return usuarios.values().toArray(new Usuario[usuarios.size()]);
 	}
 
@@ -103,9 +99,8 @@ public class UsuariosDALFichero implements UsuariosDAL {
 		escribirDatabase();
 	}
 
-	
 	private void escribirDatabase() {
-		
+
 		try {
 			FileOutputStream fos = new FileOutputStream(fichero);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -119,12 +114,12 @@ public class UsuariosDALFichero implements UsuariosDAL {
 			System.out.println("IOException");
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void leerDatabase() {
-		
+
 		try {
 			FileInputStream fis = new FileInputStream(fichero);
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -138,8 +133,7 @@ public class UsuariosDALFichero implements UsuariosDAL {
 			System.out.println("Class not found Exception reading");
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	
 }

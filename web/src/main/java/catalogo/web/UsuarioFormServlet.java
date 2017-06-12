@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import catalogo.dal.DALException;
+import catalogo.dal.UsuarioDAO;
 import catalogo.dal.UsuarioYaExistenteDALException;
-import catalogo.dal.UsuariosDAL;
 import catalogo.tipos.Usuario;
 
 @WebServlet("/admin/usuarioform")
@@ -33,15 +33,18 @@ public class UsuarioFormServlet extends HttpServlet {
 
 		String op = request.getParameter("opform");
 
-		String nombre = request.getParameter("nombre");
-		String pass = request.getParameter("pass");
-		String pass2 = request.getParameter("pass2");
-		String admin = request.getParameter("admin");
-		boolean isAdmin = false;
-			if (("si").equals(admin)) 
-				isAdmin = true;
-		
-		
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String password2 = request.getParameter("password2");
+		String nombre_completo = request.getParameter("nombre_completo");
+		int id_roles;
+		if (request.getParameter("id_roles") == null) {
+			id_roles = 2;
+		} else {
+			id_roles = Integer.parseInt(request.getParameter("id_roles"));
+		}
+		boolean isAdmin = id_roles == 1;
+
 		RequestDispatcher rutaListado = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO);
 
@@ -50,59 +53,61 @@ public class UsuarioFormServlet extends HttpServlet {
 			return;
 		}
 
-		Usuario usuario = new Usuario(nombre, pass, isAdmin);
+		Usuario usuario = new Usuario(id_roles, nombre_completo, password, username);
 
-		UsuariosDAL usuarios = (UsuariosDAL) application.getAttribute("usuarios");
+		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 
 		switch (op) {
-			
-			case "alta":
-				if (pass != null && pass != "" && pass.equals(pass2)) {
-					try{
-					usuarios.alta(usuario);
+
+		case "alta":
+			if (password != null && password != "" && password.equals(password2)) {
+				try {
+					usuarios.abrir();
+					usuarios.insert(usuario);
+					usuarios.cerrar();
 					log.info("Usuario dado de alta");
-					} catch (UsuarioYaExistenteDALException uyede) {
-						usuario.setErrores("Usuario ya existente");
-						request.setAttribute("usuario", usuario);
-						rutaFormulario.forward(request, response);
-					}
-					rutaListado.forward(request, response);
-				} else {
-					usuario.setErrores("Las contraseñas deben ser iguales y no estar vacías");
+				} catch (UsuarioYaExistenteDALException uyede) {
 					request.setAttribute("usuario", usuario);
 					rutaFormulario.forward(request, response);
 				}
-				break;
-			
-			case "modificar":
-				if (pass != null && pass != "" && pass.equals(pass2)) {
-					try {
-						usuarios.modificar(usuario);
-						log.info("Usuario modificado");
-					} catch (DALException de) {
-						usuario.setErrores(de.getMessage());
-						request.setAttribute("usuario", usuario);
-						rutaFormulario.forward(request, response);
-						
-					}
-					rutaListado.forward(request, response);
-				} else {
-					usuario.setErrores("Las contraseñas no coinciden");
+				rutaListado.forward(request, response);
+			} else {
+				log.info("Pasa por el else de alta");
+				request.setAttribute("usuario", usuario);
+				rutaFormulario.forward(request, response);
+			}
+			break;
+
+		case "modificar":
+			if (password != null && password != "" && password.equals(password2)) {
+				try {
+					usuarios.abrir();
+					usuarios.update(usuario);
+					usuarios.cerrar();
+					log.info("Usuario modificado");
+				} catch (DALException de) {
 					request.setAttribute("usuario", usuario);
 					rutaFormulario.forward(request, response);
+
 				}
-				break;
-	
-			case "borrar":
-				if (!("admin").equals(usuario.getNombre())) {
-				usuarios.borrar(usuario);
+				rutaListado.forward(request, response);
+			} else {
+				request.setAttribute("usuario", usuario);
+				rutaFormulario.forward(request, response);
+			}
+			break;
+
+		case "borrar":
+			if (!("admin").equals(usuario.getUsername())) {
+				usuarios.abrir();
+				usuarios.delete(usuario);
+				usuarios.cerrar();
 				log.info("Usuario borrado");
 				rutaListado.forward(request, response);
-				} else {
-				usuario.setErrores("No es posible borrar el usuario administrador. Sólo modificarlo.");	
+			} else {
 				rutaListado.forward(request, response);
-				}
-				break;
+			}
+			break;
 		}
 	}
 

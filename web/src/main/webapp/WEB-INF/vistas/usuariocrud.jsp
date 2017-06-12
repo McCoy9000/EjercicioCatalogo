@@ -9,21 +9,23 @@
 <table>
 	<thead>
 		<tr>
-			<th>Usuario</th>
+			<th>Id_roles</th>
+			<th>Username</th>
 			<th>Contraseña</th>
-			<th>Administrador</th>
+			<th>Nombre completo</th>
 			<th>Operaciones</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${applicationScope.usuariosArr}" var="usuario">
 			<tr>
-				<td>${usuario.nombre}</td>
-				<td>${usuario.pass}</td>
-				<td>${usuario.admin}</td>
+				<td>${usuario.id_roles}</td>	
+				<td>${usuario.username}</td>
+				<td>${usuario.password}</td>
+				<td>${usuario.nombre_completo}</td>
 				<td>
-					<a href="?op=modificar&id=${usuario.nombre}">Modificar</a>
-					<a href="?op=borrar&id=${usuario.nombre}">Borrar</a>
+					<a href="?op=modificar&username=${usuario.username}">Modificar</a>
+					<a href="?op=borrar&username=${usuario.username}">Borrar</a>
 				</td>
 			</tr>
 		</c:forEach>

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import catalogo.dal.UsuariosDAL;
+import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Usuario;
 
 @WebServlet("/admin/usuariocrud")
@@ -27,14 +27,16 @@ public class UsuarioCRUDServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ServletContext application = getServletContext();
-		UsuariosDAL usuarios = (UsuariosDAL) application.getAttribute("usuarios");
+		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 
 		String op = request.getParameter("op");
 
 		if (op == null) {
-			
-			Usuario[] usuariosArr = usuarios.buscarTodosLosUsuarios();
-			
+
+			usuarios.abrir();
+			Usuario[] usuariosArr = usuarios.findAll();
+			usuarios.cerrar();
+
 			application.setAttribute("usuariosArr", usuariosArr);
 
 			request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
@@ -44,16 +46,18 @@ public class UsuarioCRUDServlet extends HttpServlet {
 			Usuario usuario;
 
 			switch (op) {
-				case "modificar":
-				case "borrar":
-					String id = request.getParameter("id");
-					usuario = usuarios.buscarPorId(id);
-					request.setAttribute("usuario", usuario);
-				case "alta":
-					request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
-					break;
-				default:
-					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+			case "modificar":
+			case "borrar":
+				String username = request.getParameter("username");
+				usuarios.abrir();
+				usuario = usuarios.findByName(username);
+				usuarios.cerrar();
+				request.setAttribute("usuario", usuario);
+			case "alta":
+				request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
+				break;
+			default:
+				request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
 			}
 		}
 	}

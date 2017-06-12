@@ -27,20 +27,19 @@ public class AutorizacionFilter implements Filter {
 
 		Usuario usuario = null;
 
-			if (session != null) {
-	
-				usuario = (Usuario) session.getAttribute("usuario");
-			}
+		if (session != null) {
+
+			usuario = (Usuario) session.getAttribute("usuario");
+		}
 
 		boolean esNuevoUsuario = usuario == null;
 		boolean esAdmin = false;
 
-			if (!esNuevoUsuario) {
-	
-				esAdmin = usuario.isAdmin();
-			}
+		if (!esNuevoUsuario) {
 
-		
+			esAdmin = usuario.getId_roles() == 1;
+		}
+
 		if (!esAdmin) {
 
 			session.setAttribute("errorLogin", "No tienes permiso para acceder a esa sección");

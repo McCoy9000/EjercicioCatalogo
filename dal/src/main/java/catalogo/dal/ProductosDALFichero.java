@@ -19,10 +19,9 @@ import catalogo.tipos.Producto;
 public class ProductosDALFichero implements ProductosDAL {
 
 	File fichero = new File("productos.dat");
-	
+
 	private Map<Integer, Producto> productos = new HashMap<>();
-	
-	
+
 	public ProductosDALFichero() {
 
 		super();
@@ -30,24 +29,24 @@ public class ProductosDALFichero implements ProductosDAL {
 		if (!fichero.exists()) {
 
 			escribirDatabase();
-		
+
 		} else {
 
 			leerDatabase();
 		}
+
 	}
 
 	public void alta(Producto producto) {
-		
+
 		if (productos.containsKey(producto.getId()))
 			throw new ProductoYaExistenteDALException("Ya existe el producto " + producto.getNombre());
 
 		productos.put(producto.getId(), producto);
-		
-		Producto.siguienteId++;
-		
-		
+
 		escribirDatabase();
+
+		Producto.siguienteId++;
 	}
 
 	public void modificar(Producto producto) {
@@ -110,16 +109,15 @@ public class ProductosDALFichero implements ProductosDAL {
 
 	}
 
-	
 	@Override
-	public Map<Integer , List<Producto>> getAlmacen() {
-		
+	public Map<Integer, List<Producto>> getAlmacen() {
+
 		Map<Integer, List<Producto>> almacen = new HashMap<>();
-		
+
 		Producto[] productosArr = this.buscarTodosLosProductos();
-		
-		for(Producto p: productosArr){
-			if (!almacen.containsKey(p.getGroupId())){
+
+		for (Producto p : productosArr) {
+			if (!almacen.containsKey(p.getGroupId())) {
 				List<Producto> grupo = new ArrayList<>();
 				grupo.add(p);
 				almacen.put(p.getGroupId(), grupo);
@@ -129,32 +127,32 @@ public class ProductosDALFichero implements ProductosDAL {
 				almacen.put(p.getGroupId(), grupo);
 			}
 		}
-		
+
 		return almacen;
 	}
 
 	@Override
 	public int getStock(Producto producto) {
-		
+
 		Producto[] productosArr = this.buscarTodosLosProductos();
 		return Collections.frequency(Arrays.asList(productosArr), producto);
 	}
 
 	@Override
 	public Producto[] getCatalogo() {
-		
+
 		Producto[] catalogo = new Producto[this.getAlmacen().size()];
 		int i = 0;
-		
-		for (List<Producto> grupoProductos : this.getAlmacen().values()){
-			
+
+		for (List<Producto> grupoProductos : this.getAlmacen().values()) {
+
 			Producto muestra = grupoProductos.get(0);
-			catalogo[i]= muestra;
-			i++;			
-			
-		}		
-		
+			catalogo[i] = muestra;
+			i++;
+
+		}
+
 		return catalogo;
-				
+
 	}
 }

@@ -38,22 +38,20 @@ public class ProductoFormServlet extends HttpServlet {
 		RequestDispatcher rutaListado = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO);
 
-		Integer id;
+		Integer id = 0;
 		String nombre = "";
 
 		if (request.getParameter("id") == null) {
-			id = Producto.siguienteId;
-		} else {
 			try {
 				id = Integer.parseInt(request.getParameter("id"));
 			} catch (NumberFormatException e) {
-				id = Producto.siguienteId;
+				id = 0;
 			}
 		}
-		
+
 		Integer groupId;
-		
-		if (request.getParameter("groupId")== null) {
+
+		if (request.getParameter("groupId") == null) {
 			groupId = 0;
 		} else {
 			try {
@@ -62,7 +60,7 @@ public class ProductoFormServlet extends HttpServlet {
 				groupId = 0;
 			}
 		}
-		
+
 		nombre = request.getParameter("nombre");
 		String descripcion = request.getParameter("descripcion");
 		Double precio;
@@ -103,47 +101,34 @@ public class ProductoFormServlet extends HttpServlet {
 		ProductosDAL productos = (ProductosDAL) application.getAttribute("productos");
 
 		switch (op) {
-			case "alta":
-	
-				if (nombre == null || nombre == "") {
-					producto.setErrores("El nombre de producto no puede estar vacío");
-					request.setAttribute("producto", producto);
-					rutaFormulario.forward(request, response);
-				} else {
-					if (productos != null && !productos.validar(producto)) {
-	
-						productos.alta(producto);
-						log.info("Producto dado de alta");
-						rutaListado.forward(request, response);
-					} else {
-						producto.setErrores("El producto ya existe");
-						request.setAttribute("producto", producto);
-						rutaFormulario.forward(request, response);
-					}
-				}
-				break;
-			case "modificar":
-				if (nombre == null || nombre == "") {
-					producto.setErrores("El nombre de producto no puede estar vacío");
-					request.setAttribute("producto", producto);
-					rutaFormulario.forward(request, response);
-				} else {
-					try {
-						productos.modificar(producto);
-						log.info("Producto modificado");
-					} catch (DALException de) {
-						producto.setErrores(de.getMessage());
-						request.setAttribute("producto", producto);
-						rutaFormulario.forward(request, response);
-						return;
-					}
+		case "alta":
+
+			if (nombre == null || nombre == "") {
+				producto.setErrores("El nombre de producto no puede estar vacío");
+				request.setAttribute("producto", producto);
+				rutaFormulario.forward(request, response);
+			} else {
+				if (productos != null && !productos.validar(producto)) {
+
+					productos.alta(producto);
+					log.info("Producto dado de alta");
 					rutaListado.forward(request, response);
+				} else {
+					producto.setErrores("El producto ya existe");
+					request.setAttribute("producto", producto);
+					rutaFormulario.forward(request, response);
 				}
-				break;
-			case "borrar":
+			}
+			break;
+		case "modificar":
+			if (nombre == null || nombre == "") {
+				producto.setErrores("El nombre de producto no puede estar vacío");
+				request.setAttribute("producto", producto);
+				rutaFormulario.forward(request, response);
+			} else {
 				try {
-					productos.borrar(producto);
-					log.info("Producto borrado");
+					productos.modificar(producto);
+					log.info("Producto modificado");
 				} catch (DALException de) {
 					producto.setErrores(de.getMessage());
 					request.setAttribute("producto", producto);
@@ -151,8 +136,21 @@ public class ProductoFormServlet extends HttpServlet {
 					return;
 				}
 				rutaListado.forward(request, response);
-	
-				break;
+			}
+			break;
+		case "borrar":
+			try {
+				productos.borrar(producto);
+				log.info("Producto borrado");
+			} catch (DALException de) {
+				producto.setErrores(de.getMessage());
+				request.setAttribute("producto", producto);
+				rutaFormulario.forward(request, response);
+				return;
+			}
+			rutaListado.forward(request, response);
+
+			break;
 		}
 	}
 }

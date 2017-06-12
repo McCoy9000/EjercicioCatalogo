@@ -10,10 +10,10 @@
 
 	<form action="${applicationScope.rutaBase}/admin/usuarioform" method="post">
 		<fieldset>
-			<label for="nombre">Nombre</label> 
+			<label for="username">Nombre</label> 
 			
-			<input id="nombre" name="nombre"
-			  required="required" value="${usuario.nombre}" 
+			<input id="username" name="username"
+			  required="required" value="${usuario.username}" 
 			  
 			  <c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
 			  	readonly="readonly"
@@ -26,22 +26,30 @@
 			</c:if>
 			
 		>
-			<label for="pass">Contraseña</label> <input type="password" id="pass"
-				name="pass" />
+			<label for="password">Contraseña</label> <input type="password" id="pass"
+				name="password" />
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
 		>
-			<label for="pass2">Contraseña otra vez</label> <input type="password" id="pass2"
-				name="pass2" />
+			<label for="password2">Contraseña otra vez</label> <input type="password" id="password2"
+				name="password2" />
+		</fieldset>
+		<fieldset <c:if test="${param.op == 'borrar'}">
+			style="display:none;"
+			</c:if>
+			
+		>
+			<label for="nombre_completo">Nombre completo</label> <input id="nombre_completo"
+				name="nombre_completo" />
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
 		>
-			<label for="admin">Permiso de administrador</label> 
-			<input type="checkbox" id="admin" name="admin" value="si" />Si
+			<label for="id_roles">Permiso de administrador</label> 
+			<input type="checkbox" id="id_roles" name="id_roles" value="1" />Si
 		</fieldset>
 		<fieldset>
 			<input type="submit" value="${fn:toUpperCase(param.op)}" 
@@ -53,7 +61,6 @@
 			
 			
 			/>
-			<p class="errores">${usuario.errores}</p>
 			
 			<input type="hidden" name="opform" value="${param.op}" />
 		</fieldset>
