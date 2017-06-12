@@ -46,7 +46,6 @@ public class ProductosDALFichero implements ProductosDAL {
 
 		escribirDatabase();
 
-		Producto.siguienteId++;
 	}
 
 	public void modificar(Producto producto) {

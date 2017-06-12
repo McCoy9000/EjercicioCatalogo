@@ -6,8 +6,6 @@ public class Producto implements Serializable {
 
 	private static final long serialVersionUID = -6288123677827033015L;
 
-	public static int siguienteId = 0;
-
 	int id;
 	int groupId;
 	String nombre, descripcion, errores;
@@ -15,7 +13,6 @@ public class Producto implements Serializable {
 	int imagen;
 
 	public Producto() {
-		this.id = siguienteId;
 		this.groupId = 0;
 		this.nombre = "";
 		this.descripcion = "";
@@ -26,7 +23,6 @@ public class Producto implements Serializable {
 
 	public Producto(int groupId, String nombre, String descripcion, double precio, int imagen) {
 		super();
-		this.id = siguienteId;
 		this.groupId = groupId;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
