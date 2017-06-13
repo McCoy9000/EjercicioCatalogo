@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import catalogo.dal.UsuarioDAO;
-import catalogo.tipos.Carrito;
 import catalogo.tipos.Usuario;
 
 @WebServlet("/login")
@@ -110,8 +109,8 @@ public class LoginServlet extends HttpServlet {
 			session.removeAttribute("errorLogin");
 			session.setAttribute("logueado", "si");
 			session.setAttribute("usuario", usuario);
-			Carrito carrito = new Carrito();
-			session.setAttribute("carrito", carrito);
+			// Carrito carrito = new Carrito();
+			// session.setAttribute("carrito", carrito);
 			catalogo.forward(request, response);
 
 		} else {
