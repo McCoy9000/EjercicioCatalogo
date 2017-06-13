@@ -16,7 +16,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	private final static String FIND_BY_NAME = "SELECT * FROM usuarios WHERE username = ?";
 	private final static String UPDATE = "UPDATE usuarios " + "SET username = ?, password = ?, nombre_completo = ?, id_roles = ? " + "WHERE username = ?";
 	private final static String DELETE = "DELETE FROM usuarios WHERE username = ?";
-
+	private final static String DELETE_TABLE_USUARIOS = "DELETE FROM usuarios";
 	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete;
 
 	public UsuarioDAOMySQL(String url, String mysqlUser, String mysqlPass) {
@@ -209,6 +209,20 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 	}
 
+	public void deleteUsuarios() {
+		try {
+			psDelete = con.prepareStatement(DELETE_TABLE_USUARIOS);
+
+			psDelete.executeUpdate();
+
+		} catch (Exception e) {
+			throw new DAOException("Error en delete table", e);
+		} finally {
+			cerrar(psDelete);
+		}
+
+	}
+
 	public boolean validar(Usuario usuario) {
 
 		this.abrir();
@@ -216,7 +230,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		this.cerrar();
 
 		for (Usuario u : usuariosArr) {
-			if (u.getUsername().equals(usuario.getUsername())) {
+			if (u.getUsername().equals(usuario.getUsername()) && u.getPassword().equals(usuario.getPassword())) {
 				return true;
 			}
 		}

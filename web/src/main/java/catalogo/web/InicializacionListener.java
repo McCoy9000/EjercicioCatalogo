@@ -61,13 +61,13 @@ public class InicializacionListener implements ServletContextListener {
 		log.info("Base de datos de productos inicializada");
 
 		application.setAttribute("productos", productos);
-		
+
 		productos.abrir();
-		
+
 		Producto[] productosArr = productos.findAll();
 
 		productos.cerrar();
-		
+
 		application.setAttribute("productosArr", productosArr);
 
 		// Inicializar una lista de los usuarios logueados y hacerla accesible a través del ServletContext
@@ -79,6 +79,11 @@ public class InicializacionListener implements ServletContextListener {
 		application.setAttribute("usuariosLogueados", usuariosLogueados);
 
 		// Crear un usuario administrador y un usuario normal
+
+		usuarios.abrir();
+
+		if (usuarios.findAll().length != 0)
+			usuarios.deleteUsuarios();
 
 		Usuario admin = new Usuario(1, "admin", "admin", "admin");
 
@@ -107,14 +112,17 @@ public class InicializacionListener implements ServletContextListener {
 			log.info("Creado usuario estándard. Usuario: 'mikel', Password: 'mikel'");
 		}
 
+		usuarios.cerrar();
+
 		// Rellenar la base de datos de productos si está vacía
-		
+
 		productos.abrir();
-		
+
+		if (productos.findAll().length != 0)
+			productos.deleteProductos();
+
 		if (productos.findAll().length == 0) {
-			
-			
-			
+
 			productos.insert(new Producto(0, "Producto de prueba 1", "Descripcion de producto de prueba", 100.0, 1));
 			productos.insert(new Producto(0, "Producto de prueba 2", "Descripcion de producto de prueba", 100.0, 1));
 			productos.insert(new Producto(0, "Producto de prueba 3", "Descripcion de producto de prueba", 100.0, 1));
@@ -151,12 +159,10 @@ public class InicializacionListener implements ServletContextListener {
 			productos.insert(new Producto(0, "Producto de prueba 34", "Descripcion de producto de prueba", 100.0, 1));
 			productos.insert(new Producto(0, "Producto de prueba 35", "Descripcion de producto de prueba", 100.0, 1));
 			productos.insert(new Producto(0, "Producto de prueba 36", "Descripcion de producto de prueba", 100.0, 1));
-			
-			
-			
+
 			log.info("Creados 36 productos de prueba");
 		}
-		
+
 		productos.cerrar();
 		// Apuntar el ContextPath
 

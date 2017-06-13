@@ -20,13 +20,15 @@ public interface ProductoDAO extends IpartekDAO {
 
 	public void delete(String nombre);
 
+	public void deleteProductos();
+
 	public boolean validar(Producto producto);
 
 	public boolean validarNombre(Producto producto);
-	
+
 	public Map<Integer, List<Producto>> getAlmacen();
-	
+
 	public int getStock(Producto producto);
-	
+
 	public Producto[] getCatalogo();
 }

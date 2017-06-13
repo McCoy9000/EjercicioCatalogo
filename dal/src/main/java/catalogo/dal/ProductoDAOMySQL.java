@@ -21,7 +21,7 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 	private final static String FIND_BY_NAME = "SELECT * FROM productos WHERE nombre = ?";
 	private final static String UPDATE = "UPDATE productos " + "SET groupId = ?, nombre = ?, descripcion = ?, precio = ?, imagen = ? " + "WHERE nombre = ?";
 	private final static String DELETE = "DELETE FROM productos WHERE nombre = ?";
-
+	private final static String DELETE_TABLE_PRODUCTOS = "DELETE FROM productos";
 	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete;
 
 	public ProductoDAOMySQL(String url, String mysqlUser, String mysqlPass) {
@@ -47,7 +47,7 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 			while (rs.next()) {
 				// System.out.println(rs.getString("username"));
 				producto = new Producto();
-				
+
 				producto.setId(rs.getInt("id"));
 				producto.setGroupId(rs.getInt("groupId"));
 				producto.setNombre(rs.getString("nombre"));
@@ -212,7 +212,21 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 				throw new DAOException("La actualización ha devuelto un valor " + res);
 
 		} catch (Exception e) {
-			throw new DAOException("Error en update", e);
+			throw new DAOException("Error en delete", e);
+		} finally {
+			cerrar(psDelete);
+		}
+
+	}
+
+	public void deleteProductos() {
+		try {
+			psDelete = con.prepareStatement(DELETE_TABLE_PRODUCTOS);
+
+			psDelete.executeUpdate();
+
+		} catch (Exception e) {
+			throw new DAOException("Error en delete table", e);
 		} finally {
 			cerrar(psDelete);
 		}
@@ -251,7 +265,7 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 		}
 		return false;
 	}
-	
+
 	public Map<Integer, List<Producto>> getAlmacen() {
 
 		Map<Integer, List<Producto>> almacen = new HashMap<>();
@@ -295,6 +309,5 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 		return catalogo;
 
 	}
-
 
 }
