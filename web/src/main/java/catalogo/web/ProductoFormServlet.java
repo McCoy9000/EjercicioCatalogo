@@ -38,8 +38,7 @@ public class ProductoFormServlet extends HttpServlet {
 		RequestDispatcher rutaListado = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO);
 
-		String nombre = "";
-
+		
 		Integer groupId;
 
 		if (request.getParameter("groupId") == null) {
@@ -51,23 +50,23 @@ public class ProductoFormServlet extends HttpServlet {
 				groupId = 0;
 			}
 		}
-
-		nombre = request.getParameter("nombre");
+		
+		String nombre = request.getParameter("nombre");
 		String descripcion = request.getParameter("descripcion");
 		Double precio;
-		int imagen;
-
-		if (request.getParameter("imagen") == "") {
-			imagen = 0;
-		} else if (request.getParameter("imagen") == null) {
-			imagen = 0;
-		} else {
-			try {
-				imagen = Integer.parseInt(request.getParameter("imagen"));
-			} catch (NumberFormatException e) {
-				imagen = 0;
-			}
-		}
+//		int imagen;
+//
+//		if (request.getParameter("imagen") == "") {
+//			imagen = 0;
+//		} else if (request.getParameter("imagen") == null) {
+//			imagen = 0;
+//		} else {
+//			try {
+//				imagen = Integer.parseInt(request.getParameter("imagen"));
+//			} catch (NumberFormatException e) {
+//				imagen = 0;
+//			}
+//		}
 
 		if (request.getParameter("precio") == "") {
 			precio = 0.0;
@@ -86,7 +85,7 @@ public class ProductoFormServlet extends HttpServlet {
 			return;
 		}
 
-		Producto producto = new Producto(groupId, nombre, descripcion, precio, imagen);
+		Producto producto = new Producto(groupId, nombre, descripcion, precio);
 		
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 

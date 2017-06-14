@@ -1,6 +1,6 @@
 package catalogo.tipos;
 
-public class Usuario {
+public class Usuario  {
 	// Constructores, getters y setters, hashCode y equals y toString
 	private int id;
 	private int id_roles;
@@ -20,7 +20,7 @@ public class Usuario {
 	public Usuario(String username, String password) {
 		super();
 		this.id_roles = 2;
-		this.nombre_completo = "";
+		this.nombre_completo = username;
 		this.password = password;
 		this.username = username;
 	}

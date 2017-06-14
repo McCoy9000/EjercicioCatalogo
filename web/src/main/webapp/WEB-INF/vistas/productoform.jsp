@@ -12,7 +12,7 @@
 		class="catalogo.tipos.Producto" />
 
 	<form action="${applicationScope.rutaBase}/admin/productoform" method="post">
-		<fieldset>
+		<!-- <fieldset>
 			<label for="id">Id</label> 
 			
 			<input id="id" name="id"
@@ -22,7 +22,7 @@
 			  	readonly="readonly"
 			  </c:if>   
 		  	/>
-		</fieldset>
+		</fieldset> -->
 		<fieldset>
 			<label for="groupId">GroupId</label> 
 			
@@ -47,7 +47,8 @@
 			<label for="descripcion">Descripcion</label> <input id="descripcion"
 				name="descripcion" value="${producto.descripcion}"/>
 		</fieldset>
-		<fieldset <c:if test="${param.op == 'borrar'}">
+		
+		<!--<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
 			>
@@ -59,7 +60,7 @@
 				<option value="3">Dodge Charger</option>
 				<option value="4">Dodge Challenger</option>
 			</select>
-		</fieldset>
+		</fieldset>  -->
 		
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"

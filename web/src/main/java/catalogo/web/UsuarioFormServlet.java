@@ -72,7 +72,6 @@ public class UsuarioFormServlet extends HttpServlet {
 				}
 				rutaListado.forward(request, response);
 			} else {
-				log.info("Pasa por el else de alta");
 				request.setAttribute("usuario", usuario);
 				rutaFormulario.forward(request, response);
 			}

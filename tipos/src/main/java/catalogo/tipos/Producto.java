@@ -6,29 +6,27 @@ public class Producto implements Serializable {
 
 	private static final long serialVersionUID = -6288123677827033015L;
 
-	int id;
-	int groupId;
-	String nombre, descripcion, errores;
-	double precio;
-	int imagen;
+	private int id;
+	private int groupId;
+	private String nombre, descripcion, errores;
+	private double precio;
+	private int imagen;
 
 	public Producto() {
 		this.groupId = 0;
 		this.nombre = "";
 		this.descripcion = "";
 		this.precio = 0.0;
-		this.imagen = 0;
-
+		this.imagen = groupId;
 	}
 
-	public Producto(int groupId, String nombre, String descripcion, double precio, int imagen) {
+	public Producto(int groupId, String nombre, String descripcion, double precio) {
 		super();
 		this.groupId = groupId;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
-		this.imagen = imagen;
-
+		this.imagen = groupId;
 	}
 
 	public int getId() {

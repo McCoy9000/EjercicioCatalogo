@@ -8,7 +8,7 @@ public class Carrito {
 
 	private static Logger log = Logger.getLogger(Carrito.class);
 
-	HashMap<Integer, Producto> listaProductos;
+	private HashMap<Integer, Producto> listaProductos;
 
 	public Carrito() {
 		super();
