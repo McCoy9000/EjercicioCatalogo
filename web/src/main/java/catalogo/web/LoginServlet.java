@@ -14,7 +14,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import catalogo.dal.ProductoDAO;
 import catalogo.dal.UsuarioDAO;
+import catalogo.tipos.Carrito;
+import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
 
 @WebServlet("/login")
@@ -36,13 +39,15 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setMaxInactiveInterval(1800);
 		ServletContext application = request.getServletContext();
-
+		
 		// Recogida de datos de la request
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String op = request.getParameter("op");
 
 		// Recogida de datos de aplicación y de sesión
+		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
+		Carrito carrito = (Carrito) session.getAttribute("carrito");
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		@SuppressWarnings("unchecked")
 		LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
@@ -78,9 +83,19 @@ public class LoginServlet extends HttpServlet {
 
 		// Lógica del servlet según opciones
 		if (quiereSalir) {
-
+			
+			productos.abrir();
+				for (Producto p: carrito.buscarTodosLosProductos()){
+					productos.insert(p);
+				}
+			productos.cerrar();
+			
 			usuariosLogueados.remove(usuario);
 			session.invalidate();
+			//			session = request.getSession();
+			//			carrito = new Carrito();
+			//			log.info("Creado carrito en logout del loginservlet");
+			//			session.setAttribute("carrito", carrito);
 			catalogo.forward(request, response);
 
 		} else if (yaLogueado) {

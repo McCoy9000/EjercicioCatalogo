@@ -107,7 +107,7 @@ public class Producto implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Producto other = (Producto) obj;
-		if (id != other.id)
+		if (groupId != other.groupId)
 			return false;
 		return true;
 	}

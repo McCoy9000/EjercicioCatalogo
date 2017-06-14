@@ -240,7 +240,7 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 		this.cerrar();
 
 		for (Producto p : ProductosArr) {
-			if (p.getNombre().equals(producto.getNombre())) {
+			if (p.getId() == producto.getId()) {
 				return true;
 			}
 		}

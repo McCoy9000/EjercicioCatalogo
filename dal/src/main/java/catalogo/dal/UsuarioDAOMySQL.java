@@ -60,21 +60,6 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		return usuarios.toArray(new Usuario[usuarios.size()]);
 	}
 
-	private void cerrar(PreparedStatement ps) {
-		cerrar(ps, null);
-	}
-
-	private void cerrar(PreparedStatement ps, ResultSet rs) {
-		try {
-			if (rs != null)
-				rs.close();
-			if (ps != null)
-				ps.close();
-		} catch (Exception e) {
-			throw new DAOException("Error en el cierre de ps o rs", e);
-		}
-	}
-
 	public Usuario findById(int id) {
 		Usuario usuario = null;
 		ResultSet rs = null;
@@ -256,4 +241,18 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		return false;
 	}
 
+	private void cerrar(PreparedStatement ps) {
+		cerrar(ps, null);
+	}
+
+	private void cerrar(PreparedStatement ps, ResultSet rs) {
+		try {
+			if (rs != null)
+				rs.close();
+			if (ps != null)
+				ps.close();
+		} catch (Exception e) {
+			throw new DAOException("Error en el cierre de ps o rs", e);
+		}
+	}
 }

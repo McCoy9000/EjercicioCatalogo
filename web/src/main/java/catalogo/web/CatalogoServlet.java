@@ -57,7 +57,7 @@ public class CatalogoServlet extends HttpServlet {
 			if (carrito == null) {
 				
 				carrito = new Carrito();
-				
+				log.info("Creado carrito en catálogo por ser null");
 			}
 			
 		String op = request.getParameter("op");
@@ -75,21 +75,23 @@ public class CatalogoServlet extends HttpServlet {
 			
 			switch(op){
 
-				case "logout":
-							
-					session.invalidate();
-					
-					session = request.getSession();
-					
-					carrito = new Carrito();
-					
-					session.setAttribute("carrito", carrito);
-					
-					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-					
-					request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);
-					
-					break;
+//				case "logout":
+//							
+//					session.invalidate();
+//					
+//					session = request.getSession();
+//					
+////					carrito = new Carrito();
+////					
+////					log.info("Creado carrito en logout del catálogo");
+//					
+//					session.setAttribute("carrito", carrito);
+//					
+//					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
+//					
+//					request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);
+//					
+//					break;
 					
 				case "anadir":
 						
