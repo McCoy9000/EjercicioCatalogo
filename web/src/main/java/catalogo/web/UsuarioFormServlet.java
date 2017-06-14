@@ -12,10 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import catalogo.dal.DALException;
 import catalogo.dal.DAOException;
 import catalogo.dal.UsuarioDAO;
-import catalogo.dal.UsuarioYaExistenteDALException;
 import catalogo.tipos.Usuario;
 
 @WebServlet("/admin/usuarioform")

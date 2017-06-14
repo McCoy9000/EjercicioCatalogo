@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import catalogo.dal.DALException;
+import catalogo.dal.DAOException;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
 
@@ -43,8 +43,7 @@ public class ProductoFormServlet extends HttpServlet {
 		try {
 			id = Integer.parseInt(request.getParameter("id"));
 		} catch (NumberFormatException e) {
-			System.out.println("Error al parsear id");
-			e.printStackTrace();
+			id = 0;
 		}
 
 		int groupId;
@@ -134,8 +133,8 @@ public class ProductoFormServlet extends HttpServlet {
 					productos.update(producto);
 					productos.cerrar();
 					log.info("Producto modificado");
-				} catch (DALException de) {
-					producto.setErrores(de.getMessage());
+				} catch (DAOException e) {
+					producto.setErrores(e.getMessage());
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
 					return;
@@ -152,8 +151,8 @@ public class ProductoFormServlet extends HttpServlet {
 				productos.delete(producto);
 				productos.cerrar();
 				log.info("Producto borrado");
-			} catch (DALException de) {
-				producto.setErrores(de.getMessage());
+			} catch (DAOException e) {
+				producto.setErrores(e.getMessage());
 				request.setAttribute("producto", producto);
 				rutaFormulario.forward(request, response);
 				return;

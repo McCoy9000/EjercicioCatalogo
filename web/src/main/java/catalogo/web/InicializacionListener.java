@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import catalogo.dal.ProductoDAO;
-import catalogo.dal.ProductosDALFactory;
+import catalogo.dal.ProductoDAOFactory;
 import catalogo.dal.UsuarioDAO;
-import catalogo.dal.UsuariosDALFactory;
+import catalogo.dal.UsuarioDAOFactory;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
 
@@ -40,7 +40,7 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Inicializar la base de datos de usuarios y hacerla accesible a través del ServletContext
 
-		UsuarioDAO usuarios = UsuariosDALFactory.getUsuarioDAO();
+		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO();
 
 		log.info("Base de datos de usuarios inicializada");
 
@@ -54,7 +54,7 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Inicializar la base de datos de productos y hacerla accesible a través del ServletContext
 
-		ProductoDAO productos = ProductosDALFactory.getProductosDAL();
+		ProductoDAO productos = ProductoDAOFactory.getProductoDAO();
 
 		log.info("Base de datos de productos inicializada");
 

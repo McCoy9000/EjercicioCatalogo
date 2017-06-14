@@ -8,8 +8,7 @@
 </div>
 <nav>
 	<ul>
-	<li>${sessionScope.numeroProductos} productos en el carrito</li>
-	<li><a href="${applicationScope.rutaBase}/checkout">Checkout</a></li>
+	<li><a href="${applicationScope.rutaBase}/checkout">Checkout (${sessionScope.numeroProductos})</a></li>
 	</ul>
 </nav>
 

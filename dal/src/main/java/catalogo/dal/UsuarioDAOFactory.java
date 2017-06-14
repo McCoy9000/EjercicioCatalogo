@@ -1,9 +1,9 @@
 package catalogo.dal;
 
-public class UsuariosDALFactory {
+public class UsuarioDAOFactory {
 
 	public static UsuarioDAO getUsuarioDAO() {
-		// return new UsuariosDALUsuarioUnico();
+
 		UsuarioDAO usuarios = new UsuarioDAOMySQL();
 
 		return usuarios;

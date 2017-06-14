@@ -25,7 +25,7 @@
 			  	readonly="readonly"
 			  </c:if> 
 			  <c:if test="${param.op == 'alta'}">
-			  	style="display:none;"
+			  	type="hidden"
 			  </c:if>  
 		  	/>
 		</fieldset>

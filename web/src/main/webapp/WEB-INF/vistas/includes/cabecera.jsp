@@ -27,7 +27,7 @@
 					 
 				</ul>
 				
-				<ul <c:if test="${usuario.id_roles != '1'}">
+				<ul <c:if test="${sessionScope.usuario.id_roles != '1'}">
 						style = "display:none"
 					</c:if>
 				>
