@@ -19,8 +19,8 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 	private final static String FIND_BY_ID = "SELECT * FROM productos WHERE id = ?";
 	private final static String INSERT = "INSERT INTO productos (groupId, nombre, descripcion, precio, imagen)" + " VALUES (?, ?, ?, ?, ?)";
 	private final static String FIND_BY_NAME = "SELECT * FROM productos WHERE nombre = ?";
-	private final static String UPDATE = "UPDATE productos " + "SET groupId = ?, nombre = ?, descripcion = ?, precio = ?, imagen = ? " + "WHERE nombre = ?";
-	private final static String DELETE = "DELETE FROM productos WHERE nombre = ?";
+	private final static String UPDATE = "UPDATE productos " + "SET groupId = ?, nombre = ?, descripcion = ?, precio = ?, imagen = ? " + "WHERE id = ?";
+	private final static String DELETE = "DELETE FROM productos WHERE id = ?";
 	private final static String DELETE_TABLE_PRODUCTOS = "DELETE FROM productos";
 	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete;
 
@@ -182,7 +182,7 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 			psUpdate.setDouble(4, producto.getPrecio());
 			psUpdate.setInt(5, producto.getImagen());
 
-			psUpdate.setString(6, producto.getNombre());
+			psUpdate.setInt(6, producto.getId());
 
 			int res = psUpdate.executeUpdate();
 
@@ -197,14 +197,14 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 	}
 
 	public void delete(Producto producto) {
-		delete(producto.getNombre());
+		delete(producto.getId());
 	}
 
-	public void delete(String nombre) {
+	public void delete(int id) {
 		try {
 			psDelete = con.prepareStatement(DELETE);
 
-			psDelete.setString(1, nombre);
+			psDelete.setInt(1, id);
 
 			int res = psDelete.executeUpdate();
 

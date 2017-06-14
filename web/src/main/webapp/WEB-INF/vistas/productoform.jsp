@@ -12,27 +12,28 @@
 		class="catalogo.tipos.Producto" />
 
 	<form action="${applicationScope.rutaBase}/admin/productoform" method="post">
-		<!-- <fieldset>
-			<label for="id">Id</label> 
+		<fieldset>
+			<label for="id" 
+			 <c:if test="${param.op == 'alta'}">
+			  	style="display:none"
+			  </c:if> >Id</label> 
 			
 			<input id="id" name="id"
 			  required="required"  value="${producto.id}" 
 			  
 			  <c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
 			  	readonly="readonly"
-			  </c:if>   
+			  </c:if> 
+			  <c:if test="${param.op == 'alta'}">
+			  	style="display:none"
+			  </c:if>  
 		  	/>
-		</fieldset> -->
+		</fieldset>
 		<fieldset>
 			<label for="groupId">GroupId</label> 
 			
 			<input id="groupId" name="groupId"
-			  required="required"  value="${producto.groupId}" 
-			  
-			  <c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
-			  	readonly="readonly"
-			  </c:if>   
-		  	/>
+			  required="required"  value="${producto.groupId}"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			readonly="readonly"

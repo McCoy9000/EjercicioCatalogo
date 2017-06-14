@@ -26,11 +26,12 @@
 				<td>${producto.groupId}</td>
 				<td>${producto.nombre}</td>
 				<td>${producto.descripcion}</td>
-				<td><img src="/img/${producto.imagen}.jpg" height="128" width="128"/></td>
+				<td><object data="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128" type="image/png">
+					<img src="${applicationScope.rutaBase}/img/0.jpg" height="128" width="128"/></object></td>
 				<td>${producto.precio} €</td>
 				<td>
-					<a href="?op=modificar&nombre=${producto.nombre}">Modificar</a>
-					<a href="?op=borrar&nombre=${producto.nombre}">Borrar</a>
+					<a href="?op=modificar&id=${producto.id}">Modificar</a>
+					<a href="?op=borrar&id=${producto.id}">Borrar</a>
 				</td>
 			</tr>
 		</c:forEach>

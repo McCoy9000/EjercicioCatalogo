@@ -34,15 +34,15 @@ public class ProductoCRUDServlet extends HttpServlet {
 		String op = request.getParameter("op");
 
 		if (op == null) {
-			
+
 			productos.abrir();
-			
+
 			Producto[] productosArr = productos.findAll();
-			
+
 			productos.cerrar();
-			
+
 			application.setAttribute("productosArr", productosArr);
-			
+
 			request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
 
 		} else {
@@ -50,18 +50,18 @@ public class ProductoCRUDServlet extends HttpServlet {
 			Producto producto;
 
 			switch (op) {
-				case "modificar":
-				case "borrar":
-					String nombre = request.getParameter("nombre");
-					productos.abrir();
-					producto = productos.findByName(nombre);
-					productos.cerrar();
-					request.setAttribute("producto", producto);
-				case "alta":
-					request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
-					break;
-				default:
-					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+			case "modificar":
+			case "borrar":
+				int id = Integer.parseInt(request.getParameter("id"));
+				productos.abrir();
+				producto = productos.findById(id);
+				productos.cerrar();
+				request.setAttribute("producto", producto);
+			case "alta":
+				request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
+				break;
+			default:
+				request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
 			}
 		}
 	}

@@ -38,8 +38,16 @@ public class ProductoFormServlet extends HttpServlet {
 		RequestDispatcher rutaListado = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO);
 
-		
-		Integer groupId;
+		int id = 0;
+
+		try {
+			id = Integer.parseInt(request.getParameter("id"));
+		} catch (NumberFormatException e) {
+			System.out.println("Error al parsear id");
+			e.printStackTrace();
+		}
+
+		int groupId;
 
 		if (request.getParameter("groupId") == null) {
 			groupId = 0;
@@ -50,23 +58,23 @@ public class ProductoFormServlet extends HttpServlet {
 				groupId = 0;
 			}
 		}
-		
+
 		String nombre = request.getParameter("nombre");
 		String descripcion = request.getParameter("descripcion");
 		Double precio;
-//		int imagen;
-//
-//		if (request.getParameter("imagen") == "") {
-//			imagen = 0;
-//		} else if (request.getParameter("imagen") == null) {
-//			imagen = 0;
-//		} else {
-//			try {
-//				imagen = Integer.parseInt(request.getParameter("imagen"));
-//			} catch (NumberFormatException e) {
-//				imagen = 0;
-//			}
-//		}
+		int imagen = groupId;
+		//
+		// if (request.getParameter("imagen") == "") {
+		// imagen = 0;
+		// } else if (request.getParameter("imagen") == null) {
+		// imagen = 0;
+		// } else {
+		// try {
+		// imagen = Integer.parseInt(request.getParameter("imagen"));
+		// } catch (NumberFormatException e) {
+		// imagen = 0;
+		// }
+		// }
 
 		if (request.getParameter("precio") == "") {
 			precio = 0.0;
@@ -85,12 +93,14 @@ public class ProductoFormServlet extends HttpServlet {
 			return;
 		}
 
-		Producto producto = new Producto(groupId, nombre, descripcion, precio);
-		
+		Producto producto;
+
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 
 		switch (op) {
 		case "alta":
+
+			producto = new Producto(groupId, nombre, descripcion, precio);
 
 			if (nombre == null || nombre == "") {
 				producto.setErrores("El nombre de producto no puede estar vacío");
@@ -111,6 +121,9 @@ public class ProductoFormServlet extends HttpServlet {
 			}
 			break;
 		case "modificar":
+
+			producto = new Producto(id, groupId, nombre, descripcion, precio);
+
 			if (nombre == null || nombre == "") {
 				producto.setErrores("El nombre de producto no puede estar vacío");
 				request.setAttribute("producto", producto);
@@ -119,6 +132,7 @@ public class ProductoFormServlet extends HttpServlet {
 				try {
 					productos.abrir();
 					productos.update(producto);
+					productos.cerrar();
 					log.info("Producto modificado");
 				} catch (DALException de) {
 					producto.setErrores(de.getMessage());
@@ -130,6 +144,9 @@ public class ProductoFormServlet extends HttpServlet {
 			}
 			break;
 		case "borrar":
+
+			producto = new Producto(id, groupId, nombre, descripcion, precio);
+
 			try {
 				productos.abrir();
 				productos.delete(producto);

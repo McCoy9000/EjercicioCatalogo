@@ -30,9 +30,10 @@
 			<tr>
 				<td>${producto.nombre}</td>
 				<td>${producto.descripcion}</td>
-				<td><img src="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128"/></td>
+				<td><object data="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128" type="image/png">
+					<img src="${applicationScope.rutaBase}/img/0.jpg" height="128" width="128"/></object></td>
 				<td>${producto.precio} €</td>
-				<td><a href="${applicationScope.rutaBase}/catalogo?op=anadir&nombre=${producto.nombre}">Añadir al carro</a></td>
+				<td><a href="${applicationScope.rutaBase}/catalogo?op=anadir&id=${producto.id}">Añadir al carro</a></td>
 			</tr>
 		</c:forEach>
 	</tbody>
