@@ -15,7 +15,7 @@
 		<fieldset>
 			<label for="id" 
 			 <c:if test="${param.op == 'alta'}">
-			  	style="display:none"
+			  	style="display:none;"
 			  </c:if> >Id</label> 
 			
 			<input id="id" name="id"
@@ -25,7 +25,7 @@
 			  	readonly="readonly"
 			  </c:if> 
 			  <c:if test="${param.op == 'alta'}">
-			  	style="display:none"
+			  	style="display:none;"
 			  </c:if>  
 		  	/>
 		</fieldset>
