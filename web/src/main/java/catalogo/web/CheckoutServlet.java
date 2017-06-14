@@ -19,7 +19,7 @@ import catalogo.tipos.Producto;
 @WebServlet("/checkout")
 public class CheckoutServlet extends HttpServlet {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1598983717815749112L;
 	private static Logger log = Logger.getLogger(Carrito.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

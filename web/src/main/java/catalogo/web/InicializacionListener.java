@@ -47,9 +47,7 @@ public class InicializacionListener implements ServletContextListener {
 		application.setAttribute("usuarios", usuarios);
 
 		usuarios.abrir();
-
 		Usuario[] usuariosArr = usuarios.findAll();
-
 		usuarios.cerrar();
 
 		application.setAttribute("usuariosArr", usuariosArr);

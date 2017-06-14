@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import catalogo.dal.DALException;
+import catalogo.dal.DAOException;
 import catalogo.dal.UsuarioDAO;
 import catalogo.dal.UsuarioYaExistenteDALException;
 import catalogo.tipos.Usuario;
@@ -43,7 +44,7 @@ public class UsuarioFormServlet extends HttpServlet {
 		} else {
 			id_roles = Integer.parseInt(request.getParameter("id_roles"));
 		}
-		boolean isAdmin = id_roles == 1;
+		
 
 		RequestDispatcher rutaListado = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO);
@@ -65,9 +66,12 @@ public class UsuarioFormServlet extends HttpServlet {
 					usuarios.abrir();
 					usuarios.insert(usuario);
 					usuarios.cerrar();
-					log.info("Usuario dado de alta");
-				} catch (UsuarioYaExistenteDALException uyede) {
+					log.info("Usuario " + usuario.getUsername() + " dado de alta");
+				} catch (DAOException e) {
+					//Si falla el insert se coge la excepción que lanza y se le reenvía al formulario con el objeto
+					//usuario que traía metido en la request
 					request.setAttribute("usuario", usuario);
+					e.printStackTrace();
 					rutaFormulario.forward(request, response);
 				}
 				rutaListado.forward(request, response);
@@ -84,8 +88,9 @@ public class UsuarioFormServlet extends HttpServlet {
 					usuarios.update(usuario);
 					usuarios.cerrar();
 					log.info("Usuario modificado");
-				} catch (DALException de) {
+				} catch (DAOException e) {
 					request.setAttribute("usuario", usuario);
+					e.printStackTrace();
 					rutaFormulario.forward(request, response);
 
 				}

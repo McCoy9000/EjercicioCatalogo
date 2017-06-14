@@ -33,58 +33,54 @@ public class AltaServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
+		//Se recogen los objetos sesión y aplicación
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
-
+		
+		//Se recogen los valores de los atributos de usuario introducidos en el formulario de alta
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String password2 = request.getParameter("password2");
 		String nombre_completo = request.getParameter("nombre_completo");
+		//id_roles se asigna directamente como usuario estándar
 		int id_roles = 2;
-
+		//Se crea un objeto usuario con el que trabajar a partir de esos datos
 		Usuario usuario = new Usuario(id_roles, nombre_completo, password, username);
-
+		//Se extrae el conjunto de usuarios extraído de la BBDD e introducido en el objeto application en el listener
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
-
+		
+		//Se declara e inicializan las booleanas a partir de las cuales se desarrollará la lógica del servlet
 		boolean nombreDemasiadoLargo = false;
-
-		if (username != null) {
-
-			nombreDemasiadoLargo = username.length() > 16;
-		}
-
+			if (username != null) {
+				nombreDemasiadoLargo = username.length() > 16;
+			}
 		boolean usuarioExistente = false;
-
-		usuarios.abrir();
-
-		usuarioExistente = usuarios.validarNombre(usuario);
-
-		usuarios.cerrar();
-
+		//Se considera que el usuario ya existe sólo con que coincida el username, de ahí el método validarNombre()
+			usuarios.abrir();
+			usuarioExistente = usuarios.validarNombre(usuario);
+			usuarios.cerrar();
 		boolean sinDatos = username == null || username == "" || password == null || password == "" || password2 == null || password2 == "";
+		//Se considera que en un principio, sin datos, ambas pass son iguales (igual a null)
 		boolean passIguales = true;
-
-		if (password != null) {
-
-			passIguales = password.equals(password2);
-		}
-
+			if (password != null) {
+				passIguales = password.equals(password2);
+			}
 		boolean esCorrecto = false;
+			if (!sinDatos) {
+				esCorrecto = !usuarioExistente && passIguales;
+			}
 
-		if (!sinDatos) {
-
-			esCorrecto = !usuarioExistente && passIguales;
-		}
-
+		//Declaro los dispatcher aquí porque en un momento me dieron un extraño error al declararlos en el momento de necesitarlos
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
 		RequestDispatcher alta = request.getRequestDispatcher(RUTA_ALTA);
 
+		//Lógica de la aplicación
 		if (sinDatos) {
-
+		
 			session.setAttribute("errorSignup", "Debes rellenar todos los campos");
 			alta.forward(request, response);
-
+		
 		} else if (nombreDemasiadoLargo) {
 
 			session.setAttribute("errorSignup", "El nombre de usuario debe tener un máximo de 16 caracteres");
@@ -105,12 +101,10 @@ public class AltaServlet extends HttpServlet {
 			session.removeAttribute("errorSignup");
 
 			usuarios.abrir();
-
 			usuarios.insert(usuario);
-
 			usuarios.cerrar();
 
-			log.info("Usuario dado de alta");
+			log.info("Usuario " + usuario.getUsername() + " dado de alta");
 			login.forward(request, response);
 
 		} else {

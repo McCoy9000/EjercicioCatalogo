@@ -1,3 +1,4 @@
+
 package catalogo.dal;
 
 import java.sql.PreparedStatement;
@@ -187,7 +188,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 				throw new DAOException("La actualización ha devuelto un valor " + res);
 
 		} catch (Exception e) {
-			throw new DAOException("Error en update", e);
+			throw new DAOException("Error en delete", e);
 		} finally {
 			cerrar(psDelete);
 		}
