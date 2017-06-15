@@ -12,7 +12,7 @@
 	</ul>
 </nav>
 
-<table id="catalogo">
+<table>
 	<thead>
 		<tr>
 			
@@ -26,13 +26,13 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${applicationScope.catalogo}" var="producto">
-			<tr>
+			<tr id="${producto.groupId}">
 				<td>${producto.nombre}</td>
 				<td>${producto.descripcion}</td>
 				<td><object data="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128" type="image/png">
 					<img src="${applicationScope.rutaBase}/img/0.jpg" height="128" width="128"/></object></td>
 				<td>${producto.precio} €</td>
-				<td><a href="${applicationScope.rutaBase}/catalogo?op=anadir&id=${producto.id}#catalogo">Añadir al carro</a></td>
+				<td><a href="${applicationScope.rutaBase}/catalogo?op=anadir&id=${producto.id}#${producto.groupId}">Añadir al carro</a></td>
 			</tr>
 		</c:forEach>
 	</tbody>
