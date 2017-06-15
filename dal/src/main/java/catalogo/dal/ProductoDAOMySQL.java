@@ -45,7 +45,7 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 			Producto producto;
 
 			while (rs.next()) {
-				// System.out.println(rs.getString("username"));
+
 				producto = new Producto();
 
 				producto.setId(rs.getInt("id"));

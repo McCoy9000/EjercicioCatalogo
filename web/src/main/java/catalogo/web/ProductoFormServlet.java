@@ -19,8 +19,7 @@ import catalogo.tipos.Producto;
 @WebServlet("/admin/productoform")
 public class ProductoFormServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 3997952646417125446L;
 	private static Logger log = Logger.getLogger(ProductoFormServlet.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,12 +30,19 @@ public class ProductoFormServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		// Recoger el objeto application del ServletContext
 		ServletContext application = getServletContext();
 
+		// Regocoger la opción elegida por el usuario en el formulario enviada por url
 		String op = request.getParameter("opform");
 
+		// Declaro aquí los dispatcher porque en un momento me dio un problema extraño por declararlos en el momento en que
+		// los necesitaba
 		RequestDispatcher rutaListado = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO);
+
+		// Declaración de las variables para construir el objeto con el que se trabajará e iniciarlas con los valores recogidos
+		// del formulario
 
 		int id = 0;
 
@@ -61,19 +67,6 @@ public class ProductoFormServlet extends HttpServlet {
 		String nombre = request.getParameter("nombre");
 		String descripcion = request.getParameter("descripcion");
 		Double precio;
-		int imagen = groupId;
-		//
-		// if (request.getParameter("imagen") == "") {
-		// imagen = 0;
-		// } else if (request.getParameter("imagen") == null) {
-		// imagen = 0;
-		// } else {
-		// try {
-		// imagen = Integer.parseInt(request.getParameter("imagen"));
-		// } catch (NumberFormatException e) {
-		// imagen = 0;
-		// }
-		// }
 
 		if (request.getParameter("precio") == "") {
 			precio = 0.0;
@@ -87,6 +80,8 @@ public class ProductoFormServlet extends HttpServlet {
 			}
 		}
 
+		// Logica del servlet según la opción elegida por el usuario y enviada por el navegador
+		// encapsulada en opform.
 		if (op == null) {
 			rutaListado.forward(request, response);
 			return;

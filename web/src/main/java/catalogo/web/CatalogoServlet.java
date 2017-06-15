@@ -37,12 +37,8 @@ public class CatalogoServlet extends HttpServlet {
 		// de un determinado grupo de productos.
 
 		productos.abrir();
-
-		Producto[] catalogo = productos.getCatalogo();
-
+		application.setAttribute("catalogo", productos.getCatalogo());
 		productos.cerrar();
-
-		application.setAttribute("catalogo", catalogo);
 
 		HttpSession session = request.getSession();
 
@@ -54,17 +50,15 @@ public class CatalogoServlet extends HttpServlet {
 		if (carrito == null) {
 
 			carrito = new Carrito();
-			
 		}
 
-		//Lógica del servlet según la opción con la que haya llegado el usuario
-		
+		// Lógica del servlet según la opción con la que haya llegado el usuario
+
 		String op = request.getParameter("op");
 
 		if (op == null) {
 
 			session.setAttribute("carrito", carrito);
-
 			session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 
 			request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);
@@ -73,14 +67,11 @@ public class CatalogoServlet extends HttpServlet {
 
 			switch (op) {
 
-			// case "logout":
-			// session.invalidate();
-			// session = request.getSession();
-			// // carrito = new Carrito();
-			// session.setAttribute("carrito", carrito);
-			// session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-			// request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);
-			// break;
+			case "logout":
+				session.setAttribute("carrito", carrito);
+				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
+				request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);
+				break;
 
 			case "anadir":
 
@@ -89,27 +80,24 @@ public class CatalogoServlet extends HttpServlet {
 				int id = Integer.parseInt(request.getParameter("id"));
 
 				productos.abrir();
-
 				producto = productos.findById(id);
-
-				productos.delete(producto);
-
+				if (producto != null) {
+					productos.delete(producto);
+				}
 				productos.cerrar();
 
 				application.setAttribute("productos", productos);
 
 				productos.abrir();
-
 				application.setAttribute("catalogo", productos.getCatalogo());
-
 				productos.cerrar();
 
-				carrito.anadirAlCarrito(producto);
-
-				log.info("Añadido un producto al carrito");
+				if (producto != null) {
+					carrito.anadirAlCarrito(producto);
+					log.info("Añadido un producto al carrito");
+				}
 
 				session.setAttribute("carrito", carrito);
-
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 
 				request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);

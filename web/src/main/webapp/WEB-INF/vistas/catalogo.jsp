@@ -12,7 +12,7 @@
 	</ul>
 </nav>
 
-<table>
+<table id="catalogo">
 	<thead>
 		<tr>
 			
@@ -32,7 +32,7 @@
 				<td><object data="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128" type="image/png">
 					<img src="${applicationScope.rutaBase}/img/0.jpg" height="128" width="128"/></object></td>
 				<td>${producto.precio} €</td>
-				<td><a href="${applicationScope.rutaBase}/catalogo?op=anadir&id=${producto.id}">Añadir al carro</a></td>
+				<td><a href="${applicationScope.rutaBase}/catalogo?op=anadir&id=${producto.id}#catalogo">Añadir al carro</a></td>
 			</tr>
 		</c:forEach>
 	</tbody>
