@@ -81,16 +81,21 @@ public class LoginServlet extends HttpServlet {
 		// Lógica del servlet según opciones
 		if (quiereSalir) {
 			// Si se desloguea se vacía el carrito y los productos vuelven a la base de datos
+
+			productos.abrir();
+			productos.iniciarTransaccion();
 			if (!(carrito == null)) {
-				productos.abrir();
+
 				for (Producto p : carrito.buscarTodosLosProductos()) {
 					productos.insert(p);
 				}
-				productos.cerrar();
 			}
 			usuariosLogueados.remove(usuario);
 			// Se invalida la sesión y se le envía al catálogo que es donde se le creará un nuevo carrito si no lo tiene
 			session.invalidate();
+			productos.confirmarTransaccion();
+			productos.cerrar();
+
 			catalogo.forward(request, response);
 
 		} else if (yaLogueado) {

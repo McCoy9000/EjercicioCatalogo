@@ -83,13 +83,17 @@ public class CheckoutServlet extends HttpServlet {
 			case "quitar":
 				int id = Integer.parseInt(request.getParameter("id"));
 				producto = carrito.buscarPorId(id);
+
+				productos.abrir();
+				productos.iniciarTransaccion();
 				if (producto != null) {
 					carrito.quitarDelCarrito(id);
-					productos.abrir();
 					productos.insert(producto);
-					productos.cerrar();
 					log.info("Producto retirado del carro");
 				}
+				productos.confirmarTransaccion();
+				productos.cerrar();
+
 				application.setAttribute("productos", productos);
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("productosArr", carrito.buscarTodosLosProductos());

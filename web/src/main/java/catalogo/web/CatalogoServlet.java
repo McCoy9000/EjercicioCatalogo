@@ -80,22 +80,26 @@ public class CatalogoServlet extends HttpServlet {
 				int id = Integer.parseInt(request.getParameter("id"));
 
 				productos.abrir();
+				productos.iniciarTransaccion();
+
 				producto = productos.findById(id);
 				if (producto != null) {
 					productos.delete(producto);
 				}
-				productos.cerrar();
+				// productos.cerrar();
 
 				application.setAttribute("productos", productos);
 
-				productos.abrir();
+				// productos.abrir();
 				application.setAttribute("catalogo", productos.getCatalogo());
-				productos.cerrar();
 
 				if (producto != null) {
 					carrito.anadirAlCarrito(producto);
 					log.info("Añadido un producto al carrito");
 				}
+
+				productos.confirmarTransaccion();
+				productos.cerrar();
 
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
