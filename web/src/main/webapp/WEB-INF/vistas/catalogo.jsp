@@ -8,7 +8,7 @@
 </div>
 <nav>
 	<ul>
-	<li><a href="${applicationScope.rutaBase}/checkout">Checkout (${sessionScope.numeroProductos})</a></li>
+	<li><a href="${applicationScope.rutaBase}/checkout">Checkout &#128722; (${sessionScope.numeroProductos})</a></li>
 	</ul>
 </nav>
 
