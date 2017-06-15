@@ -38,7 +38,7 @@
     
   </dependencies>
   <build>
-    <finalName>Driver</finalName>
+    <finalName>driver</finalName>
     <plugins>
     	<plugin>
     		<groupId>org.mortbay.jetty</groupId>
