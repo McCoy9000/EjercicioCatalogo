@@ -162,6 +162,7 @@ public class InicializacionListener implements ServletContextListener {
 		}
 
 		productos.cerrar();
+
 		// Apuntar el ContextPath
 
 		String path = servletContextEvent.getServletContext().getContextPath();
