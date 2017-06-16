@@ -18,8 +18,8 @@ import catalogo.tipos.Producto;
 
 @WebServlet("/catalogo")
 public class CatalogoServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = -2040781710356406128L;
 	private static Logger log = Logger.getLogger(CatalogoServlet.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -80,27 +80,27 @@ public class CatalogoServlet extends HttpServlet {
 				int id = Integer.parseInt(request.getParameter("id"));
 
 				productos.abrir();
-				productos.iniciarTransaccion();
 
 				producto = productos.findById(id);
-				if (producto != null) {
-					productos.delete(producto);
-				}
-				// productos.cerrar();
-
-				application.setAttribute("productos", productos);
-
-				// productos.abrir();
-				application.setAttribute("catalogo", productos.getCatalogo());
 
 				if (producto != null) {
-					carrito.anadirAlCarrito(producto);
+
+					productos.iniciarTransaccion();
+					try {
+						productos.delete(producto);
+						carrito.anadirAlCarrito(producto);
+						productos.confirmarTransaccion();
+					} catch (Exception e) {
+						productos.deshacerTransaccion();
+					}
+
 					log.info("Añadido un producto al carrito");
 				}
 
-				productos.confirmarTransaccion();
+				application.setAttribute("catalogo", productos.getCatalogo());
 				productos.cerrar();
 
+				application.setAttribute("productos", productos);
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 

@@ -1,4 +1,3 @@
-
 package catalogo.dal;
 
 import java.sql.PreparedStatement;
@@ -41,7 +40,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 			Usuario usuario;
 
 			while (rs.next()) {
-				// System.out.println(rs.getString("username"));
+
 				usuario = new Usuario();
 
 				usuario.setId(rs.getInt("id"));
@@ -115,7 +114,6 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		} finally {
 			cerrar(psFindByName, rs);
 		}
-
 		return usuario;
 	}
 
@@ -192,7 +190,6 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		} finally {
 			cerrar(psDelete);
 		}
-
 	}
 
 	public void deleteUsuarios() {
@@ -206,7 +203,6 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		} finally {
 			cerrar(psDelete);
 		}
-
 	}
 
 	public boolean validar(Usuario usuario) {

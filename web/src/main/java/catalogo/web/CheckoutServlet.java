@@ -47,13 +47,11 @@ public class CheckoutServlet extends HttpServlet {
 			precioTotal = carrito.precioTotal();
 
 		} catch (NullPointerException npe) {
-			request.getRequestDispatcher("/login");
+			request.getRequestDispatcher("/login").forward(request, response);
 		}
 
 		session.setAttribute("productosArr", listaProductosArr);
-
 		session.setAttribute("numeroProductos", numeroProductos);
-
 		session.setAttribute("precioTotal", precioTotal);
 
 		if (op == null) {
@@ -73,38 +71,42 @@ public class CheckoutServlet extends HttpServlet {
 
 			switch (op) {
 			case "pagar":
-				log.info("Carrito de la compra liquidado");
 				carrito = new Carrito();
+				log.info("Carrito de la compra liquidado");
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 				request.getRequestDispatcher("/catalogo").forward(request, response);
 				break;
+
 			case "quitar":
 				int id = Integer.parseInt(request.getParameter("id"));
 				producto = carrito.buscarPorId(id);
 
-				productos.abrir();
-				productos.iniciarTransaccion();
 				if (producto != null) {
-					carrito.quitarDelCarrito(id);
-					productos.insert(producto);
+
+					productos.abrir();
+					productos.iniciarTransaccion();
+					try {
+						carrito.quitarDelCarrito(id);
+						productos.insert(producto);
+						productos.confirmarTransaccion();
+					} catch (Exception e) {
+						productos.deshacerTransaccion();
+					}
+					productos.cerrar();
 					log.info("Producto retirado del carro");
 				}
-				productos.confirmarTransaccion();
-				productos.cerrar();
 
 				application.setAttribute("productos", productos);
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 				session.setAttribute("precioTotal", carrito.precioTotal());
+
 			default:
 				request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
 			}
-
 		}
-
 	}
-
 }
