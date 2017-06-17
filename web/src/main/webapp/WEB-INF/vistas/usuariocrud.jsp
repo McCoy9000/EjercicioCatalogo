@@ -9,7 +9,7 @@
 <table>
 	<thead>
 		<tr>
-			<th>Id_roles</th>
+			<th>Rol</th>
 			<th>Username</th>
 			<th>Contraseña</th>
 			<th>Nombre completo</th>

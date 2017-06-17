@@ -24,18 +24,18 @@
     	<groupId>javax.servlet.jsp</groupId>
     	<artifactId>jsp-api</artifactId>
     	<version>2.0</version>
-    </dependency>
-    <dependency>
-    	<groupId>com.ipartek.formacion.mikelcuenca</groupId>
-    	<artifactId>dal</artifactId>
-    	<version>1.0</version>
+    	<scope>provided</scope>
     </dependency>
     <dependency>
     	<groupId>javax.servlet</groupId>
     	<artifactId>jstl</artifactId>
     	<version>1.2</version>
 	</dependency>
-    
+    <dependency>
+    	<groupId>com.ipartek.formacion.mikelcuenca</groupId>
+    	<artifactId>dal</artifactId>
+    	<version>1.0</version>
+    </dependency>    
   </dependencies>
   <build>
     <finalName>driver</finalName>
@@ -45,7 +45,6 @@
     		<artifactId>jetty-maven-plugin</artifactId>
     		<version>8.1.0.RC0</version>
     	</plugin>
-    	
     </plugins>
   </build>
 </project>

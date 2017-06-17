@@ -11,7 +11,7 @@
 	<thead>
 		<tr>
 			<th>Id</th>
-			<th>GroupId</th>
+			<th>Grupo de productos</th>
 			<th>Nombre producto</th>
 			<th>Descripción</th>
 			<th>Imagen</th>
