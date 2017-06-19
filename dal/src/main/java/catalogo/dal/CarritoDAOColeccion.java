@@ -23,20 +23,14 @@ public class CarritoDAOColeccion implements CarritoDAO {
 	}
 	
 	public void anadirAlCarrito(Producto producto) {
-		HashMap<Integer, Producto> listaCarrito = carrito.getListaProductos();
-		listaCarrito.put(producto.getId(), producto);
-		carrito.setListaProductos(listaCarrito);
+		carrito.getListaProductos().put(producto.getId(), producto);
 	}
 
 	public void quitarDelCarrito(Integer idmap) {
-		HashMap<Integer, Producto> listaCarrito = carrito.getListaProductos();
-		listaCarrito.remove(idmap);
-		carrito.setListaProductos(listaCarrito);
-		
+		carrito.getListaProductos().remove(idmap);
 	}
 
 	public Producto buscarPorId(Integer idmap) {
-
 		return carrito.getListaProductos().get(idmap);
 	}
 
@@ -46,16 +40,12 @@ public class CarritoDAOColeccion implements CarritoDAO {
 	
 	public Double precioTotal() {
 
-		Producto[] listaProductosArr = this.buscarTodosLosProductos();
-
 		Double precioTotal = 0.0;
 
-		for (Producto p : listaProductosArr) {
+		for (Producto p : this.buscarTodosLosProductos()) {
 
 			precioTotal += p.getPrecio();
-
 		}
-
 		return precioTotal;
 	}
 	
