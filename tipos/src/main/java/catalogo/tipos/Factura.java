@@ -1,8 +1,7 @@
 package catalogo.tipos;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 
 public class Factura {
 	// Constructores, getters y setters, hashCode y equals y toString
@@ -10,8 +9,8 @@ public class Factura {
 	private String número_factura;
 	private int id_usuarios;
 	private Date fecha;
-	
-	private List<FacturaLinea> lineas = new ArrayList<FacturaLinea>();
+
+	private HashMap<Integer, Producto> listaProductos = new HashMap<>();
 
 	public Factura(int id, String número_factura, int id_usuarios, Date fecha) {
 		super();
@@ -22,7 +21,7 @@ public class Factura {
 	}
 
 	public Factura() {
-		
+
 	}
 
 	public int getId() {
@@ -57,14 +56,14 @@ public class Factura {
 		this.fecha = fecha;
 	}
 
-	public void addProductoYCantidad(Producto producto, int cantidad){
-		lineas.add(new FacturaLinea(producto, cantidad));
+	public HashMap<Integer, Producto> getListaProductos() {
+		return listaProductos;
 	}
-	
-	public FacturaLinea[] getLineas(){
-		return lineas.toArray(new FacturaLinea[lineas.size()]);
+
+	public void setListaProductos(HashMap<Integer, Producto> listaProductos) {
+		this.listaProductos = listaProductos;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -104,9 +103,7 @@ public class Factura {
 
 	@Override
 	public String toString() {
-		return "Factura [id=" + id + ", número_factura=" + número_factura + ", id_usuarios=" + id_usuarios + ", fecha="
-				+ fecha + "\n" + lineas.toString() + "]";
+		return "Factura [id=" + id + ", número_factura=" + número_factura + ", id_usuarios=" + id_usuarios + ", fecha=" + fecha + "\n" + "]";
 	}
 
-	
 }

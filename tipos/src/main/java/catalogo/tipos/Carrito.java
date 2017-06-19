@@ -23,7 +23,7 @@ public class Carrito {
 
 	public void anadirAlCarrito(Producto producto) {
 
-		listaProductos.put(producto.getId(), producto);
+		listaProductos.put(producto.getGroupId(), producto);
 	}
 
 	public void quitarDelCarrito(Integer idmap) {

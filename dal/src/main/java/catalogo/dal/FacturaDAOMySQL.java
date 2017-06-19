@@ -5,9 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import catalogo.tipos.Factura;
-import catalogo.tipos.FacturaLinea;
 import catalogo.tipos.Producto;
 
 public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
@@ -170,54 +174,48 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		}
 	}
 
-	public void insertLinea(FacturaLinea linea) {
-		// TODO Auto-generated method stub
+	public Map<Integer, List<Producto>> getAlmacen() {
+		
+		Map<Integer, List<Producto>> almacen = new HashMap<>();
 
-	}
+		Producto[] productosArr = ;
 
-	public void deleteLinea(Producto producto) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void updateLinea(FacturaLinea linea) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void findLineaByProductoId(int idFactura, int idProducto) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public FacturaLinea[] findAllLineas(int idFactura) {
-		ArrayList<FacturaLinea> lineas = new ArrayList<FacturaLinea>();
-
-		try {
-			psFindAllLineas = con.prepareStatement(FIND_ALL_LINEAS);
-
-			psFindAllLineas.setInt(1, idFactura);
-
-			ResultSet rs = psFindAllLineas.executeQuery();
-
-			ProductoDAO dao = new ProductoDAOMySQL();
-			dao.reutilizarConexion(this);
-
-			while (rs.next()) {
-				lineas.add(new FacturaLinea(dao.findById(rs.getInt("id_productos")), rs.getInt("cantidad")));
+		for (Producto p : productosArr) {
+			if (!almacen.containsKey(p.getGroupId())) {
+				List<Producto> grupo = new ArrayList<>();
+				grupo.add(p);
+				almacen.put(p.getGroupId(), grupo);
+			} else {
+				List<Producto> grupo = almacen.get(p.getGroupId());
+				grupo.add(p);
+				almacen.put(p.getGroupId(), grupo);
 			}
-		} catch (Exception e) {
-			System.out.println("Error en FindAllLineas");
-			e.printStackTrace();
 		}
-		return lineas.toArray(new FacturaLinea[lineas.size()]);
+
+		return almacen;
 	}
 
-	public Factura findByIdFacturaCompleta(int id) {
-		Factura factura = findById(id);
-		for (FacturaLinea fl : findAllLineas(factura.getId())) {
-			factura.addProductoYCantidad(fl.getProducto(), fl.getCantidad());
-		}
-		return factura;
+	public int getStock(Producto producto) {
+
+		Producto[] productosArr = this.findAll();
+		return Collections.frequency(Arrays.asList(productosArr), producto);
 	}
+
+	public Producto[] getCatalogo() {
+
+		Producto[] catalogo = new Producto[this.getAlmacen().size()];
+		int i = 0;
+
+		for (List<Producto> grupoProductos : this.getAlmacen().values()) {
+
+			Producto muestra = grupoProductos.get(0);
+			catalogo[i] = muestra;
+			i++;
+
+		}
+
+		return catalogo;
+
+	}
+
 }
