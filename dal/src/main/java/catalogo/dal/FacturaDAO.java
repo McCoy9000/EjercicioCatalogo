@@ -7,8 +7,6 @@ public interface FacturaDAO extends IpartekDAO {
 
 	public Factura findById(int id);
 
-	public Factura findByIdFacturaCompleta(int id);
-
 	public int insert(Factura factura);
 
 	public void update(Factura factura);

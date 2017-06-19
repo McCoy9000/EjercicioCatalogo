@@ -9,9 +9,19 @@ public class Factura {
 	private String número_factura;
 	private int id_usuarios;
 	private Date fecha;
-
+		
 	private HashMap<Integer, Producto> listaProductos = new HashMap<>();
-
+	
+	public Double getPrecioTotal() {
+		Double precioTotal = 0.0;
+		if (listaProductos != null) {
+			for (Producto p : listaProductos.values()) {
+				precioTotal += p.getPrecio();
+			}
+		} 
+		return precioTotal;
+	}
+		
 	public Factura(int id, String número_factura, int id_usuarios, Date fecha) {
 		super();
 		this.id = id;
@@ -103,7 +113,7 @@ public class Factura {
 
 	@Override
 	public String toString() {
-		return "Factura [id=" + id + ", número_factura=" + número_factura + ", id_usuarios=" + id_usuarios + ", fecha=" + fecha + "\n" + "]";
+		return "Factura [id=" + id + ", número_factura=" + número_factura + ", id_usuarios=" + id_usuarios + ", fecha=" + fecha + "\n" + listaProductos + "]";
 	}
 
 }

@@ -10,7 +10,7 @@
 <nav>
 	<ul>
 		<li><a href="?op=pagar">PAGAR ${sessionScope.numeroProductos} productos</a></li>
-		<li>Total a pagar: ${sessionScope.precioTotal} €</li>
+		<li>Total a pagar: ${sessionScope.precioTotal * 1.21} € IVA incl.</li>
 	</ul>
 </nav>
 
