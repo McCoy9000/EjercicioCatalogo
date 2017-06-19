@@ -7,4 +7,5 @@ public interface IpartekDAO {
 	public void iniciarTransaccion();
 	public void confirmarTransaccion();
 	public void deshacerTransaccion();
+	public void reutilizarConexion(IpartekDAO dao);
 }

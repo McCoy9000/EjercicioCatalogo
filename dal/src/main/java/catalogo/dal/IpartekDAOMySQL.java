@@ -82,4 +82,11 @@ public class IpartekDAOMySQL implements IpartekDAO {
 		}
 	}
 	
+	public void reutilizarConexion(IpartekDAO dao) {
+		con = ((IpartekDAOMySQL)dao).con;
+	}
+	
 }
+
+	
+
