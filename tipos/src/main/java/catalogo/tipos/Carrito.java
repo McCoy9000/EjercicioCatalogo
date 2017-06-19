@@ -21,40 +21,6 @@ public class Carrito {
 		this.listaProductos = listaProductos;
 	}
 
-	public void anadirAlCarrito(Producto producto) {
-
-		listaProductos.put(producto.getGroupId(), producto);
-	}
-
-	public void quitarDelCarrito(Integer idmap) {
-
-		listaProductos.remove(idmap);
-	}
-
-	public Producto buscarPorId(Integer idmap) {
-
-		return listaProductos.get(idmap);
-	}
-
-	public Producto[] buscarTodosLosProductos() {
-		return listaProductos.values().toArray(new Producto[listaProductos.size()]);
-	}
-
-	public Double precioTotal() {
-
-		Producto[] listaProductosArr = this.buscarTodosLosProductos();
-
-		Double precioTotal = 0.0;
-
-		for (Producto p : listaProductosArr) {
-
-			precioTotal += p.getPrecio();
-
-		}
-
-		return precioTotal;
-	}
-
 	public HashMap<Integer, Producto> getListaProductos() {
 		return listaProductos;
 	}

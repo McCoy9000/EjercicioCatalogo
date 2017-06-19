@@ -174,48 +174,11 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		}
 	}
 
-	public Map<Integer, List<Producto>> getAlmacen() {
-		
-		Map<Integer, List<Producto>> almacen = new HashMap<>();
-
-		Producto[] productosArr = ;
-
-		for (Producto p : productosArr) {
-			if (!almacen.containsKey(p.getGroupId())) {
-				List<Producto> grupo = new ArrayList<>();
-				grupo.add(p);
-				almacen.put(p.getGroupId(), grupo);
-			} else {
-				List<Producto> grupo = almacen.get(p.getGroupId());
-				grupo.add(p);
-				almacen.put(p.getGroupId(), grupo);
-			}
-		}
-
-		return almacen;
+	@Override
+	public Factura findByIdFacturaCompleta(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public int getStock(Producto producto) {
-
-		Producto[] productosArr = this.findAll();
-		return Collections.frequency(Arrays.asList(productosArr), producto);
-	}
-
-	public Producto[] getCatalogo() {
-
-		Producto[] catalogo = new Producto[this.getAlmacen().size()];
-		int i = 0;
-
-		for (List<Producto> grupoProductos : this.getAlmacen().values()) {
-
-			Producto muestra = grupoProductos.get(0);
-			catalogo[i] = muestra;
-			i++;
-
-		}
-
-		return catalogo;
-
-	}
 
 }

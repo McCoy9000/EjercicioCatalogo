@@ -14,9 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import catalogo.dal.CarritoDAO;
 import catalogo.dal.ProductoDAO;
 import catalogo.dal.UsuarioDAO;
-import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
 
@@ -37,7 +37,6 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		session.setMaxInactiveInterval(1800);
 		ServletContext application = request.getServletContext();
 
 		// Recogida de datos de la request
@@ -47,7 +46,7 @@ public class LoginServlet extends HttpServlet {
 
 		// Recogida de datos de aplicación y de sesión
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
-		Carrito carrito = (Carrito) session.getAttribute("carrito");
+		CarritoDAO carrito = (CarritoDAO) session.getAttribute("carrito");
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		@SuppressWarnings("unchecked")
 		LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");

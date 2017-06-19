@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import catalogo.dal.CarritoDAO;
+import catalogo.dal.CarritoDAOFactory;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
@@ -45,11 +47,11 @@ public class CatalogoServlet extends HttpServlet {
 		// Recoger el carrito asociado a la sesión o, en caso de que no exista (porque el usuario haya entrado directamente al catálogo desde
 		// URL), crearlo.
 
-		Carrito carrito = (Carrito) session.getAttribute("carrito");
+		CarritoDAO carrito = (CarritoDAO) session.getAttribute("carrito");
 
 		if (carrito == null) {
 
-			carrito = new Carrito();
+			carrito = CarritoDAOFactory.getCarritoDAO();
 		}
 
 		// Lógica del servlet según la opción con la que haya llegado el usuario

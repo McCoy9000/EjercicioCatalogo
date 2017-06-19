@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import catalogo.dal.CarritoDAO;
+import catalogo.dal.CarritoDAOFactory;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
@@ -34,7 +36,7 @@ public class CheckoutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String op = request.getParameter("op");
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
-		Carrito carrito = (Carrito) session.getAttribute("carrito");
+		CarritoDAO carrito = (CarritoDAO) session.getAttribute("carrito");
 
 		Producto producto;
 		Producto[] listaProductosArr = null;
@@ -59,7 +61,7 @@ public class CheckoutServlet extends HttpServlet {
 			try {
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 			} catch (NullPointerException npe) {
-				carrito = new Carrito();
+				carrito = CarritoDAOFactory.getCarritoDAO();
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
@@ -71,7 +73,7 @@ public class CheckoutServlet extends HttpServlet {
 
 			switch (op) {
 			case "pagar":
-				carrito = new Carrito();
+				carrito = CarritoDAOFactory.getCarritoDAO();
 				log.info("Carrito de la compra liquidado");
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
@@ -97,7 +99,7 @@ public class CheckoutServlet extends HttpServlet {
 					productos.cerrar();
 					log.info("Producto retirado del carro");
 				}
-
+				
 				application.setAttribute("productos", productos);
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("productosArr", carrito.buscarTodosLosProductos());

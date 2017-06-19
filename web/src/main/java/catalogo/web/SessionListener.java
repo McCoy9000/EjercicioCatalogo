@@ -6,8 +6,9 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import catalogo.dal.CarritoDAO;
+import catalogo.dal.CarritoDAOFactory;
 import catalogo.dal.ProductoDAO;
-import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
 
 @WebListener("/sesion")
@@ -15,7 +16,10 @@ public class SessionListener implements HttpSessionListener {
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
-		// TODO Auto-generated method stub
+		HttpSession session = se.getSession();
+		session.setMaxInactiveInterval(1800);
+		CarritoDAO carrito = CarritoDAOFactory.getCarritoDAO();
+		session.setAttribute("carrito", carrito);
 
 	}
 
@@ -27,7 +31,7 @@ public class SessionListener implements HttpSessionListener {
 
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 
-		Carrito carrito = (Carrito) session.getAttribute("carrito");
+		CarritoDAO carrito = (CarritoDAO) session.getAttribute("carrito");
 		productos.abrir();
 		productos.iniciarTransaccion();
 		if (!(carrito == null)) {
