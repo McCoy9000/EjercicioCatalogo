@@ -9,8 +9,8 @@
 
 <nav>
 	<ul>
-		<li>Total a pagar: ${sessionScope.precioTotal} €</li>
 		<li><a href="?op=pagar">PAGAR ${sessionScope.numeroProductos} productos</a></li>
+		<li>Total a pagar: ${sessionScope.precioTotal} €</li>
 	</ul>
 </nav>
 

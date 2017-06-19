@@ -89,11 +89,12 @@ public class LoginServlet extends HttpServlet {
 					productos.insert(p);
 				}
 			}
+			productos.confirmarTransaccion();
+			productos.cerrar();
 			usuariosLogueados.remove(usuario);
 			// Se invalida la sesión y se le envía al catálogo que es donde se le creará un nuevo carrito si no lo tiene
 			session.invalidate();
-			productos.confirmarTransaccion();
-			productos.cerrar();
+			
 
 			catalogo.forward(request, response);
 

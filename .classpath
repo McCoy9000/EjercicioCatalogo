@@ -4,19 +4,11 @@
 	<classpathentry kind="src" path="tipos/src/main/java"/>
 	<classpathentry kind="src" path="web/src/main/java"/>
 	<classpathentry kind="src" path="web/target/tmp/jsp"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_121">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Dragonslayer/.m2/repository/log4j/log4j/1.2.14/log4j-1.2.14.jar" sourcepath="C:/Users/Dragonslayer/.m2/repository/log4j/log4j/1.2.14/log4j-1.2.14-sources.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="log4j"/>
-			<attribute name="maven.artifactId" value="log4j"/>
-			<attribute name="maven.version" value="1.2.14"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="web/target/driver/WEB-INF/lib/log4j-1.2.14.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
