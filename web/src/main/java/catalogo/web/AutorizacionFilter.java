@@ -14,46 +14,46 @@ import javax.servlet.http.HttpSession;
 
 import catalogo.tipos.Usuario;
 
-@WebFilter("/autorizacion")
+@WebFilter("/admin/*")
 public class AutorizacionFilter implements Filter {
 
 	public void destroy() {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		
-		//Tal y como está declarado el filtro, doFilter se ejecutará cuando se acceda a una zona dentro de /admin/
-		
-		//Casteo del objeto request en HttpServletRequest para poder obtener el objeto session.
+
+		// Tal y como está declarado el filtro, doFilter se ejecutará cuando se acceda a una zona dentro de /admin/
+
+		// Casteo del objeto request en HttpServletRequest para poder obtener el objeto session.
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
-		
-		//Creación de un objeto usuario para introducir en el, si lo hay, el usuario que viene en el objeto sesión
+
+		// Creación de un objeto usuario para introducir en el, si lo hay, el usuario que viene en el objeto sesión
 		Usuario usuario = null;
-			if (session != null) {
-				usuario = (Usuario) session.getAttribute("usuario");
-			}
+		if (session != null) {
+			usuario = (Usuario) session.getAttribute("usuario");
+		}
 
-		//Declaración de booleanas para la lógica de la aplicación
-		//Si la sesión era null o no tenía objeto usuario dentro se considera al usuario un nuevo usuario
+		// Declaración de booleanas para la lógica de la aplicación
+		// Si la sesión era null o no tenía objeto usuario dentro se considera al usuario un nuevo usuario
 		boolean esNuevoUsuario = usuario == null;
-		//En principio se considera al usuario no administrador
+		// En principio se considera al usuario no administrador
 		boolean esAdmin = false;
-		//Si no es nuevo usuario el usuario no es null por lo que se le puede pedir el id_roles sin miedo al NullPointerException	
-			if (!esNuevoUsuario) {
-				esAdmin = usuario.getId_roles() == 1;
-			}
+		// Si no es nuevo usuario el usuario no es null por lo que se le puede pedir el id_roles sin miedo al NullPointerException
+		if (!esNuevoUsuario) {
+			esAdmin = usuario.getId_roles() == 1;
+		}
 
-		//Lógica del servlet filter
-			
-		//Si no es administrador se le enviará al login. Le meto el mensaje de error, pero al llegar al login, como no tiene datos
-		//de logueo en un primer momento, se cambia este mensaje por el de 'Debes rellenar todos los campos' :-(
-		//!esAdmin significa cualquier id_roles que no sea 1, el de administrador, por si se crean más en el futuro
+		// Lógica del servlet filter
+
+		// Si no es administrador se le enviará al login. Le meto el mensaje de error, pero al llegar al login, como no tiene datos
+		// de logueo en un primer momento, se cambia este mensaje por el de 'Debes rellenar todos los campos' :-(
+		// !esAdmin significa cualquier id_roles que no sea 1, el de administrador, por si se crean más en el futuro
 		if (!esAdmin) {
 
 			session.setAttribute("errorLogin", "No tienes permiso para acceder a esa sección");
 			req.getRequestDispatcher("/login").forward(request, response);
-		//else quiere decir que sí es Administrador por lo que se le deja vía libre
+			// else quiere decir que sí es Administrador por lo que se le deja vía libre
 		} else {
 
 			chain.doFilter(request, response);
