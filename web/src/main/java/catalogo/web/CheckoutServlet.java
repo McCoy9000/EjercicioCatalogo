@@ -88,16 +88,17 @@ public class CheckoutServlet extends HttpServlet {
 					FacturaDAO facturas = new FacturaDAOMySQL();
 					Factura factura = new Factura(usuario.getId(), new Date());
 					facturas.abrir();
-					facturas.insert(factura);
-					facturas.cerrar();
+					int id_factura = facturas.insert(factura);
 					productosVendidos.abrir();
 					productosReservados.abrir();
 					for (Producto p : carrito.buscarTodosLosProductos()) {
 						productosReservados.delete(p);
 						productosVendidos.insert(p);
+						facturas.insertFacturaProducto(id_factura, p.getId());
 					}
 					productosReservados.cerrar();
 					productosVendidos.cerrar();
+					facturas.cerrar();
 
 					carrito = CarritoDAOFactory.getCarritoDAO();
 					log.info("Carrito de la compra liquidado");

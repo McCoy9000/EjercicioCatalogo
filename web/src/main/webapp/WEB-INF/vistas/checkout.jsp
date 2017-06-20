@@ -9,7 +9,7 @@
 
 <nav>
 	<ul>
-		<li><a href="?op=pagar">PAGAR ${sessionScope.numeroProductos} productos</a></li>
+		<li><a href="?op=pagar" onclick="window.open('factura.jsp', this.target, 'width=600,height=200'); return false;">PAGAR ${sessionScope.numeroProductos} productos</a></li>
 		<li>Total a pagar: ${sessionScope.precioTotal * 1.21} € IVA incl.</li>
 	</ul>
 </nav>

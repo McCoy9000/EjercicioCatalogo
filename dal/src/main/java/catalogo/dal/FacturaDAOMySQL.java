@@ -17,8 +17,8 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	private final static String DELETE = "DELETE FROM facturas WHERE id = ?";
 	private final static String FIND_PROD_BY_FACTURA_ID = "SELECT * FROM productos_vendidos as pv, facturas_productos as fp WHERE fp.id_facturas = ? AND pv.id = fp.id_productos";
 	private final static String DELETE_TABLE_FACTURAS = "DELETE FROM facturas";
-
-	private PreparedStatement psFindAll, psFindById, psInsert, psUpdate, psDelete, psFindProdByFacturaId;
+	private final static String REGISTER_PRODUCTS = "INSERT INTO facturas_productos (id_facturas, id_productos) VALUES (?, ?)";
+	private PreparedStatement psFindAll, psFindById, psInsert, psUpdate, psDelete, psFindProdByFacturaId, psRegister;
 
 	public Factura[] findAll() {
 		ArrayList<Factura> facturas = new ArrayList<Factura>();
@@ -154,7 +154,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 
 	}
 
-	public Producto[] findProductoByFacturaId(String id) {
+	public Producto[] findProductoByFacturaId(int id) {
 		ArrayList<Producto> productos = new ArrayList<>();
 		ResultSet rs = null;
 
@@ -162,7 +162,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 
 		try {
 			psFindProdByFacturaId = con.prepareStatement(FIND_PROD_BY_FACTURA_ID);
-			psFindProdByFacturaId.setString(1, id);
+			psFindProdByFacturaId.setInt(1, id);
 
 			rs = psFindProdByFacturaId.executeQuery();
 
@@ -198,6 +198,30 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		} finally {
 			cerrar(psDelete);
 		}
+
+	}
+
+	public int insertFacturaProducto(int id_factura, int id_producto) {
+
+		try {
+			psRegister = con.prepareStatement(REGISTER_PRODUCTS);
+
+			psRegister.setInt(1, id_factura);
+			psRegister.setInt(2, id_producto);
+
+			int res = psRegister.executeUpdate();
+
+			if (res != 1) {
+				throw new DAOException("La inserción ha devuelto un valor " + res);
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException("Error en el insert", e);
+		} finally {
+			cerrar(psRegister);
+		}
+
+		return 1;
 
 	}
 
