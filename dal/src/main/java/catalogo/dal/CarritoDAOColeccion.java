@@ -7,21 +7,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import catalogo.tipos.Producto;
 import catalogo.tipos.Carrito;
+import catalogo.tipos.Producto;
 
 public class CarritoDAOColeccion implements CarritoDAO {
-	
+
 	Carrito carrito;
-	
-	public CarritoDAOColeccion () {
+
+	public CarritoDAOColeccion() {
 		this.carrito = new Carrito();
 	}
-	
-	public CarritoDAOColeccion (HashMap<Integer, Producto> productosCarrito) {
+
+	public CarritoDAOColeccion(HashMap<Integer, Producto> productosCarrito) {
 		this.carrito = new Carrito(productosCarrito);
 	}
-	
+
 	public void anadirAlCarrito(Producto producto) {
 		carrito.getListaProductos().put(producto.getId(), producto);
 	}
@@ -37,7 +37,7 @@ public class CarritoDAOColeccion implements CarritoDAO {
 	public Producto[] buscarTodosLosProductos() {
 		return carrito.getListaProductos().values().toArray(new Producto[carrito.getListaProductos().size()]);
 	}
-	
+
 	public Double precioTotal() {
 
 		Double precioTotal = 0.0;
@@ -48,7 +48,7 @@ public class CarritoDAOColeccion implements CarritoDAO {
 		}
 		return precioTotal;
 	}
-	
+
 	public Map<Integer, List<Producto>> getAlmacen() {
 
 		Map<Integer, List<Producto>> almacen = new HashMap<>();

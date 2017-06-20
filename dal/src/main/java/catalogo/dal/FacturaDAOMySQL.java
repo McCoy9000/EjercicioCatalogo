@@ -5,11 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
@@ -20,10 +15,10 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	private final static String INSERT = "INSERT INTO facturas (numero_factura, id_usuarios, fecha)" + " VALUES (?, ?, ?)";
 	private final static String UPDATE = "UPDATE facturas " + "SET numero_factura = ?, id_usuarios = ?,fecha = ?" + "WHERE id = ?";
 	private final static String DELETE = "DELETE FROM facturas WHERE id = ?";
+	private final static String FIND_PROD_BY_FACTURA_ID = "SELECT * FROM productos_vendidos as pv, facturas_productos as fp WHERE fp.id_facturas = ? AND pv.id = fp.id_productos";
+	private final static String DELETE_TABLE_FACTURAS = "DELETE FROM facturas";
 
-	private final static String FIND_ALL_LINEAS = "SELECT * FROM facturas_productos WHERE id_facturas = ?";
-
-	private PreparedStatement psFindAll, psFindById, psInsert, psUpdate, psDelete, psFindAllLineas;
+	private PreparedStatement psFindAll, psFindById, psInsert, psUpdate, psDelete, psFindProdByFacturaId;
 
 	public Factura[] findAll() {
 		ArrayList<Factura> facturas = new ArrayList<Factura>();
@@ -40,7 +35,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 				factura = new Factura();
 
 				factura.setId(rs.getInt("id"));
-				factura.setNúmero_factura(rs.getString("numero_factura"));
+				factura.setNumero_factura(rs.getInt("numero_factura"));
 				factura.setId_usuarios(rs.getInt("id_usuarios"));
 				factura.setFecha(rs.getDate("fecha"));
 
@@ -69,7 +64,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 				factura = new Factura();
 
 				factura.setId(rs.getInt("id"));
-				factura.setNúmero_factura(rs.getString("numero_factura"));
+				factura.setNumero_factura(rs.getInt("numero_factura"));
 				factura.setId_usuarios(rs.getInt("id_usuarios"));
 				factura.setFecha(rs.getDate("fecha"));
 			}
@@ -88,7 +83,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		try {
 			psInsert = con.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 
-			psInsert.setString(1, factura.getNúmero_factura());
+			psInsert.setInt(1, factura.getNumero_factura());
 			psInsert.setInt(2, factura.getId_usuarios());
 			psInsert.setDate(3, new java.sql.Date(factura.getFecha().getTime()));
 
@@ -118,7 +113,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		try {
 			psUpdate = con.prepareStatement(UPDATE);
 
-			psUpdate.setString(1, factura.getNúmero_factura());
+			psUpdate.setInt(1, factura.getNumero_factura());
 			psUpdate.setInt(2, factura.getId_usuarios());
 			psUpdate.setDate(3, new java.sql.Date(factura.getFecha().getTime()));
 			psUpdate.setInt(4, factura.getId());
@@ -159,6 +154,53 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 
 	}
 
+	public Producto[] findProductoByFacturaId(String id) {
+		ArrayList<Producto> productos = new ArrayList<>();
+		ResultSet rs = null;
+
+		Producto producto;
+
+		try {
+			psFindProdByFacturaId = con.prepareStatement(FIND_PROD_BY_FACTURA_ID);
+			psFindProdByFacturaId.setString(1, id);
+
+			rs = psFindProdByFacturaId.executeQuery();
+
+			while (rs.next()) {
+				producto = new Producto();
+
+				producto.setId(rs.getInt("id"));
+				producto.setGroupId(rs.getInt("groupId"));
+				producto.setNombre(rs.getString("nombre"));
+				producto.setDescripcion(rs.getString("descripcion"));
+				producto.setPrecio(rs.getDouble("precio"));
+				producto.setImagen(rs.getInt("imagen"));
+
+				productos.add(producto);
+			}
+		} catch (Exception e) {
+			throw new DAOException("Error al buscar los productos de la factura", e);
+		} finally {
+			cerrar(psFindProdByFacturaId);
+		}
+
+		return productos.toArray(new Producto[productos.size()]);
+	}
+
+	public void deleteFacturas() {
+		try {
+			psDelete = con.prepareStatement(DELETE_TABLE_FACTURAS);
+
+			psDelete.executeUpdate();
+
+		} catch (Exception e) {
+			throw new DAOException("Error en delete table", e);
+		} finally {
+			cerrar(psDelete);
+		}
+
+	}
+
 	private void cerrar(PreparedStatement ps) {
 		cerrar(ps, null);
 	}
@@ -173,12 +215,5 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 			throw new DAOException("Error en el cierre de ps o rs", e);
 		}
 	}
-
-	@Override
-	public Factura findByIdFacturaCompleta(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

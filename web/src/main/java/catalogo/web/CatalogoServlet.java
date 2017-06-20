@@ -14,8 +14,8 @@ import org.apache.log4j.Logger;
 
 import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
+import catalogo.dal.DAOException;
 import catalogo.dal.ProductoDAO;
-import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
 
 @WebServlet("/catalogo")
@@ -34,6 +34,10 @@ public class CatalogoServlet extends HttpServlet {
 		ServletContext application = getServletContext();
 
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
+
+		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
+
+		ProductoDAO productosVendidos = (ProductoDAO) application.getAttribute("productosVendidos");
 
 		// Generar el catálogo. El catálogo es un array en el que cada elemento es, a su vez, el primer elemento de la lista de productos
 		// de un determinado grupo de productos.
@@ -96,12 +100,21 @@ public class CatalogoServlet extends HttpServlet {
 						productos.deshacerTransaccion();
 					}
 
+					try {
+						productosReservados.abrir();
+						productosReservados.insert(producto);
+						productosReservados.cerrar();
+					} catch (Exception e) {
+						throw new DAOException("Error al añadir a productos_reservados", e);
+					}
+
 					log.info("Añadido un producto al carrito");
 				}
 
 				application.setAttribute("catalogo", productos.getCatalogo());
 				productos.cerrar();
 
+				application.setAttribute("productosVendidos", productosVendidos);
 				application.setAttribute("productos", productos);
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);

@@ -1,6 +1,7 @@
 package catalogo.web;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,9 +15,14 @@ import org.apache.log4j.Logger;
 
 import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
+import catalogo.dal.DAOException;
+import catalogo.dal.FacturaDAO;
+import catalogo.dal.FacturaDAOMySQL;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Carrito;
+import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
+import catalogo.tipos.Usuario;
 
 @WebServlet("/checkout")
 public class CheckoutServlet extends HttpServlet {
@@ -36,6 +42,8 @@ public class CheckoutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String op = request.getParameter("op");
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
+		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
+		ProductoDAO productosVendidos = (ProductoDAO) application.getAttribute("productosVendidos");
 		CarritoDAO carrito = (CarritoDAO) session.getAttribute("carrito");
 
 		Producto producto;
@@ -73,12 +81,35 @@ public class CheckoutServlet extends HttpServlet {
 
 			switch (op) {
 			case "pagar":
-				carrito = CarritoDAOFactory.getCarritoDAO();
-				log.info("Carrito de la compra liquidado");
-				session.setAttribute("carrito", carrito);
-				session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
-				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-				request.getRequestDispatcher("/catalogo").forward(request, response);
+				Usuario usuario = (Usuario) session.getAttribute("usuario");
+				if (usuario == null) {
+					request.getRequestDispatcher("/login").forward(request, response);
+				} else {
+					FacturaDAO facturas = new FacturaDAOMySQL();
+					Factura factura = new Factura(usuario.getId(), new Date());
+					facturas.abrir();
+					facturas.insert(factura);
+					facturas.cerrar();
+					productosVendidos.abrir();
+					productosReservados.abrir();
+					for (Producto p : carrito.buscarTodosLosProductos()) {
+						productosReservados.delete(p);
+						productosVendidos.insert(p);
+					}
+					productosReservados.cerrar();
+					productosVendidos.cerrar();
+
+					carrito = CarritoDAOFactory.getCarritoDAO();
+					log.info("Carrito de la compra liquidado");
+					application.setAttribute("productosReservados", productosReservados);
+					application.setAttribute("productosVendidos", productosVendidos);
+
+					session.setAttribute("carrito", carrito);
+					session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
+					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
+
+					request.getRequestDispatcher("/catalogo").forward(request, response);
+				}
 				break;
 
 			case "quitar":
@@ -97,10 +128,19 @@ public class CheckoutServlet extends HttpServlet {
 						productos.deshacerTransaccion();
 					}
 					productos.cerrar();
+
+					try {
+						productosReservados.abrir();
+						productosReservados.delete(producto);
+						productosReservados.cerrar();
+					} catch (Exception e) {
+						throw new DAOException("Error al eliminar de productosReservados", e);
+					}
 					log.info("Producto retirado del carro");
 				}
-				
+
 				application.setAttribute("productos", productos);
+				application.setAttribute("productosReservados", productosReservados);
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);

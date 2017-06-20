@@ -10,8 +10,12 @@ import javax.servlet.annotation.WebListener;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import catalogo.dal.FacturaDAO;
+import catalogo.dal.FacturaDAOMySQL;
 import catalogo.dal.ProductoDAO;
 import catalogo.dal.ProductoDAOFactory;
+import catalogo.dal.ProductoReservadoDAOMySQL;
+import catalogo.dal.ProductoVendidoDAOMySQL;
 import catalogo.dal.UsuarioDAO;
 import catalogo.dal.UsuarioDAOFactory;
 import catalogo.tipos.Producto;
@@ -67,6 +71,16 @@ public class InicializacionListener implements ServletContextListener {
 		productos.cerrar();
 
 		application.setAttribute("productosArr", productosArr);
+
+		ProductoDAO productosReservados = new ProductoReservadoDAOMySQL();
+
+		application.setAttribute("productosReservados", productosReservados);
+
+		ProductoDAO productosVendidos = new ProductoVendidoDAOMySQL();
+
+		application.setAttribute("productosVendidos", productosVendidos);
+
+		FacturaDAO facturas = new FacturaDAOMySQL();
 
 		// Inicializar una lista de los usuarios logueados y hacerla accesible a través del ServletContext
 
@@ -162,6 +176,10 @@ public class InicializacionListener implements ServletContextListener {
 		}
 
 		productos.cerrar();
+
+		facturas.abrir();
+		facturas.deleteFacturas();
+		facturas.cerrar();
 
 		// Apuntar el ContextPath
 

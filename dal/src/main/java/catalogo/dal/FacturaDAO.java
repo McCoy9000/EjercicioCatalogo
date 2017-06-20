@@ -15,4 +15,6 @@ public interface FacturaDAO extends IpartekDAO {
 
 	public void delete(int id);
 
+	public void deleteFacturas();
+
 }

@@ -6,28 +6,44 @@ import java.util.HashMap;
 public class Factura {
 	// Constructores, getters y setters, hashCode y equals y toString
 	private int id;
-	private String número_factura;
+	private int numero_factura;
 	private int id_usuarios;
 	private Date fecha;
-		
+
+	public static int siguienteFactura = 0;
+
 	private HashMap<Integer, Producto> listaProductos = new HashMap<>();
-	
+
 	public Double getPrecioTotal() {
 		Double precioTotal = 0.0;
 		if (listaProductos != null) {
 			for (Producto p : listaProductos.values()) {
 				precioTotal += p.getPrecio();
 			}
-		} 
+		}
 		return precioTotal;
 	}
-		
-	public Factura(int id, String número_factura, int id_usuarios, Date fecha) {
+
+	public Factura(int número_factura, int id_usuarios, Date fecha) {
 		super();
-		this.id = id;
-		this.número_factura = número_factura;
+		this.numero_factura = número_factura;
 		this.id_usuarios = id_usuarios;
 		this.fecha = fecha;
+	}
+
+	public Factura(int id, int número_factura, int id_usuarios, Date fecha) {
+		super();
+		this.id = id;
+		this.numero_factura = número_factura;
+		this.id_usuarios = id_usuarios;
+		this.fecha = fecha;
+	}
+
+	public Factura(int id_usuarios, Date fecha) {
+		this.numero_factura = siguienteFactura;
+		this.id_usuarios = id_usuarios;
+		this.fecha = fecha;
+		siguienteFactura++;
 	}
 
 	public Factura() {
@@ -42,12 +58,12 @@ public class Factura {
 		this.id = id;
 	}
 
-	public String getNúmero_factura() {
-		return número_factura;
+	public int getNumero_factura() {
+		return numero_factura;
 	}
 
-	public void setNúmero_factura(String número_factura) {
-		this.número_factura = número_factura;
+	public void setNumero_factura(int número_factura) {
+		this.numero_factura = número_factura;
 	}
 
 	public int getId_usuarios() {
@@ -81,7 +97,7 @@ public class Factura {
 		result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
 		result = prime * result + id;
 		result = prime * result + id_usuarios;
-		result = prime * result + ((número_factura == null) ? 0 : número_factura.hashCode());
+		result = prime * result + numero_factura;
 		return result;
 	}
 
@@ -103,17 +119,14 @@ public class Factura {
 			return false;
 		if (id_usuarios != other.id_usuarios)
 			return false;
-		if (número_factura == null) {
-			if (other.número_factura != null)
-				return false;
-		} else if (!número_factura.equals(other.número_factura))
+		if (numero_factura != other.numero_factura)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Factura [id=" + id + ", número_factura=" + número_factura + ", id_usuarios=" + id_usuarios + ", fecha=" + fecha + "\n" + listaProductos + "]";
+		return "Factura [id=" + id + ", número_factura=" + numero_factura + ", id_usuarios=" + id_usuarios + ", fecha=" + fecha + "\n" + listaProductos + "]";
 	}
 
 }
