@@ -13,7 +13,7 @@ public class Carrito {
 	public Carrito() {
 		super();
 		this.listaProductos = new HashMap<>();
-		log.info("Creado carrito con lista de productos vacía");
+		log.info("Creado carrito con lista de productos vacia");
 	}
 
 	public Carrito(HashMap<Integer, Producto> listaProductos) {

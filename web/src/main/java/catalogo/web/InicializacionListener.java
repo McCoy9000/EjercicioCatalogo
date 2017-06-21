@@ -91,7 +91,7 @@ public class InicializacionListener implements ServletContextListener {
 
 		application.setAttribute("usuariosLogueados", usuariosLogueados);
 
-		// Crear un usuario administrador y un usuario normal
+		// Vaciar la base de datos de usuarios y crear un usuario administrador y un usuario normal
 
 		usuarios.abrir();
 
@@ -127,7 +127,7 @@ public class InicializacionListener implements ServletContextListener {
 
 		usuarios.cerrar();
 
-		// Rellenar la base de datos de productos si está vacía
+		// Vaciar la base de datos de productos y rellenarla con 36 productos de prueba
 
 		productos.abrir();
 
@@ -189,6 +189,6 @@ public class InicializacionListener implements ServletContextListener {
 
 		String path = servletContextEvent.getServletContext().getContextPath();
 		application.setAttribute("rutaBase", path);
-		log.info("Almacenada la ruta relativa de la aplicación:" + path);
+		log.info("Almacenada la ruta relativa de la aplicacion: " + path);
 	}
 }

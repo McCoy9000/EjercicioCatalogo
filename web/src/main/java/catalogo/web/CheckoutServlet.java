@@ -40,6 +40,7 @@ public class CheckoutServlet extends HttpServlet {
 		ServletContext application = request.getServletContext();
 		HttpSession session = request.getSession();
 		String op = request.getParameter("op");
+		
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
 		ProductoDAO productosVendidos = (ProductoDAO) application.getAttribute("productosVendidos");
@@ -93,8 +94,8 @@ public class CheckoutServlet extends HttpServlet {
 						Factura factura = new Factura(usuario.getId(), new Date());
 						facturas.abrir();
 						int id_factura = facturas.insert(factura);
-						productosVendidos.abrir();
-						productosReservados.abrir();
+//						productosVendidos.abrir();
+//						productosReservados.abrir();
 						for (Producto p : carrito.buscarTodosLosProductos()) {
 							productosReservados.delete(p);
 							productosVendidos.insert(p);
@@ -106,8 +107,8 @@ public class CheckoutServlet extends HttpServlet {
 
 						Double precioFactura = facturas.getPrecioTotal(id_factura);
 
-						productosReservados.cerrar();
-						productosVendidos.cerrar();
+//						productosReservados.cerrar();
+//						productosVendidos.cerrar();
 						facturas.cerrar();
 
 						log.info("Carrito de la compra liquidado");
