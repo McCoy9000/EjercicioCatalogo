@@ -46,6 +46,7 @@ public class LoginServlet extends HttpServlet {
 
 		// Recogida de datos de aplicación y de sesión
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
+		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
 		CarritoDAO carrito = (CarritoDAO) session.getAttribute("carrito");
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		@SuppressWarnings("unchecked")
@@ -79,22 +80,24 @@ public class LoginServlet extends HttpServlet {
 
 		// Lógica del servlet según opciones
 		if (quiereSalir) {
-			// Si se desloguea se vacía el carrito y los productos vuelven a la base de datos
+			// Si se desloguea se vacía el carrito y los productos pasan de productos_reservados a productos
 
 			productos.abrir();
+			productosReservados.abrir();
 			productos.iniciarTransaccion();
 			if (!(carrito == null)) {
 
 				for (Producto p : carrito.buscarTodosLosProductos()) {
+					productosReservados.delete(p);
 					productos.insert(p);
 				}
 			}
 			productos.confirmarTransaccion();
 			productos.cerrar();
+			productosReservados.cerrar();
 			usuariosLogueados.remove(usuario);
 			// Se invalida la sesión y se le envía al catálogo que es donde se le creará un nuevo carrito si no lo tiene
 			session.invalidate();
-			
 
 			catalogo.forward(request, response);
 

@@ -14,8 +14,9 @@ public class SessionListener implements HttpSessionListener {
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
 		HttpSession session = se.getSession();
-		session.setMaxInactiveInterval(1800);
+		session.setMaxInactiveInterval(900);
 		CarritoDAO carrito = CarritoDAOFactory.getCarritoDAO();
+		session.setAttribute("sessionBindingListener", new ObjectLock());
 		session.setAttribute("carrito", carrito);
 
 	}
