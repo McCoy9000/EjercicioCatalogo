@@ -19,7 +19,6 @@ import catalogo.dal.DAOException;
 import catalogo.dal.FacturaDAO;
 import catalogo.dal.FacturaDAOMySQL;
 import catalogo.dal.ProductoDAO;
-import catalogo.tipos.Carrito;
 import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
@@ -28,7 +27,7 @@ import catalogo.tipos.Usuario;
 public class CheckoutServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1598983717815749112L;
-	private static Logger log = Logger.getLogger(Carrito.class);
+	private static Logger log = Logger.getLogger(CheckoutServlet.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -67,9 +66,9 @@ public class CheckoutServlet extends HttpServlet {
 		if (numeroProductos == 0) {
 			request.getRequestDispatcher("/catalogo").forward(request, response);
 		} else {
-		
+
 			if (op == null) {
-	
+
 				try {
 					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 				} catch (NullPointerException npe) {
@@ -78,14 +77,15 @@ public class CheckoutServlet extends HttpServlet {
 					session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
 					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 				}
-	
+
 				request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
-	
+
 			} else {
-	
+
 				switch (op) {
 				case "pagar":
 					Usuario usuario = (Usuario) session.getAttribute("usuario");
+
 					if (usuario == null) {
 						request.getRequestDispatcher("/login").forward(request, response);
 					} else {
@@ -101,41 +101,39 @@ public class CheckoutServlet extends HttpServlet {
 							facturas.insertFacturaProducto(id_factura, p.getId());
 						}
 						factura = facturas.findById(id_factura);
-						
+
 						Producto[] productosFactura = facturas.findProductoByFacturaId(id_factura);
-						
+
 						Double precioFactura = facturas.getPrecioTotal(id_factura);
-						
-						
+
 						productosReservados.cerrar();
 						productosVendidos.cerrar();
 						facturas.cerrar();
-						
-						
+
 						log.info("Carrito de la compra liquidado");
 						carrito = CarritoDAOFactory.getCarritoDAO();
-						
+
 						application.setAttribute("productosReservados", productosReservados);
 						application.setAttribute("productosVendidos", productosVendidos);
-						
+
 						session.setAttribute("factura", factura);
 						session.setAttribute("productosFactura", productosFactura);
 						session.setAttribute("precioFactura", precioFactura);
-						
+
 						session.setAttribute("carrito", carrito);
 						session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
 						session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-	
+
 						request.getRequestDispatcher("/catalogo").forward(request, response);
 					}
 					break;
-	
+
 				case "quitar":
 					int id = Integer.parseInt(request.getParameter("id"));
 					producto = carrito.buscarPorId(id);
-	
+
 					if (producto != null) {
-	
+
 						productos.abrir();
 						productos.iniciarTransaccion();
 						try {
@@ -146,7 +144,7 @@ public class CheckoutServlet extends HttpServlet {
 							productos.deshacerTransaccion();
 						}
 						productos.cerrar();
-	
+
 						try {
 							productosReservados.abrir();
 							productosReservados.delete(producto);
@@ -156,17 +154,17 @@ public class CheckoutServlet extends HttpServlet {
 						}
 						log.info("Producto retirado del carro");
 					}
-	
+
 					application.setAttribute("productos", productos);
 					application.setAttribute("productosReservados", productosReservados);
 					session.setAttribute("carrito", carrito);
 					session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
 					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 					session.setAttribute("precioTotal", carrito.precioTotal());
-						if (carrito.buscarTodosLosProductos().length == 0){ 
-							request.getRequestDispatcher("/catalogo").forward(request, response);
-							break;
-						}
+					if (carrito.buscarTodosLosProductos().length == 0) {
+						request.getRequestDispatcher("/catalogo").forward(request, response);
+						break;
+					}
 				default:
 					request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
 				}

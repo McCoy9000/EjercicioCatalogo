@@ -50,7 +50,6 @@ public class AutorizacionFilter implements Filter {
 		// de logueo en un primer momento, se cambia este mensaje por el de 'Debes rellenar todos los campos' :-(
 		// !esAdmin significa cualquier id_roles que no sea 1, el de administrador, por si se crean más en el futuro
 		if (!esAdmin) {
-
 			session.setAttribute("errorLogin", "No tienes permiso para acceder a esa sección");
 			req.getRequestDispatcher("/login").forward(request, response);
 			// else quiere decir que sí es Administrador por lo que se le deja vía libre
