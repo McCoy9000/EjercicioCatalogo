@@ -9,8 +9,8 @@
 
 <nav>
 	<ul>
-		<li><a href="?op=pagar" onclick="window.open('factura.jsp', this.target, 'width=600,height=200'); return false;">PAGAR ${sessionScope.numeroProductos} productos</a></li>
-		<li>Total a pagar: ${sessionScope.precioTotal * 1.21} € IVA incl.</li>
+		<li><a onclick="window.open('?op=pagar', '_self'); window.open('${applicationScope.rutaBase}/factura', '_blank', 'width=400,height=400')">PAGAR ${sessionScope.numeroProductos} productos</a></li>
+		<li>Total a pagar: ${sessionScope.precioTotal} € IVA incl.</li>
 	</ul>
 </nav>
 

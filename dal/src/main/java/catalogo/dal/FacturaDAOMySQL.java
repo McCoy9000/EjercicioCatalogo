@@ -18,7 +18,9 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	private final static String FIND_PROD_BY_FACTURA_ID = "SELECT * FROM productos_vendidos as pv, facturas_productos as fp WHERE fp.id_facturas = ? AND pv.id = fp.id_productos";
 	private final static String DELETE_TABLE_FACTURAS = "DELETE FROM facturas";
 	private final static String REGISTER_PRODUCTS = "INSERT INTO facturas_productos (id_facturas, id_productos) VALUES (?, ?)";
-	private PreparedStatement psFindAll, psFindById, psInsert, psUpdate, psDelete, psFindProdByFacturaId, psRegister;
+	private final static String GET_MAX_ID = "SELECT MAX(ID) FROM facturas";
+	
+	private PreparedStatement psFindAll, psFindById, psInsert, psUpdate, psDelete, psFindProdByFacturaId, psRegister, psGetMaxId;
 
 	public Factura[] findAll() {
 		ArrayList<Factura> facturas = new ArrayList<Factura>();
@@ -224,6 +226,39 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		return 1;
 
 	}
+	
+	public int getMaxId() {
+		
+		ResultSet rs;
+		int maxId = 0;
+		try {
+			psGetMaxId = con.prepareStatement(GET_MAX_ID);
+			
+			rs = psGetMaxId.executeQuery();
+			
+			while(rs.next()) {
+				maxId = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Error al obtener maxId", e);
+		} finally {
+			cerrar(psGetMaxId);
+		}
+		
+		return maxId;
+	}
+	
+	@Override
+	public Double getPrecioTotal(int id) {
+		
+		Double precioTotal = 0.0;
+		
+		for (Producto p: this.findProductoByFacturaId(id)){
+			precioTotal += p.getPrecio();
+		}
+		
+		return precioTotal;
+	}
 
 	private void cerrar(PreparedStatement ps) {
 		cerrar(ps, null);
@@ -240,4 +275,5 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		}
 	}
 
+	
 }

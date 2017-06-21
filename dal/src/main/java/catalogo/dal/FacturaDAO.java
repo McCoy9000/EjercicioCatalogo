@@ -22,4 +22,7 @@ public interface FacturaDAO extends IpartekDAO {
 
 	public int insertFacturaProducto(int id_factura, int id_producto);
 
+	public Double getPrecioTotal(int id);
+	
+	public int getMaxId();
 }

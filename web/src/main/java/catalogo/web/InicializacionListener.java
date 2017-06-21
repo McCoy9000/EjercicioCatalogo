@@ -20,6 +20,7 @@ import catalogo.dal.UsuarioDAO;
 import catalogo.dal.UsuarioDAOFactory;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
+import catalogo.tipos.Factura;
 
 @WebListener("/inicializacion")
 public class InicializacionListener implements ServletContextListener {
@@ -177,10 +178,13 @@ public class InicializacionListener implements ServletContextListener {
 
 		productos.cerrar();
 
-		facturas.abrir();
-		facturas.deleteFacturas();
-		facturas.cerrar();
+//		facturas.abrir();
+//		facturas.deleteFacturas();
+//		facturas.cerrar();
 
+		facturas.abrir();
+		Factura.siguienteFactura = facturas.getMaxId() + 1;
+		facturas.cerrar();
 		// Apuntar el ContextPath
 
 		String path = servletContextEvent.getServletContext().getContextPath();
