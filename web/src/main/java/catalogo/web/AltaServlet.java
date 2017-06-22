@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import catalogo.dal.IpartekDAO;
 import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Usuario;
 
@@ -34,10 +35,16 @@ public class AltaServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//RECOGIDA DE DATOS Y OBJETOS PARA TRABAJAR SOBRE ELLOS
+		
 		//Se recogen los objetos sesión y aplicación
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
-		
+		// Se obtiene un objeto genérico DAO para las conexiones a la BDD
+		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
+		//Se obtiene el conjunto de usuarios extraído de la BBDD e introducido en el objeto application en el 
+		//listener de la aplicación
+		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		//Se recogen los valores de los atributos de usuario introducidos en el formulario de alta
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -47,8 +54,6 @@ public class AltaServlet extends HttpServlet {
 		int id_roles = 2;
 		//Se crea un objeto usuario con el que trabajar a partir de esos datos
 		Usuario usuario = new Usuario(id_roles, nombre_completo, password, username);
-		//Se extrae el conjunto de usuarios extraído de la BBDD e introducido en el objeto application en el listener
-		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		
 		//Se declara e inicializan las booleanas a partir de las cuales se desarrollará la lógica del servlet
 		boolean nombreDemasiadoLargo = false;
@@ -75,7 +80,7 @@ public class AltaServlet extends HttpServlet {
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
 		RequestDispatcher alta = request.getRequestDispatcher(RUTA_ALTA);
 
-		//Lógica de la aplicación
+		//LOGICA DEL SERVLET
 		if (sinDatos) {
 		
 			session.setAttribute("errorSignup", "Debes rellenar todos los campos");

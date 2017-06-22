@@ -14,10 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import catalogo.dal.CarritoDAO;
-import catalogo.dal.ProductoDAO;
+import catalogo.dal.IpartekDAO;
 import catalogo.dal.UsuarioDAO;
-import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
 
 @WebServlet("/login")
@@ -35,7 +33,8 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
+		//RECOPILACION DE LOS OBJETOS A ANALIZAR Y UTILIZAR
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
 
@@ -45,14 +44,16 @@ public class LoginServlet extends HttpServlet {
 		String op = request.getParameter("op");
 
 		// Recogida de datos de aplicación y de sesión
-		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
-		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
-		CarritoDAO carrito = (CarritoDAO) session.getAttribute("carrito");
+		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		@SuppressWarnings("unchecked")
 		LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
+		
+		// Declaración de un objeto usuario para trabajar sobre él
 		Usuario usuario;
-
+		
+		// Hasta que alguien no se loguea el objeto session no tiene un usuario asociado por lo que puede
+		// ser nulo. Si no es nulo, se recoge, si lo es, se crea uno nuevo con los datos recogidos en la request
 		if (session.getAttribute("usuario") != null) {
 
 			usuario = (Usuario) session.getAttribute("usuario");
@@ -60,45 +61,32 @@ public class LoginServlet extends HttpServlet {
 		} else
 			usuario = new Usuario(username, password);
 
-		// Declaración e inicialización de las booleanas que representan las diferentes posibilidades de entrada
+		
+		// DECLARACIÓN E INICIALIZACIÓN DE LAS BOOLEANAS SOBRE LAS QUE SE BASARÁ LA LÓGICA DEL SERVLET
+		
+		boolean quiereSalir = ("logout").equals(op);
 		boolean yaLogueado = ("si").equals(session.getAttribute("logueado"));
+		// sinDatos puede significar que alguien ha intentado loguearse sin datos o que es la primera vez
+		// que llega al servlet sin que se le hayan pedido datos aún. Es la condición de partida de llegada
+		// al servlet
 		boolean sinDatos = username == null || username == "" || password == "" || password == null;
 		boolean uInexistente = false;
-		usuarios.abrir();
-		uInexistente = !((UsuarioDAO) usuarios).validarNombre(usuario);
-		usuarios.cerrar();
 		boolean esValido = false;
-		usuarios.abrir();
-		esValido = usuarios.validar(usuario);
-		usuarios.cerrar();
-		boolean quiereSalir = ("logout").equals(op);
-
+			usuarios.abrir();
+				uInexistente = !usuarios.validarNombre(usuario);
+				esValido = usuarios.validar(usuario);
+			usuarios.cerrar();
+		
 		// Declaración e inicialización de los dispatcher ya que en un momento dado me daba problemas inicializarlos
 		// directamente cuando son requeridos.
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
 		RequestDispatcher catalogo = request.getRequestDispatcher(RUTA_CATALOGO);
 
-		// Lógica del servlet según opciones
+		// LOGICA DEL SERVLET SEGÚN LOS VALORES DE LAS BOOLEANAS
 		if (quiereSalir) {
-			// Si se desloguea se vacía el carrito y los productos pasan de productos_reservados a productos
-
-			productos.abrir();
-			productosReservados.abrir();
-			productos.iniciarTransaccion();
-			if (!(carrito == null)) {
-
-				for (Producto p : carrito.buscarTodosLosProductos()) {
-					productosReservados.delete(p);
-					productos.insert(p);
-				}
-			}
-			productos.confirmarTransaccion();
-			productos.cerrar();
-			productosReservados.cerrar();
-			usuariosLogueados.remove(usuario);
-			// Se invalida la sesión y se le envía al catálogo que es donde se le creará un nuevo carrito si no lo tiene
+			// Se invalida la sesión y se le envía al catálogo que es el punto de partida de la aplicación
 			session.invalidate();
-
+			usuariosLogueados.remove(usuario);
 			catalogo.forward(request, response);
 
 		} else if (yaLogueado) {
@@ -120,7 +108,7 @@ public class LoginServlet extends HttpServlet {
 
 		} else if (esValido) {
 			// Si nombre y contraseña son válidos se busca el usuario correspondiente en la base de datos para rellenar el resto de datos
-			// como su id_roles
+			// como su id_roles y se almacena este usuario en el objeto session.
 			log.info("Usuario " + usuario.getUsername() + " logueado");
 			usuarios.abrir();
 			usuario = usuarios.findByName(usuario.getUsername());
@@ -130,7 +118,7 @@ public class LoginServlet extends HttpServlet {
 			session.removeAttribute("errorLogin");
 			session.setAttribute("logueado", "si");
 			session.setAttribute("usuario", usuario);
-			// Se le envía al catálogo donde se le proporcionará un carrito
+			// Se le envía al catálogo
 			catalogo.forward(request, response);
 
 		} else {

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import catalogo.dal.IpartekDAO;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
 
@@ -29,6 +30,7 @@ public class ProductoCRUDServlet extends HttpServlet {
 
 		ServletContext application = getServletContext();
 
+		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 
 		String op = request.getParameter("op");

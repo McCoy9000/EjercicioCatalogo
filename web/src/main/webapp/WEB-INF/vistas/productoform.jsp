@@ -49,19 +49,7 @@
 				name="descripcion" value="${producto.descripcion}"/>
 		</fieldset>
 		
-		<!--<fieldset <c:if test="${param.op == 'borrar'}">
-			style="display:none;"
-			</c:if>
-			>
-			<label for="imagen">Imagen</label> 
-			<select name="imagen">
-				<option value="0">Sin imagen</option>
-				<option value="1">Ford Mustang</option>
-				<option value="2">Chevrolet Eldorado</option>
-				<option value="3">Dodge Charger</option>
-				<option value="4">Dodge Challenger</option>
-			</select>
-		</fieldset>  -->
+
 		
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
@@ -86,10 +74,6 @@
 		</fieldset>
 	</form>
 	
-	<!--<c:if test="${param.op == 'borrar'}">
-		<script>
-			document.forms[0].onsubmit = confirmarBorrado;
-		</script>
-	</c:if>-->
+
 	
 <%@ include file="includes/pie.jsp" %>

@@ -28,7 +28,7 @@
 	</thead>
 	
 	<tbody>
-		<c:forEach items="${sessionScope.productosArr}" var="producto">
+		<c:forEach items="${sessionScope.productosCarritoArr}" var="producto">
 			<tr id="carrito">
 				<td>${producto.nombre}</td>
 				<td>${producto.descripcion}</td>

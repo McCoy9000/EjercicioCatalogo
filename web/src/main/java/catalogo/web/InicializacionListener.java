@@ -11,16 +11,16 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import catalogo.dal.FacturaDAO;
-import catalogo.dal.FacturaDAOMySQL;
+import catalogo.dal.FacturaDAOFactory;
+import catalogo.dal.IpartekDAO;
+import catalogo.dal.IpartekDAOFactory;
 import catalogo.dal.ProductoDAO;
 import catalogo.dal.ProductoDAOFactory;
-import catalogo.dal.ProductoReservadoDAOMySQL;
-import catalogo.dal.ProductoVendidoDAOMySQL;
 import catalogo.dal.UsuarioDAO;
 import catalogo.dal.UsuarioDAOFactory;
+import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
-import catalogo.tipos.Factura;
 
 @WebListener("/inicializacion")
 public class InicializacionListener implements ServletContextListener {
@@ -43,148 +43,163 @@ public class InicializacionListener implements ServletContextListener {
 
 		PropertyConfigurator.configure(InicializacionListener.class.getClassLoader().getResource("log4j.properties"));
 
-		// Inicializar la base de datos de usuarios y hacerla accesible a través del ServletContext
+		// Inicializar un DAO genérico para conexiones y transacciones y hacerlo accesible a través del Servlet Context
+		
+		IpartekDAO dao = IpartekDAOFactory.getIpartekDAO();
+		
+		application.setAttribute("dao", dao);
+		
+		// Inicializar el DAO de usuarios y hacerlo accesible a través del ServletContext
 
 		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO();
 
-		log.info("Base de datos de usuarios inicializada");
-
 		application.setAttribute("usuarios", usuarios);
 
+		// Crear un array con todos los usuarios y dejarlo disponible en el ServletContext
+		
 		usuarios.abrir();
 		Usuario[] usuariosArr = usuarios.findAll();
 		usuarios.cerrar();
 
 		application.setAttribute("usuariosArr", usuariosArr);
 
-		// Inicializar la base de datos de productos y hacerla accesible a través del ServletContext
+		// Inicializar el DAO de productos y hacerlo accesible a través del ServletContext
 
 		ProductoDAO productos = ProductoDAOFactory.getProductoDAO();
 
-		log.info("Base de datos de productos inicializada");
-
 		application.setAttribute("productos", productos);
 
+		// Crear un array con todos los productos y dejarlo disponible en el ServletContext
+		
 		productos.abrir();
-
 		Producto[] productosArr = productos.findAll();
-
 		productos.cerrar();
 
 		application.setAttribute("productosArr", productosArr);
 
-		ProductoDAO productosReservados = new ProductoReservadoDAOMySQL();
+		// Inicializar el DAO de ProductosReservados y ProductosVendidos y hacerlos accesibles a través del ServletContext
+				
+		ProductoDAO productosReservados = ProductoDAOFactory.getProductoReservadoDAO();
 
 		application.setAttribute("productosReservados", productosReservados);
 
-		ProductoDAO productosVendidos = new ProductoVendidoDAOMySQL();
+		ProductoDAO productosVendidos = ProductoDAOFactory.getProductoVendidoDAO();
 
 		application.setAttribute("productosVendidos", productosVendidos);
 
-		FacturaDAO facturas = new FacturaDAOMySQL();
+		// Inicializar el DAO de facturas y hacerlo accesible a través del ServletContext
+		
+		FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO();
 
 		// Inicializar una lista de los usuarios logueados y hacerla accesible a través del ServletContext
 
 		LinkedList<Usuario> usuariosLogueados = new LinkedList<>();
 
-		log.info("Lista de usuarios logueados actualizada");
-
 		application.setAttribute("usuariosLogueados", usuariosLogueados);
 
 		// Vaciar la base de datos de usuarios y crear un usuario administrador y un usuario normal
 
-		usuarios.abrir();
+		usuarios.abrir(); // Abro la conexión para todas las operaciones con la base de datos
 
 		if (usuarios.findAll().length != 0)
 			usuarios.deleteUsuarios();
+		
+		usuarios.cerrar();
+		
+		Usuario usuario = new Usuario(1, "admin", "admin", "admin");
 
-		Usuario admin = new Usuario(1, "admin", "admin", "admin");
-
-		if (!usuarios.validar(admin)) {
-
+		
+		
+		if (!usuarios.validar(usuario)) {
 			usuarios.abrir();
-
-			usuarios.insert(admin);
-
+			usuarios.insert(usuario);
 			usuarios.cerrar();
 
 			log.info("Creado usuario administrador. Usuario: 'admin', Password: 'admin'");
-
 		}
+		
+		
+		usuario = new Usuario(2, "mikel", "mikel", "mikel");
 
-		Usuario mikel = new Usuario(2, "mikel", "mikel", "mikel");
-
-		if (!usuarios.validar(mikel)) {
+		
+		if (!usuarios.validar(usuario)) {
 
 			usuarios.abrir();
-
-			usuarios.insert(mikel);
-
+			usuarios.insert(usuario);
 			usuarios.cerrar();
 
 			log.info("Creado usuario estándard. Usuario: 'mikel', Password: 'mikel'");
 		}
 
-		usuarios.cerrar();
-
+		
 		// Vaciar la base de datos de productos y rellenarla con 36 productos de prueba
 
 		productos.abrir();
+		productos.iniciarTransaccion();
+		
+		try {
+			if (productos.findAll().length != 0) {
+				productos.deleteProductos();
+				log.info("Borrada tabla de productos");
+			}
+			
+			if (productos.findAll().length == 0) {
 
-		if (productos.findAll().length != 0)
-			productos.deleteProductos();
+				productos.insert(new Producto(1, "Coche test 1", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 2", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 3", "Mustang", 1000.0));
+				productos.insert(new Producto(2, "Coche test 4", "Cadillac", 2000.0));
+				productos.insert(new Producto(2, "Coche test 5", "Cadillac", 2000.0));
+				productos.insert(new Producto(2, "Coche test 6", "Cadillac", 2000.0));
+				productos.insert(new Producto(3, "Coche test 7", "Charger", 3000.0));
+				productos.insert(new Producto(3, "Coche test 8", "Charger", 3000.0));
+				productos.insert(new Producto(3, "Coche test 9", "Charger", 3000.0));
+				productos.insert(new Producto(4, "Coche test 10", "Challenger", 4000.0));
+				productos.insert(new Producto(4, "Coche test 11", "Challenger", 4000.0));
+				productos.insert(new Producto(4, "Coche test 12", "Challenger", 4000.0));
+				productos.insert(new Producto(1, "Coche test 13", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 14", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 15", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 16", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 17", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 18", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 19", "Mustang", 1000.0));
+				productos.insert(new Producto(2, "Coche test 20", "Cadillac", 2000.0));
+				productos.insert(new Producto(2, "Coche test 21", "Cadillac", 2000.0));
+				productos.insert(new Producto(2, "Coche test 22", "Cadillac", 2000.0));
+				productos.insert(new Producto(2, "Coche test 23", "Cadillac", 2000.0));
+				productos.insert(new Producto(3, "Coche test 24", "Charger", 3000.0));
+				productos.insert(new Producto(3, "Coche test 25", "Charger", 3000.0));
+				productos.insert(new Producto(3, "Coche test 26", "Charger", 3000.0));
+				productos.insert(new Producto(3, "Coche test 27", "Charger", 3000.0));
+				productos.insert(new Producto(4, "Coche test 28", "Challenger", 4000.0));
+				productos.insert(new Producto(4, "Coche test 29", "Challenger", 4000.0));
+				productos.insert(new Producto(4, "Coche test 30", "Challenger", 4000.0));
+				productos.insert(new Producto(4, "Coche test 31", "Challenger", 4000.0));
+				productos.insert(new Producto(1, "Coche test 32", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 33", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 34", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 35", "Mustang", 1000.0));
+				productos.insert(new Producto(1, "Coche test 36", "Mustang", 1000.0));
 
-		if (productos.findAll().length == 0) {
-
-			productos.insert(new Producto(1, "Producto de prueba 1", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 2", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 3", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(2, "Producto de prueba 4", "Descripcion de producto de prueba", 2000.0));
-			productos.insert(new Producto(2, "Producto de prueba 5", "Descripcion de producto de prueba", 2000.0));
-			productos.insert(new Producto(2, "Producto de prueba 6", "Descripcion de producto de prueba", 2000.0));
-			productos.insert(new Producto(3, "Producto de prueba 7", "Descripcion de producto de prueba", 3000.0));
-			productos.insert(new Producto(3, "Producto de prueba 8", "Descripcion de producto de prueba", 3000.0));
-			productos.insert(new Producto(3, "Producto de prueba 9", "Descripcion de producto de prueba", 3000.0));
-			productos.insert(new Producto(4, "Producto de prueba 10", "Descripcion de producto de prueba", 4000.0));
-			productos.insert(new Producto(4, "Producto de prueba 11", "Descripcion de producto de prueba", 4000.0));
-			productos.insert(new Producto(4, "Producto de prueba 12", "Descripcion de producto de prueba", 4000.0));
-			productos.insert(new Producto(1, "Producto de prueba 13", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 14", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 15", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 16", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 17", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 18", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 19", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(2, "Producto de prueba 20", "Descripcion de producto de prueba", 2000.0));
-			productos.insert(new Producto(2, "Producto de prueba 21", "Descripcion de producto de prueba", 2000.0));
-			productos.insert(new Producto(2, "Producto de prueba 22", "Descripcion de producto de prueba", 2000.0));
-			productos.insert(new Producto(2, "Producto de prueba 23", "Descripcion de producto de prueba", 2000.0));
-			productos.insert(new Producto(3, "Producto de prueba 24", "Descripcion de producto de prueba", 3000.0));
-			productos.insert(new Producto(3, "Producto de prueba 25", "Descripcion de producto de prueba", 3000.0));
-			productos.insert(new Producto(3, "Producto de prueba 26", "Descripcion de producto de prueba", 3000.0));
-			productos.insert(new Producto(3, "Producto de prueba 27", "Descripcion de producto de prueba", 3000.0));
-			productos.insert(new Producto(4, "Producto de prueba 28", "Descripcion de producto de prueba", 4000.0));
-			productos.insert(new Producto(4, "Producto de prueba 29", "Descripcion de producto de prueba", 4000.0));
-			productos.insert(new Producto(4, "Producto de prueba 30", "Descripcion de producto de prueba", 4000.0));
-			productos.insert(new Producto(4, "Producto de prueba 31", "Descripcion de producto de prueba", 4000.0));
-			productos.insert(new Producto(1, "Producto de prueba 32", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 33", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 34", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 35", "Descripcion de producto de prueba", 1000.0));
-			productos.insert(new Producto(1, "Producto de prueba 36", "Descripcion de producto de prueba", 1000.0));
-
-			log.info("Creados 36 productos de prueba");
+				log.info("Creados 36 productos de prueba");
+			}
+			
+			productos.confirmarTransaccion();
+		} catch (Exception e) {
+			productos.deshacerTransaccion();
 		}
 
 		productos.cerrar();
-
-//		facturas.abrir();
-//		facturas.deleteFacturas();
-//		facturas.cerrar();
+		
+		// Establecer el contador de facturas al valor siguiente a la última factura de la tabla
 
 		facturas.abrir();
+		
 		Factura.siguienteFactura = facturas.getMaxId() + 1;
-		facturas.cerrar();
+
+		facturas.cerrar(); //Cierro la conexión después de todas las operaciones con la base de datos
+		
 		// Apuntar el ContextPath
 
 		String path = servletContextEvent.getServletContext().getContextPath();

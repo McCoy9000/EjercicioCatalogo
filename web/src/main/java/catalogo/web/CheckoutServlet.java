@@ -17,7 +17,8 @@ import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
 import catalogo.dal.DAOException;
 import catalogo.dal.FacturaDAO;
-import catalogo.dal.FacturaDAOMySQL;
+import catalogo.dal.FacturaDAOFactory;
+import catalogo.dal.IpartekDAO;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
@@ -41,26 +42,20 @@ public class CheckoutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String op = request.getParameter("op");
 		
+		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
 		ProductoDAO productosVendidos = (ProductoDAO) application.getAttribute("productosVendidos");
 		CarritoDAO carrito = (CarritoDAO) session.getAttribute("carrito");
 
 		Producto producto;
-		Producto[] listaProductosArr = null;
-		Integer numeroProductos = 0;
-		Double precioTotal = 0.0;
+		Producto[] productosCarritoArr = carrito.buscarTodosLosProductos();
+		Integer numeroProductos = productosCarritoArr.length;
+		Double precioTotal = carrito.precioTotal();
 
-		try {
-			listaProductosArr = carrito.buscarTodosLosProductos();
-			numeroProductos = listaProductosArr.length;
-			precioTotal = carrito.precioTotal();
-
-		} catch (NullPointerException npe) {
-			request.getRequestDispatcher("/login").forward(request, response);
-		}
-
-		session.setAttribute("productosArr", listaProductosArr);
+		
+		
+		session.setAttribute("productosCarritoArr", productosCarritoArr);
 		session.setAttribute("numeroProductos", numeroProductos);
 		session.setAttribute("precioTotal", precioTotal);
 
@@ -70,48 +65,62 @@ public class CheckoutServlet extends HttpServlet {
 
 			if (op == null) {
 
-				try {
-					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-				} catch (NullPointerException npe) {
-					carrito = CarritoDAOFactory.getCarritoDAO();
-					session.setAttribute("carrito", carrito);
-					session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
-					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-				}
-
 				request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
 
 			} else {
 
 				switch (op) {
 				case "pagar":
+					
 					Usuario usuario = (Usuario) session.getAttribute("usuario");
 
 					if (usuario == null) {
+					
 						request.getRequestDispatcher("/login").forward(request, response);
 					} else {
-						FacturaDAO facturas = new FacturaDAOMySQL();
+						
+						FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO();
 						Factura factura = new Factura(usuario.getId(), new Date());
+						//TODO transaccion
+						productosReservados.abrir();
+						productosVendidos.abrir();
 						facturas.abrir();
-						int id_factura = facturas.insert(factura);
-//						productosVendidos.abrir();
-//						productosReservados.abrir();
-						for (Producto p : carrito.buscarTodosLosProductos()) {
-							productosReservados.delete(p);
-							productosVendidos.insert(p);
-							facturas.insertFacturaProducto(id_factura, p.getId());
+						productosReservados.iniciarTransaccion();
+						productosVendidos.iniciarTransaccion();
+						facturas.iniciarTransaccion();
+						
+						Producto[] productosFactura = null;
+						Double precioFactura = 0.0;
+						try {
+							int id_factura = facturas.insert(factura);
+
+							for (Producto p : carrito.buscarTodosLosProductos()) {
+								productosReservados.delete(p);
+								productosVendidos.insert(p);
+								facturas.insertFacturaProducto(id_factura, p.getId());
+							}
+							factura = facturas.findById(id_factura);
+
+							productosFactura = facturas.findProductoByFacturaId(id_factura);
+
+							precioFactura = facturas.getPrecioTotal(id_factura);
+
+							productosReservados.confirmarTransaccion();
+							productosVendidos.confirmarTransaccion();
+							facturas.confirmarTransaccion();
+							
+							log.info("Carrito de la compra liquidado");
+						} catch (Exception e) {
+							productosReservados.deshacerTransaccion();
+							productosVendidos.deshacerTransaccion();
+							facturas.deshacerTransaccion();
+							e.printStackTrace();
 						}
-						factura = facturas.findById(id_factura);
-
-						Producto[] productosFactura = facturas.findProductoByFacturaId(id_factura);
-
-						Double precioFactura = facturas.getPrecioTotal(id_factura);
-
-//						productosReservados.cerrar();
-//						productosVendidos.cerrar();
+						
+						productosReservados.cerrar();
+						productosVendidos.cerrar();
 						facturas.cerrar();
-
-						log.info("Carrito de la compra liquidado");
+												
 						carrito = CarritoDAOFactory.getCarritoDAO();
 
 						application.setAttribute("productosReservados", productosReservados);
@@ -122,9 +131,10 @@ public class CheckoutServlet extends HttpServlet {
 						session.setAttribute("precioFactura", precioFactura);
 
 						session.setAttribute("carrito", carrito);
-						session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
+						session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
 						session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-
+						session.setAttribute("precioTotal", carrito.precioTotal());
+						
 						request.getRequestDispatcher("/catalogo").forward(request, response);
 					}
 					break;
@@ -134,34 +144,36 @@ public class CheckoutServlet extends HttpServlet {
 					producto = carrito.buscarPorId(id);
 
 					if (producto != null) {
-
+						//TODO transaccion
 						productos.abrir();
+						productosReservados.abrir();
 						productos.iniciarTransaccion();
+						productosReservados.iniciarTransaccion();
 						try {
 							carrito.quitarDelCarrito(id);
 							productos.insert(producto);
+							productosReservados.delete(producto);
 							productos.confirmarTransaccion();
+							productosReservados.confirmarTransaccion();
+							log.info("Producto retirado del carro");
 						} catch (Exception e) {
 							productos.deshacerTransaccion();
-						}
-						productos.cerrar();
-
-						try {
-							productosReservados.abrir();
-							productosReservados.delete(producto);
-							productosReservados.cerrar();
-						} catch (Exception e) {
+							productosReservados.deshacerTransaccion();
 							throw new DAOException("Error al eliminar de productosReservados", e);
 						}
-						log.info("Producto retirado del carro");
-					}
+						productos.cerrar();
+						productosReservados.cerrar();
+					
 
 					application.setAttribute("productos", productos);
 					application.setAttribute("productosReservados", productosReservados);
 					session.setAttribute("carrito", carrito);
-					session.setAttribute("productosArr", carrito.buscarTodosLosProductos());
+					session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
 					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 					session.setAttribute("precioTotal", carrito.precioTotal());
+					
+					}
+					
 					if (carrito.buscarTodosLosProductos().length == 0) {
 						request.getRequestDispatcher("/catalogo").forward(request, response);
 						break;

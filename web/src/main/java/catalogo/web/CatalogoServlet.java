@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
 import catalogo.dal.DAOException;
+import catalogo.dal.IpartekDAO;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
 
@@ -31,13 +32,16 @@ public class CatalogoServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		// RECOGIDA DE DATOS Y CONSTRUCCIÓN DE OBJETOS
+		
 		ServletContext application = getServletContext();
+		HttpSession session = request.getSession();
 
+		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
+		
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 
 		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
-
-		ProductoDAO productosVendidos = (ProductoDAO) application.getAttribute("productosVendidos");
 
 		// Generar el catálogo. El catálogo es un array en el que cada elemento es, a su vez, el primer elemento de la lista de productos
 		// de un determinado grupo de productos.
@@ -46,7 +50,6 @@ public class CatalogoServlet extends HttpServlet {
 		application.setAttribute("catalogo", productos.getCatalogo());
 		productos.cerrar();
 
-		HttpSession session = request.getSession();
 
 		// Recoger el carrito asociado a la sesión o, en caso de que no exista (porque el usuario haya entrado directamente al catálogo desde
 		// URL), crearlo.
@@ -58,12 +61,16 @@ public class CatalogoServlet extends HttpServlet {
 			carrito = CarritoDAOFactory.getCarritoDAO();
 		}
 
-		// Lógica del servlet según la opción con la que haya llegado el usuario
-
+		// Recoger la opción con la que llega el usuario
 		String op = request.getParameter("op");
 
-		if (op == null) {
 
+		// LOGICA DEL SERVLET
+		
+		if (op == null) {
+			
+			// Si se llega al catálogo sin opciones el carrito que o se ha recogido o se ha creado se empaqueta
+			// en el objeto sesión
 			session.setAttribute("carrito", carrito);
 			session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 
@@ -73,48 +80,42 @@ public class CatalogoServlet extends HttpServlet {
 
 			switch (op) {
 
-			case "logout":
-				session.setAttribute("carrito", carrito);
-				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-				request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);
-				break;
-
-			case "anadir":
+				case "anadir":
 
 				Producto producto;
 
 				int id = Integer.parseInt(request.getParameter("id"));
 
 				productos.abrir();
-
+				productosReservados.abrir();
+				// Se busca el producto correspondiente al id de producto que se nos envía clickando en 
+				// el botón junto al producto
 				producto = productos.findById(id);
 
 				if (producto != null) {
-
+				// Se hace el proceso de añadirlo al carrito
 					productos.iniciarTransaccion();
+					productosReservados.iniciarTransaccion();
 					try {
 						productos.delete(producto);
 						carrito.anadirAlCarrito(producto);
+						productosReservados.insert(producto);
 						productos.confirmarTransaccion();
+						productosReservados.confirmarTransaccion();
 					} catch (Exception e) {
 						productos.deshacerTransaccion();
+						productosReservados.deshacerTransaccion();
+						throw new DAOException ("Error al añadir un producto al carrito", e);
 					}
-
-					try {
-						productosReservados.abrir();
-						productosReservados.insert(producto);
-						productosReservados.cerrar();
-					} catch (Exception e) {
-						throw new DAOException("Error al añadir a productos_reservados", e);
-					}
-
 					log.info("Añadido un producto al carrito");
 				}
-
+				// Se actualiza el catálogo para eliminar el producto que se ha añadido al carro
 				application.setAttribute("catalogo", productos.getCatalogo());
+				
 				productos.cerrar();
+				productosReservados.cerrar();
 
-				application.setAttribute("productosVendidos", productosVendidos);
+				application.setAttribute("productosReservados", productosReservados);
 				application.setAttribute("productos", productos);
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);

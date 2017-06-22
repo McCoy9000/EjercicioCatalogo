@@ -22,19 +22,26 @@ public class AutorizacionFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-		// Tal y como está declarado el filtro, doFilter se ejecutará cuando se acceda a una zona dentro de /admin/
+		// Tal y como está declarado el filtro, doFilter se ejecutará cuando se acceda a una zona dentro
+		// de /admin/. En principio los enlaces a esta sección no es visible para los no administradores,
+		// pero se podría modificar el css que lo oculta o introducir una de estas URLs directamente en
+		// el navegador. Aquí es donde entra en acción el filtro.
 
+		// RECOPILACIÓN DE LOS OBJETOS A ANALIZAR Y UTILIZAR
+		
 		// Casteo del objeto request en HttpServletRequest para poder obtener el objeto session.
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
 
-		// Creación de un objeto usuario para introducir en el, si lo hay, el usuario que viene en el objeto sesión
+		// Creación de un objeto usuario para introducir en él, si lo hay, el usuario que viene en el 
+		// objeto sesión y poder analizar sus permisos y darle acceso a unas secciones u otras
 		Usuario usuario = null;
 		if (session != null) {
 			usuario = (Usuario) session.getAttribute("usuario");
 		}
 
-		// Declaración de booleanas para la lógica de la aplicación
+		// DECLARACIÓN DE BOOLEANAS PARA LA LÓGICA DEL FILTRO
+		
 		// Si la sesión era null o no tenía objeto usuario dentro se considera al usuario un nuevo usuario
 		boolean esNuevoUsuario = usuario == null;
 		// En principio se considera al usuario no administrador
@@ -44,7 +51,7 @@ public class AutorizacionFilter implements Filter {
 			esAdmin = usuario.getId_roles() == 1;
 		}
 
-		// Lógica del servlet filter
+		// LÓGICA DEL FILTRO
 
 		// Si no es administrador se le enviará al login. Le meto el mensaje de error, pero al llegar al login, como no tiene datos
 		// de logueo en un primer momento, se cambia este mensaje por el de 'Debes rellenar todos los campos' :-(

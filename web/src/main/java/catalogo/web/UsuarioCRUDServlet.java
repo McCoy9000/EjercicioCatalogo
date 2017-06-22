@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import catalogo.dal.IpartekDAO;
 import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Usuario;
 
@@ -27,6 +28,7 @@ public class UsuarioCRUDServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ServletContext application = getServletContext();
+		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 
 		String op = request.getParameter("op");

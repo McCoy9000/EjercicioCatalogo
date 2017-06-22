@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import catalogo.dal.DAOException;
+import catalogo.dal.IpartekDAO;
 import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Usuario;
 
@@ -29,6 +30,9 @@ public class UsuarioFormServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ServletContext application = getServletContext();
+
+		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
+		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 
 		String op = request.getParameter("opform");
 
@@ -54,7 +58,6 @@ public class UsuarioFormServlet extends HttpServlet {
 
 		Usuario usuario = new Usuario(id_roles, nombre_completo, password, username);
 
-		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 
 		switch (op) {
 
