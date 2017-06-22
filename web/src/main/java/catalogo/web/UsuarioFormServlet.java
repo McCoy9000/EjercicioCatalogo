@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import catalogo.dal.DAOException;
-import catalogo.dal.IpartekDAO;
 import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Usuario;
 
@@ -31,7 +30,6 @@ public class UsuarioFormServlet extends HttpServlet {
 
 		ServletContext application = getServletContext();
 
-		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 
 		String op = request.getParameter("opform");
@@ -46,7 +44,6 @@ public class UsuarioFormServlet extends HttpServlet {
 		} else {
 			id_roles = Integer.parseInt(request.getParameter("id_roles"));
 		}
-		
 
 		RequestDispatcher rutaListado = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO);
@@ -58,7 +55,6 @@ public class UsuarioFormServlet extends HttpServlet {
 
 		Usuario usuario = new Usuario(id_roles, nombre_completo, password, username);
 
-
 		switch (op) {
 
 		case "alta":
@@ -69,8 +65,8 @@ public class UsuarioFormServlet extends HttpServlet {
 					usuarios.cerrar();
 					log.info("Usuario " + usuario.getUsername() + " dado de alta");
 				} catch (DAOException e) {
-					//Si falla el insert se coge la excepción que lanza y se le reenvía al formulario con el objeto
-					//usuario que traía metido en la request
+					// Si falla el insert se coge la excepción que lanza y se le reenvía al formulario con el objeto
+					// usuario que traía metido en la request
 					request.setAttribute("usuario", usuario);
 					e.printStackTrace();
 					rutaFormulario.forward(request, response);

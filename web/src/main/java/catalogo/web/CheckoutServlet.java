@@ -18,7 +18,6 @@ import catalogo.dal.CarritoDAOFactory;
 import catalogo.dal.DAOException;
 import catalogo.dal.FacturaDAO;
 import catalogo.dal.FacturaDAOFactory;
-import catalogo.dal.IpartekDAO;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
@@ -42,7 +41,6 @@ public class CheckoutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String op = request.getParameter("op");
 
-		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
 		ProductoDAO productosVendidos = (ProductoDAO) application.getAttribute("productosVendidos");

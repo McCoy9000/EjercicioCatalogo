@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import catalogo.dal.IpartekDAO;
 import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Usuario;
 
@@ -33,8 +32,8 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//RECOPILACION DE LOS OBJETOS A ANALIZAR Y UTILIZAR
+
+		// RECOPILACION DE LOS OBJETOS A ANALIZAR Y UTILIZAR
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
 
@@ -44,14 +43,13 @@ public class LoginServlet extends HttpServlet {
 		String op = request.getParameter("op");
 
 		// Recogida de datos de aplicación y de sesión
-		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		@SuppressWarnings("unchecked")
 		LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
-		
+
 		// Declaración de un objeto usuario para trabajar sobre él
 		Usuario usuario;
-		
+
 		// Hasta que alguien no se loguea el objeto session no tiene un usuario asociado por lo que puede
 		// ser nulo. Si no es nulo, se recoge, si lo es, se crea uno nuevo con los datos recogidos en la request
 		if (session.getAttribute("usuario") != null) {
@@ -61,9 +59,8 @@ public class LoginServlet extends HttpServlet {
 		} else
 			usuario = new Usuario(username, password);
 
-		
 		// DECLARACIÓN E INICIALIZACIÓN DE LAS BOOLEANAS SOBRE LAS QUE SE BASARÁ LA LÓGICA DEL SERVLET
-		
+
 		boolean quiereSalir = ("logout").equals(op);
 		boolean yaLogueado = ("si").equals(session.getAttribute("logueado"));
 		// sinDatos puede significar que alguien ha intentado loguearse sin datos o que es la primera vez
@@ -72,11 +69,11 @@ public class LoginServlet extends HttpServlet {
 		boolean sinDatos = username == null || username == "" || password == "" || password == null;
 		boolean uInexistente = false;
 		boolean esValido = false;
-			usuarios.abrir();
-				uInexistente = !usuarios.validarNombre(usuario);
-				esValido = usuarios.validar(usuario);
-			usuarios.cerrar();
-		
+		usuarios.abrir();
+		uInexistente = !usuarios.validarNombre(usuario);
+		esValido = usuarios.validar(usuario);
+		usuarios.cerrar();
+
 		// Declaración e inicialización de los dispatcher ya que en un momento dado me daba problemas inicializarlos
 		// directamente cuando son requeridos.
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);

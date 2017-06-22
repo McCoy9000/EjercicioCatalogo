@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -8,67 +9,58 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Su factura</title>
 </head>
-<body class="factura">
-<div style="float:left">
+<body>
+<div id="factura">
+<div>
 <table>
+	<thead>
 	<tr>
-		<td>Factura ${factura.id}</td>
+		<th style="text-align: left">Factura ${factura.id}</th>
+		<th style="text-align: right">${factura.fecha}</th>
 	</tr>
+	</thead>
+	<tbody>
 	<tr>
 		<td>Driver, S.A.</td>
+		<td style="text-align: right">${usuario.nombre_completo}</td>
 	</tr>
 	<tr>
 		<td>A-12345678</td>
+		<td style="text-align: right">98765432-X</td>
 	</tr>
 	<tr>
 		<td>c/ Kalea, 4 - 9ºB</td>
+		<td style="text-align: right">c/ del Usuario s/n</td>
 	</tr>
+	</tbody>
 </table>
 </div>
-<div style="float:right">
-<table>
-	<tr>
-		<td>${factura.fecha}</td>
-	</tr>
-	<tr>
-		<td>${usuario.nombre_completo}</td>
-	</tr>
-	<tr>
-		<td>98765432-X</td>
-	</tr>
-	<tr>
-		<td>c/ del Usuario s/n</td>
-	</tr>
-</table>
-</div>
+
 
 <div>
 <table>
 	<thead>
 		<tr>
 			<th>Producto</th>
-			<th>Precio</th>
+			<th style="text-align: right">Precio</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${sessionScope.productosFactura}" var="producto">
 				<tr>
 				<td>${producto.nombre}</td>
-				<td>${producto.precio / 1.21} €</td>
+				<td style="text-align: right">${producto.precio} €</td>
 				</tr>
 		</c:forEach>
-		<tr>
-			<td>I.V.A.</td>
-			<td>${sessionScope.precioFactura - (sessionScope.precioFactura / 1.21)} €</td>
-		</tr>
+		
 		<tr>
 			<td>Total: </td>
-			<td>${sessionScope.precioFactura} €</td>
+			<td style="text-align: right">${sessionScope.precioFactura} €</td>
 		</tr>
 	</tbody>
 </table>
 </div>
-
+</div>
 
 </body>
 </html>

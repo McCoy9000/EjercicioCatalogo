@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSessionBindingListener;
 import org.apache.log4j.Logger;
 
 import catalogo.dal.CarritoDAO;
-import catalogo.dal.IpartekDAO;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
@@ -36,7 +35,6 @@ public class ObjectLock implements Serializable, HttpSessionBindingListener {
 		// Obtener el objeto application y los DAOs asociados conexión, de productos y productosReservados
 		ServletContext application = session.getServletContext();
 
-		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
 

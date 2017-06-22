@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import catalogo.dal.DAOException;
-import catalogo.dal.IpartekDAO;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
 
@@ -34,7 +33,6 @@ public class ProductoFormServlet extends HttpServlet {
 		// Recoger el objeto application del ServletContext
 		ServletContext application = getServletContext();
 
-		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 
 		// Regocoger la opción elegida por el usuario en el formulario enviada por url
@@ -92,7 +90,6 @@ public class ProductoFormServlet extends HttpServlet {
 		}
 
 		Producto producto;
-
 
 		switch (op) {
 		case "alta":

@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
 import catalogo.dal.DAOException;
-import catalogo.dal.IpartekDAO;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
 
@@ -36,8 +35,6 @@ public class CatalogoServlet extends HttpServlet {
 
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession();
-
-		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
 
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 

@@ -29,8 +29,7 @@ input {
 .bienvenido {
 	font-weight: bold;
 }
-
-.factura {
+#factura {
 	height: 600px;
 	width: 400;
 }

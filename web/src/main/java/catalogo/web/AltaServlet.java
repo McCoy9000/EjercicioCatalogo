@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import catalogo.dal.IpartekDAO;
 import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Usuario;
 
@@ -34,58 +33,56 @@ public class AltaServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//RECOGIDA DE DATOS Y OBJETOS PARA TRABAJAR SOBRE ELLOS
-		
-		//Se recogen los objetos sesión y aplicación
+
+		// RECOGIDA DE DATOS Y OBJETOS PARA TRABAJAR SOBRE ELLOS
+
+		// Se recogen los objetos sesión y aplicación
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
-		// Se obtiene un objeto genérico DAO para las conexiones a la BDD
-		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
-		//Se obtiene el conjunto de usuarios extraído de la BBDD e introducido en el objeto application en el 
-		//listener de la aplicación
+		// Se obtiene el conjunto de usuarios extraído de la BBDD e introducido en el objeto application en el
+		// listener de la aplicación
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
-		//Se recogen los valores de los atributos de usuario introducidos en el formulario de alta
+		// Se recogen los valores de los atributos de usuario introducidos en el formulario de alta
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String password2 = request.getParameter("password2");
 		String nombre_completo = request.getParameter("nombre_completo");
-		//id_roles se asigna directamente como usuario estándar
+		// id_roles se asigna directamente como usuario estándar
 		int id_roles = 2;
-		//Se crea un objeto usuario con el que trabajar a partir de esos datos
+		// Se crea un objeto usuario con el que trabajar a partir de esos datos
 		Usuario usuario = new Usuario(id_roles, nombre_completo, password, username);
-		
-		//Se declara e inicializan las booleanas a partir de las cuales se desarrollará la lógica del servlet
-		boolean nombreDemasiadoLargo = false;
-			if (username != null) {
-				nombreDemasiadoLargo = username.length() > 16;
-			}
-		boolean usuarioExistente = false;
-		//Se considera que el usuario ya existe sólo con que coincida el username, de ahí el método validarNombre()
-			usuarios.abrir();
-			usuarioExistente = usuarios.validarNombre(usuario);
-			usuarios.cerrar();
-		boolean sinDatos = username == null || username == "" || password == null || password == "" || password2 == null || password2 == "";
-		//Se considera que en un principio, sin datos, ambas pass son iguales (igual a null)
-		boolean passIguales = true;
-			if (password != null) {
-				passIguales = password.equals(password2);
-			}
-		boolean esCorrecto = false;
-			if (!sinDatos) {
-				esCorrecto = !usuarioExistente && passIguales;
-			}
 
-		//Declaro los dispatcher aquí porque en un momento me dieron un extraño error al declararlos en el momento de necesitarlos
+		// Se declara e inicializan las booleanas a partir de las cuales se desarrollará la lógica del servlet
+		boolean nombreDemasiadoLargo = false;
+		if (username != null) {
+			nombreDemasiadoLargo = username.length() > 16;
+		}
+		boolean usuarioExistente = false;
+		// Se considera que el usuario ya existe sólo con que coincida el username, de ahí el método validarNombre()
+		usuarios.abrir();
+		usuarioExistente = usuarios.validarNombre(usuario);
+		usuarios.cerrar();
+		boolean sinDatos = username == null || username == "" || password == null || password == "" || password2 == null || password2 == "";
+		// Se considera que en un principio, sin datos, ambas pass son iguales (igual a null)
+		boolean passIguales = true;
+		if (password != null) {
+			passIguales = password.equals(password2);
+		}
+		boolean esCorrecto = false;
+		if (!sinDatos) {
+			esCorrecto = !usuarioExistente && passIguales;
+		}
+
+		// Declaro los dispatcher aquí porque en un momento me dieron un extraño error al declararlos en el momento de necesitarlos
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
 		RequestDispatcher alta = request.getRequestDispatcher(RUTA_ALTA);
 
-		//LOGICA DEL SERVLET
+		// LOGICA DEL SERVLET
 		if (sinDatos) {
-		
+
 			session.setAttribute("errorSignup", "Debes rellenar todos los campos");
 			alta.forward(request, response);
-		
+
 		} else if (nombreDemasiadoLargo) {
 
 			session.setAttribute("errorSignup", "El nombre de usuario debe tener un máximo de 16 caracteres");
