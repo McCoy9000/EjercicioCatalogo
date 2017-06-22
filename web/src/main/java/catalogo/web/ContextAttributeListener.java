@@ -15,13 +15,13 @@ import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
 
 @WebListener("/aplicacion")
-public class ContextListener implements Serializable, ServletContextAttributeListener {
+public class ContextAttributeListener implements Serializable, ServletContextAttributeListener {
 
 	 
 	private static Logger log = Logger.getLogger(InicializacionListener.class);
 	private static final long serialVersionUID = 734423032861834388L;
 
-	public ContextListener() {
+	public ContextAttributeListener() {
 		// TODO Auto-generated constructor stub
 	}
 
