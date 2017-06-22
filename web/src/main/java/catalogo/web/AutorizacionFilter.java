@@ -35,19 +35,14 @@ public class AutorizacionFilter implements Filter {
 
 		// Creación de un objeto usuario para introducir en él, si lo hay, el usuario que viene en el 
 		// objeto sesión y poder analizar sus permisos y darle acceso a unas secciones u otras
-		Usuario usuario = null;
-		if (session != null) {
-			usuario = (Usuario) session.getAttribute("usuario");
-		}
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
 
 		// DECLARACIÓN DE BOOLEANAS PARA LA LÓGICA DEL FILTRO
 		
-		// Si la sesión era null o no tenía objeto usuario dentro se considera al usuario un nuevo usuario
-		boolean esNuevoUsuario = usuario == null;
 		// En principio se considera al usuario no administrador
 		boolean esAdmin = false;
 		// Si no es nuevo usuario el usuario no es null por lo que se le puede pedir el id_roles sin miedo al NullPointerException
-		if (!esNuevoUsuario) {
+		if (usuario != null) {
 			esAdmin = usuario.getId_roles() == 1;
 		}
 

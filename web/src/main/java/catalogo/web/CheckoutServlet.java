@@ -112,10 +112,7 @@ public class CheckoutServlet extends HttpServlet {
 
 						carrito = CarritoDAOFactory.getCarritoDAO();
 
-//						application.setAttribute("productosReservados", productosReservados);
-//						application.setAttribute("productosVendidos", productosVendidos);
-//
-//						session.setAttribute("factura", factura);
+						session.setAttribute("factura", factura);
 						session.setAttribute("productosFactura", productosFactura);
 						session.setAttribute("precioFactura", precioFactura);
 
