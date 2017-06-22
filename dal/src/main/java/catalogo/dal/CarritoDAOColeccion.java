@@ -1,5 +1,6 @@
 package catalogo.dal;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,10 +8,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
+import org.apache.log4j.Logger;
+
 import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
 
-public class CarritoDAOColeccion implements CarritoDAO {
+public class CarritoDAOColeccion implements CarritoDAO, Serializable, HttpSessionBindingListener {
+
+	
+	private static final long serialVersionUID = 2184412432713235074L;
+
+	private static Logger log = Logger.getLogger(CarritoDAOColeccion.class);
 
 	Carrito carrito;
 
@@ -91,6 +104,20 @@ public class CarritoDAOColeccion implements CarritoDAO {
 
 		return catalogo;
 
+	}
+
+	@Override
+	public void valueBound(HttpSessionBindingEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void valueUnbound(HttpSessionBindingEvent event) {
+		HttpSession session = event.getSession();
+		ServletContext application = session.getServletContext();
+		application.setAttribute("carritoAbandonado", this);
+		log.info("Carrito abandonado almacenado en aplicacion");
 	}
 
 }

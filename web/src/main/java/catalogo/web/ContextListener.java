@@ -1,0 +1,77 @@
+package catalogo.web;
+
+import java.io.Serializable;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextAttributeEvent;
+import javax.servlet.ServletContextAttributeListener;
+import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+
+import catalogo.dal.CarritoDAO;
+import catalogo.dal.ProductoDAO;
+import catalogo.tipos.Producto;
+
+@WebListener("/aplicacion")
+public class ContextListener implements Serializable, ServletContextAttributeListener {
+
+	 
+	private static Logger log = Logger.getLogger(InicializacionListener.class);
+	private static final long serialVersionUID = 734423032861834388L;
+
+	public ContextListener() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void attributeAdded(ServletContextAttributeEvent event) {
+
+				log.info("ServletContextAttributeEvent disparado");
+				// Obtener el objeto application y los DAOs asociados conexión, de productos y productosReservados
+				
+				if(("carritoAbandonado").equals(event.getName())) {
+
+				ServletContext application = event.getServletContext();
+
+				CarritoDAO carrito = (CarritoDAO) application.getAttribute("carritoAbandonado");
+
+				ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
+				ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
+
+				// Vaciar los productos del carrito, que se registran en la tabla general de productos_reservados
+				// en la tabla general de productos
+				productos.abrir();
+				productosReservados.reutilizarConexion(productos);
+				productos.iniciarTransaccion();
+
+				try {
+					for (Producto p : carrito.buscarTodosLosProductos()) {
+						productosReservados.delete(p);
+						productos.insert(p);
+						productos.confirmarTransaccion();
+					}
+				} catch (Exception e) {
+					productos.deshacerTransaccion();
+				}
+
+				productos.cerrar();
+
+				log.info("Vaciado carrito abandonado");
+				}
+	}
+
+	@Override
+	public void attributeRemoved(ServletContextAttributeEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void attributeReplaced(ServletContextAttributeEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

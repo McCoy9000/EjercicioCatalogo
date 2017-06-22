@@ -5,11 +5,16 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import org.apache.log4j.Logger;
+
 import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
 
+
 @WebListener("/sesion")
 public class SessionListener implements HttpSessionListener {
+
+	private static Logger log = Logger.getLogger(InicializacionListener.class);
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
@@ -24,7 +29,8 @@ public class SessionListener implements HttpSessionListener {
 		session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 		// Almacenar en la sesión un objeto tipo HttpSessionBindingListener bajo el nombre sessionBindingListener
 		// con los métodos a ejecutar al expirar la sesión justo antes de destruirla
-		session.setAttribute("sessionBindingListener", new ObjectLock());
+		session.setAttribute("sessionBindingListener", carrito);
+		log.info("Carrito empaquetado en sesión y registrado como sessionBindingListener");
 
 	}
 
