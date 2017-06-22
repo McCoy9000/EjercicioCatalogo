@@ -108,8 +108,6 @@ public class CatalogoServlet extends HttpServlet {
 				productos.abrir();
 				application.setAttribute("catalogo", productos.getCatalogo());
 				productos.cerrar();
-				application.setAttribute("productosReservados", productosReservados);
-				application.setAttribute("productos", productos);
 
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
