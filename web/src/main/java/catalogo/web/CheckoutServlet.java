@@ -41,7 +41,7 @@ public class CheckoutServlet extends HttpServlet {
 		ServletContext application = request.getServletContext();
 		HttpSession session = request.getSession();
 		String op = request.getParameter("op");
-		
+
 		IpartekDAO dao = (IpartekDAO) application.getAttribute("dao");
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
@@ -53,8 +53,6 @@ public class CheckoutServlet extends HttpServlet {
 		Integer numeroProductos = productosCarritoArr.length;
 		Double precioTotal = carrito.precioTotal();
 
-		
-		
 		session.setAttribute("productosCarritoArr", productosCarritoArr);
 		session.setAttribute("numeroProductos", numeroProductos);
 		session.setAttribute("precioTotal", precioTotal);
@@ -71,24 +69,22 @@ public class CheckoutServlet extends HttpServlet {
 
 				switch (op) {
 				case "pagar":
-					
+
 					Usuario usuario = (Usuario) session.getAttribute("usuario");
 
 					if (usuario == null) {
-					
+
 						request.getRequestDispatcher("/login").forward(request, response);
 					} else {
-						
+
 						FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO();
 						Factura factura = new Factura(usuario.getId(), new Date());
-						//TODO transaccion
+						// TODO transaccion
 						productosReservados.abrir();
-						productosVendidos.abrir();
-						facturas.abrir();
+						productosVendidos.reutilizarConexion(productosReservados);
+						facturas.reutilizarConexion(productosReservados);
 						productosReservados.iniciarTransaccion();
-						productosVendidos.iniciarTransaccion();
-						facturas.iniciarTransaccion();
-						
+
 						Producto[] productosFactura = null;
 						Double precioFactura = 0.0;
 						try {
@@ -106,21 +102,16 @@ public class CheckoutServlet extends HttpServlet {
 							precioFactura = facturas.getPrecioTotal(id_factura);
 
 							productosReservados.confirmarTransaccion();
-							productosVendidos.confirmarTransaccion();
-							facturas.confirmarTransaccion();
-							
+
 							log.info("Carrito de la compra liquidado");
 						} catch (Exception e) {
 							productosReservados.deshacerTransaccion();
-							productosVendidos.deshacerTransaccion();
-							facturas.deshacerTransaccion();
+
 							e.printStackTrace();
 						}
-						
+
 						productosReservados.cerrar();
-						productosVendidos.cerrar();
-						facturas.cerrar();
-												
+
 						carrito = CarritoDAOFactory.getCarritoDAO();
 
 						application.setAttribute("productosReservados", productosReservados);
@@ -134,7 +125,7 @@ public class CheckoutServlet extends HttpServlet {
 						session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
 						session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 						session.setAttribute("precioTotal", carrito.precioTotal());
-						
+
 						request.getRequestDispatcher("/catalogo").forward(request, response);
 					}
 					break;
@@ -144,7 +135,7 @@ public class CheckoutServlet extends HttpServlet {
 					producto = carrito.buscarPorId(id);
 
 					if (producto != null) {
-						//TODO transaccion
+						// TODO transaccion
 						productos.abrir();
 						productosReservados.abrir();
 						productos.iniciarTransaccion();
@@ -163,17 +154,16 @@ public class CheckoutServlet extends HttpServlet {
 						}
 						productos.cerrar();
 						productosReservados.cerrar();
-					
 
-					application.setAttribute("productos", productos);
-					application.setAttribute("productosReservados", productosReservados);
-					session.setAttribute("carrito", carrito);
-					session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
-					session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-					session.setAttribute("precioTotal", carrito.precioTotal());
-					
+						application.setAttribute("productos", productos);
+						application.setAttribute("productosReservados", productosReservados);
+						session.setAttribute("carrito", carrito);
+						session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
+						session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
+						session.setAttribute("precioTotal", carrito.precioTotal());
+
 					}
-					
+
 					if (carrito.buscarTodosLosProductos().length == 0) {
 						request.getRequestDispatcher("/catalogo").forward(request, response);
 						break;

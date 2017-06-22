@@ -27,10 +27,10 @@ public class ObjectLock implements Serializable, HttpSessionBindingListener {
 
 	@Override
 	public void valueUnbound(HttpSessionBindingEvent event) {
-		
+
 		// Obtener el objeto session y el DAO de carrito asociado
 		HttpSession session = event.getSession();
-		
+
 		CarritoDAO carrito = (CarritoDAO) session.getAttribute("carrito");
 
 		// Obtener el objeto application y los DAOs asociados conexión, de productos y productosReservados
@@ -43,25 +43,21 @@ public class ObjectLock implements Serializable, HttpSessionBindingListener {
 		// Vaciar los productos del carrito, que se registran en la tabla general de productos_reservados
 		// en la tabla general de productos
 		productos.abrir();
-		productosReservados.abrir();
+		productosReservados.reutilizarConexion(productos);
 		productos.iniciarTransaccion();
-		productosReservados.iniciarTransaccion();
 
 		try {
 			for (Producto p : carrito.buscarTodosLosProductos()) {
 				productosReservados.delete(p);
 				productos.insert(p);
 				productos.confirmarTransaccion();
-				productosReservados.confirmarTransaccion();
 			}
 		} catch (Exception e) {
 			productos.deshacerTransaccion();
-			productosReservados.deshacerTransaccion();
 		}
 
 		productos.cerrar();
-		productosReservados.cerrar();
-		
+
 		log.info("Vaciado carrito abandonado");
 	}
 

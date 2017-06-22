@@ -8,28 +8,40 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Su factura</title>
 </head>
-<body>
-<div>
+<body class="factura">
+<div style="float:left">
 <table>
 	<tr>
 		<td>Factura ${factura.id}</td>
-		<td>${factura.fecha}</td>
 	</tr>
 	<tr>
 		<td>Driver, S.A.</td>
-		<td>${usuario.nombre_completo}</td>
 	</tr>
 	<tr>
 		<td>A-12345678</td>
-		<td>98765432-X</td>
 	</tr>
 	<tr>
 		<td>c/ Kalea, 4 - 9ºB</td>
-		<td>c/ del Usuario</td>
 	</tr>
-	
 </table>
 </div>
+<div style="float:right">
+<table>
+	<tr>
+		<td>${factura.fecha}</td>
+	</tr>
+	<tr>
+		<td>${usuario.nombre_completo}</td>
+	</tr>
+	<tr>
+		<td>98765432-X</td>
+	</tr>
+	<tr>
+		<td>c/ del Usuario s/n</td>
+	</tr>
+</table>
+</div>
+
 <div>
 <table>
 	<thead>

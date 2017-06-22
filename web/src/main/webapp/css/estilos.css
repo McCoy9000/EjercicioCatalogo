@@ -30,6 +30,11 @@ input {
 	font-weight: bold;
 }
 
+.factura {
+	height: 600px;
+	width: 400;
+}
+
 nav {
     background-color: lightgrey;
     padding: 1em;

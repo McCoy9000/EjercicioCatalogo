@@ -44,11 +44,11 @@ public class InicializacionListener implements ServletContextListener {
 		PropertyConfigurator.configure(InicializacionListener.class.getClassLoader().getResource("log4j.properties"));
 
 		// Inicializar un DAO genérico para conexiones y transacciones y hacerlo accesible a través del Servlet Context
-		
+
 		IpartekDAO dao = IpartekDAOFactory.getIpartekDAO();
-		
+
 		application.setAttribute("dao", dao);
-		
+
 		// Inicializar el DAO de usuarios y hacerlo accesible a través del ServletContext
 
 		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO();
@@ -56,7 +56,7 @@ public class InicializacionListener implements ServletContextListener {
 		application.setAttribute("usuarios", usuarios);
 
 		// Crear un array con todos los usuarios y dejarlo disponible en el ServletContext
-		
+
 		usuarios.abrir();
 		Usuario[] usuariosArr = usuarios.findAll();
 		usuarios.cerrar();
@@ -70,7 +70,7 @@ public class InicializacionListener implements ServletContextListener {
 		application.setAttribute("productos", productos);
 
 		// Crear un array con todos los productos y dejarlo disponible en el ServletContext
-		
+
 		productos.abrir();
 		Producto[] productosArr = productos.findAll();
 		productos.cerrar();
@@ -78,7 +78,7 @@ public class InicializacionListener implements ServletContextListener {
 		application.setAttribute("productosArr", productosArr);
 
 		// Inicializar el DAO de ProductosReservados y ProductosVendidos y hacerlos accesibles a través del ServletContext
-				
+
 		ProductoDAO productosReservados = ProductoDAOFactory.getProductoReservadoDAO();
 
 		application.setAttribute("productosReservados", productosReservados);
@@ -88,7 +88,7 @@ public class InicializacionListener implements ServletContextListener {
 		application.setAttribute("productosVendidos", productosVendidos);
 
 		// Inicializar el DAO de facturas y hacerlo accesible a través del ServletContext
-		
+
 		FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO();
 
 		// Inicializar una lista de los usuarios logueados y hacerla accesible a través del ServletContext
@@ -103,13 +103,11 @@ public class InicializacionListener implements ServletContextListener {
 
 		if (usuarios.findAll().length != 0)
 			usuarios.deleteUsuarios();
-		
+
 		usuarios.cerrar();
-		
+
 		Usuario usuario = new Usuario(1, "admin", "admin", "admin");
 
-		
-		
 		if (!usuarios.validar(usuario)) {
 			usuarios.abrir();
 			usuarios.insert(usuario);
@@ -117,11 +115,9 @@ public class InicializacionListener implements ServletContextListener {
 
 			log.info("Creado usuario administrador. Usuario: 'admin', Password: 'admin'");
 		}
-		
-		
+
 		usuario = new Usuario(2, "mikel", "mikel", "mikel");
 
-		
 		if (!usuarios.validar(usuario)) {
 
 			usuarios.abrir();
@@ -131,18 +127,17 @@ public class InicializacionListener implements ServletContextListener {
 			log.info("Creado usuario estándard. Usuario: 'mikel', Password: 'mikel'");
 		}
 
-		
 		// Vaciar la base de datos de productos y rellenarla con 36 productos de prueba
 
 		productos.abrir();
 		productos.iniciarTransaccion();
-		
+
 		try {
 			if (productos.findAll().length != 0) {
 				productos.deleteProductos();
 				log.info("Borrada tabla de productos");
 			}
-			
+
 			if (productos.findAll().length == 0) {
 
 				productos.insert(new Producto(1, "Coche test 1", "Mustang", 1000.0));
@@ -184,22 +179,22 @@ public class InicializacionListener implements ServletContextListener {
 
 				log.info("Creados 36 productos de prueba");
 			}
-			
+
 			productos.confirmarTransaccion();
 		} catch (Exception e) {
 			productos.deshacerTransaccion();
 		}
 
 		productos.cerrar();
-		
+
 		// Establecer el contador de facturas al valor siguiente a la última factura de la tabla
 
 		facturas.abrir();
-		
+
 		Factura.siguienteFactura = facturas.getMaxId() + 1;
 
-		facturas.cerrar(); //Cierro la conexión después de todas las operaciones con la base de datos
-		
+		facturas.cerrar(); // Cierro la conexión después de todas las operaciones con la base de datos
+
 		// Apuntar el ContextPath
 
 		String path = servletContextEvent.getServletContext().getContextPath();
