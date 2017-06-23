@@ -1,4 +1,4 @@
-package catalogo.web;
+package catalogo.web.listeners;
 
 import java.io.Serializable;
 
