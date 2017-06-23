@@ -104,22 +104,27 @@ public class LoginServlet extends HttpServlet {
 			login.forward(request, response);
 
 		} else if (esValido) {
-			// Si nombre y contraseña son válidos se busca el usuario correspondiente en la base de datos para rellenar el resto de datos
-			// como su id_roles y se almacena este usuario en el objeto session.
-			log.info("Usuario " + usuario.getUsername() + " logueado");
-			usuarios.abrir();
-			usuario = usuarios.findByName(usuario.getUsername());
-			usuarios.cerrar();
-			usuariosLogueados.add(usuario);
-			application.setAttribute("usuariosLogueados", usuariosLogueados);
-			session.removeAttribute("errorLogin");
-			session.setAttribute("logueado", "si");
-			session.setAttribute("usuario", usuario);
-			// Se le envía al catálogo
-			catalogo.forward(request, response);
-
+			// Si el usuario ya está logueado no deja volver a loguearse con el mismo usuario
+			if (usuariosLogueados.contains(usuario)) {
+				session.setAttribute("errorLogin", "Este usuario ya está logueado");
+				login.forward(request, response);
+				// Si nombre y contraseña son válidos se busca el usuario correspondiente en la base de datos para rellenar el resto de datos
+				// como su id_roles y se almacena este usuario en el objeto session.
+			} else {
+				log.info("Usuario " + usuario.getUsername() + " logueado");
+				usuarios.abrir();
+				usuario = usuarios.findByName(usuario.getUsername());
+				usuarios.cerrar();
+				usuariosLogueados.add(usuario);
+				application.setAttribute("usuariosLogueados", usuariosLogueados);
+				session.removeAttribute("errorLogin");
+				session.setAttribute("logueado", "si");
+				session.setAttribute("usuario", usuario);
+				// Se le envía al catálogo
+				catalogo.forward(request, response);
+			}
 		} else {
-			// En principio la posibilidad que queda es que el usuario exista pero la password sea incorrecta
+			// En principio, la posibilidad que queda es que el usuario exista pero la password sea incorrecta
 			session.setAttribute("errorLogin", "Contraseña incorrecta");
 			login.forward(request, response);
 		}

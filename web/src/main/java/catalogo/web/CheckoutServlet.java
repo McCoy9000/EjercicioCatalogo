@@ -77,7 +77,7 @@ public class CheckoutServlet extends HttpServlet {
 
 						FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO();
 						Factura factura = new Factura(usuario.getId(), new Date());
-						// TODO transaccion
+						// Abrir conexion para todas las tablas e iniciar transacción
 						productosReservados.abrir();
 						productosVendidos.reutilizarConexion(productosReservados);
 						facturas.reutilizarConexion(productosReservados);
@@ -150,8 +150,8 @@ public class CheckoutServlet extends HttpServlet {
 						productos.cerrar();
 						productosReservados.cerrar();
 
-//						application.setAttribute("productos", productos);
-//						application.setAttribute("productosReservados", productosReservados);
+						// application.setAttribute("productos", productos);
+						// application.setAttribute("productosReservados", productosReservados);
 						session.setAttribute("carrito", carrito);
 						session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
 						session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);

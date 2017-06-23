@@ -6,7 +6,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletContextAttributeListener;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -17,7 +16,6 @@ import catalogo.tipos.Producto;
 @WebListener("/aplicacion")
 public class ContextAttributeListener implements Serializable, ServletContextAttributeListener {
 
-	 
 	private static Logger log = Logger.getLogger(InicializacionListener.class);
 	private static final long serialVersionUID = 734423032861834388L;
 
@@ -28,38 +26,38 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 	@Override
 	public void attributeAdded(ServletContextAttributeEvent event) {
 
-				log.info("ServletContextAttributeEvent disparado");
-				// Obtener el objeto application y los DAOs asociados conexión, de productos y productosReservados
-				
-				if(("carritoAbandonado").equals(event.getName())) {
+		log.info("ServletContextAttributeEvent disparado");
+		// Obtener el objeto application y los DAOs asociados conexión, de productos y productosReservados
 
-				ServletContext application = event.getServletContext();
+		if (("carritoAbandonado").equals(event.getName())) {
 
-				CarritoDAO carrito = (CarritoDAO) application.getAttribute("carritoAbandonado");
+			ServletContext application = event.getServletContext();
 
-				ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
-				ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
+			CarritoDAO carrito = (CarritoDAO) application.getAttribute("carritoAbandonado");
 
-				// Vaciar los productos del carrito, que se registran en la tabla general de productos_reservados
-				// en la tabla general de productos
-				productos.abrir();
-				productosReservados.reutilizarConexion(productos);
-				productos.iniciarTransaccion();
+			ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
+			ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
 
-				try {
-					for (Producto p : carrito.buscarTodosLosProductos()) {
-						productosReservados.delete(p);
-						productos.insert(p);
-						productos.confirmarTransaccion();
-					}
-				} catch (Exception e) {
-					productos.deshacerTransaccion();
+			// Vaciar los productos del carrito, que se registran en la tabla general de productos_reservados
+			// en la tabla general de productos
+			productos.abrir();
+			productosReservados.reutilizarConexion(productos);
+			productos.iniciarTransaccion();
+
+			try {
+				for (Producto p : carrito.buscarTodosLosProductos()) {
+					productosReservados.delete(p);
+					productos.insert(p);
+					productos.confirmarTransaccion();
 				}
+			} catch (Exception e) {
+				productos.deshacerTransaccion();
+			}
 
-				productos.cerrar();
+			productos.cerrar();
 
-				log.info("Vaciado carrito abandonado");
-				}
+			log.info("Vaciado carrito abandonado");
+		}
 	}
 
 	@Override

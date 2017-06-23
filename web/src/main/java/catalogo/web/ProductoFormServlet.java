@@ -100,13 +100,24 @@ public class ProductoFormServlet extends HttpServlet {
 				producto.setErrores("El nombre de producto no puede estar vacío");
 				request.setAttribute("producto", producto);
 				rutaFormulario.forward(request, response);
+			} else if (precio == 0.0) {
+				producto.setErrores("Debes introducir un precio válido superior a 0");
+				request.setAttribute("producto", producto);
+				rutaFormulario.forward(request, response);
 			} else {
 				if (productos != null && !productos.validar(producto)) {
-					productos.abrir();
-					productos.insert(producto);
-					productos.cerrar();
-					log.info("Producto dado de alta");
-					rutaListado.forward(request, response);
+					try {
+						productos.abrir();
+						productos.insert(producto);
+						productos.cerrar();
+						log.info("Producto dado de alta");
+						rutaListado.forward(request, response);
+					} catch (DAOException e) {
+						producto.setErrores(e.getMessage());
+						request.setAttribute("producto", producto);
+						rutaFormulario.forward(request, response);
+						return;
+					}
 				} else {
 					producto.setErrores("El producto ya existe");
 					request.setAttribute("producto", producto);

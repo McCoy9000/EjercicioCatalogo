@@ -79,19 +79,24 @@ public class UsuarioFormServlet extends HttpServlet {
 			break;
 
 		case "modificar":
-			if (password != null && password != "" && password.equals(password2)) {
-				try {
-					usuarios.abrir();
-					usuarios.update(usuario);
-					usuarios.cerrar();
-					log.info("Usuario modificado");
-				} catch (DAOException e) {
-					request.setAttribute("usuario", usuario);
-					e.printStackTrace();
-					rutaFormulario.forward(request, response);
+			if (!("admin").equals(usuario.getUsername())) {
+				if (password != null && password != "" && password.equals(password2)) {
+					try {
+						usuarios.abrir();
+						usuarios.update(usuario);
+						usuarios.cerrar();
+						log.info("Usuario modificado");
+					} catch (DAOException e) {
+						request.setAttribute("usuario", usuario);
+						e.printStackTrace();
+						rutaFormulario.forward(request, response);
 
+					}
+					rutaListado.forward(request, response);
+				} else {
+					request.setAttribute("usuario", usuario);
+					rutaFormulario.forward(request, response);
 				}
-				rutaListado.forward(request, response);
 			} else {
 				request.setAttribute("usuario", usuario);
 				rutaFormulario.forward(request, response);
@@ -100,11 +105,17 @@ public class UsuarioFormServlet extends HttpServlet {
 
 		case "borrar":
 			if (!("admin").equals(usuario.getUsername())) {
-				usuarios.abrir();
-				usuarios.delete(usuario);
-				usuarios.cerrar();
-				log.info("Usuario borrado");
-				rutaListado.forward(request, response);
+				try {
+					usuarios.abrir();
+					usuarios.delete(usuario);
+					usuarios.cerrar();
+					log.info("Usuario borrado");
+					rutaListado.forward(request, response);
+				} catch (DAOException e) {
+					request.setAttribute("usuario", usuario);
+					e.printStackTrace();
+					rutaFormulario.forward(request, response);
+				}
 			} else {
 				rutaListado.forward(request, response);
 			}
