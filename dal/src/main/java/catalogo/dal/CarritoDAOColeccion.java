@@ -108,8 +108,6 @@ public class CarritoDAOColeccion implements CarritoDAO, Serializable, HttpSessio
 
 	@Override
 	public void valueBound(HttpSessionBindingEvent event) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

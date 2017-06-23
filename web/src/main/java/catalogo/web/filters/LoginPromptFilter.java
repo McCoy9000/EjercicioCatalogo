@@ -16,13 +16,10 @@ import javax.servlet.http.HttpSession;
 public class LoginPromptFilter implements Filter {
 
 	public LoginPromptFilter() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -42,8 +39,6 @@ public class LoginPromptFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -20,7 +20,6 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 	private static final long serialVersionUID = 734423032861834388L;
 
 	public ContextAttributeListener() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
