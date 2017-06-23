@@ -37,7 +37,6 @@ public class CatalogoServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
-
 		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
 
 		// Generar el catálogo. El catálogo es un array en el que cada elemento es, a su vez, el primer elemento de la lista de productos
@@ -99,7 +98,8 @@ public class CatalogoServlet extends HttpServlet {
 						productos.confirmarTransaccion();
 					} catch (Exception e) {
 						productos.deshacerTransaccion();
-						throw new DAOException("Error al añadir un producto al carrito", e);
+						log.info(e.getMessage());
+						e.printStackTrace();
 					}
 					log.info("Añadido un producto al carrito");
 					productos.cerrar();
@@ -108,7 +108,7 @@ public class CatalogoServlet extends HttpServlet {
 				productos.abrir();
 				application.setAttribute("catalogo", productos.getCatalogo());
 				productos.cerrar();
-
+				//Se actualiza el carrito a través del DAO y el valor número de productos en la sesión
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 

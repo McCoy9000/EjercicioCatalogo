@@ -104,7 +104,7 @@ public class CheckoutServlet extends HttpServlet {
 							log.info("Carrito de la compra liquidado");
 						} catch (Exception e) {
 							productosReservados.deshacerTransaccion();
-
+							log.info(e.getMessage());
 							e.printStackTrace();
 						}
 
@@ -130,28 +130,22 @@ public class CheckoutServlet extends HttpServlet {
 					producto = carrito.buscarPorId(id);
 
 					if (producto != null) {
-						// TODO transaccion
 						productos.abrir();
-						productosReservados.abrir();
+						productosReservados.reutilizarConexion(productos);
 						productos.iniciarTransaccion();
-						productosReservados.iniciarTransaccion();
 						try {
 							carrito.quitarDelCarrito(id);
 							productos.insert(producto);
 							productosReservados.delete(producto);
 							productos.confirmarTransaccion();
-							productosReservados.confirmarTransaccion();
 							log.info("Producto retirado del carro");
 						} catch (Exception e) {
 							productos.deshacerTransaccion();
-							productosReservados.deshacerTransaccion();
-							throw new DAOException("Error al eliminar de productosReservados", e);
+							log.info(e.getMessage());
+							e.printStackTrace();
 						}
 						productos.cerrar();
-						productosReservados.cerrar();
-
-						// application.setAttribute("productos", productos);
-						// application.setAttribute("productosReservados", productosReservados);
+						
 						session.setAttribute("carrito", carrito);
 						session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
 						session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
