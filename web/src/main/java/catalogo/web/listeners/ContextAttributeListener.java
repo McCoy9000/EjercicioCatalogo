@@ -51,6 +51,8 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 				productos.confirmarTransaccion();
 			} catch (Exception e) {
 				productos.deshacerTransaccion();
+				log.info(e.getMessage());
+				log.info("Error al vaciar el carrito abandonado");
 			}
 
 			productos.cerrar();
@@ -93,6 +95,8 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 				productos.confirmarTransaccion();
 			} catch (Exception e) {
 				productos.deshacerTransaccion();
+				log.info(e.getMessage());
+				log.info("Error al vaciar el carrito abandonado");
 			}
 
 			productos.cerrar();

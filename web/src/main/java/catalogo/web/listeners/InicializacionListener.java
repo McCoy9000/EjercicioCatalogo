@@ -56,9 +56,18 @@ public class InicializacionListener implements ServletContextListener {
 		application.setAttribute("usuarios", usuarios);
 
 		// Crear un array con todos los usuarios y dejarlo disponible en el ServletContext
-
+		
+		Usuario[] usuariosArr = null;
+		
 		usuarios.abrir();
-		Usuario[] usuariosArr = usuarios.findAll();
+		
+		try {
+			usuariosArr = usuarios.findAll();
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			log.info("No se pudo crear la lista de usuarios");
+		}
+		
 		usuarios.cerrar();
 
 		application.setAttribute("usuariosArr", usuariosArr);
@@ -71,13 +80,22 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Crear un array con todos los productos y dejarlo disponible en el ServletContext
 
+		Producto[] productosArr = null;
+		
 		productos.abrir();
-		Producto[] productosArr = productos.findAll();
+	
+		try {
+			productos.findAll();
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			log.info("No se pudo crear la lista de productos disponibles");
+		}
 		productos.cerrar();
 
 		application.setAttribute("productosArr", productosArr);
 
-		// Inicializar el DAO de ProductosReservados y ProductosVendidos y hacerlos accesibles a través del ServletContext
+		// Inicializar el DAO de ProductosReservados y ProductosVendidos 
+		// y hacerlos accesibles a través del ServletContext
 
 		ProductoDAO productosReservados = ProductoDAOFactory.getProductoReservadoDAO();
 
@@ -99,31 +117,47 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Vaciar la base de datos de usuarios y crear un usuario administrador y un usuario normal
 
-		usuarios.abrir(); // Abro la conexión para todas las operaciones con la base de datos
-
-		if (usuarios.findAll().length != 0)
-			usuarios.deleteUsuarios();
-
+		usuarios.abrir();
+		
+		if (usuarios.findAll().length != 0) {
+			try{
+				usuarios.deleteUsuarios();
+				log.info("Tabla de usuarios borrada" + ". Abierta conexión fuera de un if con llaves");
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.info(e.getMessage());
+				log.info("No se pudo borrar la tabla de usuarios");
+			}
+		}
 		usuarios.cerrar();
 
 		Usuario usuario = new Usuario(1, "admin", "admin", "admin");
 
 		if (!usuarios.validar(usuario)) {
-			usuarios.abrir();
-			usuarios.insert(usuario);
-			usuarios.cerrar();
-
-			log.info("Creado usuario administrador. Usuario: 'admin', Password: 'admin'");
+			try {
+				usuarios.abrir();
+				usuarios.insert(usuario);
+				usuarios.cerrar();
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.info(e.getMessage());
+				log.info("No se pudo crear el usuario 'admin'");
+			}
+			log.info("Creado usuario administrador. Usuario: 'admin', Password: 'admin'" + ". Abierta conexión dentro de un if sin abrirla para la condición");
 		}
 
 		usuario = new Usuario(2, "mikel", "mikel", "mikel");
 
 		if (!usuarios.validar(usuario)) {
-
-			usuarios.abrir();
-			usuarios.insert(usuario);
-			usuarios.cerrar();
-
+			try {
+				usuarios.abrir();
+				usuarios.insert(usuario);
+				usuarios.cerrar();
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.info(e.getMessage());
+				log.info("No se pudo crear el usuario 'mikel'");
+			}
 			log.info("Creado usuario estándard. Usuario: 'mikel', Password: 'mikel'");
 		}
 
@@ -190,9 +224,13 @@ public class InicializacionListener implements ServletContextListener {
 		// Establecer el contador de facturas al valor siguiente a la última factura de la tabla
 
 		facturas.abrir();
-
-		Factura.siguienteFactura = facturas.getMaxId() + 1;
-
+		try {
+			Factura.siguienteFactura = facturas.getMaxId() + 1;
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			log.info("No se pudo establecer el valor del contador de facturas");
+			throw new RuntimeException("ERROR FATAL. SUSPENDIENDO LA APLICACIÓN. POR FAVOR, REVISE EL ESTADO DE LA APLICACIÓN");
+		}
 		facturas.cerrar(); // Cierro la conexión después de todas las operaciones con la base de datos
 
 		// Apuntar el ContextPath
