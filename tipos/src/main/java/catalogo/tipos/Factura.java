@@ -1,9 +1,13 @@
 package catalogo.tipos;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Factura {
+public class Factura implements Serializable {
+	
+	private static final long serialVersionUID = 7877238780760817273L;
+	
 	// Constructores, getters y setters, hashCode y equals y toString
 	private int id;
 	private int numero_factura;

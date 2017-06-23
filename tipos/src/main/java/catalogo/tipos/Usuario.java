@@ -1,6 +1,11 @@
 package catalogo.tipos;
 
-public class Usuario  {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
+	
+	private static final long serialVersionUID = 4770875332940984231L;
+	
 	// Constructores, getters y setters, hashCode y equals y toString
 	private int id;
 	private int id_roles;

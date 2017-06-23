@@ -1,23 +1,24 @@
 package catalogo.tipos;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
-public class Carrito {
+public class Carrito implements Serializable {
+
+	private static final long serialVersionUID = -5230603925290381578L;
 
 	private static Logger log = Logger.getLogger(Carrito.class);
 
 	private HashMap<Integer, Producto> listaProductos;
 
 	public Carrito() {
-		super();
 		this.listaProductos = new HashMap<>();
 		log.info("Creado carrito con lista de productos vacia");
 	}
 
 	public Carrito(HashMap<Integer, Producto> listaProductos) {
-		super();
 		this.listaProductos = listaProductos;
 	}
 
