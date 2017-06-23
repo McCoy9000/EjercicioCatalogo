@@ -26,7 +26,7 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 	@Override
 	public void attributeAdded(ServletContextAttributeEvent event) {
 
-		log.info("ServletContextAttributeEvent disparado");
+		log.info("ServletContextAttributeEvent disparado: attributeAdded");
 		// Obtener el objeto application y los DAOs asociados conexión, de productos y productosReservados
 
 		if (("carritoAbandonado").equals(event.getName())) {
@@ -67,7 +67,39 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 
 	@Override
 	public void attributeReplaced(ServletContextAttributeEvent event) {
+		
+		log.info("ServletContextAttributeEvent disparado: attributeReplaced");
+		// Obtener el objeto application y los DAOs asociados conexión, de productos y productosReservados
 
+		if (("carritoAbandonado").equals(event.getName())) {
+
+			ServletContext application = event.getServletContext();
+
+			CarritoDAO carrito = (CarritoDAO) application.getAttribute("carritoAbandonado");
+
+			ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
+			ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
+
+			// Vaciar los productos del carrito, que se registran en la tabla general de productos_reservados
+			// en la tabla general de productos
+			productos.abrir();
+			productosReservados.reutilizarConexion(productos);
+			productos.iniciarTransaccion();
+
+			try {
+				for (Producto p : carrito.buscarTodosLosProductos()) {
+					productosReservados.delete(p);
+					productos.insert(p);
+				}
+				productos.confirmarTransaccion();
+			} catch (Exception e) {
+				productos.deshacerTransaccion();
+			}
+
+			productos.cerrar();
+
+			log.info("Vaciado carrito abandonado");
+		}
 	}
 
 }
