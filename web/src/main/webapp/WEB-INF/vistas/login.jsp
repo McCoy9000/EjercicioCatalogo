@@ -19,7 +19,7 @@
 	</fieldset>
 </form>
 
-<div class="signup">
+<div id="signup">
 	<a href="${applicationScope.rutaBase}/alta">SIGN UP!</a>
 </div>
 

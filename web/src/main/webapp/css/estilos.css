@@ -20,16 +20,19 @@ input {
 	font-variant: small-caps;
 }
 
-.signup {
-	color: white;
+#signup a {
 	font-weight: bold;
+	color: white;
+	display: block;
+	width: 10em;
 }
 
 <!-- no coge esto en la cabecera y no sé por que-->
 .bienvenido {
 	font-weight: bold;
 }
-#factura {
+#factura div {
+	background-color: lightgrey;
 	height: 600px;
 	width: 400;
 }
