@@ -48,8 +48,8 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 				for (Producto p : carrito.buscarTodosLosProductos()) {
 					productosReservados.delete(p);
 					productos.insert(p);
-					productos.confirmarTransaccion();
 				}
+				productos.confirmarTransaccion();
 			} catch (Exception e) {
 				productos.deshacerTransaccion();
 			}
@@ -62,13 +62,11 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 
 	@Override
 	public void attributeRemoved(ServletContextAttributeEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void attributeReplaced(ServletContextAttributeEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 
