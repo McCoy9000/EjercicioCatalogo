@@ -15,7 +15,7 @@
 			<input id="username" name="username"
 			  required="required" value="${usuario.username}" 
 			  
-			  <c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
+			  <c:if test="${param.op == 'borrar'}">
 			  	readonly="readonly"
 			  </c:if>   
 		  	/>

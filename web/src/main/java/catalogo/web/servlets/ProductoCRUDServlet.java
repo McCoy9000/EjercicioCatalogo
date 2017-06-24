@@ -56,11 +56,20 @@ public class ProductoCRUDServlet extends HttpServlet {
 				try {
 					id = Integer.parseInt(request.getParameter("id"));
 				} catch (Exception e) {
+					e.printStackTrace();
 					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
 					break;
 				}
+				
 				productos.abrir();
-				producto = productos.findById(id);
+				try {
+					producto = productos.findById(id);
+				} catch (Exception e) {
+					e.printStackTrace();
+					productos.cerrar();
+					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+					break;
+				}
 				productos.cerrar();
 				request.setAttribute("producto", producto);
 			case "alta":

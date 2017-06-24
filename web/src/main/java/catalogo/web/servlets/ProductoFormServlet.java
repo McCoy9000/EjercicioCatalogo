@@ -46,41 +46,36 @@ public class ProductoFormServlet extends HttpServlet {
 		// Declaración de las variables para construir el objeto con el que se trabajará e iniciarlas con los valores recogidos
 		// del formulario
 
-		int id = 0;
+		int id;
 
 		try {
 			id = Integer.parseInt(request.getParameter("id"));
 		} catch (Exception e) {
-			log.info("Number format exception");
+			id = 0;
+			e.printStackTrace();
 		}
 
 		int groupId;
 
-		if (request.getParameter("groupId") == null) {
+		try {
+			groupId = Integer.parseInt(request.getParameter("groupId"));
+		} catch (NumberFormatException e) {
 			groupId = 0;
-		} else {
-			try {
-				groupId = Integer.parseInt(request.getParameter("groupId"));
-			} catch (NumberFormatException e) {
-				groupId = 0;
-			}
+			e.printStackTrace();
 		}
+		
 
 		String nombre = request.getParameter("nombre");
 		String descripcion = request.getParameter("descripcion");
 		Double precio;
 
-		if (request.getParameter("precio") == "") {
+		try {
+			precio = Double.parseDouble(request.getParameter("precio"));
+		} catch (NumberFormatException e) {
 			precio = 0.0;
-		} else if (request.getParameter("precio") == null) {
-			precio = 0.0;
-		} else {
-			try {
-				precio = Double.parseDouble(request.getParameter("precio"));
-			} catch (NumberFormatException e) {
-				precio = 0.0;
-			}
+			e.printStackTrace();
 		}
+
 
 		// Logica del servlet según la opción elegida por el usuario y enviada por el navegador
 		// encapsulada en opform.
@@ -90,84 +85,84 @@ public class ProductoFormServlet extends HttpServlet {
 
 		Producto producto;
 
-		switch (op) {
-		case "alta":
-
-			producto = new Producto(groupId, nombre, descripcion, precio);
-
-			if (nombre == null || nombre == "") {
-				producto.setErrores("El nombre de producto no puede estar vacío");
-				request.setAttribute("producto", producto);
-				rutaFormulario.forward(request, response);
-			} else if (precio == 0.0) {
-				producto.setErrores("Debes introducir un precio válido superior a 0");
-				request.setAttribute("producto", producto);
-				rutaFormulario.forward(request, response);
-			} else {
-				productos.abrir();
-				if (productos != null && !productos.validar(producto)) {
-					try {
-						productos.insert(producto);
-						log.info("Producto dado de alta");
+			switch (op) {
+				case "alta":
+		
+					producto = new Producto(groupId, nombre, descripcion, precio);
+		
+					if (nombre == null || nombre == "") {
+						producto.setErrores("El nombre de producto no puede estar vacío");
+						request.setAttribute("producto", producto);
+						rutaFormulario.forward(request, response);
+					} else if (precio == 0.0) {
+						producto.setErrores("Debes introducir un precio válido superior a 0");
+						request.setAttribute("producto", producto);
+						rutaFormulario.forward(request, response);
+					} else {
+						productos.abrir();
+						if (productos != null && !productos.validar(producto)) {
+							try {
+								productos.insert(producto);
+								log.info("Producto dado de alta");
+								rutaListado.forward(request, response);
+							} catch (DAOException e) {
+								producto.setErrores(e.getMessage());
+								request.setAttribute("producto", producto);
+								rutaFormulario.forward(request, response);
+							}
+						} else {
+							producto.setErrores("El producto ya existe");
+							request.setAttribute("producto", producto);
+							rutaFormulario.forward(request, response);
+						}
+						productos.cerrar();
+		
+					}
+					break;
+				case "modificar":
+		
+					producto = new Producto(id, groupId, nombre, descripcion, precio);
+		
+					if (nombre == null || nombre == "") {
+						producto.setErrores("El nombre de producto no puede estar vacío");
+						request.setAttribute("producto", producto);
+						rutaFormulario.forward(request, response);
+					} else {
+						try {
+							productos.abrir();
+							productos.update(producto);
+							productos.cerrar();
+							log.info("Producto modificado");
+						} catch (DAOException e) {
+							producto.setErrores(e.getMessage());
+							request.setAttribute("producto", producto);
+							rutaFormulario.forward(request, response);
+							return;
+						}
 						rutaListado.forward(request, response);
+					}
+					break;
+				case "borrar":
+		
+					producto = new Producto(id, groupId, nombre, descripcion, precio);
+		
+					try {
+						productos.abrir();
+						productos.delete(producto);
+						productos.cerrar();
+						log.info("Producto borrado");
 					} catch (DAOException e) {
 						producto.setErrores(e.getMessage());
 						request.setAttribute("producto", producto);
 						rutaFormulario.forward(request, response);
+						return;
 					}
-				} else {
-					producto.setErrores("El producto ya existe");
-					request.setAttribute("producto", producto);
-					rutaFormulario.forward(request, response);
-				}
-				productos.cerrar();
-
+					rutaListado.forward(request, response);
+		
+					break;
+				default:
+					rutaListado.forward(request, response);
 			}
-			break;
-		case "modificar":
-
-			producto = new Producto(id, groupId, nombre, descripcion, precio);
-
-			if (nombre == null || nombre == "") {
-				producto.setErrores("El nombre de producto no puede estar vacío");
-				request.setAttribute("producto", producto);
-				rutaFormulario.forward(request, response);
-			} else {
-				try {
-					productos.abrir();
-					productos.update(producto);
-					productos.cerrar();
-					log.info("Producto modificado");
-				} catch (DAOException e) {
-					producto.setErrores(e.getMessage());
-					request.setAttribute("producto", producto);
-					rutaFormulario.forward(request, response);
-					return;
-				}
-				rutaListado.forward(request, response);
-			}
-			break;
-		case "borrar":
-
-			producto = new Producto(id, groupId, nombre, descripcion, precio);
-
-			try {
-				productos.abrir();
-				productos.delete(producto);
-				productos.cerrar();
-				log.info("Producto borrado");
-			} catch (DAOException e) {
-				producto.setErrores(e.getMessage());
-				request.setAttribute("producto", producto);
-				rutaFormulario.forward(request, response);
-				return;
-			}
-			rutaListado.forward(request, response);
-
-			break;
-		default:
-			rutaListado.forward(request, response);
-		}
 		}
 	}
 }

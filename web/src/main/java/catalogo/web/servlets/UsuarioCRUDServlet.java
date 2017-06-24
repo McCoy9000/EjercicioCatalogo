@@ -27,6 +27,7 @@ public class UsuarioCRUDServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ServletContext application = getServletContext();
+		
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 
 		String op = request.getParameter("op");
@@ -48,9 +49,23 @@ public class UsuarioCRUDServlet extends HttpServlet {
 			switch (op) {
 			case "modificar":
 			case "borrar":
-				String username = request.getParameter("username");
+				int id;
+				try {
+					id = Integer.parseInt(request.getParameter("id"));
+				} catch (Exception e) {
+					e.printStackTrace();
+					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+					break;
+				}
 				usuarios.abrir();
-				usuario = usuarios.findByName(username);
+				try {
+					usuario = usuarios.findById(id);
+				} catch (Exception e) {
+					e.printStackTrace();
+					usuarios.cerrar();
+					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+					break;
+				}
 				usuarios.cerrar();
 				request.setAttribute("usuario", usuario);
 			case "alta":

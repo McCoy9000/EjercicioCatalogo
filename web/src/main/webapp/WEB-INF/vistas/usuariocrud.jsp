@@ -24,8 +24,8 @@
 				<td>${usuario.password}</td>
 				<td>${usuario.nombre_completo}</td>
 				<td>
-					<a href="?op=modificar&username=${usuario.username}">Modificar</a>
-					<a href="?op=borrar&username=${usuario.username}">Borrar</a>
+					<a href="?op=modificar&id=${usuario.id}">Modificar</a>
+					<a href="?op=borrar&id=${usuario.id}">Borrar</a>
 				</td>
 			</tr>
 		</c:forEach>
