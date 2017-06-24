@@ -27,14 +27,14 @@
 			
 		>
 			<label for="password">Contraseña</label> <input type="password" id="pass"
-				name="password" />
+				name="password" required="required"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
 		>
 			<label for="password2">Contraseña otra vez</label> <input type="password" id="password2"
-				name="password2" />
+				name="password2" required="required"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
@@ -42,7 +42,7 @@
 			
 		>
 			<label for="nombre_completo">Nombre completo</label> <input id="nombre_completo"
-				name="nombre_completo" />
+				name="nombre_completo" required="required"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
@@ -53,23 +53,12 @@
 		</fieldset>
 		<fieldset>
 			<input type="submit" value="${fn:toUpperCase(param.op)}" 
-			
-			
 				<c:if test="${param.op == null or param.op == ''}">
 			  		style="display:none;"
 			  	</c:if>
-			
-			
 			/>
-			
 			<input type="hidden" name="opform" value="${param.op}" />
 		</fieldset>
 	</form>
-	
-	<!--<c:if test="${param.op == 'borrar'}">
-		<script>
-			document.forms[0].onsubmit = confirmarBorrado;
-		</script>
-	</c:if>-->
-	
+
 <%@ include file="includes/pie.jsp" %>

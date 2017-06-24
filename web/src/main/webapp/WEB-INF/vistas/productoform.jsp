@@ -39,7 +39,7 @@
 			readonly="readonly"
 			</c:if>>
 			<label for="nombre">Nombre</label> <input id="nombre"
-				name="nombre" value="${producto.nombre}"/>
+				name="nombre"  required="required"  value="${producto.nombre}"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
@@ -56,7 +56,7 @@
 			</c:if>
 			>
 			<label for="precio">Precio</label> <input id="precio"
-				name="precio"/ value="${producto.precio}">
+				name="precio" value="${producto.precio}"/>
 		</fieldset>
 		<fieldset>
 			<input type="submit" value="${fn:toUpperCase(param.op)}" 

@@ -21,7 +21,6 @@ public class Producto implements Serializable {
 	}
 
 	public Producto(int groupId, String nombre, String descripcion, double precio) {
-		super();
 		this.groupId = groupId;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -30,7 +29,6 @@ public class Producto implements Serializable {
 	}
 
 	public Producto(int id, int groupId, String nombre, String descripcion, double precio) {
-		super();
 		this.id = id;
 		this.groupId = groupId;
 		this.nombre = nombre;
