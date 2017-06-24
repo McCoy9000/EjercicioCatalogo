@@ -50,8 +50,8 @@ public class ProductoFormServlet extends HttpServlet {
 
 		try {
 			id = Integer.parseInt(request.getParameter("id"));
-		} catch (NumberFormatException e) {
-			id = 0;
+		} catch (Exception e) {
+			rutaListado.forward(request, response);
 		}
 
 		int groupId;
@@ -116,7 +116,6 @@ public class ProductoFormServlet extends HttpServlet {
 						producto.setErrores(e.getMessage());
 						request.setAttribute("producto", producto);
 						rutaFormulario.forward(request, response);
-						return;
 					}
 				} else {
 					producto.setErrores("El producto ya existe");
@@ -166,6 +165,9 @@ public class ProductoFormServlet extends HttpServlet {
 			rutaListado.forward(request, response);
 
 			break;
+		default:
+			rutaListado.forward(request, response);
 		}
+		
 	}
 }

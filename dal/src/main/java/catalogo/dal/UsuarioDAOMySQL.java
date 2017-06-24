@@ -207,10 +207,14 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 	public boolean validar(Usuario usuario) {
 
-		this.abrir();
-		Usuario[] usuariosArr = this.findAll();
-		this.cerrar();
-
+		Usuario[] usuariosArr = null;
+		
+		try {
+			usuariosArr = this.findAll();
+		} catch (Exception e) {
+			throw new DAOException("Error al validar usuario", e);
+		}
+		
 		for (Usuario u : usuariosArr) {
 			if (u.getUsername().equals(usuario.getUsername()) && u.getPassword().equals(usuario.getPassword())) {
 				return true;
@@ -221,16 +225,18 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 	public boolean validarNombre(Usuario usuario) {
 
-		this.abrir();
-		Usuario[] usuariosArr = this.findAll();
-		this.cerrar();
-
+		Usuario[] usuariosArr = null;
+		
+		try {
+			usuariosArr = this.findAll();
+		} catch (Exception e) {
+			throw new DAOException("Error al validar usuario, e");
+		}
+		
 		if (usuario.getUsername() != null) {
 
-			for (Usuario s : usuariosArr) {
-
-				if (usuario.getUsername().equals(s.getUsername())) {
-
+			for (Usuario u : usuariosArr) {
+				if (usuario.getUsername().equals(u.getUsername())) {
 					return true;
 				}
 			}

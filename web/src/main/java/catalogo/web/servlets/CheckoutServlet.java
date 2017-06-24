@@ -126,7 +126,16 @@ public class CheckoutServlet extends HttpServlet {
 					break;
 
 				case "quitar":
-					int id = Integer.parseInt(request.getParameter("id"));
+					
+					int id;
+					
+					try {
+						id = Integer.parseInt(request.getParameter("id"));
+					} catch (Exception e) {
+						request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
+						break;
+					}
+					
 					producto = carrito.buscarPorId(id);
 
 					if (producto != null) {

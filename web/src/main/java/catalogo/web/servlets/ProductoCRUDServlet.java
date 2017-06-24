@@ -52,7 +52,13 @@ public class ProductoCRUDServlet extends HttpServlet {
 			switch (op) {
 			case "modificar":
 			case "borrar":
-				int id = Integer.parseInt(request.getParameter("id"));
+				int id;
+				try {
+					id = Integer.parseInt(request.getParameter("id"));
+				} catch (Exception e) {
+					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+					break;
+				}
 				productos.abrir();
 				producto = productos.findById(id);
 				productos.cerrar();

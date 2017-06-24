@@ -53,9 +53,7 @@ public class LoginServlet extends HttpServlet {
 		// Hasta que alguien no se loguea el objeto session no tiene un usuario asociado por lo que puede
 		// ser nulo. Si no es nulo, se recoge, si lo es, se crea uno nuevo con los datos recogidos en la request
 		if (session.getAttribute("usuario") != null) {
-
 			usuario = (Usuario) session.getAttribute("usuario");
-
 		} else
 			usuario = new Usuario(username, password);
 
@@ -84,6 +82,7 @@ public class LoginServlet extends HttpServlet {
 			// Se invalida la sesión y se le envía al catálogo que es el punto de partida de la aplicación
 			session.invalidate();
 			usuariosLogueados.remove(usuario);
+			session.setAttribute("usuariosLogueados", usuariosLogueados);
 			catalogo.forward(request, response);
 
 		} else if (yaLogueado) {

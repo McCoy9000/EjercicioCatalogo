@@ -60,14 +60,17 @@ public class AltaServlet extends HttpServlet {
 		boolean usuarioExistente = false;
 		// Se considera que el usuario ya existe sólo con que coincida el username, de ahí el método validarNombre()
 		usuarios.abrir();
-		usuarioExistente = usuarios.validarNombre(usuario);
-		usuarios.cerrar();
-		boolean sinDatos = username == null || username == "" || password == null || password == "" || password2 == null || password2 == "";
-		// Se considera que en un principio, sin datos, ambas pass son iguales (igual a null)
-		boolean passIguales = true;
-		if (password != null) {
-			passIguales = password.equals(password2);
+		try {
+			usuarioExistente = usuarios.validarNombre(usuario);
+		} catch (Exception e) {
+			usuarioExistente = true;
+			e.printStackTrace();
 		}
+		usuarios.cerrar();
+		boolean sinDatos = username == null || username == "" || password == null || password == "";
+		// Se considera que en un principio, sin datos, ambas pass son iguales (igual a null)
+		boolean passIguales = password.equals(password2);
+		
 		boolean esCorrecto = false;
 		if (!sinDatos) {
 			esCorrecto = !usuarioExistente && passIguales;

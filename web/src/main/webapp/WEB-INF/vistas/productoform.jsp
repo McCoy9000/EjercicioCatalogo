@@ -56,7 +56,7 @@
 			</c:if>
 			>
 			<label for="precio">Precio</label> <input id="precio"
-				name="precio" value="${producto.precio}"/>
+				name="precio"/>
 		</fieldset>
 		<fieldset>
 			<input type="submit" value="${fn:toUpperCase(param.op)}" 

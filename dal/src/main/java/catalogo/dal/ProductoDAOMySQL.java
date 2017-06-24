@@ -235,11 +235,15 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 
 	public boolean validar(Producto producto) {
 
-		this.abrir();
-		Producto[] ProductosArr = this.findAll();
-		this.cerrar();
-
-		for (Producto p : ProductosArr) {
+		Producto[] productosArr = null;
+		
+		try {
+			productosArr = this.findAll();
+		} catch (Exception e) {
+			throw new DAOException ("Error al validar", e);
+		}
+		
+		for (Producto p : productosArr) {
 			if (p.getId() == producto.getId()) {
 				return true;
 			}
@@ -249,16 +253,18 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 
 	public boolean validarNombre(Producto producto) {
 
-		this.abrir();
-		Producto[] productosArr = this.findAll();
-		this.cerrar();
-
+		Producto[] productosArr = null;
+		
+		try {
+			productosArr = this.findAll();
+		} catch (Exception e) {
+			throw new DAOException ("Error al validar nombre");
+		}
+		
 		if (producto.getNombre() != null) {
 
 			for (Producto s : productosArr) {
-
 				if (producto.getNombre().equals(s.getNombre())) {
-
 					return true;
 				}
 			}

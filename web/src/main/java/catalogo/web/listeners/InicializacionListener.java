@@ -85,7 +85,7 @@ public class InicializacionListener implements ServletContextListener {
 		productos.abrir();
 	
 		try {
-			productos.findAll();
+			productosArr = productos.findAll();
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			log.info("No se pudo crear la lista de productos disponibles");
@@ -122,44 +122,41 @@ public class InicializacionListener implements ServletContextListener {
 		if (usuarios.findAll().length != 0) {
 			try{
 				usuarios.deleteUsuarios();
-				log.info("Tabla de usuarios borrada" + ". Abierta conexión fuera de un if con llaves");
+				log.info("Tabla de usuarios borrada");
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.info(e.getMessage());
 				log.info("No se pudo borrar la tabla de usuarios");
 			}
 		}
-		usuarios.cerrar();
 
 		Usuario usuario = new Usuario(1, "admin", "admin", "admin");
 
 		if (!usuarios.validar(usuario)) {
 			try {
-				usuarios.abrir();
 				usuarios.insert(usuario);
-				usuarios.cerrar();
+				log.info("Creado usuario administrador. Usuario: 'admin', Password: 'admin'");
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.info(e.getMessage());
 				log.info("No se pudo crear el usuario 'admin'");
 			}
-			log.info("Creado usuario administrador. Usuario: 'admin', Password: 'admin'" + ". Abierta conexión dentro de un if sin abrirla para la condición");
 		}
 
 		usuario = new Usuario(2, "mikel", "mikel", "mikel");
 
 		if (!usuarios.validar(usuario)) {
 			try {
-				usuarios.abrir();
 				usuarios.insert(usuario);
-				usuarios.cerrar();
+				log.info("Creado usuario estándard. Usuario: 'mikel', Password: 'mikel'");
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.info(e.getMessage());
 				log.info("No se pudo crear el usuario 'mikel'");
 			}
-			log.info("Creado usuario estándard. Usuario: 'mikel', Password: 'mikel'");
 		}
+
+		usuarios.cerrar();
 
 		// Vaciar la base de datos de productos y rellenarla con 36 productos de prueba
 
@@ -216,6 +213,7 @@ public class InicializacionListener implements ServletContextListener {
 
 			productos.confirmarTransaccion();
 		} catch (Exception e) {
+			log.info("Error al crear productos de prueba");
 			productos.deshacerTransaccion();
 		}
 
@@ -224,13 +222,16 @@ public class InicializacionListener implements ServletContextListener {
 		// Establecer el contador de facturas al valor siguiente a la última factura de la tabla
 
 		facturas.abrir();
+		
 		try {
 			Factura.siguienteFactura = facturas.getMaxId() + 1;
+			log.info("Iniciado el contador de facturas con el valor del número siguiente al de la última factura emitida");
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			log.info("No se pudo establecer el valor del contador de facturas");
 			throw new RuntimeException("ERROR FATAL. SUSPENDIENDO LA APLICACIÓN. POR FAVOR, REVISE EL ESTADO DE LA APLICACIÓN");
 		}
+		
 		facturas.cerrar(); // Cierro la conexión después de todas las operaciones con la base de datos
 
 		// Apuntar el ContextPath

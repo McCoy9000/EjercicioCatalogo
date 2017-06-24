@@ -252,11 +252,13 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	public Double getPrecioTotal(int id) {
 		
 		Double precioTotal = 0.0;
-		
+		try {
 		for (Producto p: this.findProductoByFacturaId(id)){
 			precioTotal += p.getPrecio();
 		}
-		
+		} catch (Exception e) {
+			throw new DAOException("Error al obtener el precio total", e);
+		}
 		return precioTotal;
 	}
 

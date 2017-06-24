@@ -75,20 +75,24 @@ public class CatalogoServlet extends HttpServlet {
 			switch (op) {
 
 			case "anadir":
-
+				// Se recoge el id que nos envían clickando en el botón junto al producto
+				int id;
+				try {
+					 id = Integer.parseInt(request.getParameter("id"));
+				} catch (Exception e) {
+					request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);
+					break;
+				}
+				// Se busca el producto correspondiente al id de producto
+				
 				Producto producto;
 
-				int id = Integer.parseInt(request.getParameter("id"));
-
-				// Se busca el producto correspondiente al id de producto que se nos envía clickando en
-				// el botón junto al producto
 				productos.abrir();
+
 				producto = productos.findById(id);
-				productos.cerrar();
 
 				if (producto != null) {
 					// Se hace el proceso de añadirlo al carrito
-					productos.abrir();
 					productosReservados.reutilizarConexion(productos);
 					productos.iniciarTransaccion();
 					try {
@@ -102,10 +106,8 @@ public class CatalogoServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 					log.info("Añadido un producto al carrito");
-					productos.cerrar();
 				}
 				// Se actualiza el catálogo para eliminar el producto que se ha añadido al carro
-				productos.abrir();
 				application.setAttribute("catalogo", productos.getCatalogo());
 				productos.cerrar();
 				//Se actualiza el carrito a través del DAO y el valor número de productos en la sesión
