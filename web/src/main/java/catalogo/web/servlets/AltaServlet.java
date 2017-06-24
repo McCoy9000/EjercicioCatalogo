@@ -67,9 +67,14 @@ public class AltaServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		usuarios.cerrar();
-		boolean sinDatos = username == null || username == "" || password == null || password == "";
-		// Se considera que en un principio, sin datos, ambas pass son iguales (igual a null)
-		boolean passIguales = password.equals(password2);
+		boolean sinDatos = username == null || username == "" || password == null || password == "" || password2 == null || password2 == "";
+		// Se considera que en un principio, aun sin datos, ambas pass son diferentes
+		boolean passIguales = false;
+		if (password != null) {
+			if (password.equals(password2)) {
+				passIguales = true;
+			}
+		}
 		
 		boolean esCorrecto = false;
 		if (!sinDatos) {

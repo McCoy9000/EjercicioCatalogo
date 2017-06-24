@@ -51,7 +51,7 @@ public class ProductoFormServlet extends HttpServlet {
 		try {
 			id = Integer.parseInt(request.getParameter("id"));
 		} catch (Exception e) {
-			rutaListado.forward(request, response);
+			log.info("Number format exception");
 		}
 
 		int groupId;
@@ -86,8 +86,7 @@ public class ProductoFormServlet extends HttpServlet {
 		// encapsulada en opform.
 		if (op == null) {
 			rutaListado.forward(request, response);
-			return;
-		}
+		} else {
 
 		Producto producto;
 
@@ -105,11 +104,10 @@ public class ProductoFormServlet extends HttpServlet {
 				request.setAttribute("producto", producto);
 				rutaFormulario.forward(request, response);
 			} else {
+				productos.abrir();
 				if (productos != null && !productos.validar(producto)) {
 					try {
-						productos.abrir();
 						productos.insert(producto);
-						productos.cerrar();
 						log.info("Producto dado de alta");
 						rutaListado.forward(request, response);
 					} catch (DAOException e) {
@@ -122,6 +120,8 @@ public class ProductoFormServlet extends HttpServlet {
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
 				}
+				productos.cerrar();
+
 			}
 			break;
 		case "modificar":
@@ -168,6 +168,6 @@ public class ProductoFormServlet extends HttpServlet {
 		default:
 			rutaListado.forward(request, response);
 		}
-		
+		}
 	}
 }

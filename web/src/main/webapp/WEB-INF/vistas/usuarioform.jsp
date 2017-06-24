@@ -49,7 +49,7 @@
 			</c:if>
 		>
 			<label for="id_roles">Permiso de administrador</label> 
-			<input type="checkbox" id="id_roles" name="id_roles" value="1" />Si
+			<input type="checkbox" id="id_roles" name="id_roles" value="1" />
 		</fieldset>
 		<fieldset>
 			<input type="submit" value="${fn:toUpperCase(param.op)}" 
