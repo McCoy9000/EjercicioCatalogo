@@ -48,20 +48,28 @@ public class ProductoFormServlet extends HttpServlet {
 
 		int id;
 
-		try {
-			id = Integer.parseInt(request.getParameter("id"));
-		} catch (Exception e) {
+		if (request.getParameter("id") != null) {
+			try {
+				id = Integer.parseInt(request.getParameter("id"));
+			} catch (Exception e) {
+				id = 0;
+				e.printStackTrace();
+			}
+		} else {
 			id = 0;
-			e.printStackTrace();
 		}
 
 		int groupId;
 
-		try {
-			groupId = Integer.parseInt(request.getParameter("groupId"));
-		} catch (NumberFormatException e) {
+		if (request.getParameter("id") != null) {
+			try {
+				groupId = Integer.parseInt(request.getParameter("groupId"));
+			} catch (Exception e) {
+				groupId = 0;
+				e.printStackTrace();
+			}
+		} else {
 			groupId = 0;
-			e.printStackTrace();
 		}
 		
 
@@ -69,13 +77,16 @@ public class ProductoFormServlet extends HttpServlet {
 		String descripcion = request.getParameter("descripcion");
 		Double precio;
 
-		try {
-			precio = Double.parseDouble(request.getParameter("precio"));
-		} catch (NumberFormatException e) {
+		if (request.getParameter("precio") != null) {
+			try {
+				precio = Double.parseDouble(request.getParameter("precio"));
+			} catch (Exception e) {
+				precio = 0.0;
+				e.printStackTrace();
+			}
+		} else {
 			precio = 0.0;
-			e.printStackTrace();
 		}
-
 
 		// Logica del servlet según la opción elegida por el usuario y enviada por el navegador
 		// encapsulada en opform.
@@ -83,7 +94,7 @@ public class ProductoFormServlet extends HttpServlet {
 			rutaListado.forward(request, response);
 		} else {
 
-		Producto producto;
+			Producto producto;
 
 			switch (op) {
 				case "alta":
@@ -94,7 +105,7 @@ public class ProductoFormServlet extends HttpServlet {
 						producto.setErrores("El nombre de producto no puede estar vacío");
 						request.setAttribute("producto", producto);
 						rutaFormulario.forward(request, response);
-					} else if (precio == 0.0) {
+					} else if (precio == 0.0 || precio == null) {
 						producto.setErrores("Debes introducir un precio válido superior a 0");
 						request.setAttribute("producto", producto);
 						rutaFormulario.forward(request, response);
@@ -106,7 +117,7 @@ public class ProductoFormServlet extends HttpServlet {
 								log.info("Producto dado de alta");
 								rutaListado.forward(request, response);
 							} catch (DAOException e) {
-								producto.setErrores(e.getMessage());
+								producto.setErrores("Error al dar de alta el producto");
 								request.setAttribute("producto", producto);
 								rutaFormulario.forward(request, response);
 							}
@@ -134,7 +145,7 @@ public class ProductoFormServlet extends HttpServlet {
 							productos.cerrar();
 							log.info("Producto modificado");
 						} catch (DAOException e) {
-							producto.setErrores(e.getMessage());
+							producto.setErrores("Error al modificar el producto");
 							request.setAttribute("producto", producto);
 							rutaFormulario.forward(request, response);
 							return;
@@ -152,7 +163,7 @@ public class ProductoFormServlet extends HttpServlet {
 						productos.cerrar();
 						log.info("Producto borrado");
 					} catch (DAOException e) {
-						producto.setErrores(e.getMessage());
+						producto.setErrores("Error al modificar el producto");
 						request.setAttribute("producto", producto);
 						rutaFormulario.forward(request, response);
 						return;

@@ -43,12 +43,6 @@ public class InicializacionListener implements ServletContextListener {
 
 		PropertyConfigurator.configure(InicializacionListener.class.getClassLoader().getResource("log4j.properties"));
 
-		// Inicializar un DAO genérico para conexiones y transacciones y hacerlo accesible a través del Servlet Context
-
-		IpartekDAO dao = IpartekDAOFactory.getIpartekDAO();
-
-		application.setAttribute("dao", dao);
-
 		// Inicializar el DAO de usuarios y hacerlo accesible a través del ServletContext
 
 		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO();
@@ -108,6 +102,8 @@ public class InicializacionListener implements ServletContextListener {
 		// Inicializar el DAO de facturas y hacerlo accesible a través del ServletContext
 
 		FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO();
+		
+		application.setAttribute("facturas", facturas);
 
 		// Inicializar una lista de los usuarios logueados y hacerla accesible a través del ServletContext
 
@@ -156,11 +152,10 @@ public class InicializacionListener implements ServletContextListener {
 			}
 		}
 
-		usuarios.cerrar();
 
 		// Vaciar la base de datos de productos y rellenarla con 36 productos de prueba
 
-		productos.abrir();
+		productos.reutilizarConexion(usuarios);
 		productos.iniciarTransaccion();
 
 		try {
@@ -217,11 +212,10 @@ public class InicializacionListener implements ServletContextListener {
 			productos.deshacerTransaccion();
 		}
 
-		productos.cerrar();
 
 		// Establecer el contador de facturas al valor siguiente a la última factura de la tabla
 
-		facturas.abrir();
+		facturas.reutilizarConexion(usuarios);
 		
 		try {
 			Factura.siguienteFactura = facturas.getMaxId() + 1;
@@ -232,7 +226,7 @@ public class InicializacionListener implements ServletContextListener {
 			throw new RuntimeException("ERROR FATAL. SUSPENDIENDO LA APLICACIÓN. POR FAVOR, REVISE EL ESTADO DE LA APLICACIÓN");
 		}
 		
-		facturas.cerrar(); // Cierro la conexión después de todas las operaciones con la base de datos
+		usuarios.cerrar(); // Cierro la conexión después de todas las operaciones con la base de datos
 
 		// Apuntar el ContextPath
 

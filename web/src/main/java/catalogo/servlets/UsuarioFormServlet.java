@@ -39,23 +39,19 @@ public class UsuarioFormServlet extends HttpServlet {
 		String password2 = request.getParameter("password2");
 		String nombre_completo = request.getParameter("nombre_completo");
 		int id_roles;
-		if (request.getParameter("id_roles") == null) {
-			id_roles = 2;
-		} else {
 			try {
 				id_roles = Integer.parseInt(request.getParameter("id_roles"));
 			} catch (Exception e) {
 				id_roles = 2;
 				e.printStackTrace();
 			}
-		}
+		
 
 		RequestDispatcher rutaListado = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO);
 
 		if (op == null) {
 			rutaListado.forward(request, response);
-			return;
 		} else {
 
 			Usuario usuario = new Usuario(id_roles, nombre_completo, password, username);

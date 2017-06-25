@@ -63,9 +63,11 @@ public class LoginServlet extends HttpServlet {
 		boolean yaLogueado = ("si").equals(session.getAttribute("logueado"));
 		boolean yaEnUsuariosLogueados = false;
 		
-		for(Usuario u: usuariosLogueados) {
-			if(usuario.getUsername().equals(u.getUsername())) {
-				yaEnUsuariosLogueados = true;
+		if (usuario.getUsername() != null && !usuariosLogueados.isEmpty()) {
+			for(Usuario u: usuariosLogueados) {
+				if(usuario.getUsername().equals(u.getUsername())) {
+					yaEnUsuariosLogueados = true;
+				}
 			}
 		}
 		// sinDatos puede significar que alguien ha intentado loguearse sin datos o que es la primera vez
