@@ -36,138 +36,153 @@ public class CheckoutServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		// Se recogen los objetos ServletContext y HttpSession
 		ServletContext application = request.getServletContext();
 		HttpSession session = request.getSession();
-		
+		//Se recoge el parametro op enviado por el cliente
 		String op = request.getParameter("op");
-
+		// Se recogen los DAOs a utilizar tanto del ServletContext como de la sesión
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
 		ProductoDAO productosVendidos = (ProductoDAO) application.getAttribute("productosVendidos");
 		CarritoDAO carrito = (CarritoDAO) session.getAttribute("carrito");
-
+		//Se declara un producto genérico para trabajar con el
 		Producto producto;
+		//Se obtienen datos para mostrar en la jsp de checkout
 		Producto[] productosCarritoArr = carrito.buscarTodosLosProductos();
 		Integer numeroProductos = productosCarritoArr.length;
 		Double precioTotal = carrito.precioTotal();
-
+		//Se introducen estos datos en el objeto session para mostrarlos en la jsp
 		session.setAttribute("productosCarritoArr", productosCarritoArr);
 		session.setAttribute("numeroProductos", numeroProductos);
 		session.setAttribute("precioTotal", precioTotal);
-
+		
+		//LOGICA DEL SERVLET
+		//Si no hay productos en el carrito se devuelve al usuario al catálogo
 		if (numeroProductos == 0) {
 			request.getRequestDispatcher("/catalogo").forward(request, response);
 		} else {
-
+		//Si viene sin opción, se le muestra la jsp sin llevar a cabo ninguna acción
 			if (op == null) {
 
 				request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
-
 			} else {
-
+		//Diferentes opciones según la variable op
 				switch (op) {
-				case "pagar":
+					case "pagar":
+		//Si la opción es pagar se obtiene el usuario almacenado en sesión
+						Usuario usuario = (Usuario) session.getAttribute("usuario");
+		//Si no hay un usuario identificado se le insta a loguearse
+						if (usuario == null) {
+							request.getRequestDispatcher("/login").forward(request, response);
+						} else {
+		//Si hay un usuario identificado se obtiene el DAO de facturas almacenado en el ServletContext
+							FacturaDAO facturas = (FacturaDAO) application.getAttribute("facturas");
+		//Se inicializa una factura con el id del usuario y la fecha actual
+							Factura factura = new Factura(usuario.getId(), new Date());
+		// Abrir conexion para todas las tablas e iniciar transacción
+							productosReservados.abrir();
+							productosVendidos.reutilizarConexion(productosReservados);
+							facturas.reutilizarConexion(productosReservados);
+							productosReservados.iniciarTransaccion();
+		//Se declara el array de productos en la factura y el precio total para mostrar en la jsp
+		//de factura
+							Producto[] productosFactura = null;
+							Double precioFactura = 0.0;
 
-					Usuario usuario = (Usuario) session.getAttribute("usuario");
-
-					if (usuario == null) {
-
-						request.getRequestDispatcher("/login").forward(request, response);
-					} else {
-
-						FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO();
-						Factura factura = new Factura(usuario.getId(), new Date());
-						// Abrir conexion para todas las tablas e iniciar transacción
-						productosReservados.abrir();
-						productosVendidos.reutilizarConexion(productosReservados);
-						facturas.reutilizarConexion(productosReservados);
-						productosReservados.iniciarTransaccion();
-
-						Producto[] productosFactura = null;
-						Double precioFactura = 0.0;
-						try {
-							int id_factura = facturas.insert(factura);
-
-							for (Producto p : carrito.buscarTodosLosProductos()) {
-								productosReservados.delete(p);
-								productosVendidos.insert(p);
-								facturas.insertFacturaProducto(id_factura, p.getId());
+							try {
+		//Para obtener el id de factura se utiliza la key obtenida de la operación de insertar la 
+		//factura en su correspondiente tabla
+								int id_factura = facturas.insert(factura);
+		//Se efectua la operación de eliminar los productos del carrito de la tabla productosReservados,
+		//añadirlos a productos vendidos y a la tabla productos_facturas junto con el id de su factura
+								for (Producto p : carrito.buscarTodosLosProductos()) {
+									productosReservados.delete(p);
+									productosVendidos.insert(p);
+									facturas.insertFacturaProducto(id_factura, p.getId());
+								}
+		//Una vez insertada, se obtiene la factura completa para almacenarla en sesión.
+								factura = facturas.findById(id_factura);
+		//Se rellena el array de productos de la factura
+								productosFactura = facturas.findProductoByFacturaId(id_factura);
+		//Se calcula el precio total de la factura
+								precioFactura = facturas.getPrecioTotal(id_factura);
+		//Si todas las operaciones han salido, se confirma la transacción y se obtiene un nuevo carrito
+								productosReservados.confirmarTransaccion();
+								log.info("Carrito de la compra liquidado");
+								carrito = CarritoDAOFactory.getCarritoDAO();
+							} catch (Exception e) {
+								productosReservados.deshacerTransaccion();
+								log.info(e.getMessage());
+								e.printStackTrace();
 							}
-							factura = facturas.findById(id_factura);
-
-							productosFactura = facturas.findProductoByFacturaId(id_factura);
-
-							precioFactura = facturas.getPrecioTotal(id_factura);
-
-							productosReservados.confirmarTransaccion();
-
-							log.info("Carrito de la compra liquidado");
-						} catch (Exception e) {
-							productosReservados.deshacerTransaccion();
-							log.info(e.getMessage());
-							e.printStackTrace();
+		//Se cierra la conexión con la BDD
+							productosReservados.cerrar();
+	
+		//La factura obtenida se almacena en sesión para mostrarla en la jsp. Si la operación falla,
+		//aparecerá una factura en blanco con número 0
+							session.setAttribute("factura", factura);
+							session.setAttribute("productosFactura", productosFactura);
+							session.setAttribute("precioFactura", precioFactura);
+		//Se almacena el nuevo carrito en sesión. Si la operación ha fallado este carrito será el
+		//antiguo
+							session.setAttribute("carrito", carrito);
+							session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
+							session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
+							session.setAttribute("precioTotal", carrito.precioTotal());
+		//Se le envía a la página principal
+							request.getRequestDispatcher("/catalogo").forward(request, response);
 						}
-
-						productosReservados.cerrar();
-
-						carrito = CarritoDAOFactory.getCarritoDAO();
-
-						session.setAttribute("factura", factura);
-						session.setAttribute("productosFactura", productosFactura);
-						session.setAttribute("precioFactura", precioFactura);
-
-						session.setAttribute("carrito", carrito);
-						session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
-						session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-						session.setAttribute("precioTotal", carrito.precioTotal());
-
-						request.getRequestDispatcher("/catalogo").forward(request, response);
-					}
-					break;
-
-				case "quitar":
-					
-					int id;
-					
-					try {
-						id = Integer.parseInt(request.getParameter("id"));
-					} catch (Exception e) {
-						request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
 						break;
-					}
-					
-					producto = carrito.buscarPorId(id);
-
-					if (producto != null) {
-						productos.abrir();
-						productosReservados.reutilizarConexion(productos);
-						productos.iniciarTransaccion();
-						try {
-							carrito.quitarDelCarrito(id);
-							productos.insert(producto);
-							productosReservados.delete(producto);
-							productos.confirmarTransaccion();
-							log.info("Producto retirado del carro");
-						} catch (Exception e) {
-							productos.deshacerTransaccion();
-							log.info(e.getMessage());
-							e.printStackTrace();
-						}
-						productos.cerrar();
+	
+					case "quitar":
+		//Si la opción es quitar se obtiene el id del producto a quitar que viene en la request a partir
+		//del link que pulsa el usuario y corresponde a cada producto de la tabla
+						int id;
 						
-						session.setAttribute("carrito", carrito);
-						session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
-						session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-						session.setAttribute("precioTotal", carrito.precioTotal());
-
-					}
-
-					if (carrito.buscarTodosLosProductos().length == 0) {
-						request.getRequestDispatcher("/catalogo").forward(request, response);
-						break;
-					}
-				default:
-					request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
+						try {
+							id = Integer.parseInt(request.getParameter("id"));
+						} catch (Exception e) {
+		//Si la operación falla se le devuelve al checkout que no habrá cambiado
+							request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
+							break;
+						}
+		//Se busca este producto en el carrito. También podría buscarse en la tabla productosReservados
+						producto = carrito.buscarPorId(id);
+		//Se comprueba que el producto no es null por si alguien mete otro id en la barra de direcciones
+						if (producto != null) {
+		//Se abre la conexión con la BDD para las dos tablas a usar y se inicia la transacción
+							productos.abrir();
+							productosReservados.reutilizarConexion(productos);
+							productos.iniciarTransaccion();
+							try {
+		//Se elimina el producto del carrito y de la tabla productosReservados y se inserta en productos
+								carrito.quitarDelCarrito(id);
+								productosReservados.delete(producto);
+								productos.insert(producto);
+								productos.confirmarTransaccion();
+								log.info("Producto retirado del carro");
+							} catch (Exception e) {
+								productos.deshacerTransaccion();
+								log.info(e.getMessage());
+								e.printStackTrace();
+							}
+							productos.cerrar();
+		//El carrito y sus datos se vuelven a introducir en sesion		
+							session.setAttribute("carrito", carrito);
+							session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
+							session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
+							session.setAttribute("precioTotal", carrito.precioTotal());
+	
+						}
+		//Se vuelve a comprobar si el carrito está vacío para enviar al usuario al catálogo
+						if (carrito.buscarTodosLosProductos().length == 0) {
+							request.getRequestDispatcher("/catalogo").forward(request, response);
+							break;
+						}
+		//Si entrase con cualquier otra opción, se le muestra la página de checkout
+					default:
+						request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
 				}
 			}
 		}

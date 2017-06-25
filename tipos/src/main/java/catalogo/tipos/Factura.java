@@ -7,26 +7,13 @@ import java.util.HashMap;
 public class Factura implements Serializable {
 	
 	private static final long serialVersionUID = 7877238780760817273L;
+	public static int siguienteFactura = 0;
 	
 	// Constructores, getters y setters, hashCode y equals y toString
 	private int id;
 	private int numero_factura;
 	private int id_usuarios;
 	private Date fecha;
-
-	public static int siguienteFactura = 0;
-
-	private HashMap<Integer, Producto> listaProductos = new HashMap<>();
-
-	public Double getPrecioTotal() {
-		Double precioTotal = 0.0;
-		if (listaProductos != null) {
-			for (Producto p : listaProductos.values()) {
-				precioTotal += p.getPrecio();
-			}
-		}
-		return precioTotal;
-	}
 
 	public Factura(int número_factura, int id_usuarios, Date fecha) {
 		super();
@@ -86,13 +73,6 @@ public class Factura implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public HashMap<Integer, Producto> getListaProductos() {
-		return listaProductos;
-	}
-
-	public void setListaProductos(HashMap<Integer, Producto> listaProductos) {
-		this.listaProductos = listaProductos;
-	}
 
 	@Override
 	public int hashCode() {
@@ -130,7 +110,7 @@ public class Factura implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Factura [id=" + id + ", número_factura=" + numero_factura + ", id_usuarios=" + id_usuarios + ", fecha=" + fecha + "\n" + listaProductos + "]";
+		return "Factura [id=" + id + ", número_factura=" + numero_factura + ", id_usuarios=" + id_usuarios + ", fecha=" + fecha + "\n" + "]";
 	}
 
 }
