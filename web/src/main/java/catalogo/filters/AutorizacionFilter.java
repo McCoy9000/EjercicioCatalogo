@@ -1,4 +1,4 @@
-package catalogo.web.filters;
+package catalogo.filters;
 
 import java.io.IOException;
 

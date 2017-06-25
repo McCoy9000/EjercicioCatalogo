@@ -1,4 +1,4 @@
-package catalogo.web.servlets;
+package catalogo.servlets;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package catalogo.web.listeners;
+package catalogo.listeners;
 
 import java.util.LinkedList;
 

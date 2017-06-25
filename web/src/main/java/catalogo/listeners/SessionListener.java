@@ -1,4 +1,4 @@
-package catalogo.web.listeners;
+package catalogo.listeners;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
