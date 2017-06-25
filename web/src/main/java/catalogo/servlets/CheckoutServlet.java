@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
 import catalogo.dal.FacturaDAO;
-import catalogo.dal.FacturaDAOFactory;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;

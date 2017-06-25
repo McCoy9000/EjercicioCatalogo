@@ -2,7 +2,6 @@ package catalogo.tipos;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 
 public class Factura implements Serializable {
 	
