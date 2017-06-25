@@ -38,6 +38,7 @@ public class CheckoutServlet extends HttpServlet {
 
 		ServletContext application = request.getServletContext();
 		HttpSession session = request.getSession();
+		
 		String op = request.getParameter("op");
 
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
