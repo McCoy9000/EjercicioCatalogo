@@ -12,8 +12,6 @@ import org.apache.log4j.PropertyConfigurator;
 
 import catalogo.dal.FacturaDAO;
 import catalogo.dal.FacturaDAOFactory;
-import catalogo.dal.IpartekDAO;
-import catalogo.dal.IpartekDAOFactory;
 import catalogo.dal.ProductoDAO;
 import catalogo.dal.ProductoDAOFactory;
 import catalogo.dal.UsuarioDAO;

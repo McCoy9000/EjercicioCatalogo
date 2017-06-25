@@ -289,7 +289,6 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 				almacen.put(p.getGroupId(), grupo);
 			}
 		}
-
 		return almacen;
 	}
 
@@ -311,9 +310,6 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 			i++;
 
 		}
-
 		return catalogo;
-
 	}
-
 }

@@ -20,7 +20,7 @@
 			<th>Descripción</th>
 			<th>Imagen</th>
 			<th>Precio</th>
-			<th>Acciones</th>
+			<th>Añadir</th>
 			
 			</tr>
 	</thead>
@@ -32,7 +32,11 @@
 				<td><object data="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128" type="image/png">
 					<img src="${applicationScope.rutaBase}/img/0.jpg" height="128" width="128"/></object></td>
 				<td>${producto.precio} €</td>
-				<td><a href="${applicationScope.rutaBase}/catalogo?op=anadir&id=${producto.id}#${producto.groupId}">Añadir al carro</a></td>
+				<td><form action="${applicationScope.rutaBase}/catalogo?op=anadir&groupId=${producto.groupId}" method="post">
+					<input type="number" id="cantidad" name="cantidad" value="1"/>
+					<input type="submit" value="Añadir al carro"/>
+					</form>
+				</td>
 			</tr>
 		</c:forEach>
 	</tbody>

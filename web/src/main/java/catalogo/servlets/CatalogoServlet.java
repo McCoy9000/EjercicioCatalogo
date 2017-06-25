@@ -1,6 +1,7 @@
 package catalogo.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,7 +15,6 @@ import org.apache.log4j.Logger;
 
 import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
-import catalogo.dal.DAOException;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
 
@@ -75,41 +75,78 @@ public class CatalogoServlet extends HttpServlet {
 			switch (op) {
 
 			case "anadir":
-				// Se recoge el id que nos envían clickando en el botón junto al producto
-				int id;
+				// Se recoge el groupId que nos envían clickando en el botón junto al producto
+				int groupId;
 				try {
-					 id = Integer.parseInt(request.getParameter("id"));
+					 groupId = Integer.parseInt(request.getParameter("groupId"));
 				} catch (Exception e) {
 					request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);
 					break;
 				}
-				// Se busca el producto correspondiente al id de producto
 				
-				Producto producto;
-
+				// Se recoge la cantidad solicitada y, en caso de error, se utiliza 1
+				
+				int cantidad = 1;
+				try {
+					cantidad = Integer.parseInt(request.getParameter("cantidad"));
+				} catch (Exception e) {
+					e.printStackTrace();
+					log.info("Error al parsear la cantidad. Se utilizará 1 por defecto como precaución");
+				}
+				
+				log.info("Cantidad recogida: " + cantidad);
+				
+				// Se busca la lista de productos correspondiente al groupId
+	
 				productos.abrir();
+				
+				List<Producto> grupoProductos = productos.getAlmacen().get(groupId);
 
-				producto = productos.findById(id);
+				// Se declara un producto genérico para rellenarlo con productos de la BBDD e ir
+				// trabajando con él
+				
+				Producto productoAleatorio;
 
-				if (producto != null) {
-					// Se hace el proceso de añadirlo al carrito
-					productosReservados.reutilizarConexion(productos);
-					productos.iniciarTransaccion();
-					try {
-						productos.delete(producto);
-						carrito.anadirAlCarrito(producto);
-						productosReservados.insert(producto);
-						productos.confirmarTransaccion();
-					} catch (Exception e) {
+				// Se reutiliza la conexión abierta para el DAO de productosReservados y se
+				// inicia la transacción
+				
+				productosReservados.reutilizarConexion(productos);
+				
+				productos.iniciarTransaccion();
+
+				// Tantas veces como se ha indicado en cantidad o hasta que no queden productos del 
+				// tipo solicitado se retira un producto de la tabla de productos de ese tipo y se
+				// añade tanto al carrito como a la tabla de productosReservados
+				
+				try {
+
+					int i = 0;
+					for (i = 0; i < cantidad && i < grupoProductos.size(); i++) {
+						productoAleatorio = grupoProductos.get(i);
+						productos.delete(productoAleatorio);
+						carrito.anadirAlCarrito(productoAleatorio);
+						productosReservados.insert(productoAleatorio);
+					}
+
+					productos.confirmarTransaccion();
+					log.info("Añadidos " + i + " productos al carrito");
+
+				} catch (Exception e) {
 						productos.deshacerTransaccion();
+						for (Producto p : carrito.buscarTodosLosProductos()) {
+							carrito.quitarDelCarrito(p.getId());
+						}
 						log.info(e.getMessage());
 						e.printStackTrace();
-					}
-					log.info("Añadido un producto al carrito");
 				}
-				// Se actualiza el catálogo para eliminar el producto que se ha añadido al carro
+				
+				// Se actualiza el catálogo en aplicación para que no aparezcan los productos que 
+				// están en el carrito y se cierra la conexión
+				
 				application.setAttribute("catalogo", productos.getCatalogo());
+	
 				productos.cerrar();
+				
 				//Se actualiza el carrito a través del DAO y el valor número de productos en la sesión
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
