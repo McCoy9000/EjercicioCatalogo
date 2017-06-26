@@ -18,7 +18,7 @@
 			  	style="display:none;"
 			  </c:if> >Id</label> 
 			
-			<input id="id" name="id"
+			<input id="id" name="id" type="number"
 			  required="required"  value="${producto.id}" 
 			  
 			  <c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
@@ -32,13 +32,15 @@
 		<fieldset>
 			<label for="groupId">GroupId</label> 
 			
-			<input id="groupId" name="groupId"
+			<input <c:if test="${param.op == 'borrar'}">
+					readonly="readonly"
+					</c:if> id="groupId" name="groupId" type="number"
 			  required="required"  value="${producto.groupId}"/>
 		</fieldset>
-		<fieldset <c:if test="${param.op == 'borrar'}">
-			readonly="readonly"
-			</c:if>>
-			<label for="nombre">Nombre</label> <input id="nombre"
+		<fieldset>
+			<label for="nombre">Nombre</label> <input <c:if test="${param.op == 'borrar'}">
+					readonly="readonly"
+					</c:if> id="nombre"
 				name="nombre"  required="required"  value="${producto.nombre}"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
