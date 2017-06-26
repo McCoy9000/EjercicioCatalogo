@@ -8,6 +8,7 @@
 		<head>
 			<meta charset="UTF-8" />
 			<title>Driver</title>
+			<link rel="shortcut icon" href="${applicationScope.rutaBase}/img/favicon.png" type="image/png">
 			<link rel="stylesheet" href="${applicationScope.rutaBase}/css/estilos.css" />
 		</head>
 		
