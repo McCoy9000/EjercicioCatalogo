@@ -41,7 +41,6 @@ public class UsuarioFormServlet extends HttpServlet {
 			id = Integer.parseInt(request.getParameter("id"));
 		} catch (Exception e) {
 			id = 0;
-			e.printStackTrace();
 		}
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -52,7 +51,6 @@ public class UsuarioFormServlet extends HttpServlet {
 			id_roles = Integer.parseInt(request.getParameter("id_roles"));
 		} catch (Exception e) {
 			id_roles = 2;
-			e.printStackTrace();
 		}
 
 		RequestDispatcher rutaListado = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
