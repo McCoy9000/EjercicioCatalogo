@@ -12,21 +12,19 @@
 		class="catalogo.tipos.Producto" />
 
 	<form action="${applicationScope.rutaBase}/admin/productoform" method="post">
-		<fieldset>
-			<label for="id" 
-			 <c:if test="${param.op == 'alta'}">
-			  	style="display:none;"
-			  </c:if> >Id</label> 
+		<fieldset 
+			<c:if test="${param.op == 'alta'}">
+				style="display:none;"
+			</c:if> 
+		>
+			<label for="id">Id</label> 
 			
 			<input id="id" name="id" type="number"
 			  required="required"  value="${producto.id}" 
 			  
-			  <c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
-			  	readonly="readonly"
-			  </c:if> 
-			  <c:if test="${param.op == 'alta'}">
-			  	type="hidden"
-			  </c:if>  
+				<c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
+					readonly="readonly"
+			  	</c:if> 
 		  	/>
 		</fieldset>
 		<fieldset>
@@ -35,40 +33,39 @@
 			<input <c:if test="${param.op == 'borrar'}">
 					readonly="readonly"
 					</c:if> id="groupId" name="groupId" type="number"
-			  required="required"  value="${producto.groupId}"/>
+				required="required"  value="${producto.groupId}"/>
 		</fieldset>
 		<fieldset>
-			<label for="nombre">Nombre</label> <input <c:if test="${param.op == 'borrar'}">
+			<label for="nombre">Nombre</label> 
+			
+			<input <c:if test="${param.op == 'borrar'}">
 					readonly="readonly"
-					</c:if> id="nombre"
-				name="nombre"  required="required"  value="${producto.nombre}"/>
+					</c:if> id="nombre" name="nombre"  
+				required="required"  value="${producto.nombre}"/>
 		</fieldset>
-		<fieldset <c:if test="${param.op == 'borrar'}">
-			style="display:none;"
+		<fieldset 
+			<c:if test="${param.op == 'borrar'}">
+				style="display:none;"
 			</c:if>
-			>
-			<label for="descripcion">Descripcion</label> <input id="descripcion"
-				name="descripcion" value="${producto.descripcion}"/>
+		>
+			<label for="descripcion">Descripcion</label> 
+			
+			<input id="descripcion" name="descripcion" value="${producto.descripcion}"/>
 		</fieldset>
 		
-
-		
-		<fieldset <c:if test="${param.op == 'borrar'}">
-			style="display:none;"
+		<fieldset 
+			<c:if test="${param.op == 'borrar'}">
+				style="display:none;"
 			</c:if>
-			>
-			<label for="precio">Precio</label> <input id="precio"
-				name="precio" value="${producto.precio}"/>
+		>
+			<label for="precio">Precio</label> 
+			<input id="precio" name="precio" value="${producto.precio}"/>
 		</fieldset>
 		<fieldset>
 			<input type="submit" value="${fn:toUpperCase(param.op)}" 
-			
-			
 				<c:if test="${param.op == null or param.op == ''}">
 			  		style="display:none;"
 			  	</c:if>
-			
-			
 			/>
 			<p class="errores">${producto.errores}</p>
 			
