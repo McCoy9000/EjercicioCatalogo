@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import catalogo.tipos.Articulo;
 import catalogo.tipos.Producto;
 
 public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
@@ -236,13 +237,13 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 	public boolean validar(Producto producto) {
 
 		Producto[] productosArr = null;
-		
+
 		try {
 			productosArr = this.findAll();
 		} catch (Exception e) {
-			throw new DAOException ("Error al validar", e);
+			throw new DAOException("Error al validar", e);
 		}
-		
+
 		for (Producto p : productosArr) {
 			if (p.getId() == producto.getId()) {
 				return true;
@@ -254,13 +255,13 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 	public boolean validarNombre(Producto producto) {
 
 		Producto[] productosArr = null;
-		
+
 		try {
 			productosArr = this.findAll();
 		} catch (Exception e) {
-			throw new DAOException ("Error al validar nombre");
+			throw new DAOException("Error al validar nombre");
 		}
-		
+
 		if (producto.getNombre() != null) {
 
 			for (Producto s : productosArr) {
@@ -298,14 +299,15 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 		return Collections.frequency(Arrays.asList(productosArr), producto);
 	}
 
-	public Producto[] getCatalogo() {
+	public Articulo[] getCatalogo() {
 
-		Producto[] catalogo = new Producto[this.getAlmacen().size()];
+		Articulo[] catalogo = new Articulo[this.getAlmacen().size()];
 		int i = 0;
 
 		for (List<Producto> grupoProductos : this.getAlmacen().values()) {
 
-			Producto muestra = grupoProductos.get(0);
+			Articulo muestra = new Articulo(grupoProductos.get(0).getGroupId(), grupoProductos.get(0).getNombre(), grupoProductos.get(0).getDescripcion(), grupoProductos.get(0).getPrecio(),
+					this.getStock(grupoProductos.get(0)));
 			catalogo[i] = muestra;
 			i++;
 

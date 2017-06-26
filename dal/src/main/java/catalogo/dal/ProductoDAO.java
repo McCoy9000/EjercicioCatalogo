@@ -3,6 +3,7 @@ package catalogo.dal;
 import java.util.List;
 import java.util.Map;
 
+import catalogo.tipos.Articulo;
 import catalogo.tipos.Producto;
 
 public interface ProductoDAO extends IpartekDAO {
@@ -30,5 +31,5 @@ public interface ProductoDAO extends IpartekDAO {
 
 	public int getStock(Producto producto);
 
-	public Producto[] getCatalogo();
+	public Articulo[] getCatalogo();
 }

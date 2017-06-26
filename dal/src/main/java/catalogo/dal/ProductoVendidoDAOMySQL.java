@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import catalogo.tipos.Articulo;
 import catalogo.tipos.Producto;
 
 public class ProductoVendidoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
@@ -236,9 +237,7 @@ public class ProductoVendidoDAOMySQL extends IpartekDAOMySQL implements Producto
 
 	public boolean validar(Producto producto) {
 
-		this.abrir();
 		Producto[] ProductosArr = this.findAll();
-		this.cerrar();
 
 		for (Producto p : ProductosArr) {
 			if (p.getId() == producto.getId()) {
@@ -250,9 +249,7 @@ public class ProductoVendidoDAOMySQL extends IpartekDAOMySQL implements Producto
 
 	public boolean validarNombre(Producto producto) {
 
-		this.abrir();
 		Producto[] productosArr = this.findAll();
-		this.cerrar();
 
 		if (producto.getNombre() != null) {
 
@@ -294,21 +291,19 @@ public class ProductoVendidoDAOMySQL extends IpartekDAOMySQL implements Producto
 		return Collections.frequency(Arrays.asList(productosArr), producto);
 	}
 
-	public Producto[] getCatalogo() {
+	public Articulo[] getCatalogo() {
 
-		Producto[] catalogo = new Producto[this.getAlmacen().size()];
+		Articulo[] catalogo = new Articulo[this.getAlmacen().size()];
 		int i = 0;
 
 		for (List<Producto> grupoProductos : this.getAlmacen().values()) {
 
-			Producto muestra = grupoProductos.get(0);
+			Articulo muestra = new Articulo(grupoProductos.get(0).getGroupId(), grupoProductos.get(0).getNombre(), grupoProductos.get(0).getDescripcion(), grupoProductos.get(0).getPrecio(),
+					this.getStock(grupoProductos.get(0)));
 			catalogo[i] = muestra;
 			i++;
 
 		}
-
 		return catalogo;
-
 	}
-
 }

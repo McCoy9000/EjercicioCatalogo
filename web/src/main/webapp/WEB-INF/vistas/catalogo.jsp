@@ -20,21 +20,23 @@
 			<th>Descripción</th>
 			<th>Imagen</th>
 			<th>Precio</th>
+			<th>Stock</th>
 			<th>Añadir</th>
 			
 			</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${applicationScope.catalogo}" var="producto">
-			<tr id="${producto.groupId}">
-				<td>${producto.nombre}</td>
-				<td>${producto.descripcion}</td>
-				<td><object data="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128" type="image/png">
+		<c:forEach items="${applicationScope.catalogo}" var="articulo">
+			<tr id="${articulo.groupId}">
+				<td>${articulo.nombre}</td>
+				<td>${articulo.descripcion}</td>
+				<td><object data="${applicationScope.rutaBase}/img/${articulo.imagen}.jpg" height="128" width="128" type="image/png">
 					<img src="${applicationScope.rutaBase}/img/0.jpg" height="128" width="128"/></object></td>
-				<td>${producto.precio} €</td>
-				<td><form action="${applicationScope.rutaBase}/catalogo#${producto.groupId}" method="post">
+				<td>${articulo.precio} €</td>
+				<td>${articulo.cantidad}</td>
+				<td><form action="${applicationScope.rutaBase}/catalogo#${articulo.groupId}" method="post">
 					<input type="number" id="cantidad" name="cantidad" value="1"/>
-					<input type="hidden" id ="groupId" name="groupId" value="${producto.groupId}"/>
+					<input type="hidden" id ="groupId" name="groupId" value="${articulo.groupId}"/>
 					<input type="hidden" id="op" name="op" value="anadir"/>
 					<input type="submit" value="Añadir al carro"/>
 					</form>
