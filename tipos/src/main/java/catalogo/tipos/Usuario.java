@@ -3,15 +3,24 @@ package catalogo.tipos;
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
-	
+
 	private static final long serialVersionUID = 4770875332940984231L;
-	
+
 	// Constructores, getters y setters, hashCode y equals y toString
 	private int id;
 	private int id_roles;
 	private String nombre_completo;
 	private String password;
 	private String username;
+
+	public Usuario(int id, int id_roles, String nombre_completo, String password, String username) {
+		super();
+		this.id = id;
+		this.id_roles = id_roles;
+		this.nombre_completo = nombre_completo;
+		this.password = password;
+		this.username = username;
+	}
 
 	public Usuario(int id_roles, String nombre_completo, String password, String username) {
 		super();

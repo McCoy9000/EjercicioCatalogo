@@ -15,7 +15,7 @@ public interface UsuarioDAO extends IpartekDAO {
 
 	public void delete(Usuario usuario);
 
-	public void delete(String username);
+	public void delete(int id);
 
 	public void deleteUsuarios();
 

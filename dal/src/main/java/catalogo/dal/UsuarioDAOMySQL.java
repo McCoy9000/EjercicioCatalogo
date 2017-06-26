@@ -14,8 +14,8 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	private final static String FIND_BY_ID = "SELECT * FROM usuarios WHERE id = ?";
 	private final static String INSERT = "INSERT INTO usuarios (username, password, nombre_completo, id_roles)" + " VALUES (?, ?, ?, ?)";
 	private final static String FIND_BY_NAME = "SELECT * FROM usuarios WHERE username = ?";
-	private final static String UPDATE = "UPDATE usuarios " + "SET username = ?, password = ?, nombre_completo = ?, id_roles = ? " + "WHERE username = ?";
-	private final static String DELETE = "DELETE FROM usuarios WHERE username = ?";
+	private final static String UPDATE = "UPDATE usuarios " + "SET username = ?, password = ?, nombre_completo = ?, id_roles = ? " + "WHERE id = ?";
+	private final static String DELETE = "DELETE FROM usuarios WHERE id = ?";
 	private final static String DELETE_TABLE_USUARIOS = "DELETE FROM usuarios";
 	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete;
 
@@ -156,7 +156,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 			psUpdate.setString(3, usuario.getNombre_completo());
 			psUpdate.setInt(4, usuario.getId_roles());
 
-			psUpdate.setString(5, usuario.getUsername());
+			psUpdate.setInt(5, usuario.getId());
 
 			int res = psUpdate.executeUpdate();
 
@@ -171,14 +171,14 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	}
 
 	public void delete(Usuario usuario) {
-		delete(usuario.getUsername());
+		delete(usuario.getId());
 	}
 
-	public void delete(String username) {
+	public void delete(int id) {
 		try {
 			psDelete = con.prepareStatement(DELETE);
 
-			psDelete.setString(1, username);
+			psDelete.setInt(1, id);
 
 			int res = psDelete.executeUpdate();
 
@@ -208,13 +208,13 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	public boolean validar(Usuario usuario) {
 
 		Usuario[] usuariosArr = null;
-		
+
 		try {
 			usuariosArr = this.findAll();
 		} catch (Exception e) {
 			throw new DAOException("Error al validar usuario", e);
 		}
-		
+
 		for (Usuario u : usuariosArr) {
 			if (u.getUsername().equals(usuario.getUsername()) && u.getPassword().equals(usuario.getPassword())) {
 				return true;
@@ -226,13 +226,13 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	public boolean validarNombre(Usuario usuario) {
 
 		Usuario[] usuariosArr = null;
-		
+
 		try {
 			usuariosArr = this.findAll();
 		} catch (Exception e) {
 			throw new DAOException("Error al validar usuario, e");
 		}
-		
+
 		if (usuario.getUsername() != null) {
 
 			for (Usuario u : usuariosArr) {

@@ -34,95 +34,109 @@ public class UsuarioFormServlet extends HttpServlet {
 
 		String op = request.getParameter("opform");
 
+		Usuario usuario;
+
+		int id;
+		try {
+			id = Integer.parseInt(request.getParameter("id"));
+		} catch (Exception e) {
+			id = 0;
+			e.printStackTrace();
+		}
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String password2 = request.getParameter("password2");
 		String nombre_completo = request.getParameter("nombre_completo");
 		int id_roles;
-			try {
-				id_roles = Integer.parseInt(request.getParameter("id_roles"));
-			} catch (Exception e) {
-				id_roles = 2;
-				e.printStackTrace();
-			}
-		
+		try {
+			id_roles = Integer.parseInt(request.getParameter("id_roles"));
+		} catch (Exception e) {
+			id_roles = 2;
+			e.printStackTrace();
+		}
 
 		RequestDispatcher rutaListado = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO);
 
 		if (op == null) {
+			usuario = new Usuario(id_roles, nombre_completo, password, username);
 			rutaListado.forward(request, response);
 		} else {
 
-			Usuario usuario = new Usuario(id_roles, nombre_completo, password, username);
-
 			switch (op) {
 
-				case "alta":
+			case "alta":
+
+				usuario = new Usuario(id_roles, nombre_completo, password, username);
+				if (password != null && password != "" && password.equals(password2)) {
+					try {
+						usuarios.abrir();
+						usuarios.insert(usuario);
+						usuarios.cerrar();
+						log.info("Usuario " + usuario.getUsername() + " dado de alta");
+					} catch (DAOException e) {
+						// Si falla el insert se coge la excepción que lanza y se le reenvía al formulario con el objeto
+						// usuario que traía metido en la request
+						request.setAttribute("usuario", usuario);
+						e.printStackTrace();
+						rutaFormulario.forward(request, response);
+					}
+					rutaListado.forward(request, response);
+					return;
+				} else {
+					request.setAttribute("usuario", usuario);
+					rutaFormulario.forward(request, response);
+				}
+				break;
+
+			case "modificar":
+				usuario = new Usuario(id, id_roles, nombre_completo, password, username);
+				if (!("admin").equals(usuario.getUsername())) {
 					if (password != null && password != "" && password.equals(password2)) {
 						try {
 							usuarios.abrir();
-							usuarios.insert(usuario);
+							usuarios.update(usuario);
 							usuarios.cerrar();
-							log.info("Usuario " + usuario.getUsername() + " dado de alta");
+							log.info("Usuario modificado");
 						} catch (DAOException e) {
-							// Si falla el insert se coge la excepción que lanza y se le reenvía al formulario con el objeto
-							// usuario que traía metido en la request
 							request.setAttribute("usuario", usuario);
 							e.printStackTrace();
 							rutaFormulario.forward(request, response);
 						}
 						rutaListado.forward(request, response);
+						return;
 					} else {
 						request.setAttribute("usuario", usuario);
 						rutaFormulario.forward(request, response);
 					}
-					break;
+				} else {
+					request.setAttribute("usuario", usuario);
+					rutaFormulario.forward(request, response);
+				}
+				break;
 
-				case "modificar":
-					if (!("admin").equals(usuario.getUsername())) {
-						if (password != null && password != "" && password.equals(password2)) {
-							try {
-								usuarios.abrir();
-								usuarios.update(usuario);
-								usuarios.cerrar();
-								log.info("Usuario modificado");
-							} catch (DAOException e) {
-								request.setAttribute("usuario", usuario);
-								e.printStackTrace();
-								rutaFormulario.forward(request, response);
-		
-							}
-							rutaListado.forward(request, response);
-						} else {
-							request.setAttribute("usuario", usuario);
-							rutaFormulario.forward(request, response);
-						}
-					} else {
+			case "borrar":
+				usuario = new Usuario(id, id_roles, nombre_completo, password, username);
+				if (!("admin").equals(usuario.getUsername())) {
+					try {
+						usuarios.abrir();
+						usuarios.delete(usuario);
+						usuarios.cerrar();
+						log.info("Usuario borrado");
+					} catch (DAOException e) {
 						request.setAttribute("usuario", usuario);
+						e.printStackTrace();
 						rutaFormulario.forward(request, response);
 					}
-					break;
-		
-				case "borrar":
-					if (!("admin").equals(usuario.getUsername())) {
-						try {
-							usuarios.abrir();
-							usuarios.delete(usuario);
-							usuarios.cerrar();
-							log.info("Usuario borrado");
-							rutaListado.forward(request, response);
-						} catch (DAOException e) {
-							request.setAttribute("usuario", usuario);
-							e.printStackTrace();
-							rutaFormulario.forward(request, response);
-						}
-					} else {
-						rutaListado.forward(request, response);
-					}
-					break;
-				default: 
 					rutaListado.forward(request, response);
+					return;
+				} else {
+					request.setAttribute("usuario", usuario);
+					rutaFormulario.forward(request, response);
+				}
+				break;
+			default:
+				rutaListado.forward(request, response);
 			}
 		}
 	}

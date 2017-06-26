@@ -9,6 +9,13 @@
 		class="catalogo.tipos.Usuario" />
 
 	<form action="${applicationScope.rutaBase}/admin/usuarioform" method="post">
+		
+		<fieldset style="display:none;">
+			<label for="id">Id</label> 
+			
+			<input id="id" name="id" type="number"
+			  required="required"  value="${usuario.id}"/>
+		</fieldset>
 		<fieldset>
 			<label for="username">Nombre</label> 
 			
@@ -27,14 +34,14 @@
 			
 		>
 			<label for="password">Contraseña</label> <input type="password" id="pass"
-				name="password" required="required"/>
+				name="password"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
 		>
 			<label for="password2">Contraseña otra vez</label> <input type="password" id="password2"
-				name="password2" required="required"/>
+				name="password2"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
@@ -42,7 +49,7 @@
 			
 		>
 			<label for="nombre_completo">Nombre completo</label> <input id="nombre_completo"
-				name="nombre_completo" required="required"/>
+				name="nombre_completo"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
