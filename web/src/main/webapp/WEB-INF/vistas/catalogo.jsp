@@ -12,7 +12,7 @@
 	</ul>
 </nav>
 
-<table>
+<table id="catalogo">
 	<thead>
 		<tr>
 			
@@ -21,7 +21,7 @@
 			<th>Imagen</th>
 			<th>Precio</th>
 			<th>Stock</th>
-			<th>Añadir</th>
+			<th>Añadir a mi carrito</th>
 			
 			</tr>
 	</thead>
@@ -34,11 +34,12 @@
 					<img src="${applicationScope.rutaBase}/img/0.jpg" height="128" width="128"/></object></td>
 				<td>${articulo.precio} €</td>
 				<td>${articulo.cantidad}</td>
-				<td><form action="${applicationScope.rutaBase}/catalogo#${articulo.groupId}" method="post">
-					<input type="number" id="cantidad" name="cantidad" value="1"/>
-					<input type="hidden" id ="groupId" name="groupId" value="${articulo.groupId}"/>
-					<input type="hidden" id="op" name="op" value="anadir"/>
-					<input type="submit" value="Añadir al carro"/>
+				<td>
+					<form action="${applicationScope.rutaBase}/catalogo#${articulo.groupId}" method="post">
+						<input type="number" id="cantidad" name="cantidad" value="1"/>
+						<input type="hidden" id ="groupId" name="groupId" value="${articulo.groupId}"/>
+						<input type="hidden" id="op" name="op" value="anadir"/>
+						<input type="submit" value="Añadir al carro"/>
 					</form>
 				</td>
 			</tr>

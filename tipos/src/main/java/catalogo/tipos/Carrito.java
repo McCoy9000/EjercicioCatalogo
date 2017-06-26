@@ -15,7 +15,7 @@ public class Carrito implements Serializable {
 
 	public Carrito() {
 		this.listaProductos = new HashMap<>();
-		log.info("Creado carrito con lista de productos vacia");
+		log.info("Creado carrito con lista de productos vacía");
 	}
 
 	public Carrito(HashMap<Integer, Producto> listaProductos) {

@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// RECOPILACION DE LOS OBJETOS A ANALIZAR Y UTILIZAR
+		// RECOPILACI√ìN DE LOS OBJETOS A ANALIZAR Y UTILIZAR
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
 
@@ -42,12 +42,12 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String op = request.getParameter("op");
 
-		// Recogida de datos de aplicaciÛn y de sesiÛn
+		// Recogida de datos de aplicaci√≥n y de sesi√≥n
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		@SuppressWarnings("unchecked")
 		LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
 
-		// DeclaraciÛn de un objeto usuario para trabajar sobre Èl
+		// Declaraci√≥n de un objeto usuario para trabajar sobre √©l
 		Usuario usuario;
 
 		// Hasta que alguien no se loguea el objeto session no tiene un usuario asociado por lo que puede
@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
 		} else
 			usuario = new Usuario(username, password);
 
-		// DECLARACI”N E INICIALIZACI”N DE LAS BOOLEANAS SOBRE LAS QUE SE BASAR¡ LA L”GICA DEL SERVLET
+		// DECLARACI√ìN E INICIALIZACI√ìN DE LAS BOOLEANAS SOBRE LAS QUE SE BASAR√Å LA L√ìGICA DEL SERVLET
 
 		boolean quiereSalir = ("logout").equals(op);
 		boolean yaLogueado = ("si").equals(session.getAttribute("logueado"));
@@ -71,7 +71,7 @@ public class LoginServlet extends HttpServlet {
 			}
 		}
 		// sinDatos puede significar que alguien ha intentado loguearse sin datos o que es la primera vez
-		// que llega al servlet sin que se le hayan pedido datos a˙n. Es la condiciÛn de partida de llegada
+		// que llega al servlet sin que se le hayan pedido datos a√∫n. Es la condici√≥n de partida de llegada
 		// al servlet
 		boolean sinDatos = username == null || username == "" || password == "" || password == null;
 		boolean uInexistente = false;
@@ -81,14 +81,14 @@ public class LoginServlet extends HttpServlet {
 		esValido = usuarios.validar(usuario);
 		usuarios.cerrar();
 
-		// DeclaraciÛn e inicializaciÛn de los dispatcher ya que en un momento dado me daba problemas inicializarlos
+		// Declaraci√≥n e inicializaci√≥n de los dispatcher ya que en un momento dado me daba problemas inicializarlos
 		// directamente cuando son requeridos.
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
 		RequestDispatcher catalogo = request.getRequestDispatcher(RUTA_CATALOGO);
 
-		// LOGICA DEL SERVLET SEG⁄N LOS VALORES DE LAS BOOLEANAS
+		// L√ìGICA DEL SERVLET SEG√öN LOS VALORES DE LAS BOOLEANAS
 		if (quiereSalir) {
-			// Se invalida la sesiÛn y se le envÌa al cat·logo que es el punto de partida de la aplicaciÛn
+			// Se invalida la sesi√≥n y se le env√≠a al cat√°logo que es el punto de partida de la aplicaci√≥n
 			session.invalidate();
 			usuariosLogueados.remove(usuario);
 			session = request.getSession();
@@ -96,28 +96,28 @@ public class LoginServlet extends HttpServlet {
 			catalogo.forward(request, response);
 
 		} else if (yaLogueado) {
-			// Si ya est· logueado el login le deja pasar directamente a la p·gina principal, el cat·logo
+			// Si ya est√° logueado el login le deja pasar directamente a la p√°gina principal, el cat√°logo
 			session.removeAttribute("errorLogin");
 			catalogo.forward(request, response);
 
 		} else if (sinDatos) {
-			// Si no se rellenan los datos se le envÌa al jsp del login con el mensaje de error. Da el fallo de que un usuario
-			// que entra por primera vez a esta p·gina no ha podido rellenar a˙n ning˙n dato por lo que se le mostrar· el mensaje
-			// de error sin que haya interactuado con la p·gina.
+			// Si no se rellenan los datos se le env√≠a al jsp del login con el mensaje de error. Da el fallo de que un usuario
+			// que entra por primera vez a esta p√°gina no ha podido rellenar a√∫n ning√∫n dato por lo que se le mostrar√° el mensaje
+			// de error sin que haya interactuado con la p√°gina.
 			session.setAttribute("errorLogin", "Debes rellenar todos los campos");
 			login.forward(request, response);
 
 		} else if (uInexistente) {
-			// Si el username no existe en la base de datos se le reenvÌa a la jsp de login con el correspondiente mensaje de error
+			// Si el username no existe en la base de datos se le reenv√≠a a la jsp de login con el correspondiente mensaje de error
 			session.setAttribute("errorLogin", "Usuario no encontrado");
 			login.forward(request, response);
 
 		} else if (esValido) {
-			// Si el usuario ya est· logueado no deja volver a loguearse con el mismo usuario
+			// Si el usuario ya est√° logueado no deja volver a loguearse con el mismo usuario
 			if(yaEnUsuariosLogueados){
-				session.setAttribute("errorLogin", "Este usuario ya est· logueado");
+				session.setAttribute("errorLogin", "Este usuario ya est√° logueado");
 				login.forward(request, response);
-				// Si nombre y contraseÒa son v·lidos se busca el usuario correspondiente en la base de datos para rellenar el resto de datos
+				// Si nombre y contrase√±a son v√°lidos se busca el usuario correspondiente en la base de datos para rellenar el resto de datos
 				// como su id_roles y se almacena este usuario en el objeto session.
 			} else {
 				log.info("Usuario " + usuario.getUsername() + " logueado");
@@ -129,13 +129,13 @@ public class LoginServlet extends HttpServlet {
 				session.removeAttribute("errorLogin");
 				session.setAttribute("logueado", "si");
 				session.setAttribute("usuario", usuario);
-				// Se le envÌa al cat·logo
+				// Se le env√≠a al cat√°logo
 				catalogo.forward(request, response);
 			}
 			
 		} else {
 			// En principio, la posibilidad que queda es que el usuario exista pero la password sea incorrecta
-			session.setAttribute("errorLogin", "ContraseÒa incorrecta");
+			session.setAttribute("errorLogin", "Contrase√±a incorrecta");
 			login.forward(request, response);
 		}
 	}

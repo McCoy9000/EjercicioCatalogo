@@ -41,7 +41,7 @@ public class InicializacionListener implements ServletContextListener {
 
 		PropertyConfigurator.configure(InicializacionListener.class.getClassLoader().getResource("log4j.properties"));
 
-		// Inicializar el DAO de usuarios y hacerlo accesible a través del ServletContext
+		// Inicializar el DAO de usuarios y hacerlo accesible a travÃ©s del ServletContext
 
 		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO();
 
@@ -64,7 +64,7 @@ public class InicializacionListener implements ServletContextListener {
 
 		application.setAttribute("usuariosArr", usuariosArr);
 
-		// Inicializar el DAO de productos y hacerlo accesible a través del ServletContext
+		// Inicializar el DAO de productos y hacerlo accesible a travÃ©s del ServletContext
 
 		ProductoDAO productos = ProductoDAOFactory.getProductoDAO();
 
@@ -87,7 +87,7 @@ public class InicializacionListener implements ServletContextListener {
 		application.setAttribute("productosArr", productosArr);
 
 		// Inicializar el DAO de ProductosReservados y ProductosVendidos 
-		// y hacerlos accesibles a través del ServletContext
+		// y hacerlos accesibles a travÃ©s del ServletContext
 
 		ProductoDAO productosReservados = ProductoDAOFactory.getProductoReservadoDAO();
 
@@ -97,13 +97,13 @@ public class InicializacionListener implements ServletContextListener {
 
 		application.setAttribute("productosVendidos", productosVendidos);
 
-		// Inicializar el DAO de facturas y hacerlo accesible a través del ServletContext
+		// Inicializar el DAO de facturas y hacerlo accesible a travÃ©s del ServletContext
 
 		FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO();
 		
 		application.setAttribute("facturas", facturas);
 
-		// Inicializar una lista de los usuarios logueados y hacerla accesible a través del ServletContext
+		// Inicializar una lista de los usuarios logueados y hacerla accesible a travÃ©s del ServletContext
 
 		LinkedList<Usuario> usuariosLogueados = new LinkedList<>();
 
@@ -142,7 +142,7 @@ public class InicializacionListener implements ServletContextListener {
 		if (!usuarios.validar(usuario)) {
 			try {
 				usuarios.insert(usuario);
-				log.info("Creado usuario estándard. Usuario: 'mikel', Password: 'mikel'");
+				log.info("Creado usuario estÃ¡ndard. Usuario: 'mikel', Password: 'mikel'");
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.info(e.getMessage());
@@ -211,25 +211,25 @@ public class InicializacionListener implements ServletContextListener {
 		}
 
 
-		// Establecer el contador de facturas al valor siguiente a la última factura de la tabla
+		// Establecer el contador de facturas al valor siguiente a la Ãºltima factura de la tabla
 
 		facturas.reutilizarConexion(usuarios);
 		
 		try {
 			Factura.siguienteFactura = facturas.getMaxId() + 1;
-			log.info("Iniciado el contador de facturas con el valor del número siguiente al de la última factura emitida");
+			log.info("Iniciado el contador de facturas con el valor del nÃºmero siguiente al de la Ãºltima factura emitida");
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			log.info("No se pudo establecer el valor del contador de facturas");
-			throw new RuntimeException("ERROR FATAL. SUSPENDIENDO LA APLICACIÓN. POR FAVOR, REVISE EL ESTADO DE LA APLICACIÓN");
+			throw new RuntimeException("ERROR FATAL. SUSPENDIENDO LA APLICACIÃ“N. POR FAVOR, REVISE EL ESTADO DE LA APLICACIÃ“N");
 		}
 		
-		usuarios.cerrar(); // Cierro la conexión después de todas las operaciones con la base de datos
+		usuarios.cerrar(); // Cierro la conexÃ³n despuÃ©s de todas las operaciones con la base de datos
 
 		// Apuntar el ContextPath
 
 		String path = servletContextEvent.getServletContext().getContextPath();
 		application.setAttribute("rutaBase", path);
-		log.info("Almacenada la ruta relativa de la aplicacion: " + path);
+		log.info("Almacenada la ruta relativa de la aplicaciÃ³n: " + path);
 	}
 }

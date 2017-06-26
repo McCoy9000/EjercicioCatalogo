@@ -37,6 +37,11 @@ input {
 	width: 400;
 }
 
+#catalogo input {
+	display:inline-block;
+	width: 5em;
+}
+
 nav {
     background-color: lightgrey;
     padding: 1em;

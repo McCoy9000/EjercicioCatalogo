@@ -36,29 +36,29 @@ public class AltaServlet extends HttpServlet {
 
 		// RECOGIDA DE DATOS Y OBJETOS PARA TRABAJAR SOBRE ELLOS
 
-		// Se recogen los objetos sesión y aplicación
+		// Se recogen los objetos sesiÃ³n y aplicaciï¿½n
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
-		// Se obtiene el conjunto de usuarios extraído de la BBDD e introducido en el objeto application en el
-		// listener de la aplicación
+		// Se obtiene el conjunto de usuarios extraÃ­do de la BBDD e introducido en el objeto application en el
+		// listener de la aplicaciÃ³n
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		// Se recogen los valores de los atributos de usuario introducidos en el formulario de alta
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String password2 = request.getParameter("password2");
 		String nombre_completo = request.getParameter("nombre_completo");
-		// id_roles se asigna directamente como usuario estándar
+		// id_roles se asigna directamente como usuario estÃ¡ndar
 		int id_roles = 2;
 		// Se crea un objeto usuario con el que trabajar a partir de esos datos
 		Usuario usuario = new Usuario(id_roles, nombre_completo, password, username);
 
-		// Se declara e inicializan las booleanas a partir de las cuales se desarrollará la lógica del servlet
+		// Se declara e inicializan las booleanas a partir de las cuales se desarrollarÃ¡ la lÃ³gica del servlet
 		boolean nombreDemasiadoLargo = false;
 		if (username != null) {
 			nombreDemasiadoLargo = username.length() > 16;
 		}
 		boolean usuarioExistente = false;
-		// Se considera que el usuario ya existe sólo con que coincida el username, de ahí el método validarNombre()
+		// Se considera que el usuario ya existe sÃ³lo con que coincida el username, de ahÃ­ el mÃ©todo validarNombre()
 		usuarios.abrir();
 		try {
 			usuarioExistente = usuarios.validarNombre(usuario);
@@ -81,11 +81,11 @@ public class AltaServlet extends HttpServlet {
 			esCorrecto = !usuarioExistente && passIguales;
 		}
 
-		// Declaro los dispatcher aquí porque en un momento me dieron un extraño error al declararlos en el momento de necesitarlos
+		// Declaro los dispatcher aquÃ­ porque en un momento me dieron un extraÃ±o error al declararlos en el punto que los necesitaba
 		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
 		RequestDispatcher alta = request.getRequestDispatcher(RUTA_ALTA);
 
-		// LOGICA DEL SERVLET
+		// LÃ“GICA DEL SERVLET
 		if (sinDatos) {
 
 			session.setAttribute("errorSignup", "Debes rellenar todos los campos");
@@ -93,7 +93,7 @@ public class AltaServlet extends HttpServlet {
 
 		} else if (nombreDemasiadoLargo) {
 
-			session.setAttribute("errorSignup", "El nombre de usuario debe tener un máximo de 16 caracteres");
+			session.setAttribute("errorSignup", "El nombre de usuario debe tener un mÃ¡ximo de 16 caracteres");
 			alta.forward(request, response);
 
 		} else if (usuarioExistente) {
@@ -103,7 +103,7 @@ public class AltaServlet extends HttpServlet {
 
 		} else if (!passIguales) {
 
-			session.setAttribute("errorSignup", "Las contraseñas no coinciden");
+			session.setAttribute("errorSignup", "Las contraseÃ±as no coinciden");
 			alta.forward(request, response);
 
 		} else if (esCorrecto) {
@@ -119,7 +119,7 @@ public class AltaServlet extends HttpServlet {
 
 		} else {
 
-			session.setAttribute("errorSignup", "Inténtalo de nuevo, por favor");
+			session.setAttribute("errorSignup", "IntÃ©ntalo de nuevo, por favor");
 			alta.forward(request, response);
 		}
 	}

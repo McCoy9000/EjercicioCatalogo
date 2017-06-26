@@ -22,7 +22,7 @@
 			<th>Descripción</th>
 			<th>Imagen</th>
 			<th>Precio</th>
-			<th>Acciones</th>
+			<th>Acción</th>
 			
 		</tr>
 	</thead>
@@ -34,7 +34,7 @@
 				<td>${producto.descripcion}</td>
 				<td><img src="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128"/></td>
 				<td>${producto.precio} €</td>
-				<td><a href="?op=quitar&id=${producto.id}#carrito">Quitar</a></td>
+				<td><a href="?op=quitar&id=${producto.id}#carrito">Eliminar</a></td>
 			</tr>
 		</c:forEach>
 	</tbody>

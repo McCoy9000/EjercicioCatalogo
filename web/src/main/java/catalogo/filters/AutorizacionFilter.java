@@ -22,22 +22,22 @@ public class AutorizacionFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-		// Tal y como est· declarado el filtro, doFilter se ejecutar· cuando se acceda a una zona dentro
-		// de /admin/. En principio los enlaces a esta secciÛn no es visible para los no administradores,
-		// pero se podrÌa modificar el css que lo oculta o introducir una de estas URLs directamente en
-		// el navegador. AquÌ es donde entra en acciÛn el filtro.
+		// Tal y como est√° declarado el filtro, doFilter se ejecutar√° cuando se acceda a una zona dentro
+		// de /admin/. En principio los enlaces a esta secci√≥n no son visibles para los no administradores,
+		// pero se podr√≠a modificar el css que lo oculta o introducir una de estas URLs directamente en
+		// el navegador. Aqu√≠ es donde entra en acci√≥n el filtro.
 
-		// RECOPILACI”N DE LOS OBJETOS A ANALIZAR Y UTILIZAR
+		// RECOPILACI√≥N DE LOS OBJETOS A ANALIZAR Y UTILIZAR
 		
 		// Casteo del objeto request en HttpServletRequest para poder obtener el objeto session.
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
 
-		// CreaciÛn de un objeto usuario para introducir en Èl, si lo hay, el usuario que viene en el 
-		// objeto sesiÛn y poder analizar sus permisos y darle acceso a unas secciones u otras
+		// Creaci√≥n de un objeto usuario para introducir en √©l, si lo hay, el usuario que viene en el 
+		// objeto sesi√≥n y poder analizar sus permisos y darle acceso a unas secciones u otras
 		Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-		// DECLARACI”N DE BOOLEANAS PARA LA L”GICA DEL FILTRO
+		// DECLARACI√≥N DE BOOLEANAS PARA LA L√ìGICA DEL FILTRO
 		
 		// En principio se considera al usuario no administrador
 		boolean esAdmin = false;
@@ -46,15 +46,15 @@ public class AutorizacionFilter implements Filter {
 			esAdmin = usuario.getId_roles() == 1;
 		}
 
-		// L”GICA DEL FILTRO
+		// L√ìGICA DEL FILTRO
 
-		// Si no es administrador se le enviar· al login. Le meto el mensaje de error, pero al llegar al login, como no tiene datos
+		// Si no es administrador se le enviar√° al login. Le meto el mensaje de error, pero al llegar al login, como no tiene datos
 		// de logueo en un primer momento, se cambia este mensaje por el de 'Debes rellenar todos los campos' :-(
-		// !esAdmin significa cualquier id_roles que no sea 1, el de administrador, por si se crean m·s en el futuro
+		// !esAdmin significa cualquier id_roles que no sea 1, el de administrador, por si se crean m√°s en el futuro
 		if (!esAdmin) {
-			session.setAttribute("errorLogin", "No tienes permiso para acceder a esa secciÛn");
+			session.setAttribute("errorLogin", "No tienes permiso para acceder a esa secci√≥n");
 			req.getRequestDispatcher("/login").forward(request, response);
-			// else quiere decir que sÌ es Administrador por lo que se le deja vÌa libre
+			// else quiere decir que s√≠ es Administrador por lo que se le deja v√≠a libre
 		} else {
 
 			chain.doFilter(request, response);

@@ -73,10 +73,10 @@ public class UsuarioFormServlet extends HttpServlet {
 						usuarios.cerrar();
 						log.info("Usuario " + usuario.getUsername() + " dado de alta");
 					} catch (DAOException e) {
-						// Si falla el insert se coge la excepción que lanza y se le reenvía al formulario con el objeto
-						// usuario que traía metido en la request
+						// Si falla el insert se coge la excepciÃ³n que lanza y se le reenvÃ­a al formulario con el objeto
+						// usuario que traÃ­a metido en la request
 						request.setAttribute("usuario", usuario);
-						e.printStackTrace();
+						log.info("Error al insertar el usuario " + usuario.getUsername());
 						rutaFormulario.forward(request, response);
 					}
 					rutaListado.forward(request, response);
@@ -123,7 +123,7 @@ public class UsuarioFormServlet extends HttpServlet {
 						log.info("Usuario borrado");
 					} catch (DAOException e) {
 						request.setAttribute("usuario", usuario);
-						e.printStackTrace();
+						log.info("Error al borrar el usuario " + usuario.getUsername());
 						rutaFormulario.forward(request, response);
 					}
 					rutaListado.forward(request, response);

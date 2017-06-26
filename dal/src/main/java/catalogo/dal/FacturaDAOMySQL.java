@@ -218,7 +218,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 			}
 
 		} catch (SQLException e) {
-			throw new DAOException("Error en el insert", e);
+			throw new DAOException("Error en al insertar producto en la factura", e);
 		} finally {
 			cerrar(psRegister);
 		}

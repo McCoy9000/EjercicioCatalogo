@@ -19,18 +19,18 @@ public class SessionListener implements HttpSessionListener {
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
 
-		// Obtener el objeto sesi髇
+		// Obtener el objeto sesi锟絥
 		HttpSession session = se.getSession();
-		// Darle un tiempo m醲imo de inactividad de 15 minutos
+		// Darle un tiempo m谩ximo de inactividad de 15 minutos
 		session.setMaxInactiveInterval(900);
-		// Obtener un DAO de carrito que le asigna un nuevo carrito a la sesi髇
+		// Obtener un DAO de carrito que le asigna un nuevo carrito a la sesi贸n
 		CarritoDAO carrito = CarritoDAOFactory.getCarritoDAO();
 		session.setAttribute("carrito", carrito);
 		session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
-		// Almacenar en la sesi髇 un objeto tipo HttpSessionBindingListener bajo el nombre sessionBindingListener
-		// con los m閠odos a ejecutar al expirar la sesi髇 justo antes de destruirla
+		// Almacenar en la sesi贸n un objeto tipo HttpSessionBindingListener bajo el nombre sessionBindingListener
+		// con los m茅todos a ejecutar al expirar la sesi贸n justo antes de destruirla
 		session.setAttribute("sessionBindingListener", carrito);
-		log.info("Carrito empaquetado en sesi髇 y registrado como sessionBindingListener");
+		log.info("Carrito empaquetado en sesi贸n y registrado como sessionBindingListener");
 
 	}
 

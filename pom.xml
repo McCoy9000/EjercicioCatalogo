@@ -4,8 +4,10 @@
   <artifactId>catalogo</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
-  
-  <dependencies>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+   <dependencies>
   		<dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>

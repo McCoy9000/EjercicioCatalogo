@@ -35,15 +35,15 @@ public class ProductoFormServlet extends HttpServlet {
 
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 
-		// Regocoger la opciÛn elegida por el usuario en el formulario enviada por url
+		// Regocoger la opci√≥n elegida por el usuario en el formulario enviada por url
 		String op = request.getParameter("opform");
 
-		// Declaro aquÌ los dispatcher porque en un momento me dio un problema extraÒo por declararlos en el momento en que
+		// Declaro aqu√≠ los dispatcher porque en un momento me dio un problema extra√±o por declararlos en el momento en que
 		// los necesitaba
 		RequestDispatcher rutaListado = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_SERVLET_LISTADO);
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO);
 
-		// DeclaraciÛn de las variables para construir el objeto con el que se trabajar· e iniciarlas con los valores recogidos
+		// Declaraci√≥n de las variables para construir el objeto con el que se trabajar√° e iniciarlas con los valores recogidos
 		// del formulario
 
 		Producto producto;
@@ -89,7 +89,7 @@ public class ProductoFormServlet extends HttpServlet {
 			precio = 0.0;
 		}
 
-		// Logica del servlet seg˙n la opciÛn elegida por el usuario y enviada por el navegador
+		// L√≥gica del servlet seg√∫n la opci√≥n elegida por el usuario y enviada por el navegador
 		// encapsulada en opform.
 		if (op == null) {
 			producto = new Producto(groupId, nombre, descripcion, precio);
@@ -102,11 +102,11 @@ public class ProductoFormServlet extends HttpServlet {
 				producto = new Producto(groupId, nombre, descripcion, precio);
 
 				if (nombre == null || nombre == "") {
-					producto.setErrores("El nombre de producto no puede estar vacÌo");
+					producto.setErrores("El nombre de producto no puede estar vac√≠o");
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
 				} else if (precio == 0.0 || precio == null) {
-					producto.setErrores("Debes introducir un precio v·lido superior a 0");
+					producto.setErrores("Debes introducir un precio v√°lido superior a 0");
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
 				} else {
@@ -135,7 +135,7 @@ public class ProductoFormServlet extends HttpServlet {
 				producto = new Producto(id, groupId, nombre, descripcion, precio);
 
 				if (nombre == null || nombre == "") {
-					producto.setErrores("El nombre de producto no puede estar vacÌo");
+					producto.setErrores("El nombre de producto no puede estar vac√≠o");
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
 				} else {

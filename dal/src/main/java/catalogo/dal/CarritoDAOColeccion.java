@@ -115,7 +115,7 @@ public class CarritoDAOColeccion implements CarritoDAO, Serializable, HttpSessio
 		HttpSession session = event.getSession();
 		ServletContext application = session.getServletContext();
 		application.setAttribute("carritoAbandonado", this);
-		log.info("Carrito abandonado almacenado en aplicacion");
+		log.info("Carrito abandonado almacenado en aplicación");
 	}
 
 }

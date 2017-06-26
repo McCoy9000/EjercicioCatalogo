@@ -31,7 +31,7 @@ public class CatalogoServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// RECOGIDA DE DATOS Y CONSTRUCCI”N DE OBJETOS
+		// RECOGIDA DE DATOS Y CONSTRUCCI√ìN DE OBJETOS
 
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession();
@@ -39,14 +39,14 @@ public class CatalogoServlet extends HttpServlet {
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
 
-		// Generar el cat·logo. El cat·logo es un array en el que cada elemento es, a su vez, el primer elemento de la lista de productos
+		// Generar el cat√°logo. El cat√°logo es un array en el que cada elemento es, a su vez, el primer elemento de la lista de productos
 		// de un determinado grupo de productos.
 
 		productos.abrir();
 		application.setAttribute("catalogo", productos.getCatalogo());
 		productos.cerrar();
 
-		// Recoger el carrito asociado a la sesiÛn o, en caso de que no exista (porque el usuario haya entrado directamente al cat·logo desde
+		// Recoger el carrito asociado a la sesi√≥n o, en caso de que no exista (porque el usuario haya entrado directamente al cat√°logo desde
 		// URL), crearlo.
 
 		CarritoDAO carrito = (CarritoDAO) session.getAttribute("carrito");
@@ -56,15 +56,15 @@ public class CatalogoServlet extends HttpServlet {
 			carrito = CarritoDAOFactory.getCarritoDAO();
 		}
 
-		// Recoger la opciÛn con la que llega el usuario
+		// Recoger la opci√≥n con la que llega el usuario
 		String op = request.getParameter("op");
 
-		// LOGICA DEL SERVLET
+		// L√ìGICA DEL SERVLET
 
 		if (op == null) {
 
-			// Si se llega al cat·logo sin opciones el carrito que o se ha recogido o se ha creado se empaqueta
-			// en el objeto sesiÛn
+			// Si se llega al cat√°logo sin opciones el carrito que o se ha recogido o se ha creado se empaqueta
+			// en el objeto sesi√≥n
 			session.setAttribute("carrito", carrito);
 			session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 
@@ -75,7 +75,7 @@ public class CatalogoServlet extends HttpServlet {
 			switch (op) {
 
 			case "anadir":
-				// Se recoge el groupId que nos envÌan clickando en el botÛn junto al producto
+				// Se recoge el groupId que nos env√≠an clickando en el bot√≥n junto al producto
 				int groupId;
 				try {
 					 groupId = Integer.parseInt(request.getParameter("groupId"));
@@ -91,7 +91,7 @@ public class CatalogoServlet extends HttpServlet {
 					cantidad = Integer.parseInt(request.getParameter("cantidad"));
 				} catch (Exception e) {
 					e.printStackTrace();
-					log.info("Error al parsear la cantidad. Se utilizar· 1 por defecto como precauciÛn");
+					log.info("Error al parsear la cantidad. Se utilizar√° 1 por defecto como precauci√≥n");
 				}
 				
 				log.info("Cantidad recogida: " + cantidad);
@@ -102,52 +102,56 @@ public class CatalogoServlet extends HttpServlet {
 				
 				List<Producto> grupoProductos = productos.getAlmacen().get(groupId);
 
-				// Se declara un producto genÈrico para rellenarlo con productos de la BBDD e ir
-				// trabajando con Èl
+				// Se declara un producto gen√©rico para rellenarlo con productos de la BBDD e ir
+				// trabajando con √©l
 				
 				Producto productoAleatorio;
 
-				// Se reutiliza la conexiÛn abierta para el DAO de productosReservados y se
-				// inicia la transacciÛn
+				// Se reutiliza la conexi√≥n abierta para el DAO de productosReservados y se
+				// inicia la transacci√≥n
 				
 				productosReservados.reutilizarConexion(productos);
 				
+				if (grupoProductos != null) {
+
 				productos.iniciarTransaccion();
 
 				// Tantas veces como se ha indicado en cantidad o hasta que no queden productos del 
 				// tipo solicitado se retira un producto de la tabla de productos de ese tipo y se
-				// aÒade tanto al carrito como a la tabla de productosReservados
-				
-				try {
+				// a√±ade tanto al carrito como a la tabla de productos reservados
 
-					int i = 0;
-					for (i = 0; i < cantidad && i < grupoProductos.size(); i++) {
-						productoAleatorio = grupoProductos.get(i);
-						productos.delete(productoAleatorio);
-						carrito.anadirAlCarrito(productoAleatorio);
-						productosReservados.insert(productoAleatorio);
-					}
-
-					productos.confirmarTransaccion();
-					log.info("AÒadidos " + i + " productos al carrito");
-
-				} catch (Exception e) {
-						productos.deshacerTransaccion();
-						for (Producto p : carrito.buscarTodosLosProductos()) {
-							carrito.quitarDelCarrito(p.getId());
+						
+					try {
+	
+						int i = 0;
+						for (i = 0; i < cantidad && i < grupoProductos.size(); i++) {
+							productoAleatorio = grupoProductos.get(i);
+							productos.delete(productoAleatorio);
+							carrito.anadirAlCarrito(productoAleatorio);
+							productosReservados.insert(productoAleatorio);
 						}
-						log.info(e.getMessage());
-						e.printStackTrace();
-				}
+	
+						productos.confirmarTransaccion();
+						log.info("A√±adidos " + i + " productos al carrito");
+	
+					} catch (Exception e) {
+							productos.deshacerTransaccion();
+							for (Producto p : carrito.buscarTodosLosProductos()) {
+								carrito.quitarDelCarrito(p.getId());
+							}
+							log.info("Error al a√±adir productos al carrito");
+							e.printStackTrace();
+					}
 				
-				// Se actualiza el cat·logo en aplicaciÛn para que no aparezcan los productos que 
-				// est·n en el carrito y se cierra la conexiÛn
+				}
+				// Se actualiza el cat√°logo en aplicaci√≥n para que no aparezcan los productos que 
+				// est√°n en el carrito y se cierra la conexi√≥n
 				
 				application.setAttribute("catalogo", productos.getCatalogo());
 	
 				productos.cerrar();
 				
-				//Se actualiza el carrito a travÈs del DAO y el valor n˙mero de productos en la sesiÛn
+				//Se actualiza el carrito a trav√©s del DAO y el valor n√∫mero de productos en la sesi√≥n
 				session.setAttribute("carrito", carrito);
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 
