@@ -6,19 +6,19 @@
 <form action="alta" method="post">
 <fieldset>
 <label for="username">Username</label>
-<input id="username" name="username" maxlength="16"/>
+<input id="username" name="username" placeholder="Username" maxlength="16"/>
 </fieldset>
 <fieldset>
 <label for="password">Password</label>
-<input id="password" name="password" type="password" maxlength="16"/>
+<input id="password" name="password" type="password" placeholder="Password" maxlength="16"/>
 </fieldset>
 <fieldset>
 <label for="password2">Repita el password</label>
-<input id="password2" name="password2" type="password" maxlength="16"/>
+<input id="password2" name="password2" type="password" placeholder="Password" maxlength="16"/>
 </fieldset>
 <fieldset>
 <label for="nombre_completo">Nombre completo</label>
-<input id="nombre_completo" name="nombre_completo" maxlength="25"/>
+<input id="nombre_completo" name="nombre_completo" placeholder="Nombre completo" maxlength="25"/>
 </fieldset>
 <fieldset>
 <input type="submit" value="ALTA">

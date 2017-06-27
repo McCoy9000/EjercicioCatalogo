@@ -8,11 +8,11 @@
 <form action="login" method="post">
 	<fieldset>
 		<label for="username">Username</label>
-		<input id="username" name="username" maxlength="16"/>
+		<input id="username" name="username" placeholder="Username" maxlength="16"/>
 	</fieldset>
 	<fieldset>
 		<label for="password">Password</label>
-		<input id="password" name="password" type="password" maxlength="16"/>
+		<input id="password" name="password" type="password" placeholder="Password" maxlength="16"/>
 		</fieldset>
 	<fieldset>
 		<input type="submit" value="LOGIN"/>

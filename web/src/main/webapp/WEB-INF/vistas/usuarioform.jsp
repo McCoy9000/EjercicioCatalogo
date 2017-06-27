@@ -14,13 +14,13 @@
 			<label for="id">Id</label> 
 			
 			<input id="id" name="id" type="number"
-			  required="required"  value="${usuario.id}"/>
+			  required="required" value="${usuario.id}"/>
 		</fieldset>
 		<fieldset>
-			<label for="username">Nombre</label> 
+			<label for="username">Username</label> 
 			
 			<input id="username" name="username"
-			  required="required" value="${usuario.username}" 
+			  required="required" placeholder="Username" value="${usuario.username}" 
 			  
 			  <c:if test="${param.op == 'borrar'}">
 			  	readonly="readonly"
@@ -34,14 +34,14 @@
 			
 		>
 			<label for="password">Contraseña</label> <input type="password" id="pass"
-				name="password"/>
+				name="password" placeholder="Password"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
 		>
 			<label for="password2">Contraseña otra vez</label> <input type="password" id="password2"
-				name="password2"/>
+				name="password2" placeholder="Password"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
@@ -49,7 +49,7 @@
 			
 		>
 			<label for="nombre_completo">Nombre completo</label> <input id="nombre_completo"
-				name="nombre_completo"/>
+				name="nombre_completo" placeholder="Nombre completo"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"

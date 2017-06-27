@@ -41,7 +41,7 @@
 			<input <c:if test="${param.op == 'borrar'}">
 					readonly="readonly"
 					</c:if> id="nombre" name="nombre"  
-				required="required"  value="${producto.nombre}"/>
+				required="required" placeholder="Nombre" value="${producto.nombre}"/>
 		</fieldset>
 		<fieldset 
 			<c:if test="${param.op == 'borrar'}">
@@ -50,7 +50,7 @@
 		>
 			<label for="descripcion">Descripcion</label> 
 			
-			<input id="descripcion" name="descripcion" value="${producto.descripcion}"/>
+			<input id="descripcion" name="descripcion" placeholder="Descripción" value="${producto.descripcion}"/>
 		</fieldset>
 		
 		<fieldset 
@@ -59,7 +59,7 @@
 			</c:if>
 		>
 			<label for="precio">Precio</label> 
-			<input id="precio" name="precio" value="${producto.precio}" min="0"/>
+			<input id="precio" name="precio" placeholder="Precio" value="${producto.precio}" min="0"/>
 		</fieldset>
 		<fieldset>
 			<input type="submit" value="${fn:toUpperCase(param.op)}" 
