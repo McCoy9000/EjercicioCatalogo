@@ -32,7 +32,7 @@
 			
 			<input <c:if test="${param.op == 'borrar'}">
 					readonly="readonly"
-					</c:if> id="groupId" name="groupId" type="number"
+					</c:if> id="groupId" name="groupId" type="number" min="0"
 				required="required"  value="${producto.groupId}"/>
 		</fieldset>
 		<fieldset>
@@ -59,7 +59,7 @@
 			</c:if>
 		>
 			<label for="precio">Precio</label> 
-			<input id="precio" name="precio" value="${producto.precio}"/>
+			<input id="precio" name="precio" value="${producto.precio}" min="0"/>
 		</fieldset>
 		<fieldset>
 			<input type="submit" value="${fn:toUpperCase(param.op)}" 

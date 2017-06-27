@@ -105,7 +105,7 @@ public class ProductoFormServlet extends HttpServlet {
 					producto.setErrores("El nombre de producto no puede estar vacío");
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
-				} else if (precio == 0.0 || precio == null) {
+				} else if (precio <= 0.0 || precio == null) {
 					producto.setErrores("Debes introducir un precio válido superior a 0");
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
