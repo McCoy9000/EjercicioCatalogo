@@ -9,6 +9,7 @@
 
 <nav>
 	<ul>
+		<li><a href="?op=vaciarcarrito">Vaciar carrito</a>
 		<li><a onclick="window.open('?op=pagar', '_self'); window.open('${applicationScope.rutaBase}/factura', '_blank', 'width=400,height=400')">PAGAR ${sessionScope.numeroProductos} productos</a></li>
 		<li>Total a pagar: ${sessionScope.precioTotal} € IVA incl.</li>
 	</ul>

@@ -29,7 +29,7 @@ public class SessionListener implements HttpSessionListener {
 		session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 		// Almacenar en la sesión un objeto tipo HttpSessionBindingListener bajo el nombre sessionBindingListener
 		// con los métodos a ejecutar al expirar la sesión justo antes de destruirla
-		session.setAttribute("sessionBindingListener", carrito);
+//		session.setAttribute("sessionBindingListener", carrito);
 		log.info("Carrito empaquetado en sesión y registrado como sessionBindingListener");
 
 	}

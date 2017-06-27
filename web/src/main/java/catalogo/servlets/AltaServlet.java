@@ -36,7 +36,7 @@ public class AltaServlet extends HttpServlet {
 
 		// RECOGIDA DE DATOS Y OBJETOS PARA TRABAJAR SOBRE ELLOS
 
-		// Se recogen los objetos sesión y aplicaci�n
+		// Se recogen los objetos sesión y aplicación
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
 		// Se obtiene el conjunto de usuarios extraído de la BBDD e introducido en el objeto application en el

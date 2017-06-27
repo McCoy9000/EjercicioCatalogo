@@ -68,6 +68,41 @@ public class CheckoutServlet extends HttpServlet {
 			} else {
 		//Diferentes opciones según la variable op
 				switch (op) {
+					case "vaciarcarrito":
+		//Si la opción es vaciar el carrito, comprobamos si el carrito tiene productos
+						if (carrito.buscarTodosLosProductos().length != 0) {
+							// Vaciar los productos del carrito y de la tabla de productos_reservados y reinsertarlos
+							// en la tabla general de productos
+							productos.abrir();
+							productosReservados.reutilizarConexion(productos);
+							productos.iniciarTransaccion();
+				
+							try {
+								for (Producto p : carrito.buscarTodosLosProductos()) {
+									carrito.quitarDelCarrito(p.getId());
+									productosReservados.delete(p);
+									productos.insert(p);
+								}
+								productos.confirmarTransaccion();
+								log.info("Vaciado carrito");
+							} catch (Exception e) {
+								productos.deshacerTransaccion();
+								log.info(e.getMessage());
+								log.info("Error al vaciar el carrito");
+							} finally {
+							productos.cerrar();
+							}
+		//Se almacena el nuevo carrito en sesión. Si la operación ha fallado este carrito será el
+		//antiguo
+						session.setAttribute("carrito", carrito);
+						session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
+						session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
+						session.setAttribute("precioTotal", carrito.precioTotal());
+		//Se le envía a la página principal
+						}
+						request.getRequestDispatcher("/catalogo").forward(request, response);
+						break;
+				
 					case "pagar":
 		//Si la opción es pagar se obtiene el usuario almacenado en sesión
 						Usuario usuario = (Usuario) session.getAttribute("usuario");

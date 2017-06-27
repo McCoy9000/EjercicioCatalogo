@@ -1,6 +1,7 @@
 package catalogo.listeners;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextAttributeEvent;
@@ -12,6 +13,7 @@ import org.apache.log4j.Logger;
 import catalogo.dal.CarritoDAO;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
+import catalogo.tipos.Usuario;
 
 @WebListener("/aplicacion")
 public class ContextAttributeListener implements Serializable, ServletContextAttributeListener {
@@ -30,6 +32,17 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 		if (("carritoAbandonado").equals(event.getName())) {
 
 			ServletContext application = event.getServletContext();
+			
+			@SuppressWarnings("unchecked")
+			LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
+			Usuario usuario = (Usuario) application.getAttribute("usuario");
+			
+			if(usuario != null) {
+				application.removeAttribute("usuario");
+				if(usuariosLogueados.contains(usuario)) {
+					usuariosLogueados.remove(usuario);
+				}
+			}
 
 			CarritoDAO carrito = (CarritoDAO) application.getAttribute("carritoAbandonado");
 
@@ -74,6 +87,17 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 
 			ServletContext application = event.getServletContext();
 
+			@SuppressWarnings("unchecked")
+			LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
+			Usuario usuario = (Usuario) application.getAttribute("usuario");
+			
+			if(usuario != null) {
+				application.removeAttribute("usuario");
+				if(usuariosLogueados.contains(usuario)) {
+					usuariosLogueados.remove(usuario);
+				}
+			}
+			
 			CarritoDAO carrito = (CarritoDAO) application.getAttribute("carritoAbandonado");
 			
 			if (carrito.buscarTodosLosProductos().length != 0) {
