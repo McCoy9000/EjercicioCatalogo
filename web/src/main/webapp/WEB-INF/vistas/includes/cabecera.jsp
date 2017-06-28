@@ -24,9 +24,9 @@
 			
 			<nav class="container">
 				<ul class="list-inline">
-				 	 <li><a href="${applicationScope.rutaBase}/catalogo">Catálogo</a></li>
-				 	 <li><a href="${applicationScope.rutaBase}/login">Login</a></li>
-					 <li><a href="${applicationScope.rutaBase}/login?op=logout">Logout</a></li>
+				 	 <li><a class="btn btn-default" href="${applicationScope.rutaBase}/catalogo">CATALOGO</a></li>
+				 	 <li><a class="btn btn-primary" href="${applicationScope.rutaBase}/login">LOGIN</a></li>
+					 <li><a class="btn btn-default" href="${applicationScope.rutaBase}/login?op=logout">LOGOUT</a></li>
 					 
 				</ul>
 				
@@ -34,9 +34,9 @@
 						style = "display:none"
 					</c:if>
 				>
-					<li><a href="${applicationScope.rutaBase}/admin/productocrud">Mantenimiento de productos</a></li>
-					<li><a href="${applicationScope.rutaBase}/admin/productoform?op=alta">Alta de productos</a></li>
-					<li><a href="${applicationScope.rutaBase}/admin/usuariocrud">Mantenimiento de usuarios</a></li>
-					<li><a href="${applicationScope.rutaBase}/admin/usuarioform?op=alta">Alta de usuarios</a></li>
+					<li><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/productocrud">MANTENIMIENTO DE PRODUCTOS</a></li>
+					<li><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/productoform?op=alta">ALTA DE PRODUCTOS</a></li>
+					<li><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/usuariocrud">MANTENIMIENTO DE USUARIOS</a></li>
+					<li><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/usuarioform?op=alta">ALTA DE USUARIOS</a></li>
 				</ul>
 			</nav>

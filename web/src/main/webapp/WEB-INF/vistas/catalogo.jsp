@@ -8,8 +8,8 @@
 	<h2>Catálogo</h2>
 </div>
 <nav class="container">
-	<ul>
-	<li><a href="${applicationScope.rutaBase}/checkout">Checkout &#128722; (${sessionScope.numeroProductos})</a></li>
+	<ul class="list-inline">
+	<li><a class="btn btn-default" href="${applicationScope.rutaBase}/checkout">Checkout &#128722; (${sessionScope.numeroProductos})</a></li>
 	</ul>
 </nav>
 
@@ -41,7 +41,7 @@
 						<input type="number" max="${articulo.cantidad}" min="1" id="cantidad" name="cantidad" value="1"/>
 						<input type="hidden" id ="groupId" name="groupId" value="${articulo.groupId}"/>
 						<input type="hidden" id="op" name="op" value="anadir"/>
-						<input type="submit" value="AÑADIR"/>
+						<input type="submit" class="btn btn-default" value="AÑADIR"/>
 					</form>
 				</td>
 			</tr>

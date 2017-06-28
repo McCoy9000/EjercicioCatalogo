@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="container">
-	<h2>Mantenimiento de productos</h2>
+	<h2>Mantenimiento de productos</h2><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/productoform?op=alta">ALTA DE PRODUCTOS</a>
 </div>
 <div class="container">
 	<div class="table-responsive">
@@ -31,13 +31,14 @@
 							<img src="${applicationScope.rutaBase}/img/0.jpg" height="128" width="128"/></object></td>
 						<td>${producto.precio} €</td>
 						<td>
-							<a href="?op=modificar&id=${producto.id}">Modificar</a>
-							<a href="?op=borrar&id=${producto.id}">Borrar</a>
+							<a class="btn btn-success" href="?op=modificar&id=${producto.id}">Modificar</a>
+							<a class="btn btn-danger" href="?op=borrar&id=${producto.id}">Borrar</a>
 						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
+	
 </div>
 <%@ include file="includes/pie.jsp"%>

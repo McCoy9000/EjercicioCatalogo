@@ -59,8 +59,8 @@
 		>
 			<label for="descripcion">Descripción</label> 
 			
-			<input type="text" id="descripcion" name="descripcion" placeholder="Descripción"
-				 value="${producto.descripcion}" class="form-control"/>
+			<textarea rows="3" type="text" id="descripcion" name="descripcion" placeholder="Descripción"
+				  class="form-control">${producto.descripcion}</textarea>
 		</fieldset>
 		
 		<fieldset class="form-group" 
