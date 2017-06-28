@@ -17,9 +17,9 @@
 		<body>
 	
 			<header class="container">
-				<h1>Driver</h1>
-				<h3>Venta de coches de segunda mano</h3>
-				<p class="bienvenido">Bienvenido ${sessionScope.usuario.username}</p>
+				<h1>DRIVER</h1>
+				<h3>Coches de segunda mano</h3>
+				<p class="bienvenido">¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</p>
 			</header>
 			
 			<nav class="container">
@@ -29,9 +29,10 @@
 					 <li><a class="btn btn-default" href="${applicationScope.rutaBase}/login?op=logout">LOGOUT</a></li>
 					 
 				</ul>
-				
-				<ul class="list-inline" <c:if test="${sessionScope.usuario.id_roles != '1'}">
-						style = "display:none"
+			</nav>
+			<nav class="container" style="border-top: 2px solid lightgrey; padding-top: 8px" >	
+				<ul class="list-inline"  <c:if test="${sessionScope.usuario.id_roles != '1'}">
+						style="display:none;"
 					</c:if>
 				>
 					<li><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/productocrud">MANTENIMIENTO DE PRODUCTOS</a></li>

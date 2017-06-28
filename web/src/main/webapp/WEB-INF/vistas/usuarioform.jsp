@@ -11,13 +11,13 @@
 <div class="container">
 	<form action="${applicationScope.rutaBase}/admin/usuarioform" method="post">
 		
-		<fieldset style="display:none;">
+		<fieldset style="display:none;" class="form-group">
 			<label for="id">Id</label> 
 			
 			<input id="id" name="id" type="number" class="form-control"
 			  required="required" value="${usuario.id}"/>
 		</fieldset>
-		<fieldset>
+		<fieldset class="form-group">
 			<label for="username">Username</label> 
 			
 			<input id="username" name="username" class="form-control"
@@ -27,9 +27,9 @@
 			  	readonly="readonly"
 			  </c:if>   
 		  	/>
-		</fieldset>
+		</fieldset class="form-group">
 		
-		<fieldset <c:if test="${param.op == 'borrar'}">
+		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
 			
@@ -38,15 +38,15 @@
 			<input type="password" id="pass" class="form-control"
 				name="password" placeholder="Password"/>
 		</fieldset>
-		<fieldset <c:if test="${param.op == 'borrar'}">
+		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
 		>
-			<label for="password2">Contraseña otra vez</label> 
+			<label for="password2">Repita la contraseña</label> 
 			<input type="password" id="password2" class="form-control"
 				name="password2" placeholder="Password"/>
 		</fieldset>
-		<fieldset <c:if test="${param.op == 'borrar'}">
+		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
 			
@@ -55,15 +55,15 @@
 			<input id="nombre_completo" class="form-control"
 				name="nombre_completo" placeholder="Nombre completo" value="${usuario.nombre_completo}"/>
 		</fieldset>
-		<fieldset <c:if test="${param.op == 'borrar'}">
+		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
 		>
 			<label for="id_roles">Permiso de administrador</label> 
 			<input type="checkbox" id="id_roles" name="id_roles" value="1" />
 		</fieldset>
-		<fieldset>
-			<input type="submit" class="btn btn-default" value="${fn:toUpperCase(param.op)}" 
+		<fieldset class="form-group">
+			<input type="submit" class="btn btn-primary" value="${fn:toUpperCase(param.op)}" 
 				<c:if test="${param.op == null or param.op == ''}">
 			  		style="display:none;"
 			  	</c:if>

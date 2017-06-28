@@ -76,16 +76,18 @@
 			</div>
 		</fieldset>
 		<fieldset class="form-group">
-			<input type="submit" class="btn btn-default" value="${fn:toUpperCase(param.op)}"  
+			<input type="submit" class="btn btn-primary" value="${fn:toUpperCase(param.op)}"  
 				<c:if test="${param.op == null or param.op == ''}">
 			  		style="display:none;"
 			  	</c:if>
 			/>
-			<p class="errores">${producto.errores}</p>
+			
 			
 			<input type="hidden" name="opform" value="${param.op}" />
 		</fieldset>
+		
 	</form>
+	<div class="bg-danger"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>${producto.errores}</div>
 </div>	
 
 	

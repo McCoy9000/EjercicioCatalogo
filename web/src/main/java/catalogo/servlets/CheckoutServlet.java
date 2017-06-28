@@ -90,7 +90,7 @@ public class CheckoutServlet extends HttpServlet {
 								log.info(e.getMessage());
 								log.info("Error al vaciar el carrito");
 							} finally {
-							productos.cerrar();
+								productos.cerrar();
 							}
 		//Se almacena el nuevo carrito en sesión. Si la operación ha fallado este carrito será el
 		//antiguo
@@ -114,16 +114,17 @@ public class CheckoutServlet extends HttpServlet {
 							FacturaDAO facturas = (FacturaDAO) application.getAttribute("facturas");
 		//Se inicializa una factura con el id del usuario y la fecha actual
 							Factura factura = new Factura(usuario.getId(), new Date());
-		// Abrir conexión para todas las tablas e iniciar transacción
-							productosReservados.abrir();
-							productosVendidos.reutilizarConexion(productosReservados);
-							facturas.reutilizarConexion(productosReservados);
-							productosReservados.iniciarTransaccion();
+		
 		//Se declara el array de productos en la factura y el precio total para mostrar en la jsp
 		//de factura
 							Producto[] productosFactura = null;
 							Double precioFactura = 0.0;
 
+		// Abrir conexión para todas las tablas e iniciar transacción
+							productosReservados.abrir();
+							productosVendidos.reutilizarConexion(productosReservados);
+							facturas.reutilizarConexion(productosReservados);
+							productosReservados.iniciarTransaccion();
 							try {
 		//Para obtener el id de factura se utiliza la key obtenida de la operación de insertar la 
 		//factura en su correspondiente tabla
@@ -149,10 +150,10 @@ public class CheckoutServlet extends HttpServlet {
 								productosReservados.deshacerTransaccion();
 								log.info("Error al liquidar el carrito de la compra");
 								e.printStackTrace();
-							}
+							} finally {
 		//Se cierra la conexión con la BDD
-							productosReservados.cerrar();
-	
+								productosReservados.cerrar();
+							}
 		//La factura obtenida se almacena en sesión para mostrarla en la jsp. Si la operación falla,
 		//aparecerá una factura en blanco con número 0
 							session.setAttribute("factura", factura);
@@ -180,7 +181,6 @@ public class CheckoutServlet extends HttpServlet {
 		//Si la operación falla se le devuelve al checkout que no habrá cambiado
 							request.getRequestDispatcher("/WEB-INF/vistas/checkout.jsp").forward(request, response);
 							break;
-						//TODO Gestionar esta excepción
 						}
 		//Se busca este producto en el carrito. También podría buscarse en la tabla productosReservados
 						producto = carrito.buscarPorId(id);
@@ -201,8 +201,9 @@ public class CheckoutServlet extends HttpServlet {
 								productos.deshacerTransaccion();
 								log.info(e.getMessage());
 								e.printStackTrace();
+							} finally {
+								productos.cerrar();
 							}
-							productos.cerrar();
 		//El carrito y sus datos se vuelven a introducir en sesión		
 							session.setAttribute("carrito", carrito);
 							session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());

@@ -6,22 +6,22 @@
 
 <div class="container">
 <form action="login" method="post">
-	<fieldset>
+	<fieldset class="form-group">
 		<label for="username">Username</label>
-		<input id="username" name="username" placeholder="Username" maxlength="16"/>
+		<input id="username" class="form-control" name="username" placeholder="Username" maxlength="16"/>
 	</fieldset>
-	<fieldset>
-		<label for="password">Password</label>
-		<input id="password" name="password" type="password" placeholder="Password" maxlength="16"/>
+	<fieldset class="form-group">
+		<label for="password">Contraseña</label>
+		<input id="password" class="form-control" name="password" type="password" placeholder="Contraseña" maxlength="25"/>
 		</fieldset>
-	<fieldset>
+	<fieldset class="form-group">
 		<input type="submit" class="btn btn-default" value="LOGIN"/>
 	</fieldset>
 </form>
 </div>
 
 <div class="container">
-	<a class="btn btn-primary" href="${applicationScope.rutaBase}/alta">SIGN UP!</a>
+	<a class="btn btn-primary" href="${applicationScope.rutaBase}/alta">¡ALTA!</a>
 </div>
 
 <div class="container">
