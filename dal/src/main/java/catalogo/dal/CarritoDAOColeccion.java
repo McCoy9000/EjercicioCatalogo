@@ -20,7 +20,6 @@ import catalogo.tipos.Producto;
 
 public class CarritoDAOColeccion implements CarritoDAO, Serializable, HttpSessionBindingListener {
 
-	
 	private static final long serialVersionUID = 2184412432713235074L;
 
 	private static Logger log = Logger.getLogger(CarritoDAOColeccion.class);

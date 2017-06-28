@@ -4,16 +4,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<div>
+<div class="container">
 	<h2>Catálogo</h2>
 </div>
-<nav>
+<nav class="container">
 	<ul>
 	<li><a href="${applicationScope.rutaBase}/checkout">Checkout &#128722; (${sessionScope.numeroProductos})</a></li>
 	</ul>
 </nav>
 
-<table id="catalogo">
+<div class="table-responsive">
+<table id="catalogo" class="table table-hover">
 	<thead>
 		<tr>
 			
@@ -47,5 +48,5 @@
 		</c:forEach>
 	</tbody>
 </table>
-
+</div>
 <%@ include file="includes/pie.jsp"%>

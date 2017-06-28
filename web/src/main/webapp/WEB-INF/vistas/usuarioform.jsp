@@ -2,24 +2,25 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-	<div>
-		<h2>Formulario de usuarios</h2>
-	</div>
 	<jsp:useBean id="usuario" scope="request"
 		class="catalogo.tipos.Usuario" />
+	<div class="container">
+		<h2>Formulario de usuarios</h2>
+	</div>
 
+<div class="container">
 	<form action="${applicationScope.rutaBase}/admin/usuarioform" method="post">
 		
 		<fieldset style="display:none;">
 			<label for="id">Id</label> 
 			
-			<input id="id" name="id" type="number"
+			<input id="id" name="id" type="number" class="form-control"
 			  required="required" value="${usuario.id}"/>
 		</fieldset>
 		<fieldset>
 			<label for="username">Username</label> 
 			
-			<input id="username" name="username"
+			<input id="username" name="username" class="form-control"
 			  required="required" placeholder="Username" value="${usuario.username}" 
 			  
 			  <c:if test="${param.op == 'borrar'}">
@@ -33,14 +34,16 @@
 			</c:if>
 			
 		>
-			<label for="password">Contraseña</label> <input type="password" id="pass"
+			<label for="password">Contraseña</label> 
+			<input type="password" id="pass" class="form-control"
 				name="password" placeholder="Password"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
 		>
-			<label for="password2">Contraseña otra vez</label> <input type="password" id="password2"
+			<label for="password2">Contraseña otra vez</label> 
+			<input type="password" id="password2" class="form-control"
 				name="password2" placeholder="Password"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
@@ -48,8 +51,9 @@
 			</c:if>
 			
 		>
-			<label for="nombre_completo">Nombre completo</label> <input id="nombre_completo"
-				name="nombre_completo" placeholder="Nombre completo"/>
+			<label for="nombre_completo">Nombre completo</label> 
+			<input id="nombre_completo" class="form-control"
+				name="nombre_completo" placeholder="Nombre completo" value="${usuario.nombre_completo}"/>
 		</fieldset>
 		<fieldset <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
@@ -59,7 +63,7 @@
 			<input type="checkbox" id="id_roles" name="id_roles" value="1" />
 		</fieldset>
 		<fieldset>
-			<input type="submit" value="${fn:toUpperCase(param.op)}" 
+			<input type="submit" class="btn btn-default" value="${fn:toUpperCase(param.op)}" 
 				<c:if test="${param.op == null or param.op == ''}">
 			  		style="display:none;"
 			  	</c:if>
@@ -67,5 +71,5 @@
 			<input type="hidden" name="opform" value="${param.op}" />
 		</fieldset>
 	</form>
-
+</div>
 <%@ include file="includes/pie.jsp" %>

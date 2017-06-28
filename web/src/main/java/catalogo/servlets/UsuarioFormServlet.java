@@ -67,10 +67,9 @@ public class UsuarioFormServlet extends HttpServlet {
 
 				usuario = new Usuario(id_roles, nombre_completo, password, username);
 				if (password != null && password != "" && password.equals(password2)) {
+					usuarios.abrir();
 					try {
-						usuarios.abrir();
 						usuarios.insert(usuario);
-						usuarios.cerrar();
 						log.info("Usuario " + usuario.getUsername() + " dado de alta");
 					} catch (DAOException e) {
 						// Si falla el insert se coge la excepción que lanza y se le reenvía al formulario con el objeto
@@ -78,6 +77,8 @@ public class UsuarioFormServlet extends HttpServlet {
 						request.setAttribute("usuario", usuario);
 						log.info("Error al insertar el usuario " + usuario.getUsername());
 						rutaFormulario.forward(request, response);
+					} finally {
+						usuarios.cerrar();
 					}
 					rutaListado.forward(request, response);
 					return;
@@ -91,15 +92,16 @@ public class UsuarioFormServlet extends HttpServlet {
 				usuario = new Usuario(id, id_roles, nombre_completo, password, username);
 				if (!("admin").equals(usuario.getUsername())) {
 					if (password != null && password != "" && password.equals(password2)) {
+						usuarios.abrir();
 						try {
-							usuarios.abrir();
 							usuarios.update(usuario);
-							usuarios.cerrar();
 							log.info("Usuario modificado");
 						} catch (DAOException e) {
 							request.setAttribute("usuario", usuario);
 							e.printStackTrace();
 							rutaFormulario.forward(request, response);
+						} finally {
+							usuarios.cerrar();
 						}
 						rutaListado.forward(request, response);
 						return;
@@ -116,15 +118,16 @@ public class UsuarioFormServlet extends HttpServlet {
 			case "borrar":
 				usuario = new Usuario(id, id_roles, nombre_completo, password, username);
 				if (!("admin").equals(usuario.getUsername())) {
+					usuarios.abrir();
 					try {
-						usuarios.abrir();
 						usuarios.delete(usuario);
-						usuarios.cerrar();
 						log.info("Usuario borrado");
 					} catch (DAOException e) {
 						request.setAttribute("usuario", usuario);
 						log.info("Error al borrar el usuario " + usuario.getUsername());
 						rutaFormulario.forward(request, response);
+					} finally {
+						usuarios.cerrar();
 					}
 					rutaListado.forward(request, response);
 					return;

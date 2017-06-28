@@ -120,19 +120,21 @@ public class ProductoFormServlet extends HttpServlet {
 							producto.setErrores("Error al dar de alta el producto");
 							request.setAttribute("producto", producto);
 							rutaFormulario.forward(request, response);
+						} finally {
+							productos.cerrar();
 						}
 					} else {
 						producto.setErrores("El producto ya existe");
 						request.setAttribute("producto", producto);
 						rutaFormulario.forward(request, response);
 					}
-					productos.cerrar();
 
 				}
 				break;
 			case "modificar":
 
-				producto = new Producto(id, groupId, nombre, descripcion, precio);
+				productos.abrir();
+				producto = productos.findById(id);
 
 				if (nombre == null || nombre == "") {
 					producto.setErrores("El nombre de producto no puede estar vacío");
@@ -140,33 +142,34 @@ public class ProductoFormServlet extends HttpServlet {
 					rutaFormulario.forward(request, response);
 				} else {
 					try {
-						productos.abrir();
 						productos.update(producto);
-						productos.cerrar();
 						log.info("Producto modificado");
 					} catch (DAOException e) {
 						producto.setErrores("Error al modificar el producto");
 						request.setAttribute("producto", producto);
 						rutaFormulario.forward(request, response);
 						return;
+					} finally {
+						productos.cerrar();
 					}
 					rutaListado.forward(request, response);
 				}
 				break;
 			case "borrar":
 
-				producto = new Producto(id, groupId, nombre, descripcion, precio);
+				productos.abrir();
+				producto = productos.findById(id);
 
 				try {
-					productos.abrir();
 					productos.delete(producto);
-					productos.cerrar();
 					log.info("Producto borrado");
 				} catch (DAOException e) {
-					producto.setErrores("Error al modificar el producto");
+					producto.setErrores("Error al borrar el producto");
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
 					return;
+				} finally {
+					productos.cerrar();
 				}
 				rutaListado.forward(request, response);
 

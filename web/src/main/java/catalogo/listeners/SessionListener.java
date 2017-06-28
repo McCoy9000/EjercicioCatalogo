@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
 
-
 @WebListener("/sesion")
 public class SessionListener implements HttpSessionListener {
 
@@ -19,7 +18,7 @@ public class SessionListener implements HttpSessionListener {
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
 
-		// Obtener el objeto sesi�n
+		// Obtener el objeto sesión
 		HttpSession session = se.getSession();
 		// Darle un tiempo máximo de inactividad de 15 minutos
 		session.setMaxInactiveInterval(900);
@@ -29,7 +28,7 @@ public class SessionListener implements HttpSessionListener {
 		session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 		// Almacenar en la sesión un objeto tipo HttpSessionBindingListener bajo el nombre sessionBindingListener
 		// con los métodos a ejecutar al expirar la sesión justo antes de destruirla
-//		session.setAttribute("sessionBindingListener", carrito);
+		// session.setAttribute("sessionBindingListener", carrito);
 		log.info("Carrito empaquetado en sesión y registrado como sessionBindingListener");
 
 	}
