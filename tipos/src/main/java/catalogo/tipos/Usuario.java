@@ -2,15 +2,28 @@ package catalogo.tipos;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "USUARIOS")
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 4770875332940984231L;
 
 	// Constructores, getters y setters, hashCode y equals y toString
+	@Id
+	@Column(name = "ID", unique = true)
 	private int id;
+	@Column(name = "ID_ROLES")
 	private int id_roles;
+	@Column(name = "NOMBRE_COMPLETO")
 	private String nombre_completo;
+	@Column (name = "PASSWORD")
 	private String password;
+	@Column (name = "USERNAME")
 	private String username;
 
 	public Usuario(int id, int id_roles, String nombre_completo, String password, String username) {
