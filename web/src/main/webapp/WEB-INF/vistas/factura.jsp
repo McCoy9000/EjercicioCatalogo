@@ -13,57 +13,65 @@
 	<link rel="stylesheet" href="${applicationScope.rutaBase}/css/bootstrap.min.css"/>			
 </head>
 <body>
-<div id="factura">
-<div>
-<table>
-	<thead>
-	<tr>
-		<th style="text-align: left">Factura ${factura.id}</th>
-		<th style="text-align: right">${factura.fecha}</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr>
-		<td>Driver, S.A.</td>
-		<td style="text-align: right">${usuario.nombre_completo}</td>
-	</tr>
-	<tr>
-		<td>A-12345678</td>
-		<td style="text-align: right">98765432-X</td>
-	</tr>
-	<tr>
-		<td>c/ Kalea, 4 - 9ºB</td>
-		<td style="text-align: right">c/ del Usuario s/n</td>
-	</tr>
-	</tbody>
-</table>
+<div id="factura" class="container">
+
+<div class="row">
+<div class="col-md-3">Factura ${factura.id}</div><div class="col-md-6"></div><div class="col-md-3">${factura.fecha}</div>
 </div>
 
-
-<div>
-<table>
-	<thead>
-		<tr>
-			<th>Producto</th>
-			<th style="text-align: right">Precio</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach items="${sessionScope.productosFactura}" var="producto">
-				<tr>
-				<td>${producto.nombre}</td>
-				<td style="text-align: right">${producto.precio} €</td>
-				</tr>
-		</c:forEach>
+<div class="row">
+	<div class="col-md-6">
+		<address>
+		  <strong>Driver, Inc.</strong><br>
+		  c/Kalea 9, 9ºB<br>
+		  Bilbao, BI 48080<br>
+		  A-12345678<br>
+		  <abbr title="Phone">P:</abbr> +34 666 666 666
+		</address>
 		
-		<tr>
-			<td>Total: </td>
-			<td style="text-align: right">${sessionScope.precioFactura} €</td>
-		</tr>
-	</tbody>
-</table>
+		<address>
+		    <a href="mailto:#">facturacion@driver.com</a>
+		</address>
+	</div>
+		
+		
+	<div class="col-md-6">
+		<address>
+			<strong>${usuario.nombre_completo}</strong><br>
+			c/del Usuario s/n<br>
+			Usuariolandia, US 98080<br>
+			98765432-X<br>
+		</address>
+	</div>
 </div>
 </div>
-
+	
+	<div class="container">
+		<div class="col-md-12">
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Producto</th>
+							<th>Precio</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${sessionScope.productosFactura}" var="producto">
+							<tr>
+								<td>${producto.nombre}</td>
+								<td style="text-align: right">${producto.precio} €</td>
+							</tr>
+						</c:forEach>
+			
+						<tr>
+							<td>Total: </td>
+							<td>${sessionScope.precioFactura} €</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

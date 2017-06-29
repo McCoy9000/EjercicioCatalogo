@@ -10,9 +10,11 @@
 			<title>Gracias por comprar en Driver</title>
 		</head>
 		<body>
+		<div class="container">
 			<h1>Gracias por comprar en Driver</h1>
 			<a class="btn btn-primary" href="${applicationScope.rutaBase}/factura?op=factura">Imprimir factura</a>
+		</div>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+   			<script src="js/bootstrap.min.js"></script>
 		</body>
 </html>
