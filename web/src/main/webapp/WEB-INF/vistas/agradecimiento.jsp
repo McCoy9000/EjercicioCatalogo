@@ -7,6 +7,7 @@
    			<meta http-equiv="X-UA-Compatible" content="IE=edge">
     		<meta name="viewport" content="width=device-width, initial-scale=1">
 			<link rel="stylesheet" href="${applicationScope.rutaBase}/css/bootstrap.min.css" />
+			<link rel="shortcut icon" href="${applicationScope.rutaBase}/img/favicon.png" type="image/png">
 			<title>Gracias por comprar en Driver</title>
 		</head>
 		<body>

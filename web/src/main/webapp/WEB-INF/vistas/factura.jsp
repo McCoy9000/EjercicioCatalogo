@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Su factura</title>
 	<link rel="stylesheet" href="${applicationScope.rutaBase}/css/bootstrap.min.css"/>			
+	<link rel="shortcut icon" href="${applicationScope.rutaBase}/img/favicon.png" type="image/png">
 </head>
 <body>
 <div id="factura" class="container">
