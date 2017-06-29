@@ -70,6 +70,7 @@ public class InicializacionListener implements ServletContextListener {
 
 		application.setAttribute("productos", productos);
 
+		// TODO Comprobar si con esto comentado funciona bien y si lo hace, borrarlo.
 		// Crear un array con todos los productos y dejarlo disponible en el ServletContext
 
 		// Producto[] productosArr = null;
