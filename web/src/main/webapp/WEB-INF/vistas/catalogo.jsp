@@ -33,7 +33,7 @@
 				<td>${articulo.nombre}</td>
 				<td>${articulo.descripcion}</td>
 				<td><object data="${applicationScope.rutaBase}/img/${articulo.imagen}.jpg" height="128" width="128" type="image/png">
-					<img src="${applicationScope.rutaBase}/img/0.jpg" height="128" width="128"/></object></td>
+					<img src="${applicationScope.rutaBase}/img/0.jpg" class="img-thumbnail" height="128" width="128"/></object></td>
 				<td>${articulo.precio} €</td>
 				<td>${articulo.cantidad}</td>
 				<td id="anadir" style="text-align:center;">

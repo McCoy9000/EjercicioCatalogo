@@ -28,7 +28,7 @@
 						<td>${producto.nombre}</td>
 						<td>${producto.descripcion}</td>
 						<td><object data="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128" type="image/png">
-							<img src="${applicationScope.rutaBase}/img/0.jpg" height="128" width="128"/></object></td>
+							<img src="${applicationScope.rutaBase}/img/0.jpg" class="img-thumbnail" height="128" width="128"/></object></td>
 						<td>${producto.precio} €</td>
 						<td>
 							<a class="btn btn-success" href="?op=modificar&id=${producto.id}">Modificar</a>

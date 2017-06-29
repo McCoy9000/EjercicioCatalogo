@@ -16,7 +16,7 @@
 <div id="factura" class="container">
 
 <div class="row">
-<div class="col-md-3">Factura ${factura.id}</div><div class="col-md-6"></div><div class="col-md-3">${factura.fecha}</div>
+<div class="col-md-6">Factura ${factura.id}</div><div class="col-md-6" style="text-align:right">${factura.fecha}</div>
 </div>
 
 <div class="row">
@@ -35,7 +35,7 @@
 	</div>
 		
 		
-	<div class="col-md-6">
+	<div class="col-md-6" style="text-align:right">
 		<address>
 			<strong>${usuario.nombre_completo}</strong><br>
 			c/del Usuario s/n<br>
@@ -66,7 +66,7 @@
 			
 						<tr>
 							<td>Total: </td>
-							<td>${sessionScope.precioFactura} €</td>
+							<td style="text-align:right">${sessionScope.precioFactura} €</td>
 						</tr>
 					</tbody>
 				</table>
