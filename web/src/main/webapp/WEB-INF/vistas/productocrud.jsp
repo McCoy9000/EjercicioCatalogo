@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="container">
-	<h2>Mantenimiento de productos</h2><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/productoform?op=alta">ALTA DE PRODUCTOS</a>
+	<h2>Mantenimiento de productos</h2>
 </div>
 <div class="container">
 	<div class="table-responsive">
