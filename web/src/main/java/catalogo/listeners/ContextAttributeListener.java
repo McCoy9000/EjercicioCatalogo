@@ -1,7 +1,6 @@
 package catalogo.listeners;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextAttributeEvent;
@@ -13,7 +12,6 @@ import org.apache.log4j.Logger;
 import catalogo.dal.CarritoDAO;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
-import catalogo.tipos.Usuario;
 
 @WebListener("/aplicacion")
 public class ContextAttributeListener implements Serializable, ServletContextAttributeListener {
@@ -32,30 +30,30 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 		if (("carritoAbandonado").equals(event.getName())) {
 
 			ServletContext application = event.getServletContext();
-			
-			@SuppressWarnings("unchecked")
-			LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
-			Usuario usuario = (Usuario) application.getAttribute("usuario");
-			
-			if(usuario != null) {
-				application.removeAttribute("usuario");
-				if(usuariosLogueados.contains(usuario)) {
-					usuariosLogueados.remove(usuario);
-				}
-			}
+
+			// @SuppressWarnings("unchecked")
+			// LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
+			// Usuario usuario = (Usuario) application.getAttribute("usuario");
+
+			// if(usuario != null) {
+			// application.removeAttribute("usuario");
+			// if(usuariosLogueados.contains(usuario)) {
+			// usuariosLogueados.remove(usuario);
+			// }
+			// }
 
 			CarritoDAO carrito = (CarritoDAO) application.getAttribute("carritoAbandonado");
 
 			if (carrito.buscarTodosLosProductos().length != 0) {
 				ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 				ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
-	
+
 				// Vaciar los productos del carrito, que se registran en la tabla general de productos_reservados
 				// en la tabla general de productos
 				productos.abrir();
 				productosReservados.reutilizarConexion(productos);
 				productos.iniciarTransaccion();
-	
+
 				try {
 					for (Producto p : carrito.buscarTodosLosProductos()) {
 						productosReservados.delete(p);
@@ -80,36 +78,36 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 
 	@Override
 	public void attributeReplaced(ServletContextAttributeEvent event) {
-		
+
 		// Obtener el objeto application y los DAOs asociados de productos y productosReservados
 
 		if (("carritoAbandonado").equals(event.getName())) {
 
 			ServletContext application = event.getServletContext();
 
-			@SuppressWarnings("unchecked")
-			LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
-			Usuario usuario = (Usuario) application.getAttribute("usuario");
-			
-			if(usuario != null) {
-				application.removeAttribute("usuario");
-				if(usuariosLogueados.contains(usuario)) {
-					usuariosLogueados.remove(usuario);
-				}
-			}
-			
+			// @SuppressWarnings("unchecked")
+			// LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
+			// Usuario usuario = (Usuario) application.getAttribute("usuario");
+
+			// if (usuario != null) {
+			// application.removeAttribute("usuario");
+			// if (usuariosLogueados.contains(usuario)) {
+			// usuariosLogueados.remove(usuario);
+			// }
+			// }
+
 			CarritoDAO carrito = (CarritoDAO) application.getAttribute("carritoAbandonado");
-			
+
 			if (carrito.buscarTodosLosProductos().length != 0) {
 				ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 				ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
-	
+
 				// Vaciar los productos del carrito, que se registran en la tabla general de productos_reservados,
 				// en la tabla general de productos
 				productos.abrir();
 				productosReservados.reutilizarConexion(productos);
 				productos.iniciarTransaccion();
-	
+
 				try {
 					for (Producto p : carrito.buscarTodosLosProductos()) {
 						productosReservados.delete(p);

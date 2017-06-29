@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 	<jsp:useBean id="usuario" scope="request"
 		class="catalogo.tipos.Usuario" />
+	
 	<div class="container">
 		<h2>Formulario de usuarios</h2>
 	</div>
@@ -27,7 +28,7 @@
 			  	readonly="readonly"
 			  </c:if>   
 		  	/>
-		</fieldset class="form-group">
+		</fieldset>
 		
 		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"

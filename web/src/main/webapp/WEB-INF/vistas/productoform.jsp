@@ -59,7 +59,7 @@
 		>
 			<label for="descripcion">Descripción</label> 
 			
-			<textarea rows="3" type="text" id="descripcion" name="descripcion" placeholder="Descripción"
+			<textarea rows="3" id="descripcion" name="descripcion" placeholder="Descripción"
 				  class="form-control">${producto.descripcion}</textarea>
 		</fieldset>
 		

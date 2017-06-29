@@ -1,7 +1,6 @@
 package catalogo.servlets;
 
 import java.io.IOException;
-import java.util.LinkedList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -44,8 +43,8 @@ public class LoginServlet extends HttpServlet {
 
 		// Recogida de datos de aplicación y de sesión
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
-		@SuppressWarnings("unchecked")
-		LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
+		// @SuppressWarnings("unchecked")
+		// LinkedList<Usuario> usuariosLogueados = (LinkedList<Usuario>) application.getAttribute("usuariosLogueados");
 
 		// Declaración de un objeto usuario para trabajar sobre él
 		Usuario usuario;
@@ -62,14 +61,14 @@ public class LoginServlet extends HttpServlet {
 		boolean quiereSalir = ("logout").equals(op);
 		boolean yaLogueado = ("si").equals(session.getAttribute("logueado"));
 		boolean yaEnUsuariosLogueados = false;
-		
-		if (usuario.getUsername() != null && !usuariosLogueados.isEmpty()) {
-			for(Usuario u: usuariosLogueados) {
-				if(usuario.getUsername().equals(u.getUsername())) {
-					yaEnUsuariosLogueados = true;
-				}
-			}
-		}
+
+		// if (usuario.getUsername() != null && !usuariosLogueados.isEmpty()) {
+		// for(Usuario u: usuariosLogueados) {
+		// if(usuario.getUsername().equals(u.getUsername())) {
+		// yaEnUsuariosLogueados = true;
+		// }
+		// }
+		// }
 		// sinDatos puede significar que alguien ha intentado loguearse sin datos o que es la primera vez
 		// que llega al servlet sin que se le hayan pedido datos aún. Es la condición de partida de llegada
 		// al servlet
@@ -90,9 +89,9 @@ public class LoginServlet extends HttpServlet {
 		if (quiereSalir) {
 			// Se invalida la sesión y se le envía al catálogo que es el punto de partida de la aplicación
 			session.invalidate();
-			usuariosLogueados.remove(usuario);
+			// usuariosLogueados.remove(usuario);
 			session = request.getSession();
-			session.setAttribute("usuariosLogueados", usuariosLogueados);
+			// session.setAttribute("usuariosLogueados", usuariosLogueados);
 			catalogo.forward(request, response);
 
 		} else if (yaLogueado) {
@@ -114,7 +113,7 @@ public class LoginServlet extends HttpServlet {
 
 		} else if (esValido) {
 			// Si el usuario ya está logueado no deja volver a loguearse con el mismo usuario
-			if(yaEnUsuariosLogueados){
+			if (yaEnUsuariosLogueados) {
 				session.setAttribute("errorLogin", "Este usuario ya está logueado");
 				login.forward(request, response);
 				// Si nombre y contraseña son válidos se busca el usuario correspondiente en la base de datos para rellenar el resto de datos
@@ -124,15 +123,15 @@ public class LoginServlet extends HttpServlet {
 				usuarios.abrir();
 				usuario = usuarios.findByName(usuario.getUsername());
 				usuarios.cerrar();
-				usuariosLogueados.add(usuario);
-				application.setAttribute("usuariosLogueados", usuariosLogueados);
+				// usuariosLogueados.add(usuario);
+				// application.setAttribute("usuariosLogueados", usuariosLogueados);
 				session.removeAttribute("errorLogin");
 				session.setAttribute("logueado", "si");
 				session.setAttribute("usuario", usuario);
 				// Se le envía al catálogo
 				catalogo.forward(request, response);
 			}
-			
+
 		} else {
 			// En principio, la posibilidad que queda es que el usuario exista pero la password sea incorrecta
 			session.setAttribute("errorLogin", "Contraseña incorrecta");

@@ -134,7 +134,7 @@ public class ProductoFormServlet extends HttpServlet {
 			case "modificar":
 
 				productos.abrir();
-				producto = productos.findById(id);
+				producto = new Producto(id, groupId, nombre, descripcion, precio);
 
 				if (nombre == null || nombre == "") {
 					producto.setErrores("El nombre de producto no puede estar vacío");

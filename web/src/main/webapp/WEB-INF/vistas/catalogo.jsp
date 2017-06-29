@@ -9,7 +9,7 @@
 </div>
 <nav class="container">
 	<ul class="list-inline">
-	<li><a class="btn btn-primary" href="${applicationScope.rutaBase}/checkout">Checkout &#128722; (${sessionScope.numeroProductos})</a></li>
+	<li><a class="btn btn-primary" href="${applicationScope.rutaBase}/checkout">CHECKOUT &#128722; (${sessionScope.numeroProductos})</a></li>
 	</ul>
 </nav>
 <div class="container">
