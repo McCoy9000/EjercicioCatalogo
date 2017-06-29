@@ -35,9 +35,16 @@ public class CatalogoServlet extends HttpServlet {
 
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession();
-
+				
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 		ProductoDAO productosReservados = (ProductoDAO) application.getAttribute("productosReservados");
+
+		// Borrado de errores en sesión por si llegan aquí desde los formularios CRUD
+		
+		session.removeAttribute("errorProducto");
+		session.removeAttribute("errorUsuario");
+		session.removeAttribute("errorLogin");
+		session.removeAttribute("errorSignup");
 
 		// Generar el catálogo. El catálogo es un array en el que cada elemento es, a su vez, el primer elemento de la lista de productos
 		// de un determinado grupo de productos.

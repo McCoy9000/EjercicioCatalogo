@@ -38,6 +38,11 @@ public class CheckoutServlet extends HttpServlet {
 		// Se recogen los objetos ServletContext y HttpSession
 		ServletContext application = request.getServletContext();
 		HttpSession session = request.getSession();
+		// Borrado de errores en sesión por si llegan aquí desde los formularios CRUD
+		session.removeAttribute("errorProducto");
+		session.removeAttribute("errorUsuario");
+		session.removeAttribute("errorLogin");
+		session.removeAttribute("errorSignup");
 		//Se recoge el parametro op enviado por el cliente
 		String op = request.getParameter("op");
 		// Se recogen los DAOs a utilizar tanto del ServletContext como de la sesión

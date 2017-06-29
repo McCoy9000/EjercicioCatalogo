@@ -19,10 +19,10 @@
 			  required="required" value="${usuario.id}"/>
 		</fieldset>
 		<fieldset class="form-group">
-			<label for="username">Username</label> 
+			<label for="username">Nombre de usuario</label> 
 			
 			<input id="username" name="username" class="form-control"
-			  required="required" placeholder="Username" value="${usuario.username}" 
+			  required="required" placeholder="Nombre de usuario" value="${usuario.username}" 
 			  
 			  <c:if test="${param.op == 'borrar'}">
 			  	readonly="readonly"
@@ -37,7 +37,7 @@
 		>
 			<label for="password">Contraseña</label> 
 			<input type="password" id="pass" class="form-control"
-				name="password" placeholder="Password"/>
+				name="password" placeholder="Contraseña"/>
 		</fieldset>
 		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
@@ -45,7 +45,7 @@
 		>
 			<label for="password2">Repita la contraseña</label> 
 			<input type="password" id="password2" class="form-control"
-				name="password2" placeholder="Password"/>
+				name="password2" placeholder="Contraseña"/>
 		</fieldset>
 		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
@@ -72,5 +72,6 @@
 			<input type="hidden" name="opform" value="${param.op}" />
 		</fieldset>
 	</form>
+	<div class="bg-danger" <c:if test="${sessionScope.errorUsuario==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>${sessionScope.errorUsuario}</div>
 </div>
 <%@ include file="includes/pie.jsp" %>

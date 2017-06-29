@@ -35,7 +35,10 @@ public class LoginServlet extends HttpServlet {
 		// RECOPILACIÓN DE LOS OBJETOS A ANALIZAR Y UTILIZAR
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
-
+		// Borrado de errores en sesión por si llegan aquí desde los formularios CRUD
+		session.removeAttribute("errorProducto");
+		session.removeAttribute("errorUsuario");
+		session.removeAttribute("errorSignup");
 		// Recogida de datos de la request
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -103,7 +106,6 @@ public class LoginServlet extends HttpServlet {
 			// Si no se rellenan los datos se le envía al jsp del login con el mensaje de error. Da el fallo de que un usuario
 			// que entra por primera vez a esta página no ha podido rellenar aún ningún dato por lo que se le mostrará el mensaje
 			// de error sin que haya interactuado con la página.
-			session.setAttribute("errorLogin", "Debes rellenar todos los campos");
 			login.forward(request, response);
 
 		} else if (uInexistente) {

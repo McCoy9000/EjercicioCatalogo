@@ -12,7 +12,7 @@
 			<thead>
 				<tr>
 					<th>Rol</th>
-					<th>Username</th>
+					<th>Nombre de usuario</th>
 					<th>Contraseña</th>
 					<th>Nombre completo</th>
 					<th>Operaciones</th>

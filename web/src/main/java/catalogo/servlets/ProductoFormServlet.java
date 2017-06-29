@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -32,7 +33,11 @@ public class ProductoFormServlet extends HttpServlet {
 
 		// Recoger el objeto application del ServletContext
 		ServletContext application = getServletContext();
-
+		HttpSession session = request.getSession();
+		session.removeAttribute("errorLogin");
+		session.removeAttribute("errorSignup");
+		session.removeAttribute("errorUsuario");
+		
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 
 		// Regocoger la opción elegida por el usuario en el formulario enviada por url
@@ -93,6 +98,7 @@ public class ProductoFormServlet extends HttpServlet {
 		// encapsulada en opform.
 		if (op == null) {
 			producto = new Producto(groupId, nombre, descripcion, precio);
+			session.removeAttribute("errorProducto");
 			rutaListado.forward(request, response);
 		} else {
 
@@ -102,11 +108,11 @@ public class ProductoFormServlet extends HttpServlet {
 				producto = new Producto(groupId, nombre, descripcion, precio);
 
 				if (nombre == null || nombre == "") {
-					producto.setErrores("El nombre de producto no puede estar vacío");
+					session.setAttribute("errorProducto", "Debes introducir un nombre de producto");
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
 				} else if (precio <= 0.0 || precio == null) {
-					producto.setErrores("Debes introducir un precio válido superior a 0");
+					session.setAttribute("errorProducto", "Debes introducir un precio mayor que 0");
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
 				} else {
@@ -114,17 +120,18 @@ public class ProductoFormServlet extends HttpServlet {
 					if (productos != null && !productos.validar(producto)) {
 						try {
 							productos.insert(producto);
+							session.removeAttribute("errorProducto");
 							log.info("Producto dado de alta");
 							rutaListado.forward(request, response);
 						} catch (DAOException e) {
-							producto.setErrores("Error al dar de alta el producto");
+							session.setAttribute("errorProducto", "Error al dar de alta el producto. Inténtelo de nuevo");
 							request.setAttribute("producto", producto);
 							rutaFormulario.forward(request, response);
 						} finally {
 							productos.cerrar();
 						}
 					} else {
-						producto.setErrores("El producto ya existe");
+						session.setAttribute("errorProducto", "El producto ya existe");
 						request.setAttribute("producto", producto);
 						rutaFormulario.forward(request, response);
 					}
@@ -137,21 +144,26 @@ public class ProductoFormServlet extends HttpServlet {
 				producto = new Producto(id, groupId, nombre, descripcion, precio);
 
 				if (nombre == null || nombre == "") {
-					producto.setErrores("El nombre de producto no puede estar vacío");
+					session.setAttribute("errorProducto", "Debes introducir un nombre de producto");
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
 				} else {
 					try {
 						productos.update(producto);
+						session.removeAttribute("errorProducto");
 						log.info("Producto modificado");
 					} catch (DAOException e) {
+						log.info("Error al modificar el producto");
+						log.info(e.getMessage());
 						producto.setErrores("Error al modificar el producto");
+						session.setAttribute("errorProducto", "Error al modificar el producto. Inténtelo de nuevo");
 						request.setAttribute("producto", producto);
 						rutaFormulario.forward(request, response);
-						return;
+						break;
 					} finally {
 						productos.cerrar();
 					}
+					session.removeAttribute("errorProducto");
 					rutaListado.forward(request, response);
 				}
 				break;
@@ -162,19 +174,24 @@ public class ProductoFormServlet extends HttpServlet {
 
 				try {
 					productos.delete(producto);
+					session.removeAttribute("errorProducto");
 					log.info("Producto borrado");
 				} catch (DAOException e) {
-					producto.setErrores("Error al borrar el producto");
+					log.info("Error al borrar el producto");
+					log.info(e.getMessage());
+					session.setAttribute("errorProducto", "Error al borrar el producto. Inténtelo de nuevo");
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
-					return;
+					break;
 				} finally {
 					productos.cerrar();
 				}
+				session.removeAttribute("errorProducto");
 				rutaListado.forward(request, response);
 
 				break;
 			default:
+				session.removeAttribute("errorProducto");
 				rutaListado.forward(request, response);
 			}
 		}

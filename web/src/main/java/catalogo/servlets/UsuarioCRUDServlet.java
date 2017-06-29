@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Usuario;
@@ -29,6 +30,13 @@ public class UsuarioCRUDServlet extends HttpServlet {
 		ServletContext application = getServletContext();
 		
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
+
+		HttpSession session = request.getSession();
+		// Borrado de errores en sesión por si llegan aquí desde los formularios CRUD
+		session.removeAttribute("errorProducto");
+		session.removeAttribute("errorUsuario");
+		session.removeAttribute("errorLogin");
+		session.removeAttribute("errorSignup");
 
 		String op = request.getParameter("op");
 

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -29,7 +30,11 @@ public class UsuarioFormServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ServletContext application = getServletContext();
-
+		HttpSession session = request.getSession();
+		session.removeAttribute("errorLogin");
+		session.removeAttribute("errorSignup");
+		session.removeAttribute("errorProducto");
+		
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 
 		String op = request.getParameter("opform");
@@ -41,6 +46,7 @@ public class UsuarioFormServlet extends HttpServlet {
 			id = Integer.parseInt(request.getParameter("id"));
 		} catch (Exception e) {
 			id = 0;
+			log.info("Error al parsear id");
 		}
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -51,6 +57,7 @@ public class UsuarioFormServlet extends HttpServlet {
 			id_roles = Integer.parseInt(request.getParameter("id_roles"));
 		} catch (Exception e) {
 			id_roles = 2;
+			log.info("Error al parsear id_roles");
 		}
 
 		RequestDispatcher rutaListado = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
@@ -58,6 +65,7 @@ public class UsuarioFormServlet extends HttpServlet {
 
 		if (op == null) {
 			usuario = new Usuario(id_roles, nombre_completo, password, username);
+			session.removeAttribute("errorUsuario");
 			rutaListado.forward(request, response);
 		} else {
 
@@ -70,19 +78,23 @@ public class UsuarioFormServlet extends HttpServlet {
 					usuarios.abrir();
 					try {
 						usuarios.insert(usuario);
+						session.removeAttribute("errorUsuario");
 						log.info("Usuario " + usuario.getUsername() + " dado de alta");
 					} catch (DAOException e) {
 						// Si falla el insert se coge la excepción que lanza y se le reenvía al formulario con el objeto
 						// usuario que traía metido en la request
+						session.setAttribute("errorUsuario", "Error al dar de alta al usuario. Inténtelo de nuevo");
 						request.setAttribute("usuario", usuario);
 						log.info("Error al insertar el usuario " + usuario.getUsername());
 						rutaFormulario.forward(request, response);
+						break;
 					} finally {
 						usuarios.cerrar();
 					}
+					session.removeAttribute("errorUsuario");
 					rutaListado.forward(request, response);
-					return;
 				} else {
+					session.setAttribute("errorUsuario", "Las contraseñas deben ser iguales");
 					request.setAttribute("usuario", usuario);
 					rutaFormulario.forward(request, response);
 				}
@@ -95,21 +107,26 @@ public class UsuarioFormServlet extends HttpServlet {
 						usuarios.abrir();
 						try {
 							usuarios.update(usuario);
+							session.removeAttribute("errorUsuario");
 							log.info("Usuario modificado");
 						} catch (DAOException e) {
+							session.setAttribute("errorUsuario", "Error al modificar el usuario. Inténtelo de nuevo");
 							request.setAttribute("usuario", usuario);
-							e.printStackTrace();
+							log.info("Error al modificar el usuario");
 							rutaFormulario.forward(request, response);
+							break;
 						} finally {
 							usuarios.cerrar();
 						}
+						session.removeAttribute("errorUsuario");
 						rutaListado.forward(request, response);
-						return;
 					} else {
+						session.setAttribute("errorUsuario", "Las contraseñas deben ser iguales");
 						request.setAttribute("usuario", usuario);
 						rutaFormulario.forward(request, response);
 					}
 				} else {
+					session.setAttribute("errorUsuario", "Por el momento no es posible modificar el usuario 'admin'");
 					request.setAttribute("usuario", usuario);
 					rutaFormulario.forward(request, response);
 				}
@@ -121,22 +138,28 @@ public class UsuarioFormServlet extends HttpServlet {
 					usuarios.abrir();
 					try {
 						usuarios.delete(usuario);
+						session.removeAttribute("errorUsuario");
 						log.info("Usuario borrado");
 					} catch (DAOException e) {
+						session.setAttribute("errorUsuario", "Error al borrar el usuario. Inténtelo de nuevo");
 						request.setAttribute("usuario", usuario);
 						log.info("Error al borrar el usuario " + usuario.getUsername());
 						rutaFormulario.forward(request, response);
+						break;
 					} finally {
 						usuarios.cerrar();
 					}
+					session.removeAttribute("errorUsuario");
 					rutaListado.forward(request, response);
-					return;
+					break;
 				} else {
+					session.setAttribute("errorUsuario", "Por el momento no es posible borrar el usuario 'admin'");
 					request.setAttribute("usuario", usuario);
 					rutaFormulario.forward(request, response);
 				}
 				break;
 			default:
+				session.removeAttribute("errorUsuario");
 				rutaListado.forward(request, response);
 			}
 		}

@@ -7,12 +7,12 @@
 <div class="container">
 <form action="login" method="post">
 	<fieldset class="form-group">
-		<label for="username">Username</label>
-		<input id="username" class="form-control" name="username" placeholder="Username" maxlength="16"/>
+		<label for="username">Nombre de usuario</label>
+		<input id="username" class="form-control" name="username" placeholder="Nombre de usuario" maxlength="16" required="required"/>
 	</fieldset>
 	<fieldset class="form-group">
 		<label for="password">Contraseña</label>
-		<input id="password" class="form-control" name="password" type="password" placeholder="Contraseña" maxlength="25"/>
+		<input id="password" class="form-control" name="password" type="password" placeholder="Contraseña" maxlength="25" required="required"/>
 		</fieldset>
 	<fieldset class="form-group">
 		<input type="submit" class="btn btn-default" value="LOGIN"/>
@@ -25,6 +25,6 @@
 </div>
 
 <div class="container">
-	<p class="errores">${sessionScope.errorLogin }</p>
+	<div class="bg-danger" <c:if test="${sessionScope.errorLogin==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>${sessionScope.errorLogin}</div>
 </div>
 <%@ include file="includes/pie.jsp"%>

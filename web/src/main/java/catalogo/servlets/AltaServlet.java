@@ -39,6 +39,10 @@ public class AltaServlet extends HttpServlet {
 		// Se recogen los objetos sesión y aplicación
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
+		// Borrado de errores en sesión por si llegan aquí desde los formularios CRUD
+		session.removeAttribute("errorProducto");
+		session.removeAttribute("errorUsuario");
+		session.removeAttribute("errorLogin");
 		// Se obtiene el conjunto de usuarios extraído de la BBDD e introducido en el objeto application en el
 		// listener de la aplicación
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
@@ -88,7 +92,6 @@ public class AltaServlet extends HttpServlet {
 		// LÓGICA DEL SERVLET
 		if (sinDatos) {
 
-			session.setAttribute("errorSignup", "Debes rellenar todos los campos");
 			alta.forward(request, response);
 
 		} else if (nombreDemasiadoLargo) {
