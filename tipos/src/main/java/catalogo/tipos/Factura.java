@@ -3,15 +3,27 @@ package catalogo.tipos;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "facturas")
 public class Factura implements Serializable {
-	
+
 	private static final long serialVersionUID = 7877238780760817273L;
 	public static int siguienteFactura = 0;
-	
+
 	// Constructores, getters y setters, hashCode y equals y toString
+	@Id
+	@Column(name = "id", unique = true)
 	private int id;
+	@Column(name = "numero_factura")
 	private int numero_factura;
+	@Column(name = "id_usuarios")
 	private int id_usuarios;
+	@Column(name = "fecha")
 	private Date fecha;
 
 	public Factura(int número_factura, int id_usuarios, Date fecha) {
@@ -36,8 +48,9 @@ public class Factura implements Serializable {
 		siguienteFactura++;
 	}
 
+	// TODO El constructor vacío de Factura incrementa siguienteFactura. Ver si hay problemas
 	public Factura() {
-
+		siguienteFactura++;
 	}
 
 	public int getId() {
@@ -71,7 +84,6 @@ public class Factura implements Serializable {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-
 
 	@Override
 	public int hashCode() {
