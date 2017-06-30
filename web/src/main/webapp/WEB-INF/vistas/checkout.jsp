@@ -24,7 +24,7 @@
 			<th style="text-align:center">Descripción</th>
 			<th style="text-align:center">Imagen</th>
 			<th style="text-align:center">Precio</th>
-			<th style="text-align:center">Acción</th>
+			<th style="text-align:center"></th>
 			
 		</tr>
 	</thead>

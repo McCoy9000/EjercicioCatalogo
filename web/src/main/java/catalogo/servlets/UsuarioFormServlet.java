@@ -34,6 +34,7 @@ public class UsuarioFormServlet extends HttpServlet {
 		session.removeAttribute("errorLogin");
 		session.removeAttribute("errorSignup");
 		session.removeAttribute("errorProducto");
+		session.removeAttribute("errorUsuario");
 		
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 
@@ -46,7 +47,6 @@ public class UsuarioFormServlet extends HttpServlet {
 			id = Integer.parseInt(request.getParameter("id"));
 		} catch (Exception e) {
 			id = 0;
-			log.info("Error al parsear id");
 		}
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -57,7 +57,6 @@ public class UsuarioFormServlet extends HttpServlet {
 			id_roles = Integer.parseInt(request.getParameter("id_roles"));
 		} catch (Exception e) {
 			id_roles = 2;
-			log.info("Error al parsear id_roles");
 		}
 
 		RequestDispatcher rutaListado = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);

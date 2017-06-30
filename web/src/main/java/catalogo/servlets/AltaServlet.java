@@ -43,6 +43,7 @@ public class AltaServlet extends HttpServlet {
 		session.removeAttribute("errorProducto");
 		session.removeAttribute("errorUsuario");
 		session.removeAttribute("errorLogin");
+		session.removeAttribute("errorSignup");
 		// Se obtiene el conjunto de usuarios extraído de la BBDD e introducido en el objeto application en el
 		// listener de la aplicación
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");

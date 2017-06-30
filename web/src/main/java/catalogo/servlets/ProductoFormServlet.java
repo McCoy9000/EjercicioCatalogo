@@ -37,6 +37,7 @@ public class ProductoFormServlet extends HttpServlet {
 		session.removeAttribute("errorLogin");
 		session.removeAttribute("errorSignup");
 		session.removeAttribute("errorUsuario");
+		session.removeAttribute("errorProducto");
 		
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 

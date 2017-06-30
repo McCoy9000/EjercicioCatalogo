@@ -15,7 +15,7 @@
 					<th>Nombre de usuario</th>
 					<th>Contraseña</th>
 					<th>Nombre completo</th>
-					<th>Operaciones</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>

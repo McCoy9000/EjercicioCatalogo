@@ -17,7 +17,7 @@
 					<th>Descripción</th>
 					<th>Imagen</th>
 					<th>Precio</th>
-					<th>Operaciones</th>
+					<th></th>
 					</tr>
 			</thead>
 			<tbody>

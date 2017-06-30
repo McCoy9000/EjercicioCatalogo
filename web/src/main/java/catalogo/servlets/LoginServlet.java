@@ -39,6 +39,7 @@ public class LoginServlet extends HttpServlet {
 		session.removeAttribute("errorProducto");
 		session.removeAttribute("errorUsuario");
 		session.removeAttribute("errorSignup");
+		session.removeAttribute("errorLogin");
 		// Recogida de datos de la request
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");

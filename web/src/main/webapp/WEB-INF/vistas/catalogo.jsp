@@ -23,7 +23,7 @@
 			<th>Imagen</th>
 			<th>Precio</th>
 			<th>Stock</th>
-			<th>Añadir a mi carrito</th>
+			<th></th>
 			
 			</tr>
 	</thead>

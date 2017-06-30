@@ -70,22 +70,22 @@ public class InicializacionListener implements ServletContextListener {
 
 		application.setAttribute("productos", productos);
 
-		// TODO Comprobar si con esto comentado funciona bien y si lo hace, borrarlo.
 		// Crear un array con todos los productos y dejarlo disponible en el ServletContext
-
-		// Producto[] productosArr = null;
-		//
-		// productos.abrir();
-		//
-		// try {
-		// productosArr = productos.findAll();
-		// } catch (Exception e) {
-		// log.info(e.getMessage());
-		// log.info("No se pudo crear la lista de productos disponibles");
-		// }
-		// productos.cerrar();
-		//
-		// application.setAttribute("productosArr", productosArr);
+		// Es necesario en producción para extraer el primer array de la base de datos. Aunque
+		// el catálogo ya lo crea a su vez.
+		Producto[] productosArr = null;
+		
+		productos.abrir();
+		
+		try {
+		productosArr = productos.findAll();
+		} catch (Exception e) {
+		log.info(e.getMessage());
+		log.info("No se pudo crear la lista de productos disponibles");
+		}
+		productos.cerrar();
+		
+		application.setAttribute("productosArr", productosArr);
 
 		// Inicializar el DAO de ProductosReservados y ProductosVendidos
 		// y hacerlos accesibles a través del ServletContext

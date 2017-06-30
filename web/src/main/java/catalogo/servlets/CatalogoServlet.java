@@ -158,8 +158,6 @@ public class CatalogoServlet extends HttpServlet {
 	
 				productos.cerrar();
 				
-				//Se actualiza el carrito a través del DAO y el valor número de productos en la sesión
-				session.setAttribute("carrito", carrito);
 				session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 
 				request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);
