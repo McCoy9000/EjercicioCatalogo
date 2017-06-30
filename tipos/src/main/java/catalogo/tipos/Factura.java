@@ -3,9 +3,15 @@ package catalogo.tipos;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +23,7 @@ public class Factura implements Serializable {
 
 	// Constructores, getters y setters, hashCode y equals y toString
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true)
 	private int id;
 	@Column(name = "numero_factura")
@@ -57,6 +64,8 @@ public class Factura implements Serializable {
 		return id;
 	}
 
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "facturas_productos", joinColumns = @JoinColumn(name = "id_facturas"), inverseJoinColumns = @JoinColumn(name = "id_productos"))
 	public void setId(int id) {
 		this.id = id;
 	}

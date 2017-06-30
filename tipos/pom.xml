@@ -12,6 +12,14 @@
   <version>1.0</version>
   <name>tipos</name>
   <url>http://maven.apache.org</url>
+  <dependencies>
+  <dependency>
+  <groupId>javax</groupId>
+  <artifactId>javaee-api</artifactId>
+  <version>7.0</version>
+  <scope>provided</scope>
+  </dependency>
+  </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
