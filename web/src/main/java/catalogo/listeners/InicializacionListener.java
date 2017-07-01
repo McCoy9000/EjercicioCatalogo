@@ -112,44 +112,44 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Vaciar la base de datos de usuarios y crear un usuario administrador y un usuario normal
 
-		usuarios.abrir();
-
-		if (usuarios.findAll().length != 0) {
-			try {
-				usuarios.deleteUsuarios();
-				log.info("Tabla de usuarios borrada");
-			} catch (Exception e) {
-				e.printStackTrace();
-				log.info(e.getMessage());
-				log.info("No se pudo borrar la tabla de usuarios");
-			}
-		}
-
-		Usuario usuario = new Usuario(1, "admin", "admin", "admin");
-
-		if (!usuarios.validar(usuario)) {
-			try {
-				usuarios.insert(usuario);
-				log.info("Creado usuario administrador. Usuario: 'admin', Password: 'admin'");
-			} catch (Exception e) {
-				e.printStackTrace();
-				log.info(e.getMessage());
-				log.info("No se pudo crear el usuario 'admin'");
-			}
-		}
-
-		usuario = new Usuario(2, "mikel", "mikel", "mikel");
-
-		if (!usuarios.validar(usuario)) {
-			try {
-				usuarios.insert(usuario);
-				log.info("Creado usuario estándard. Usuario: 'mikel', Password: 'mikel'");
-			} catch (Exception e) {
-				e.printStackTrace();
-				log.info(e.getMessage());
-				log.info("No se pudo crear el usuario 'mikel'");
-			}
-		}
+//		usuarios.abrir();
+//
+//		if (usuarios.findAll().length != 0) {
+//			try {
+//				usuarios.deleteUsuarios();
+//				log.info("Tabla de usuarios borrada");
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				log.info(e.getMessage());
+//				log.info("No se pudo borrar la tabla de usuarios");
+//			}
+//		}
+//
+//		Usuario usuario = new Usuario(1, "admin", "admin", "admin");
+//
+//		if (!usuarios.validar(usuario)) {
+//			try {
+//				usuarios.insert(usuario);
+//				log.info("Creado usuario administrador. Usuario: 'admin', Password: 'admin'");
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				log.info(e.getMessage());
+//				log.info("No se pudo crear el usuario 'admin'");
+//			}
+//		}
+//
+//		usuario = new Usuario(2, "mikel", "mikel", "mikel");
+//
+//		if (!usuarios.validar(usuario)) {
+//			try {
+//				usuarios.insert(usuario);
+//				log.info("Creado usuario estándard. Usuario: 'mikel', Password: 'mikel'");
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				log.info(e.getMessage());
+//				log.info("No se pudo crear el usuario 'mikel'");
+//			}
+//		}
 
 		// Vaciar la base de datos de productos y rellenarla con 36 productos de prueba
 

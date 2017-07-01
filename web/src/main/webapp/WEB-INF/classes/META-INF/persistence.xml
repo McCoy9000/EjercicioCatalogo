@@ -7,7 +7,9 @@
 <persistence-unit name="Persistencia">
   
   	<!-- Representamos las clases -->
+  	<class>catalogo.tipos.Usuario</class>
   	<class>catalogo.tipos.Factura</class>
+  	<class>catalogo.tipos.Producto</class>
   	
     <properties>
         <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

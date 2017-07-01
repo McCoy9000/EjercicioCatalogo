@@ -156,7 +156,6 @@ public class ProductoFormServlet extends HttpServlet {
 					} catch (DAOException e) {
 						log.info("Error al modificar el producto");
 						log.info(e.getMessage());
-						producto.setErrores("Error al modificar el producto");
 						session.setAttribute("errorProducto", "Error al modificar el producto. Inténtelo de nuevo");
 						request.setAttribute("producto", producto);
 						rutaFormulario.forward(request, response);

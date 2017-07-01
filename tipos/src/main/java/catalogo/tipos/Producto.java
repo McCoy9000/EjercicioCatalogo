@@ -2,14 +2,32 @@ package catalogo.tipos;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "productos")
 public class Producto implements Serializable {
 
 	private static final long serialVersionUID = -6288123677827033015L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", unique = true)
 	private int id;
+	@Column(name = "groupId")
 	private int groupId;
-	private String nombre, descripcion, errores;
+	@Column(name = "nombre")
+	private String nombre; 
+	@Column(name = "descripcion")
+	String descripcion;
+	@Column(name = "precio")
 	private double precio;
+	@Column(name = "imagen")
 	private int imagen;
 
 	public Producto() {
@@ -83,14 +101,6 @@ public class Producto implements Serializable {
 
 	public void setPrecio(double precio) {
 		this.precio = precio;
-	}
-
-	public String getErrores() {
-		return errores;
-	}
-
-	public void setErrores(String errores) {
-		this.errores = errores;
 	}
 
 	@Override

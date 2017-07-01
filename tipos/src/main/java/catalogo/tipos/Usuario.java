@@ -2,15 +2,27 @@ package catalogo.tipos;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 4770875332940984231L;
 
 	// Constructores, getters y setters, hashCode y equals y toString
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", unique = true)
 	private int id;
+	@Column(name = "id_roles")
 	private int id_roles;
+	@Column(name = "nombre_completo")
 	private String nombre_completo;
+	@Column(name = "password")
 	private String password;
+	@Column(name = "username")
 	private String username;
 
 	public Usuario(int id, int id_roles, String nombre_completo, String password, String username) {
