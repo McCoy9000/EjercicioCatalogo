@@ -115,7 +115,7 @@ public class ProductoFormServlet extends HttpServlet {
 				} else if (precio <= 0.0 || precio == null) {
 					session.setAttribute("errorProducto", "Debes introducir un precio mayor que 0");
 					request.setAttribute("producto", producto);
-					rutaFormulario.forward(request, response);
+					request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=alta").forward(request, response);
 				} else {
 					productos.abrir();
 					if (productos != null && !productos.validar(producto)) {
@@ -127,7 +127,7 @@ public class ProductoFormServlet extends HttpServlet {
 						} catch (DAOException e) {
 							session.setAttribute("errorProducto", "Error al dar de alta el producto. Inténtelo de nuevo");
 							request.setAttribute("producto", producto);
-							rutaFormulario.forward(request, response);
+							request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=alta").forward(request, response);
 						} finally {
 							productos.cerrar();
 						}
@@ -147,7 +147,7 @@ public class ProductoFormServlet extends HttpServlet {
 				if (nombre == null || nombre == "") {
 					session.setAttribute("errorProducto", "Debes introducir un nombre de producto");
 					request.setAttribute("producto", producto);
-					rutaFormulario.forward(request, response);
+					request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=modificar").forward(request, response);
 				} else {
 					try {
 						productos.update(producto);
@@ -159,7 +159,7 @@ public class ProductoFormServlet extends HttpServlet {
 						producto.setErrores("Error al modificar el producto");
 						session.setAttribute("errorProducto", "Error al modificar el producto. Inténtelo de nuevo");
 						request.setAttribute("producto", producto);
-						rutaFormulario.forward(request, response);
+						request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=modificar").forward(request, response);
 						break;
 					} finally {
 						productos.cerrar();
@@ -182,7 +182,7 @@ public class ProductoFormServlet extends HttpServlet {
 					log.info(e.getMessage());
 					session.setAttribute("errorProducto", "Error al borrar el producto. Inténtelo de nuevo");
 					request.setAttribute("producto", producto);
-					rutaFormulario.forward(request, response);
+					request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=borrar").forward(request, response);
 					break;
 				} finally {
 					productos.cerrar();

@@ -389,7 +389,7 @@ public class InicializacionListener implements ServletContextListener {
 				productos.insert(new Producto(1, "Coche test 223", "Mustang", 1000.0));
 				productos.insert(new Producto(1, "Coche test 224", "Mustang", 1000.0));
 
-				log.info("Creados 188 productos de prueba");
+				log.info("Creados 224 productos de prueba");
 			}
 
 			productos.confirmarTransaccion();

@@ -12,7 +12,7 @@
 <div class="container">
 	<form action="${applicationScope.rutaBase}/admin/usuarioform" method="post">
 		
-		<fieldset style="display:none;" class="form-group">
+		<fieldset class="form-group" style="display:none;">
 			<label for="id">Id</label> 
 			
 			<input id="id" name="id" type="number" class="form-control"
@@ -33,14 +33,19 @@
 		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>
-			
+			<c:if test="${param.op == 'alta' or param.op =='modificar'}">
+			required="required"
+			</c:if>
 		>
 			<label for="password">Contraseña</label> 
-			<input type="password" id="pass" class="form-control"
+			<input type="password" id="password" class="form-control"
 				name="password" placeholder="Contraseña"/>
 		</fieldset>
 		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
+			</c:if>
+			<c:if test="${param.op == 'alta' or param.op =='modificar'}">
+			required="required"
 			</c:if>
 		>
 			<label for="password2">Repita la contraseña</label> 

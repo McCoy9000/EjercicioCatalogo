@@ -45,7 +45,9 @@ public class UsuarioFormServlet extends HttpServlet {
 		int id;
 		try {
 			id = Integer.parseInt(request.getParameter("id"));
+			log.info("id correctamente parseada");
 		} catch (Exception e) {
+			log.info("Error al parsear id");
 			id = 0;
 		}
 		String username = request.getParameter("username");
@@ -63,6 +65,7 @@ public class UsuarioFormServlet extends HttpServlet {
 		RequestDispatcher rutaFormulario = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO);
 
 		if (op == null) {
+			log.info("Entra por el null");
 			usuario = new Usuario(id_roles, nombre_completo, password, username);
 			session.removeAttribute("errorUsuario");
 			rutaListado.forward(request, response);
@@ -85,7 +88,7 @@ public class UsuarioFormServlet extends HttpServlet {
 						session.setAttribute("errorUsuario", "Error al dar de alta al usuario. Inténtelo de nuevo");
 						request.setAttribute("usuario", usuario);
 						log.info("Error al insertar el usuario " + usuario.getUsername());
-						rutaFormulario.forward(request, response);
+						request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO + "?op=alta").forward(request, response);
 						break;
 					} finally {
 						usuarios.cerrar();
@@ -95,15 +98,17 @@ public class UsuarioFormServlet extends HttpServlet {
 				} else {
 					session.setAttribute("errorUsuario", "Las contraseñas deben ser iguales");
 					request.setAttribute("usuario", usuario);
-					rutaFormulario.forward(request, response);
+//					rutaFormulario.forward(request, response);
+					request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO + "?op=alta").forward(request, response);
 				}
 				break;
 
 			case "modificar":
+				log.info("entra por el modificar");
+				usuarios.abrir();
 				usuario = new Usuario(id, id_roles, nombre_completo, password, username);
 				if (!("admin").equals(usuario.getUsername())) {
 					if (password != null && password != "" && password.equals(password2)) {
-						usuarios.abrir();
 						try {
 							usuarios.update(usuario);
 							session.removeAttribute("errorUsuario");
@@ -112,7 +117,8 @@ public class UsuarioFormServlet extends HttpServlet {
 							session.setAttribute("errorUsuario", "Error al modificar el usuario. Inténtelo de nuevo");
 							request.setAttribute("usuario", usuario);
 							log.info("Error al modificar el usuario");
-							rutaFormulario.forward(request, response);
+//							rutaFormulario.forward(request, response);
+							request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO + "?op=modificar").forward(request, response);
 							break;
 						} finally {
 							usuarios.cerrar();
@@ -122,19 +128,23 @@ public class UsuarioFormServlet extends HttpServlet {
 					} else {
 						session.setAttribute("errorUsuario", "Las contraseñas deben ser iguales");
 						request.setAttribute("usuario", usuario);
-						rutaFormulario.forward(request, response);
+//						rutaFormulario.forward(request, response);
+						request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO + "?op=modificar").forward(request, response);
 					}
 				} else {
 					session.setAttribute("errorUsuario", "Por el momento no es posible modificar el usuario 'admin'");
 					request.setAttribute("usuario", usuario);
-					rutaFormulario.forward(request, response);
+//					rutaFormulario.forward(request, response);
+					request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO + "?op=modificar").forward(request, response);
 				}
 				break;
 
 			case "borrar":
-				usuario = new Usuario(id, id_roles, nombre_completo, password, username);
+				log.info("Entra por el borrar");
+				usuarios.abrir();
+				usuario = usuarios.findById(id);
 				if (!("admin").equals(usuario.getUsername())) {
-					usuarios.abrir();
+					log.info("Entra por el nombre no es admin");
 					try {
 						usuarios.delete(usuario);
 						session.removeAttribute("errorUsuario");
@@ -143,7 +153,8 @@ public class UsuarioFormServlet extends HttpServlet {
 						session.setAttribute("errorUsuario", "Error al borrar el usuario. Inténtelo de nuevo");
 						request.setAttribute("usuario", usuario);
 						log.info("Error al borrar el usuario " + usuario.getUsername());
-						rutaFormulario.forward(request, response);
+//						rutaFormulario.forward(request, response);
+						request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO + "?op=borrar").forward(request, response);
 						break;
 					} finally {
 						usuarios.cerrar();
@@ -152,12 +163,15 @@ public class UsuarioFormServlet extends HttpServlet {
 					rutaListado.forward(request, response);
 					break;
 				} else {
+					log.info("Entra por el nombre es admin");
 					session.setAttribute("errorUsuario", "Por el momento no es posible borrar el usuario 'admin'");
 					request.setAttribute("usuario", usuario);
-					rutaFormulario.forward(request, response);
+//					rutaFormulario.forward(request, response);
+					request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO + "?op=borrar").forward(request, response);
 				}
 				break;
 			default:
+				log.info("Entra por el default");
 				session.removeAttribute("errorUsuario");
 				rutaListado.forward(request, response);
 			}
