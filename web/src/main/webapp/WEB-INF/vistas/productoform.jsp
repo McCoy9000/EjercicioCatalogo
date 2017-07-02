@@ -87,7 +87,7 @@
 		</fieldset>
 		
 	</form>
-	<div class="bg-danger" <c:if test="${sessionScope.errorProducto==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>${sessionScope.errorProducto}</div>
+	<div class="bg-danger" <c:if test="${sessionScope.errorProducto==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorProducto}</div>
 </div>	
 
 	

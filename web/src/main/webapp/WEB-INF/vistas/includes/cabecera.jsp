@@ -12,12 +12,17 @@
 			<title>Driver</title>
 			<link rel="shortcut icon" href="${applicationScope.rutaBase}/img/favicon.png" type="image/png">
 			<link rel="stylesheet" href="${applicationScope.rutaBase}/css/bootstrap.min.css"/>
+			<script>
+			$(document).ready( function () {
+			    $('#catalogo').DataTable();
+			} );
+			</script>
 		</head>
 		
 		<body>
 	
 			<header class="container">
-				<h1>DRIVER</h1>
+				<h1><strong>DRIVER</strong></h1>
 				<h3>Coches de segunda mano</h3>
 				<p class="bienvenido">¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</p>
 			</header>

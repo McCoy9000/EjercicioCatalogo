@@ -25,6 +25,6 @@
 </div>
 
 <div class="container">
-	<div class="bg-danger" <c:if test="${sessionScope.errorLogin==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>${sessionScope.errorLogin}</div>
+	<div class="bg-danger" <c:if test="${sessionScope.errorLogin==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorLogin}</div>
 </div>
 <%@ include file="includes/pie.jsp"%>

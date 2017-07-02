@@ -25,7 +25,7 @@
 			<th>Stock</th>
 			<th></th>
 			
-			</tr>
+		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${applicationScope.catalogo}" var="articulo">
