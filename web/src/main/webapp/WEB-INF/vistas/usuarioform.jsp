@@ -77,6 +77,6 @@
 			<input type="hidden" name="opform" value="${param.op}" />
 		</fieldset>
 	</form>
-	<div class="bg-danger" <c:if test="${sessionScope.errorUsuario==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorUsuario}</div>
+	<div class="alert alert-danger" role="alert" <c:if test="${sessionScope.errorUsuario==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorUsuario}</div>
 </div>
 <%@ include file="includes/pie.jsp" %>

@@ -23,8 +23,8 @@
 <fieldset class="form-group">
 <input type="submit" class="btn btn-primary" value="ALTA">
 </fieldset>
-	<div class="bg-danger" <c:if test="${sessionScope.errorSignup==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorSignup}</div>
 </form>
+<div class="alert alert-danger" role="alert" <c:if test="${sessionScope.errorSignup==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorSignup}</div>
 </div>
 
 
