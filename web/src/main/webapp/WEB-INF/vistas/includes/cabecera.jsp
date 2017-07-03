@@ -11,10 +11,21 @@
     		<meta name="viewport" content="width=device-width, initial-scale=1">
 			<title>Driver</title>
 			<link rel="shortcut icon" href="${applicationScope.rutaBase}/img/favicon.png" type="image/png">
-			<link rel="stylesheet" href="${applicationScope.rutaBase}/css/bootstrap.min.css"/>
+			<link rel="stylesheet" href="${applicationScope.rutaBase}/css/datatables.min.css"/>
+			<script src="${applicationScope.rutaBase}/js/datatables.min.js"></script>
 			<script>
 			$(document).ready( function () {
 			    $('#catalogo').DataTable();
+			} );
+			</script>
+			<script>
+			$(document).ready( function () {
+			    $('#productos').DataTable();
+			} );
+			</script>
+			<script>
+			$(document).ready( function () {
+			    $('#usuarios').DataTable();
 			} );
 			</script>
 		</head>
