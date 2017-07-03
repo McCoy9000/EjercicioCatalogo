@@ -48,10 +48,10 @@ public class AltaServlet extends HttpServlet {
 		// listener de la aplicación
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		// Se recogen los valores de los atributos de usuario introducidos en el formulario de alta
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String password2 = request.getParameter("password2");
-		String nombre_completo = request.getParameter("nombre_completo");
+		String username = request.getParameter("username").trim();
+		String password = request.getParameter("password").trim();
+		String password2 = request.getParameter("password2").trim();
+		String nombre_completo = request.getParameter("nombre_completo").trim();
 		// id_roles se asigna directamente como usuario estándar
 		int id_roles = 2;
 		// Se crea un objeto usuario con el que trabajar a partir de esos datos

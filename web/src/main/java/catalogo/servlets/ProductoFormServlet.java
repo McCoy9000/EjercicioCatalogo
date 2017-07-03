@@ -80,8 +80,8 @@ public class ProductoFormServlet extends HttpServlet {
 			groupId = 0;
 		}
 
-		String nombre = request.getParameter("nombre");
-		String descripcion = request.getParameter("descripcion");
+		String nombre = request.getParameter("nombre").trim();
+		String descripcion = request.getParameter("descripcion").trim();
 		Double precio;
 
 		if (request.getParameter("precio") != null) {

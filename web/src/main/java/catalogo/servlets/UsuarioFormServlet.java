@@ -50,10 +50,10 @@ public class UsuarioFormServlet extends HttpServlet {
 			log.info("Error al parsear id");
 			id = 0;
 		}
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String password2 = request.getParameter("password2");
-		String nombre_completo = request.getParameter("nombre_completo");
+		String username = request.getParameter("username").trim();
+		String password = request.getParameter("password").trim();
+		String password2 = request.getParameter("password2").trim();
+		String nombre_completo = request.getParameter("nombre_completo").trim();
 		int id_roles;
 		try {
 			id_roles = Integer.parseInt(request.getParameter("id_roles"));
