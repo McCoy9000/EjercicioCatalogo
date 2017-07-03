@@ -3,6 +3,8 @@
 	<h2>Alta</h2>
 </div>
 <div class="container">
+<div class="row">
+<div class="col-md-6">
 <form action="alta" method="post">
 <fieldset class="form-group">
 <label for="username">Nombre de usuario</label>
@@ -25,6 +27,8 @@
 </fieldset>
 </form>
 <div class="alert alert-danger" role="alert" <c:if test="${sessionScope.errorSignup==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorSignup}</div>
+</div>
+</div>
 </div>
 
 

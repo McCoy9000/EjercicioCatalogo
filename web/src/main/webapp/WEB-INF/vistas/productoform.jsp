@@ -12,6 +12,8 @@
 		class="catalogo.tipos.Producto" />
 
 <div class="container">
+<div class="row">
+<div class="col-md-6">
 	<form action="${applicationScope.rutaBase}/admin/productoform" method="post">
 		<fieldset class="form-group"
 			<c:if test="${param.op == 'alta'}">
@@ -88,6 +90,8 @@
 		
 	</form>
 	<div class="alert alert-danger" role="alert" <c:if test="${sessionScope.errorProducto==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorProducto}</div>
+	</div>
+	</div>
 </div>	
 
 	

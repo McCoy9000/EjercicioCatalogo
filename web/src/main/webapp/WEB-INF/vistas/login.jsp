@@ -5,6 +5,8 @@
 </div>
 
 <div class="container">
+<div class="row">
+<div class="col-md-6">
 <form action="login" method="post">
 	<fieldset class="form-group">
 		<label for="username">Nombre de usuario</label>
@@ -21,6 +23,8 @@
 	<div class="alert alert-danger" role="alert" <c:if test="${sessionScope.errorLogin==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorLogin}</div>
 </div>
 
+</div>
+</div>
 <div class="container">
 	<a class="btn btn-primary" href="${applicationScope.rutaBase}/alta">¡ALTA!</a>
 </div>

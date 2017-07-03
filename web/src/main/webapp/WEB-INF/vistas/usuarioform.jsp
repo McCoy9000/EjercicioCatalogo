@@ -10,6 +10,8 @@
 	</div>
 
 <div class="container">
+<div class="row">
+<div class="col-md-6">
 	<form action="${applicationScope.rutaBase}/admin/usuarioform" method="post">
 		
 		<fieldset class="form-group" style="display:none;">
@@ -78,5 +80,7 @@
 		</fieldset>
 	</form>
 	<div class="alert alert-danger" role="alert" <c:if test="${sessionScope.errorUsuario==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorUsuario}</div>
+</div>
+</div>
 </div>
 <%@ include file="includes/pie.jsp" %>

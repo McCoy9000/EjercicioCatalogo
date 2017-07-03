@@ -48,10 +48,32 @@ public class AltaServlet extends HttpServlet {
 		// listener de la aplicación
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		// Se recogen los valores de los atributos de usuario introducidos en el formulario de alta
-		String username = request.getParameter("username").trim();
-		String password = request.getParameter("password").trim();
-		String password2 = request.getParameter("password2").trim();
-		String nombre_completo = request.getParameter("nombre_completo").trim();
+		String username, password, password2, nombre_completo;
+
+		if (request.getParameter("username") != null) {
+			username = request.getParameter("username").trim();
+		} else {
+			username = request.getParameter("username");
+		}
+
+		if (request.getParameter("password") != null) {
+			password = request.getParameter("password").trim();
+		} else {
+			password = request.getParameter("password");
+		}
+
+		if (request.getParameter("password2") != null) {
+			password2 = request.getParameter("password2").trim();
+		} else {
+			password2 = request.getParameter("password2");
+		}
+
+		if (request.getParameter("nombre_completo") != null) {
+			nombre_completo = request.getParameter("nombre_completo").trim();
+		} else {
+			nombre_completo = request.getParameter("nombre_completo");
+		}
+
 		// id_roles se asigna directamente como usuario estándar
 		int id_roles = 2;
 		// Se crea un objeto usuario con el que trabajar a partir de esos datos
@@ -80,7 +102,7 @@ public class AltaServlet extends HttpServlet {
 				passIguales = true;
 			}
 		}
-		
+
 		boolean esCorrecto = false;
 		if (!sinDatos) {
 			esCorrecto = !usuarioExistente && passIguales;
