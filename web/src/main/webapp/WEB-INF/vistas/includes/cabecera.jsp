@@ -31,7 +31,7 @@
 		</head>
 		
 		<body>
-	
+		<div id="img-pit">
 			<header class="container">
 				<h1><strong>DRIVER</strong></h1>
 				<h3>Coches de segunda mano</h3>
@@ -57,3 +57,4 @@
 					<li><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/usuarioform?op=alta">ALTA DE USUARIOS</a></li>
 				</ul>
 			</nav>
+			</div>
