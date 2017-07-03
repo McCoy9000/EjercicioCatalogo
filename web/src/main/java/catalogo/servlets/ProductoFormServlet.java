@@ -38,7 +38,7 @@ public class ProductoFormServlet extends HttpServlet {
 		session.removeAttribute("errorSignup");
 		session.removeAttribute("errorUsuario");
 		session.removeAttribute("errorProducto");
-		
+
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 
 		// Regocoger la opción elegida por el usuario en el formulario enviada por url
@@ -80,8 +80,20 @@ public class ProductoFormServlet extends HttpServlet {
 			groupId = 0;
 		}
 
-		String nombre = request.getParameter("nombre").trim();
-		String descripcion = request.getParameter("descripcion").trim();
+		String nombre, descripcion;
+
+		if (request.getParameter("nombre") != null) {
+			nombre = request.getParameter("nombre").trim();
+		} else {
+			nombre = request.getParameter("nombre");
+		}
+
+		if (request.getParameter("descripcion") != null) {
+			descripcion = request.getParameter("descripcion").trim();
+		} else {
+			descripcion = request.getParameter("descripcion");
+		}
+
 		Double precio;
 
 		if (request.getParameter("precio") != null) {

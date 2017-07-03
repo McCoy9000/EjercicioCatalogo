@@ -41,8 +41,20 @@ public class LoginServlet extends HttpServlet {
 		session.removeAttribute("errorSignup");
 		session.removeAttribute("errorLogin");
 		// Recogida de datos de la request
-		String username = request.getParameter("username").trim();
-		String password = request.getParameter("password").trim();
+		String username, password;
+
+		if (request.getParameter("username") != null) {
+			username = request.getParameter("username").trim();
+		} else {
+			username = request.getParameter("username");
+		}
+
+		if (request.getParameter("password") != null) {
+			password = request.getParameter("password").trim();
+		} else {
+			password = request.getParameter("password");
+		}
+
 		String op = request.getParameter("op");
 
 		// Recogida de datos de aplicación y de sesión
