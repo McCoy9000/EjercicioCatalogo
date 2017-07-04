@@ -31,7 +31,7 @@
 		</head>
 		
 		<body>
-		<div id="img-pit">
+		<div id="img-pit" style="background-image:url(${applicationScope.rutaBase}/img/pit-race.jpg); padding-bottom:10px">
 			<header class="container">
 				<h1><strong>DRIVER</strong></h1>
 				<h3>Coches de segunda mano</h3>
@@ -46,15 +46,30 @@
 					 
 				</ul>
 			</nav>
-			<nav class="container" style="border-top: 2px solid lightgrey; padding-top: 8px" >	
-				<ul class="list-inline"  <c:if test="${sessionScope.usuario.id_roles != '1'}">
+			<nav class="container" <c:if test="${sessionScope.usuario.id_roles != '1'}">
 						style="display:none;"
-					</c:if>
-				>
-					<li><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/productocrud">MANTENIMIENTO DE PRODUCTOS</a></li>
-					<li><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/productoform?op=alta">ALTA DE PRODUCTOS</a></li>
-					<li><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/usuariocrud">MANTENIMIENTO DE USUARIOS</a></li>
-					<li><a class="btn btn-default" href="${applicationScope.rutaBase}/admin/usuarioform?op=alta">ALTA DE USUARIOS</a></li>
+					</c:if>>
+			<div class="dropdown" style="display:inline-block">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownProductos" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				PRODUCTOS
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownProductos">
+					<li><a href="${applicationScope.rutaBase}/admin/productocrud">Mantenimiento</a></li>
+					<li><a href="${applicationScope.rutaBase}/admin/productoform">Alta</a></li>
 				</ul>
+			</div>
+			<div class="dropdown" style="display:inline-block">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownUsuarios" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				USUARIOS
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownUsuarios">
+					<li><a href="${applicationScope.rutaBase}/admin/usuariocrud">Mantenimiento</a></li>
+					<li><a href="${applicationScope.rutaBase}/admin/usuarioform">Alta</a></li>
+				</ul>
+			</div>
 			</nav>
+			
+			
 			</div>

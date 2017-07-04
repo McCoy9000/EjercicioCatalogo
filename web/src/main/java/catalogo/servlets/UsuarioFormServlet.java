@@ -84,7 +84,7 @@ public class UsuarioFormServlet extends HttpServlet {
 		if (op == null) {
 			usuario = new Usuario(id_roles, nombre_completo, password, username);
 			session.removeAttribute("errorUsuario");
-			rutaListado.forward(request, response);
+			request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO + "?op=alta").forward(request, response);
 		} else {
 
 			switch (op) {

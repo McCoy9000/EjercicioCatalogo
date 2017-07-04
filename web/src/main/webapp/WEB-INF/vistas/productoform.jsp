@@ -16,7 +16,7 @@
 <div class="col-md-6">
 	<form action="${applicationScope.rutaBase}/admin/productoform" method="post">
 		<fieldset class="form-group"
-			<c:if test="${param.op == 'alta'}">
+			<c:if test="${param.op == 'alta' or param.op == null or param.op == ''}">
 				style="display:none;"
 			</c:if> 
 		>

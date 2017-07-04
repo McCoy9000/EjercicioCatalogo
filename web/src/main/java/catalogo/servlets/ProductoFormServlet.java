@@ -112,7 +112,7 @@ public class ProductoFormServlet extends HttpServlet {
 		if (op == null) {
 			producto = new Producto(groupId, nombre, descripcion, precio);
 			session.removeAttribute("errorProducto");
-			rutaListado.forward(request, response);
+			request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=alta").forward(request, response);
 		} else {
 
 			switch (op) {
