@@ -33,9 +33,8 @@
 		<body>
 		<div id="img-pit" style="background-image:url(${applicationScope.rutaBase}/img/pit-race.jpg); padding-bottom:10px">
 			<header class="container">
-				<h1><strong>DRIVER</strong></h1>
-				<h3>Coches de segunda mano</h3>
-				<p class="bienvenido">¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</p>
+				<h1 style="color:white; font-size:1500%; display:inline-block"><strong>DRIVER</strong></h1>
+				<p style="color:white;"><strong>¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</strong></p>
 			</header>
 			
 			<nav class="container">
