@@ -10,14 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import catalogo.constantes.Constantes;
 import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Usuario;
 
 @WebServlet("/admin/usuariocrud")
 public class UsuarioCRUDServlet extends HttpServlet {
-	static final String RUTA_FORMULARIO = "/WEB-INF/vistas/usuarioform.jsp";
-	static final String RUTA_LISTADO = "/WEB-INF/vistas/usuariocrud.jsp";
-	static final String RUTA_SERVLET_LISTADO = "/admin/usuariocrud";
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,7 +46,7 @@ public class UsuarioCRUDServlet extends HttpServlet {
 
 			application.setAttribute("usuariosArr", usuariosArr);
 
-			request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+			request.getRequestDispatcher(Constantes.RUTA_LISTADO_USUARIO).forward(request, response);
 
 		} else {
 
@@ -62,7 +60,7 @@ public class UsuarioCRUDServlet extends HttpServlet {
 					id = Integer.parseInt(request.getParameter("id"));
 				} catch (Exception e) {
 					e.printStackTrace();
-					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+					request.getRequestDispatcher(Constantes.RUTA_LISTADO_USUARIO).forward(request, response);
 					break;
 				}
 				usuarios.abrir();
@@ -71,16 +69,16 @@ public class UsuarioCRUDServlet extends HttpServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 					usuarios.cerrar();
-					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+					request.getRequestDispatcher(Constantes.RUTA_LISTADO_USUARIO).forward(request, response);
 					break;
 				}
 				usuarios.cerrar();
 				request.setAttribute("usuario", usuario);
 			case "alta":
-				request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
+				request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_USUARIO).forward(request, response);
 				break;
 			default:
-				request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+				request.getRequestDispatcher(Constantes.RUTA_LISTADO_USUARIO).forward(request, response);
 			}
 		}
 	}

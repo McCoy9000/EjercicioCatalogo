@@ -68,6 +68,16 @@
 					<li><a href="${applicationScope.rutaBase}/admin/usuarioform">Alta</a></li>
 				</ul>
 			</div>
+			<div class="dropdown" style="display:inline-block">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownFacturas" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				FACTURAS
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
+					<li><a href="${applicationScope.rutaBase}/admin/facturacrud">Mantenimiento</a></li>
+					<!-- <li><a href="${applicationScope.rutaBase}/admin/facturaform">Alta</a></li> -->
+				</ul>
+			</div>
 			</nav>
 			
 			

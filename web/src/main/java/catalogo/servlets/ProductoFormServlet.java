@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import catalogo.constantes.Constantes;
 import catalogo.dal.DAOException;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
@@ -46,8 +47,8 @@ public class ProductoFormServlet extends HttpServlet {
 
 		// Declaro aquí los dispatcher porque en un momento me dio un problema extraño por declararlos en el momento en que
 		// los necesitaba
-		RequestDispatcher rutaListado = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_SERVLET_LISTADO);
-		RequestDispatcher rutaFormulario = request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO);
+		RequestDispatcher rutaListado = request.getRequestDispatcher(Constantes.RUTA_SERVLET_LISTADO_PRODUCTO);
+		RequestDispatcher rutaFormulario = request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO);
 
 		// Declaración de las variables para construir el objeto con el que se trabajará e iniciarlas con los valores recogidos
 		// del formulario
@@ -112,7 +113,7 @@ public class ProductoFormServlet extends HttpServlet {
 		if (op == null) {
 			producto = new Producto(groupId, nombre, descripcion, precio);
 			session.removeAttribute("errorProducto");
-			request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=alta").forward(request, response);
+			request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=alta").forward(request, response);
 		} else {
 
 			switch (op) {
@@ -127,7 +128,7 @@ public class ProductoFormServlet extends HttpServlet {
 				} else if (precio <= 0.0 || precio == null) {
 					session.setAttribute("errorProducto", "Debes introducir un precio mayor que 0");
 					request.setAttribute("producto", producto);
-					request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=alta").forward(request, response);
+					request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=alta").forward(request, response);
 				} else {
 					productos.abrir();
 					if (productos != null && !productos.validar(producto)) {
@@ -139,7 +140,7 @@ public class ProductoFormServlet extends HttpServlet {
 						} catch (DAOException e) {
 							session.setAttribute("errorProducto", "Error al dar de alta el producto. Inténtelo de nuevo");
 							request.setAttribute("producto", producto);
-							request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=alta").forward(request, response);
+							request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=alta").forward(request, response);
 						} finally {
 							productos.cerrar();
 						}
@@ -159,7 +160,7 @@ public class ProductoFormServlet extends HttpServlet {
 				if (nombre == null || nombre == "") {
 					session.setAttribute("errorProducto", "Debes introducir un nombre de producto");
 					request.setAttribute("producto", producto);
-					request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=modificar").forward(request, response);
+					request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=modificar").forward(request, response);
 				} else {
 					try {
 						productos.update(producto);
@@ -171,7 +172,7 @@ public class ProductoFormServlet extends HttpServlet {
 						producto.setErrores("Error al modificar el producto");
 						session.setAttribute("errorProducto", "Error al modificar el producto. Inténtelo de nuevo");
 						request.setAttribute("producto", producto);
-						request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=modificar").forward(request, response);
+						request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=modificar").forward(request, response);
 						break;
 					} finally {
 						productos.cerrar();
@@ -194,7 +195,7 @@ public class ProductoFormServlet extends HttpServlet {
 					log.info(e.getMessage());
 					session.setAttribute("errorProducto", "Error al borrar el producto. Inténtelo de nuevo");
 					request.setAttribute("producto", producto);
-					request.getRequestDispatcher(ProductoCRUDServlet.RUTA_FORMULARIO + "?op=borrar").forward(request, response);
+					request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=borrar").forward(request, response);
 					break;
 				} finally {
 					productos.cerrar();

@@ -3,10 +3,11 @@ package catalogo.tipos;
 import java.io.Serializable;
 import java.util.Date;
 
+import catalogo.constantes.Constantes;
+
 public class Factura implements Serializable {
 	
 	private static final long serialVersionUID = 7877238780760817273L;
-	public static int siguienteFactura = 0;
 	
 	// Constructores, getters y setters, hashCode y equals y toString
 	private int id;
@@ -27,17 +28,18 @@ public class Factura implements Serializable {
 		this.numero_factura = número_factura;
 		this.id_usuarios = id_usuarios;
 		this.fecha = fecha;
+		Constantes.siguienteFactura++;
 	}
 
 	public Factura(int id_usuarios, Date fecha) {
-		this.numero_factura = siguienteFactura;
+		this.numero_factura = Constantes.siguienteFactura;
 		this.id_usuarios = id_usuarios;
 		this.fecha = fecha;
-		siguienteFactura++;
+		Constantes.siguienteFactura++;
 	}
 
 	public Factura() {
-
+		Constantes.siguienteFactura++;
 	}
 
 	public int getId() {

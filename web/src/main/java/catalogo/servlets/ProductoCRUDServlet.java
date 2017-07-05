@@ -10,16 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import catalogo.constantes.Constantes;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
 
 @WebServlet("/admin/productocrud")
 public class ProductoCRUDServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
-	static final String RUTA_FORMULARIO = "/WEB-INF/vistas/productoform.jsp";
-	static final String RUTA_LISTADO = "/WEB-INF/vistas/productocrud.jsp";
-	static final String RUTA_SERVLET_LISTADO = "/admin/productocrud";
+	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -50,7 +48,7 @@ public class ProductoCRUDServlet extends HttpServlet {
 
 			application.setAttribute("productosArr", productosArr);
 
-			request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+			request.getRequestDispatcher(Constantes.RUTA_LISTADO_PRODUCTO).forward(request, response);
 
 		} else {
 
@@ -64,7 +62,7 @@ public class ProductoCRUDServlet extends HttpServlet {
 					id = Integer.parseInt(request.getParameter("id"));
 				} catch (Exception e) {
 					e.printStackTrace();
-					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+					request.getRequestDispatcher(Constantes.RUTA_LISTADO_PRODUCTO).forward(request, response);
 					break;
 				}
 				
@@ -74,16 +72,16 @@ public class ProductoCRUDServlet extends HttpServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 					productos.cerrar();
-					request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+					request.getRequestDispatcher(Constantes.RUTA_LISTADO_PRODUCTO).forward(request, response);
 					break;
 				}
 				productos.cerrar();
 				request.setAttribute("producto", producto);
 			case "alta":
-				request.getRequestDispatcher(RUTA_FORMULARIO).forward(request, response);
+				request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO).forward(request, response);
 				break;
 			default:
-				request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+				request.getRequestDispatcher(Constantes.RUTA_LISTADO_PRODUCTO).forward(request, response);
 			}
 		}
 	}

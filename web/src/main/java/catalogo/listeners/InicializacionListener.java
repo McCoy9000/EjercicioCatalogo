@@ -10,13 +10,13 @@ import javax.servlet.annotation.WebListener;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import catalogo.constantes.Constantes;
 import catalogo.dal.FacturaDAO;
 import catalogo.dal.FacturaDAOFactory;
 import catalogo.dal.ProductoDAO;
 import catalogo.dal.ProductoDAOFactory;
 import catalogo.dal.UsuarioDAO;
 import catalogo.dal.UsuarioDAOFactory;
-import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
 
@@ -403,7 +403,7 @@ public class InicializacionListener implements ServletContextListener {
 		facturas.reutilizarConexion(usuarios);
 
 		try {
-			Factura.siguienteFactura = facturas.getMaxId() + 1;
+			Constantes.siguienteFactura = facturas.getMaxId() + 1;
 			log.info("Iniciado el contador de facturas con el valor del número siguiente al de la última factura emitida");
 		} catch (Exception e) {
 			log.info(e.getMessage());

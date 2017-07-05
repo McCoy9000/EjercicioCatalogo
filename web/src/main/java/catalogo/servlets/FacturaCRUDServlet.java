@@ -10,16 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import catalogo.constantes.Constantes;
 import catalogo.dal.FacturaDAO;
 import catalogo.tipos.Factura;
+import catalogo.tipos.Producto;
 
-@WebServlet("admin/facturaCRUD")
+@WebServlet("/admin/facturacrud")
 public class FacturaCRUDServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
-
-	static final String RUTA_FORMULARIO = "/WEB-INF/vistas/facturaform.jsp";
-	static final String RUTA_LISTADO = "/WEB-INF/vistas/facturacrud.jsp";
-	static final String RUTA_SERVLET_LISTADO = "/admin/facturacrud";
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -41,11 +40,45 @@ public class FacturaCRUDServlet extends HttpServlet {
 
 			Factura[] facturasArr = facturas.findAll();
 
-			application.setAttribute("facturas", facturasArr);
+			application.setAttribute("facturasArr", facturasArr);
 
-			request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+			request.getRequestDispatcher(Constantes.RUTA_LISTADO_FACTURA).forward(request, response);
 
 		} else {
+			
+			switch (op) {
+			
+			case "ver":
+				
+				Factura factura;
+				Producto[] productosFactura;
+				Double precioTotal;
+				
+				int id = 0;
+				
+				try {
+					id = Integer.parseInt(request.getParameter("id"));
+				} catch (Exception e) {
+					session.setAttribute("errorFactura", "Error al recuperar la factura. Inténtelo de nuevo");
+					request.getRequestDispatcher(Constantes.RUTA_ERROR_FACTURA).forward(request, response);
+				}
+				
+				facturas.abrir();
+				
+				factura = facturas.findById(id);
+				
+				productosFactura = facturas.findProductoByFacturaId(id);
+				
+				precioTotal = facturas.getPrecioTotal(id);
+				
+				session.setAttribute("factura", factura);
+				session.setAttribute("productosFactura", productosFactura);
+				session.setAttribute("precioTotal", precioTotal);
+				
+				request.getRequestDispatcher(Constantes.RUTA_FACTURA_FACTURA).forward(request, response);
+				
+				
+			}
 
 		}
 	}
