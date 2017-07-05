@@ -17,11 +17,11 @@
 <div id="factura" class="container">
 
 <div class="row">
-<div class="col-md-6">Factura ${factura.id}</div><div class="col-md-6" style="text-align:right">${factura.fecha}</div>
+<div class="col-xs-5 col-md-5">Factura ${factura.id}</div><div class="col-xs-5 col-xs-offset-2 col-md-5 col-md-offset-2" style="text-align:right">${factura.fecha}</div>
 </div>
 
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-xs-5 col-md-5">
 		<address>
 		  <strong>Driver, Inc.</strong><br>
 		  c/Kalea 9, 9ºB<br>
@@ -36,7 +36,7 @@
 	</div>
 		
 		
-	<div class="col-md-6" style="text-align:right">
+	<div class="col-xs-5 col-xs-offset-2 col-md-5 col-md-offset-2" style="text-align:right">
 		<address>
 			<strong>${usuario.nombre_completo}</strong><br>
 			c/del Usuario s/n<br>
