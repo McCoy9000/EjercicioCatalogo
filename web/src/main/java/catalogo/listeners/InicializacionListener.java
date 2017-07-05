@@ -151,7 +151,7 @@ public class InicializacionListener implements ServletContextListener {
 			}
 		}
 
-		// Vaciar la base de datos de productos y rellenarla con 36 productos de prueba
+		// Vaciar la base de datos de productos y rellenarla con 224 productos de prueba
 
 		productos.reutilizarConexion(usuarios);
 		productos.iniciarTransaccion();
