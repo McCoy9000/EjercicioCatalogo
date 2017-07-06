@@ -30,10 +30,10 @@
 			</script>
 		</head>
 		
-		<body>
-		<div id="img-pit" style="background-image:url(${applicationScope.rutaBase}/img/pit-race.jpg); padding-bottom:10px">
+		<body style="padding-bottom:10px">
+		<div id="img-pit" style="background:url(${applicationScope.rutaBase}/img/pit-race.jpg) 0px 0px/100% no-repeat fixed ; padding-bottom:10px">
 			<header class="container">
-				<h1 style="color:white; font-size:1500%; display:inline-block"><strong>DRIVER</strong></h1>
+				<h1 style="color:white; font-size:20vw; display:inline-block"><strong>DRIVER</strong></h1>
 				<p style="color:white;"><strong>¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</strong></p>
 			</header>
 			

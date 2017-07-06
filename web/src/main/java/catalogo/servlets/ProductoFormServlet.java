@@ -153,6 +153,7 @@ public class ProductoFormServlet extends HttpServlet {
 			case "modificar":
 
 				productos.abrir();
+				// Aquí hay que declarar un nuevo producto con los datos recogidos del formulario.
 				producto = new Producto(id, groupId, nombre, descripcion, precio);
 
 				if (nombre == null || nombre == "") {
