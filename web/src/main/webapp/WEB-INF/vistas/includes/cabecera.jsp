@@ -28,12 +28,13 @@
 			    $('#usuarios').DataTable();
 			} );
 			</script>
+			<link href="https://fonts.googleapis.com/css?family=Cabin+Sketch" rel="stylesheet">
 		</head>
 		
 		<body style="padding-bottom:10px">
 		<div id="img-pit" style="background:url(${applicationScope.rutaBase}/img/pit-race.jpg) 0px 0px/100% no-repeat fixed ; padding-bottom:10px">
 			<header class="container">
-				<h1 style="color:white; font-size:20vw; display:inline-block"><strong>DRIVER</strong></h1>
+				<h1 style="color:white; font-family: 'Cabin Sketch', cursive;font-size:25vw; display:inline-block"><strong>DRIVER</strong></h1>
 				<p style="color:white;"><strong>¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</strong></p>
 			</header>
 			
