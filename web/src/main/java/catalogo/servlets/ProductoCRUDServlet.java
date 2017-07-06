@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import catalogo.constantes.Constantes;
 import catalogo.dal.ProductoDAO;
 import catalogo.tipos.Producto;
@@ -18,6 +20,8 @@ import catalogo.tipos.Producto;
 public class ProductoCRUDServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+
+	private static Logger log = Logger.getLogger(AltaServlet.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -65,7 +69,7 @@ public class ProductoCRUDServlet extends HttpServlet {
 					request.getRequestDispatcher(Constantes.RUTA_LISTADO_PRODUCTO).forward(request, response);
 					break;
 				}
-				
+
 				productos.abrir();
 				try {
 					producto = productos.findById(id);

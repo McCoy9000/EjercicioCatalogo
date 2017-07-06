@@ -120,8 +120,7 @@ public class UsuarioFormServlet extends HttpServlet {
 
 			case "modificar":
 				usuarios.abrir();
-				usuario = new Usuario(id, id_roles, nombre_completo, password, username);
-				if (!("admin").equals(usuario.getUsername())) {
+				usuario = new Usuario(id, id_roles, nombre_completo, password, username);				if (!("admin").equals(usuario.getUsername())) {
 					if (password != null && password != "" && password.equals(password2)) {
 						try {
 							usuarios.update(usuario);

@@ -62,7 +62,6 @@ public class ProductoFormServlet extends HttpServlet {
 				id = Integer.parseInt(request.getParameter("id"));
 			} catch (Exception e) {
 				id = 0;
-				log.info("Error al parsear id");
 			}
 		} else {
 			id = 0;
@@ -75,7 +74,6 @@ public class ProductoFormServlet extends HttpServlet {
 				groupId = Integer.parseInt(request.getParameter("groupId"));
 			} catch (Exception e) {
 				groupId = 0;
-				log.info("Error al parsear groupId");
 			}
 		} else {
 			groupId = 0;

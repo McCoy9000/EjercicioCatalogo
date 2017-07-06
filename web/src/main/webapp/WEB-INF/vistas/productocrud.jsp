@@ -31,8 +31,8 @@
 							<img src="${applicationScope.rutaBase}/img/0.jpg" class="img-thumbnail" height="128" width="128"/></object></td>
 						<td>${producto.precio} €</td>
 						<td>
-							<a class="btn btn-success" href="?op=modificar&id=${producto.id}">Modificar</a>
-							<a class="btn btn-danger" href="?op=borrar&id=${producto.id}">Borrar</a>
+							<a class="btn btn-success" href="${applicationScope.rutaBase}/admin/productocrud?op=modificar&id=${producto.id}">Modificar</a>
+							<a class="btn btn-danger" href="${applicationScope.rutaBase}/admin/productocrud?op=borrar&id=${producto.id}">Borrar</a>
 						</td>
 					</tr>
 				</c:forEach>
