@@ -37,7 +37,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 				factura = new Factura();
 
 				factura.setId(rs.getInt("id"));
-				factura.setNumero_factura(rs.getInt("numero_factura"));
+				factura.setNumero_factura(rs.getString("numero_factura"));
 				factura.setId_usuarios(rs.getInt("id_usuarios"));
 				factura.setFecha(rs.getDate("fecha"));
 
@@ -66,7 +66,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 				factura = new Factura();
 
 				factura.setId(rs.getInt("id"));
-				factura.setNumero_factura(rs.getInt("numero_factura"));
+				factura.setNumero_factura(rs.getString("numero_factura"));
 				factura.setId_usuarios(rs.getInt("id_usuarios"));
 				factura.setFecha(rs.getDate("fecha"));
 			}
@@ -85,7 +85,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		try {
 			psInsert = con.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 
-			psInsert.setInt(1, factura.getNumero_factura());
+			psInsert.setString(1, factura.getNumero_factura());
 			psInsert.setInt(2, factura.getId_usuarios());
 			psInsert.setDate(3, new java.sql.Date(factura.getFecha().getTime()));
 
@@ -115,7 +115,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		try {
 			psUpdate = con.prepareStatement(UPDATE);
 
-			psUpdate.setInt(1, factura.getNumero_factura());
+			psUpdate.setString(1, factura.getNumero_factura());
 			psUpdate.setInt(2, factura.getId_usuarios());
 			psUpdate.setDate(3, new java.sql.Date(factura.getFecha().getTime()));
 			psUpdate.setInt(4, factura.getId());
@@ -236,8 +236,15 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 			
 			rs = psGetMaxId.executeQuery();
 			
+			if(rs != null){
+				
+			
+			
 			while(rs.next()) {
+								
 				maxId = rs.getInt(1);
+				
+			}
 			}
 		} catch (SQLException e) {
 			throw new DAOException("Error al obtener maxId", e);

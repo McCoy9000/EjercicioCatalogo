@@ -12,12 +12,12 @@ public class FacturaImporte extends Factura {
 	Double ivaFactura = importe * Constantes.IVA;
 	Double pvp = importe + ivaFactura;
 
-	public FacturaImporte(int número_factura, int id_usuarios, Date fecha) {
+	public FacturaImporte(String número_factura, int id_usuarios, Date fecha) {
 		super(número_factura, id_usuarios, fecha);
 		// TODO Auto-generated constructor stub
 	}
 
-	public FacturaImporte(int id, int número_factura, int id_usuarios, Date fecha) {
+	public FacturaImporte(int id, String número_factura, int id_usuarios, Date fecha) {
 		super(id, número_factura, id_usuarios, fecha);
 		// TODO Auto-generated constructor stub
 	}

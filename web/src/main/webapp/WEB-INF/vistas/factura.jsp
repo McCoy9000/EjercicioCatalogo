@@ -13,11 +13,11 @@
 	<link rel="stylesheet" href="${applicationScope.rutaBase}/css/bootstrap.min.css"/>			
 	<link rel="shortcut icon" href="${applicationScope.rutaBase}/img/favicon.png" type="image/png">
 </head>
-<body>
+<body style="margin:10px">
 <div id="factura" class="container">
 
 <div class="row">
-<div class="col-xs-5 col-md-5">Factura ${factura.id}</div><div class="col-xs-5 col-xs-offset-2 col-md-5 col-md-offset-2" style="text-align:right">${factura.fecha}</div>
+<div class="col-xs-5 col-md-5">Factura ${factura.numero_factura}</div><div class="col-xs-5 col-xs-offset-2 col-md-5 col-md-offset-2" style="text-align:right">${factura.fecha}</div>
 </div>
 
 <div class="row">

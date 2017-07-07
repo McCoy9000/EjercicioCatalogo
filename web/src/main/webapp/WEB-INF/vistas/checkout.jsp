@@ -10,7 +10,7 @@
 <nav class="container">
 	<ul class="list-inline">
 		<li><a class="btn btn-default" href="?op=vaciarcarrito">Vaciar carrito</a>
-		<li><a class="btn btn-primary" onclick="window.open('?op=pagar', '_self'); window.open('${applicationScope.rutaBase}/factura', '_blank', 'width=400,height=400')">PAGAR ${sessionScope.numeroProductos} producto<span <c:if test="${sessionScope.numeroProductos==1}">style="display:none;"</c:if>>s</span></a></li>
+		<li><a class="btn btn-primary" onclick="window.open('?op=pagar', '_self'); window.open('${applicationScope.rutaBase}/factura', '_blank', 'width=500,height=400')">PAGAR ${sessionScope.numeroProductos} producto<span <c:if test="${sessionScope.numeroProductos==1}">style="display:none;"</c:if>>s</span></a></li>
 		<li>Total a pagar: ${sessionScope.precioTotal} € IVA incl.</li>
 	</ul>
 </nav>

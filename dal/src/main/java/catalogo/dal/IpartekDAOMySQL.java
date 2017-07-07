@@ -8,7 +8,7 @@ public class IpartekDAOMySQL implements IpartekDAO {
 
 	protected Connection con;
 	
-	private String url = "jdbc:mysql://localhost/ipartek";
+	private String url = "jdbc:mysql://localhost/test";
 	private String mysqlUser = "root";
 	private String mysqlPass = "";
 	

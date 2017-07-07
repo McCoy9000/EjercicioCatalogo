@@ -11,18 +11,18 @@ public class Factura implements Serializable {
 	
 	// Constructores, getters y setters, hashCode y equals y toString
 	private int id;
-	private int numero_factura;
+	private String numero_factura;
 	private int id_usuarios;
 	private Date fecha;
 
-	public Factura(int número_factura, int id_usuarios, Date fecha) {
+	public Factura(String número_factura, int id_usuarios, Date fecha) {
 		super();
 		this.numero_factura = número_factura;
 		this.id_usuarios = id_usuarios;
 		this.fecha = fecha;
 	}
 
-	public Factura(int id, int número_factura, int id_usuarios, Date fecha) {
+	public Factura(int id, String número_factura, int id_usuarios, Date fecha) {
 		super();
 		this.id = id;
 		this.numero_factura = número_factura;
@@ -32,14 +32,13 @@ public class Factura implements Serializable {
 	}
 
 	public Factura(int id_usuarios, Date fecha) {
-		this.numero_factura = Constantes.siguienteFactura;
+		this.numero_factura = String.format("DRV%09d", Constantes.siguienteFactura);
 		this.id_usuarios = id_usuarios;
 		this.fecha = fecha;
 		Constantes.siguienteFactura++;
 	}
 
 	public Factura() {
-		Constantes.siguienteFactura++;
 	}
 
 	public int getId() {
@@ -50,11 +49,11 @@ public class Factura implements Serializable {
 		this.id = id;
 	}
 
-	public int getNumero_factura() {
+	public String getNumero_factura() {
 		return numero_factura;
 	}
 
-	public void setNumero_factura(int número_factura) {
+	public void setNumero_factura(String número_factura) {
 		this.numero_factura = número_factura;
 	}
 
@@ -74,7 +73,6 @@ public class Factura implements Serializable {
 		this.fecha = fecha;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -82,7 +80,8 @@ public class Factura implements Serializable {
 		result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
 		result = prime * result + id;
 		result = prime * result + id_usuarios;
-		result = prime * result + numero_factura;
+		result = prime * result
+				+ ((numero_factura == null) ? 0 : numero_factura.hashCode());
 		return result;
 	}
 
@@ -104,14 +103,19 @@ public class Factura implements Serializable {
 			return false;
 		if (id_usuarios != other.id_usuarios)
 			return false;
-		if (numero_factura != other.numero_factura)
+		if (numero_factura == null) {
+			if (other.numero_factura != null)
+				return false;
+		} else if (!numero_factura.equals(other.numero_factura))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Factura [id=" + id + ", número_factura=" + numero_factura + ", id_usuarios=" + id_usuarios + ", fecha=" + fecha + "\n" + "]";
+		return "Factura [id=" + id + ", numero_factura=" + numero_factura
+				+ ", id_usuarios=" + id_usuarios + ", fecha=" + fecha + "]";
 	}
+
 
 }

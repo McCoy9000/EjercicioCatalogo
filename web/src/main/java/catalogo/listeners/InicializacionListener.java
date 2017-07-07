@@ -126,21 +126,18 @@ public class InicializacionListener implements ServletContextListener {
 		try {
 			miEncriptador = new Encriptador();
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 		try {
 			encryptedadmin = miEncriptador.cipher.doFinal(("admin").getBytes());
 		} catch (IllegalBlockSizeException | BadPaddingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 		try {
 			encryptedmikel = miEncriptador.cipher.doFinal(("mikel").getBytes());
 		} catch (IllegalBlockSizeException | BadPaddingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 

@@ -81,7 +81,6 @@ public class AltaServlet extends HttpServlet {
 		try {
 			miEncriptador = new Encriptador();
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -89,7 +88,6 @@ public class AltaServlet extends HttpServlet {
 			try {
 				encryptedpass = miEncriptador.cipher.doFinal(rawpassword.getBytes());
 			} catch (IllegalBlockSizeException | BadPaddingException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			password = Base64.getMimeEncoder().encodeToString(encryptedpass);
@@ -99,7 +97,6 @@ public class AltaServlet extends HttpServlet {
 			try {
 				encryptedpass2 = miEncriptador.cipher.doFinal(rawpassword2.getBytes());
 			} catch (IllegalBlockSizeException | BadPaddingException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			password2 = Base64.getMimeEncoder().encodeToString(encryptedpass2);
