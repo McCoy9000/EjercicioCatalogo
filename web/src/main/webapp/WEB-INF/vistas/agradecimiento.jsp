@@ -10,9 +10,9 @@
 			<link rel="shortcut icon" href="${applicationScope.rutaBase}/img/favicon.png" type="image/png">
 			<title>Gracias por comprar en Driver</title>
 		</head>
-		<body>
+		<body style="background:url(${applicationScope.rutaBase}/img/pit-race.jpg) 0px 0px/cover no-repeat fixed ; padding:50px">
 		<div class="container">
-			<h1>Gracias por comprar en Driver</h1>
+			<h1 style="color:white"><strong>Gracias por comprar en Driver</strong></h1>
 			<a class="btn btn-primary" href="${applicationScope.rutaBase}/factura?op=factura">Imprimir factura</a>
 		</div>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

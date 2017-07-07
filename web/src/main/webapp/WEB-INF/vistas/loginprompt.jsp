@@ -10,9 +10,9 @@
 			<link rel="shortcut icon" href="${applicationScope.rutaBase}/img/favicon.png" type="image/png">
 			<title>Debes loguearte</title>
 		</head>
-		<body>
+		<body style="background:url(${applicationScope.rutaBase}/img/pit-race.jpg) 0px 0px/cover no-repeat fixed ; padding:50px">
 		<div class="container">
-			<h1>Debes loguearte para poder finalizar tu compra</h1>
+			<h1 style="color:white"><strong>Debes loguearte para poder finalizar tu compra</strong></h1>
 			<input class="btn btn-primary" type="button" value="Cerrar esta ventana" onclick="self.close()">
 		</div>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
