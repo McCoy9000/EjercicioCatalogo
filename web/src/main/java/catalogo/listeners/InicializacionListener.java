@@ -1,7 +1,13 @@
 package catalogo.listeners;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.LinkedList;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -17,6 +23,7 @@ import catalogo.dal.ProductoDAO;
 import catalogo.dal.ProductoDAOFactory;
 import catalogo.dal.UsuarioDAO;
 import catalogo.dal.UsuarioDAOFactory;
+import catalogo.encriptacion.Encriptador;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
 
@@ -74,17 +81,17 @@ public class InicializacionListener implements ServletContextListener {
 		// Es necesario en producción para extraer el primer array de la base de datos. Aunque
 		// el catálogo ya lo crea a su vez.
 		Producto[] productosArr = null;
-		
+
 		productos.abrir();
-		
+
 		try {
-		productosArr = productos.findAll();
+			productosArr = productos.findAll();
 		} catch (Exception e) {
-		log.info(e.getMessage());
-		log.info("No se pudo crear la lista de productos disponibles");
+			log.info(e.getMessage());
+			log.info("No se pudo crear la lista de productos disponibles");
 		}
 		productos.cerrar();
-		
+
 		application.setAttribute("productosArr", productosArr);
 
 		// Inicializar el DAO de ProductosReservados y ProductosVendidos
@@ -112,6 +119,35 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Vaciar la base de datos de usuarios y crear un usuario administrador y un usuario normal
 
+		Encriptador miEncriptador = null;
+		byte[] encryptedadmin = null, encryptedmikel = null;
+		String admin, mikel;
+
+		try {
+			miEncriptador = new Encriptador();
+		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			encryptedadmin = miEncriptador.cipher.doFinal(("admin").getBytes());
+		} catch (IllegalBlockSizeException | BadPaddingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			encryptedmikel = miEncriptador.cipher.doFinal(("mikel").getBytes());
+		} catch (IllegalBlockSizeException | BadPaddingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		admin = Base64.getMimeEncoder().encodeToString(encryptedadmin);
+
+		mikel = Base64.getMimeEncoder().encodeToString(encryptedmikel);
+
 		usuarios.abrir();
 
 		if (usuarios.findAll().length != 0) {
@@ -125,7 +161,7 @@ public class InicializacionListener implements ServletContextListener {
 			}
 		}
 
-		Usuario usuario = new Usuario(1, "admin", "admin", "admin");
+		Usuario usuario = new Usuario(1, "admin", admin, "admin");
 
 		if (!usuarios.validar(usuario)) {
 			try {
@@ -138,7 +174,7 @@ public class InicializacionListener implements ServletContextListener {
 			}
 		}
 
-		usuario = new Usuario(2, "mikel", "mikel", "mikel");
+		usuario = new Usuario(2, "mikel", mikel, "mikel");
 
 		if (!usuarios.validar(usuario)) {
 			try {

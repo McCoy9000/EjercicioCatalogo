@@ -1,7 +1,13 @@
 package catalogo.servlets;
 
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import catalogo.dal.UsuarioDAO;
+import catalogo.encriptacion.Encriptador;
 import catalogo.tipos.Usuario;
 
 @WebServlet("/login")
@@ -41,7 +48,10 @@ public class LoginServlet extends HttpServlet {
 		session.removeAttribute("errorSignup");
 		session.removeAttribute("errorLogin");
 		// Recogida de datos de la request
-		String username, password;
+		String username, rawpassword, password = null;
+
+		Encriptador miEncriptador = null;
+		byte[] encryptedpass = null;
 
 		if (request.getParameter("username") != null) {
 			username = request.getParameter("username").trim();
@@ -50,9 +60,28 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		if (request.getParameter("password") != null) {
-			password = request.getParameter("password").trim();
+			rawpassword = request.getParameter("password").trim();
 		} else {
-			password = request.getParameter("password");
+			rawpassword = request.getParameter("password");
+		}
+
+		try {
+			miEncriptador = new Encriptador();
+		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		if (rawpassword != null) {
+
+			try {
+				encryptedpass = miEncriptador.cipher.doFinal(rawpassword.getBytes());
+			} catch (IllegalBlockSizeException | BadPaddingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			password = Base64.getMimeEncoder().encodeToString(encryptedpass);
 		}
 
 		String op = request.getParameter("op");

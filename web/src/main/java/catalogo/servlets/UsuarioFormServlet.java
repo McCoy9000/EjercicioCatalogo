@@ -1,7 +1,13 @@
 package catalogo.servlets;
 
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -16,6 +22,7 @@ import org.apache.log4j.Logger;
 import catalogo.constantes.Constantes;
 import catalogo.dal.DAOException;
 import catalogo.dal.UsuarioDAO;
+import catalogo.encriptacion.Encriptador;
 import catalogo.tipos.Usuario;
 
 @WebServlet("/admin/usuarioform")
@@ -50,29 +57,67 @@ public class UsuarioFormServlet extends HttpServlet {
 			id = 0;
 		}
 
-		String username, password, password2, nombre_completo;
+		String username, rawpassword, rawpassword2, password = null, password2 = null, nombre_completo;
+
+		Encriptador miEncriptador = null;
+		byte[] encryptedpass = null, encryptedpass2 = null;
 
 		if (request.getParameter("username") != null) {
 			username = request.getParameter("username").trim();
 		} else {
 			username = request.getParameter("username");
 		}
+
 		if (request.getParameter("password") != null) {
-			password = request.getParameter("password").trim();
+			rawpassword = request.getParameter("password").trim();
 		} else {
-			password = request.getParameter("password");
+			rawpassword = request.getParameter("password");
 		}
+
 		if (request.getParameter("password2") != null) {
-			password2 = request.getParameter("password2").trim();
+			rawpassword2 = request.getParameter("password2").trim();
 		} else {
-			password2 = request.getParameter("password2");
+			rawpassword2 = request.getParameter("password2");
+		}
+
+		try {
+			miEncriptador = new Encriptador();
+		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		if (rawpassword != null) {
+			try {
+				encryptedpass = miEncriptador.cipher.doFinal(rawpassword.getBytes());
+			} catch (IllegalBlockSizeException | BadPaddingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			password = Base64.getMimeEncoder().encodeToString(encryptedpass);
+
+		}
+
+		if (rawpassword2 != null) {
+			try {
+				encryptedpass2 = miEncriptador.cipher.doFinal(rawpassword2.getBytes());
+			} catch (IllegalBlockSizeException | BadPaddingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			password2 = Base64.getMimeEncoder().encodeToString(encryptedpass2);
+
 		}
 		if (request.getParameter("nombre_completo") != null) {
 			nombre_completo = request.getParameter("nombre_completo").trim();
 		} else {
 			nombre_completo = request.getParameter("nombre_completo");
 		}
+
 		int id_roles;
+
 		try {
 			id_roles = Integer.parseInt(request.getParameter("id_roles"));
 		} catch (Exception e) {
@@ -120,7 +165,8 @@ public class UsuarioFormServlet extends HttpServlet {
 
 			case "modificar":
 				usuarios.abrir();
-				usuario = new Usuario(id, id_roles, nombre_completo, password, username);				if (!("admin").equals(usuario.getUsername())) {
+				usuario = new Usuario(id, id_roles, nombre_completo, password, username);
+				if (!("admin").equals(usuario.getUsername())) {
 					if (password != null && password != "" && password.equals(password2)) {
 						try {
 							usuarios.update(usuario);
