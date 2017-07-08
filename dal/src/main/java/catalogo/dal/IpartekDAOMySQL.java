@@ -8,20 +8,18 @@ public class IpartekDAOMySQL implements IpartekDAO {
 
 	protected Connection con;
 	
-	private String url = "jdbc:mysql://localhost/test";
-	private String mysqlUser = "root";
-	private String mysqlPass = "";
+	private String url = "jdbc:sqlite:C:\\SQLite\\driver.db";
+
 	
-	public IpartekDAOMySQL(String url, String mysqlUser, String mysqlPass) {
+	public IpartekDAOMySQL(String url) {
 		this();
 		this.url = url;
-		this.mysqlUser = mysqlUser;
-		this.mysqlPass = mysqlPass;
+		
 	}
 	
 	public IpartekDAOMySQL() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Class.forName("org.sqlite.JDBC").newInstance();
 		} catch (InstantiationException e) {
 			throw new DAOException(e.getMessage(), e);
 		} catch (IllegalAccessException e) {
@@ -35,7 +33,7 @@ public class IpartekDAOMySQL implements IpartekDAO {
 	
 	public void abrir() {
 		try {
-			con = DriverManager.getConnection(url, mysqlUser, mysqlPass);
+			con = DriverManager.getConnection(url);
 		} catch (SQLException e) {
 			throw new DAOException("Error de conexión a la base de datos", e);
 		} catch (Exception e) {

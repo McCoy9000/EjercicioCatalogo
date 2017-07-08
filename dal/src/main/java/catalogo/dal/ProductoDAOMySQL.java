@@ -26,7 +26,7 @@ public class ProductoDAOMySQL extends IpartekDAOMySQL implements ProductoDAO {
 	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete;
 
 	public ProductoDAOMySQL(String url, String mysqlUser, String mysqlPass) {
-		super(url, mysqlUser, mysqlPass);
+		super(url);
 	}
 
 	public ProductoDAOMySQL() {

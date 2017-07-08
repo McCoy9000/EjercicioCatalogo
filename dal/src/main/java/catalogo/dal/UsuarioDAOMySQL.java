@@ -20,7 +20,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete;
 
 	public UsuarioDAOMySQL(String url, String mysqlUser, String mysqlPass) {
-		super(url, mysqlUser, mysqlPass);
+		super(url);
 	}
 
 	public UsuarioDAOMySQL() {
