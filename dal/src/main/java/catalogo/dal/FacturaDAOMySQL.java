@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import catalogo.constantes.Constantes;
 import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
 
@@ -256,17 +257,29 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	}
 	
 	@Override
-	public Double getPrecioTotal(int id) {
-		
-		Double precioTotal = 0.0;
+	public Double getIvaTotal(int id) {
+		Double ivaTotal = 0.0;
 		try {
 		for (Producto p: this.findProductoByFacturaId(id)){
-			precioTotal += p.getPrecio();
+			ivaTotal += p.getPrecio() * Constantes.IVA;
+		}
+		} catch (Exception e) {
+			throw new DAOException("Error al obtener el IVA total", e);
+		}
+		return ivaTotal;
+	}
+	@Override
+	public Double getPrecioTotal(int id) {
+		
+		Double precioTotalSinIva = 0.0;
+		try {
+		for (Producto p: this.findProductoByFacturaId(id)){
+			precioTotalSinIva += p.getPrecio();
 		}
 		} catch (Exception e) {
 			throw new DAOException("Error al obtener el precio total", e);
 		}
-		return precioTotal;
+		return precioTotalSinIva + this.getIvaTotal(id);
 	}
 
 	private void cerrar(PreparedStatement ps) {

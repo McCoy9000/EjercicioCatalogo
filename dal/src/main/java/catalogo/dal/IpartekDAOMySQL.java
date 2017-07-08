@@ -25,7 +25,7 @@ public class IpartekDAOMySQL implements IpartekDAO {
 		} catch (IllegalAccessException e) {
 			throw new DAOException(e.getMessage(), e);
 		} catch (ClassNotFoundException e) {
-			throw new DAOException("No se ha encontrado el driver de MySQL", e);
+			throw new DAOException("No se ha encontrado el driver de SQLite", e);
 		} catch (Exception e) {
 			throw new DAOException("ERROR NO ESPERADO", e);
 		}

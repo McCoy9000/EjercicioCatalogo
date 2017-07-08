@@ -52,7 +52,8 @@ public class FacturaCRUDServlet extends HttpServlet {
 				
 				Factura factura;
 				Producto[] productosFactura;
-				Double precioTotal;
+				Double ivaFactura;
+				Double precioFactura;
 				
 				int id = 0;
 				
@@ -69,11 +70,16 @@ public class FacturaCRUDServlet extends HttpServlet {
 				
 				productosFactura = facturas.findProductoByFacturaId(id);
 				
-				precioTotal = facturas.getPrecioTotal(id);
+				ivaFactura = facturas.getIvaTotal(id);
+				
+				precioFactura = facturas.getPrecioTotal(id);
+				
+				facturas.cerrar();
 				
 				session.setAttribute("factura", factura);
 				session.setAttribute("productosFactura", productosFactura);
-				session.setAttribute("precioTotal", precioTotal);
+				session.setAttribute("ivaFactura", ivaFactura);
+				session.setAttribute("precioFactura", precioFactura);
 				
 				request.getRequestDispatcher(Constantes.RUTA_FACTURA_FACTURA).forward(request, response);
 				

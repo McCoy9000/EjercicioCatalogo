@@ -61,7 +61,10 @@
 								<td style="text-align: right">${producto.precio} €</td>
 							</tr>
 						</c:forEach>
-			
+						<tr>
+							<td>IVA: </td>
+							<td style="text-align:right">${sessionScope.ivaFactura} €</td>
+						</tr>
 						<tr>
 							<td>Total: </td>
 							<td style="text-align:right">${sessionScope.precioFactura} €</td>

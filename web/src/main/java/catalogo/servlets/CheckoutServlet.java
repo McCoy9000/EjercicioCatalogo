@@ -123,6 +123,7 @@ public class CheckoutServlet extends HttpServlet {
 		//Se declara el array de productos en la factura y el precio total para mostrar en la jsp
 		//de factura
 							Producto[] productosFactura = null;
+							Double ivaFactura = 0.0;
 							Double precioFactura = 0.0;
 
 		// Abrir conexión para todas las tablas e iniciar transacción
@@ -145,6 +146,8 @@ public class CheckoutServlet extends HttpServlet {
 								factura = facturas.findById(id_factura);
 		//Se rellena el array de productos de la factura
 								productosFactura = facturas.findProductoByFacturaId(id_factura);
+		//Se calcula el IVA total de la factura
+								ivaFactura = facturas.getIvaTotal(id_factura);								
 		//Se calcula el precio total de la factura
 								precioFactura = facturas.getPrecioTotal(id_factura);
 		//Si todas las operaciones han salido, se confirma la transacción y se obtiene un nuevo carrito
@@ -163,6 +166,7 @@ public class CheckoutServlet extends HttpServlet {
 		//aparecerá una factura en blanco con número 0
 							session.setAttribute("factura", factura);
 							session.setAttribute("productosFactura", productosFactura);
+							session.setAttribute("ivaFactura", ivaFactura);
 							session.setAttribute("precioFactura", precioFactura);
 		//Se almacena el nuevo carrito en sesión. Si la operación ha fallado este carrito será el
 		//antiguo
