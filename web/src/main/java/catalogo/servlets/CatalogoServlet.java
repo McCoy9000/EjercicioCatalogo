@@ -70,7 +70,7 @@ public class CatalogoServlet extends HttpServlet {
 
 		if (op == null) {
 
-			// Si se llega al catálogo sin opciones el carrito que o se ha recogido o se ha creado se empaqueta
+			// Si se llega al catálogo sin opciones, el carrito se empaqueta
 			// en el objeto sesión
 			session.setAttribute("carrito", carrito);
 			session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
@@ -78,7 +78,7 @@ public class CatalogoServlet extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);
 
 		} else {
-
+			//Si op no es null se actúa según la opción
 			switch (op) {
 
 			case "anadir":
@@ -103,7 +103,8 @@ public class CatalogoServlet extends HttpServlet {
 				
 				log.info("Cantidad recogida: " + cantidad);
 				
-				// Se busca la lista de productos correspondiente al groupId
+				// Se busca la List de productos correspondiente al groupId por medio del método getAlmacen que
+				// nos da un mapa con Lists de productos con el mismo groupId.
 	
 				productos.abrir();
 				
@@ -140,7 +141,8 @@ public class CatalogoServlet extends HttpServlet {
 	
 						productos.confirmarTransaccion();
 						log.info("Añadidos " + i + " productos al carrito");
-	
+				//En caso de error se vacía el carrito por precaución. Pueden quedar productos huérfanos en la 
+				//tabla productosReservados que tendrán que ser recuperados en mantenimiento.
 					} catch (Exception e) {
 							productos.deshacerTransaccion();
 							for (Producto p : carrito.buscarTodosLosProductos()) {

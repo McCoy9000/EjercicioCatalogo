@@ -19,7 +19,7 @@
 <div class="row">
 <div class="col-xs-5 col-md-5">Factura ${factura.numero_factura}</div><div class="col-xs-5 col-xs-offset-2 col-md-5 col-md-offset-2" style="text-align:right">${factura.fecha}</div>
 </div>
-
+<br>
 <div class="row">
 	<div class="col-xs-5 col-md-5">
 		<address>
@@ -28,10 +28,7 @@
 		  Bilbao, BI 48080<br>
 		  A-12345678<br>
 		  <abbr title="Phone">P:</abbr> +34 666 666 666
-		</address>
-		
-		<address>
-		    <a href="mailto:#">facturacion@driver.com</a>
+		  <a href="mailto:#">facturacion@driver.com</a>
 		</address>
 	</div>
 		

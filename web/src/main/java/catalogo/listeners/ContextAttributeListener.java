@@ -23,7 +23,7 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 	}
 
 	@Override
-	public void attributeAdded(ServletContextAttributeEvent event) {
+	public synchronized void attributeAdded(ServletContextAttributeEvent event) {
 
 		// Obtener el objeto application y los DAOs asociados de productos y productosReservados
 
@@ -77,7 +77,7 @@ public class ContextAttributeListener implements Serializable, ServletContextAtt
 	}
 
 	@Override
-	public void attributeReplaced(ServletContextAttributeEvent event) {
+	public synchronized void attributeReplaced(ServletContextAttributeEvent event) {
 
 		// Obtener el objeto application y los DAOs asociados de productos y productosReservados
 
