@@ -1,6 +1,7 @@
 package catalogo.tipos;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class Producto implements Serializable {
 
@@ -9,31 +10,34 @@ public class Producto implements Serializable {
 	private int id;
 	private int groupId;
 	private String nombre, descripcion, errores;
-	private double precio;
+	private BigDecimal precio;
 	private int imagen;
 
 	public Producto() {
 		this.groupId = 0;
 		this.nombre = "";
 		this.descripcion = "";
-		this.precio = 0.0;
+		this.precio = BigDecimal.ZERO;
+		this.precio.setScale(0, BigDecimal.ROUND_HALF_EVEN);
 		this.imagen = groupId;
 	}
 
-	public Producto(int groupId, String nombre, String descripcion, double precio) {
+	public Producto(int groupId, String nombre, String descripcion, BigDecimal precio) {
 		this.groupId = groupId;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
+		this.precio.setScale(0, BigDecimal.ROUND_HALF_EVEN);
 		this.imagen = groupId;
 	}
 
-	public Producto(int id, int groupId, String nombre, String descripcion, double precio) {
+	public Producto(int id, int groupId, String nombre, String descripcion, BigDecimal precio) {
 		this.id = id;
 		this.groupId = groupId;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
+		this.precio.setScale(0, BigDecimal.ROUND_HALF_EVEN);
 		this.imagen = groupId;
 	}
 
@@ -77,12 +81,13 @@ public class Producto implements Serializable {
 		this.imagen = imagen;
 	}
 
-	public double getPrecio() {
+	public BigDecimal getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(double precio) {
+	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
+		this.precio.setScale(0, BigDecimal.ROUND_HALF_EVEN);
 	}
 
 	public String getErrores() {

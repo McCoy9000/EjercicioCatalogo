@@ -1,6 +1,7 @@
 package catalogo.dal;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -50,13 +51,13 @@ public class CarritoDAOColeccion implements CarritoDAO, Serializable, HttpSessio
 		return carrito.getListaProductos().values().toArray(new Producto[carrito.getListaProductos().size()]);
 	}
 
-	public Double precioTotal() {
+	public BigDecimal precioTotal() {
 
-		Double precioTotal = 0.0;
+		BigDecimal precioTotal = BigDecimal.ZERO;
 
 		for (Producto p : this.buscarTodosLosProductos()) {
 
-			precioTotal += p.getPrecio();
+			precioTotal = precioTotal.add(p.getPrecio());
 		}
 		return precioTotal;
 	}

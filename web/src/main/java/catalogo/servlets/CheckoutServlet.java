@@ -1,6 +1,7 @@
 package catalogo.servlets;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.servlet.ServletContext;
@@ -55,7 +56,7 @@ public class CheckoutServlet extends HttpServlet {
 		//Se obtienen datos para mostrar en la jsp de checkout
 		Producto[] productosCarritoArr = carrito.buscarTodosLosProductos();
 		Integer numeroProductos = productosCarritoArr.length;
-		Double precioTotal = carrito.precioTotal();
+		BigDecimal precioTotal = carrito.precioTotal();
 		//Se introducen estos datos en el objeto session para mostrarlos en la jsp
 		session.setAttribute("productosCarritoArr", productosCarritoArr);
 		session.setAttribute("numeroProductos", numeroProductos);
@@ -123,8 +124,8 @@ public class CheckoutServlet extends HttpServlet {
 		//Se declara el array de productos en la factura y el precio total para mostrar en la jsp
 		//de factura
 							Producto[] productosFactura = null;
-							Double ivaFactura = 0.0;
-							Double precioFactura = 0.0;
+							BigDecimal ivaFactura = BigDecimal.ZERO;
+							BigDecimal precioFactura = BigDecimal.ZERO;
 
 		// Abrir conexión para todas las tablas e iniciar transacción
 							productosReservados.abrir();

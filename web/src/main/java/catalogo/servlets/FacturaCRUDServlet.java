@@ -1,6 +1,7 @@
 package catalogo.servlets;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -52,8 +53,8 @@ public class FacturaCRUDServlet extends HttpServlet {
 				
 				Factura factura;
 				Producto[] productosFactura;
-				Double ivaFactura;
-				Double precioFactura;
+				BigDecimal ivaFactura;
+				BigDecimal precioFactura;
 				
 				int id = 0;
 				

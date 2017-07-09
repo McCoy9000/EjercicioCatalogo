@@ -53,7 +53,7 @@ public class ProductoReservadoDAOMySQL extends IpartekDAOMySQL implements Produc
 				producto.setGroupId(rs.getInt("groupId"));
 				producto.setNombre(rs.getString("nombre"));
 				producto.setDescripcion(rs.getString("descripcion"));
-				producto.setPrecio(rs.getDouble("precio"));
+				producto.setPrecio(rs.getBigDecimal("precio"));
 				producto.setImagen(rs.getInt("imagen"));
 
 				productos.add(producto);
@@ -99,7 +99,7 @@ public class ProductoReservadoDAOMySQL extends IpartekDAOMySQL implements Produc
 				producto.setGroupId(rs.getInt("groupId"));
 				producto.setNombre(rs.getString("nombre"));
 				producto.setDescripcion(rs.getString("descripcion"));
-				producto.setPrecio(rs.getDouble("precio"));
+				producto.setPrecio(rs.getBigDecimal("precio"));
 				producto.setImagen(rs.getInt("imagen"));
 			}
 
@@ -129,7 +129,7 @@ public class ProductoReservadoDAOMySQL extends IpartekDAOMySQL implements Produc
 				producto.setGroupId(rs.getInt("groupId"));
 				producto.setNombre(rs.getString("nombre"));
 				producto.setDescripcion(rs.getString("descripcion"));
-				producto.setPrecio(rs.getDouble("precio"));
+				producto.setPrecio(rs.getBigDecimal("precio"));
 				producto.setImagen(rs.getInt("imagen"));
 			}
 
@@ -152,7 +152,7 @@ public class ProductoReservadoDAOMySQL extends IpartekDAOMySQL implements Produc
 			psInsert.setInt(2, producto.getGroupId());
 			psInsert.setString(3, producto.getNombre());
 			psInsert.setString(4, producto.getDescripcion());
-			psInsert.setDouble(5, producto.getPrecio());
+			psInsert.setBigDecimal(5, producto.getPrecio());
 			psInsert.setInt(6, producto.getImagen());
 
 			int res = psInsert.executeUpdate();
@@ -181,7 +181,7 @@ public class ProductoReservadoDAOMySQL extends IpartekDAOMySQL implements Produc
 			psUpdate.setInt(1, producto.getGroupId());
 			psUpdate.setString(2, producto.getNombre());
 			psUpdate.setString(3, producto.getDescripcion());
-			psUpdate.setDouble(4, producto.getPrecio());
+			psUpdate.setBigDecimal(4, producto.getPrecio());
 			psUpdate.setInt(5, producto.getImagen());
 
 			psUpdate.setInt(6, producto.getId());

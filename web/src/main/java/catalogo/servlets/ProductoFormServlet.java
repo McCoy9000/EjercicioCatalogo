@@ -1,6 +1,7 @@
 package catalogo.servlets;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -93,17 +94,17 @@ public class ProductoFormServlet extends HttpServlet {
 			descripcion = request.getParameter("descripcion");
 		}
 
-		Double precio;
+		BigDecimal precio;
 
 		if (request.getParameter("precio") != null) {
 			try {
-				precio = Double.parseDouble(request.getParameter("precio"));
+				precio = new BigDecimal(request.getParameter("precio"));
 			} catch (Exception e) {
-				precio = 0.0;
+				precio = BigDecimal.ZERO;
 				log.info("Error al parsear precio");
 			}
 		} else {
-			precio = 0.0;
+			precio = BigDecimal.ZERO;
 		}
 
 		// Lógica del servlet según la opción elegida por el usuario y enviada por el navegador
@@ -123,7 +124,7 @@ public class ProductoFormServlet extends HttpServlet {
 					session.setAttribute("errorProducto", "Debes introducir un nombre de producto");
 					request.setAttribute("producto", producto);
 					rutaFormulario.forward(request, response);
-				} else if (precio <= 0.0 || precio == null) {
+				} else if (precio.compareTo(BigDecimal.ZERO) == -1 || precio == null) {
 					session.setAttribute("errorProducto", "Debes introducir un precio mayor que 0");
 					request.setAttribute("producto", producto);
 					request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=alta").forward(request, response);

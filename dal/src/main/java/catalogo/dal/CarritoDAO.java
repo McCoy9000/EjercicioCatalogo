@@ -1,5 +1,6 @@
 package catalogo.dal;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public interface CarritoDAO {
 
 	public Producto[] buscarTodosLosProductos();
 	
-	public Double precioTotal();
+	public BigDecimal precioTotal();
 	
 	public Map<Integer, List<Producto>> getAlmacen();
 	
