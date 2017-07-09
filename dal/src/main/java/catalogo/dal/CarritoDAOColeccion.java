@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSessionBindingListener;
 
 import org.apache.log4j.Logger;
 
+import catalogo.constantes.Constantes;
 import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
 
@@ -54,12 +55,15 @@ public class CarritoDAOColeccion implements CarritoDAO, Serializable, HttpSessio
 	public BigDecimal precioTotal() {
 
 		BigDecimal precioTotal = BigDecimal.ZERO;
-
+		BigDecimal precioTotalMasIva = BigDecimal.ZERO;
 		for (Producto p : this.buscarTodosLosProductos()) {
 
 			precioTotal = precioTotal.add(p.getPrecio());
 		}
-		return precioTotal;
+		
+		precioTotalMasIva = precioTotal.multiply(Constantes.IVA.add(BigDecimal.ONE)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+				
+		return precioTotalMasIva;
 	}
 
 	public Map<Integer, List<Producto>> getAlmacen() {

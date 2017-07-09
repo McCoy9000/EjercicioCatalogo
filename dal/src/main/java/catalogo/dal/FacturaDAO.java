@@ -6,6 +6,7 @@ import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
 
 public interface FacturaDAO extends IpartekDAO {
+	
 	public Factura[] findAll();
 
 	public Factura findById(int id);

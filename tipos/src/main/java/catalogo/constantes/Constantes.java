@@ -1,8 +1,10 @@
 package catalogo.constantes;
 
+import java.math.BigDecimal;
+
 public class Constantes {
 
-	public static final Double IVA = 0.21;
+	public static final BigDecimal IVA = new BigDecimal("0.21");
 	
 	public static int siguienteFactura = 0;
 	

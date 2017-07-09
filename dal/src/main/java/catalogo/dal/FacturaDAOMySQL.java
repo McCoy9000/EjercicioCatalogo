@@ -257,22 +257,26 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		return maxId;
 	}
 	
-	@Override
+	
 	public BigDecimal getIvaTotal(int id) {
 		BigDecimal ivaTotal = BigDecimal.ZERO;
 		try {
 		for (Producto p: this.findProductoByFacturaId(id)){
-			ivaTotal = ivaTotal.add(p.getPrecio().multiply(new BigDecimal(Constantes.IVA)));
+			ivaTotal = ivaTotal.add(p.getPrecio().multiply(Constantes.IVA));
 		}
 		} catch (Exception e) {
 			throw new DAOException("Error al obtener el IVA total", e);
 		}
+		
+		ivaTotal = ivaTotal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		
 		return ivaTotal;
 	}
-	@Override
+	
 	public BigDecimal getPrecioTotal(int id) {
 		
 		BigDecimal precioTotalSinIva = BigDecimal.ZERO;
+		BigDecimal precioTotal = BigDecimal.ZERO;
 		try {
 		for (Producto p: this.findProductoByFacturaId(id)){
 			precioTotalSinIva = precioTotalSinIva.add(p.getPrecio());
@@ -280,7 +284,9 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		} catch (Exception e) {
 			throw new DAOException("Error al obtener el precio total", e);
 		}
-		return precioTotalSinIva.add(this.getIvaTotal(id));
+		precioTotal = precioTotalSinIva.add(this.getIvaTotal(id));
+		precioTotal = precioTotal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		return precioTotal;
 	}
 
 	private void cerrar(PreparedStatement ps) {

@@ -50,24 +50,28 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
+							<th style="width:28%"></th>
 							<th>Producto</th>
-							<th>Precio</th>
+							<th style="text-align:right">Precio</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${sessionScope.productosFactura}" var="producto">
 							<tr>
+								<td style="width:28%"></td>
 								<td>${producto.nombre}</td>
-								<td style="text-align: right">${producto.precio} €</td>
+								<td style="text-align:right">${producto.precio} €</td>
 							</tr>
 						</c:forEach>
 						<tr>
-							<td>IVA: </td>
+							<td style="width:28%">IVA: </td>
+							<td></td>
 							<td style="text-align:right">${sessionScope.ivaFactura} €</td>
 						</tr>
 						<tr>
-							<td>Total: </td>
-							<td style="text-align:right">${sessionScope.precioFactura} €</td>
+							<td style="width:28%"><strong>Total: </strong></td>
+							<td></td>
+							<td style="text-align:right"><strong>${sessionScope.precioFactura} €</strong></td>
 						</tr>
 					</tbody>
 				</table>

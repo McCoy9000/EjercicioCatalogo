@@ -12,13 +12,17 @@ public class Articulo extends Producto {
 
 	public Articulo() {
 		super();
-		this.setPrecio(getPrecio().multiply(new BigDecimal(Constantes.IVA + 1)));
+		BigDecimal bd = getPrecio().multiply(Constantes.IVA.add(BigDecimal.ONE));
+		bd = bd.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		this.setPrecio(bd);		
 		this.cantidad = 1;
 	}
 
 	public Articulo(int groupId, String nombre, String descripcion, BigDecimal precio, int cantidad) {
 		super(groupId, nombre, descripcion, precio);
-		this.setPrecio(getPrecio().multiply(new BigDecimal(Constantes.IVA + 1)));
+		BigDecimal bd = getPrecio().multiply(Constantes.IVA.add(BigDecimal.ONE));
+		bd = bd.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		this.setPrecio(bd);
 		this.cantidad = cantidad;
 	}
 

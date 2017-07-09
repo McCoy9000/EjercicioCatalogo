@@ -17,8 +17,9 @@ public class Producto implements Serializable {
 		this.groupId = 0;
 		this.nombre = "";
 		this.descripcion = "";
-		this.precio = BigDecimal.ZERO;
-		this.precio.setScale(0, BigDecimal.ROUND_HALF_EVEN);
+		BigDecimal bd = BigDecimal.ZERO;
+		bd = bd.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		this.precio = bd;
 		this.imagen = groupId;
 	}
 
@@ -26,8 +27,9 @@ public class Producto implements Serializable {
 		this.groupId = groupId;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.precio = precio;
-		this.precio.setScale(0, BigDecimal.ROUND_HALF_EVEN);
+		BigDecimal bd = precio;
+		bd = bd.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		this.precio = bd;
 		this.imagen = groupId;
 	}
 
@@ -36,8 +38,9 @@ public class Producto implements Serializable {
 		this.groupId = groupId;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.precio = precio;
-		this.precio.setScale(0, BigDecimal.ROUND_HALF_EVEN);
+		BigDecimal bd = precio;
+		bd = bd.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		this.precio = bd;
 		this.imagen = groupId;
 	}
 
@@ -86,8 +89,7 @@ public class Producto implements Serializable {
 	}
 
 	public void setPrecio(BigDecimal precio) {
-		this.precio = precio;
-		this.precio.setScale(0, BigDecimal.ROUND_HALF_EVEN);
+		this.precio = precio.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 	}
 
 	public String getErrores() {
