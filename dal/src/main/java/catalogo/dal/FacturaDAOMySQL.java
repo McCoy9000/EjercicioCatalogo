@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import catalogo.constantes.Constantes;
 import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
+import catalogo.tipos.Usuario;
 
 public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	private final static String FIND_ALL = "SELECT * FROM facturas";
@@ -21,8 +22,9 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	private final static String DELETE_TABLE_FACTURAS = "DELETE FROM facturas";
 	private final static String REGISTER_PRODUCTS = "INSERT INTO facturas_productos (id_facturas, id_productos) VALUES (?, ?)";
 	private final static String GET_MAX_ID = "SELECT MAX(ID) FROM facturas";
+	private final static String FIND_USER_BY_FACTURA_ID = "SELECT * FROM usuarios AS u, facturas AS f WHERE f.id = ? AND u.id = f.id_usuarios";
 	
-	private PreparedStatement psFindAll, psFindById, psInsert, psUpdate, psDelete, psFindProdByFacturaId, psRegister, psGetMaxId;
+	private PreparedStatement psFindAll, psFindById, psInsert, psUpdate, psDelete, psFindProdByFacturaId, psRegister, psGetMaxId, psFindUserByFacturaId;
 
 	public Factura[] findAll() {
 		ArrayList<Factura> facturas = new ArrayList<Factura>();
@@ -189,6 +191,38 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		}
 
 		return productos.toArray(new Producto[productos.size()]);
+	}
+
+	public Usuario findUserByFacturaId(int id) {
+		
+		ResultSet rs = null;
+
+		Usuario usuario = null;
+
+		try {
+			psFindUserByFacturaId = con.prepareStatement(FIND_USER_BY_FACTURA_ID);
+			psFindUserByFacturaId.setInt(1, id);
+
+			rs = psFindUserByFacturaId.executeQuery();
+
+			while (rs.next()) {
+				usuario = new Usuario();
+
+				usuario.setId(rs.getInt("id"));
+				usuario.setId_roles(rs.getInt("id_roles"));
+				usuario.setUsername(rs.getString("username"));
+				usuario.setPassword(rs.getString("password"));
+				usuario.setNombre_completo(rs.getString("nombre_completo"));
+
+				
+			}
+		} catch (Exception e) {
+			throw new DAOException("Error al buscar el cliente de la factura", e);
+		} finally {
+			cerrar(psFindUserByFacturaId);
+		}
+
+		return usuario;
 	}
 
 	public void deleteFacturas() {

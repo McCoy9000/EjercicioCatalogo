@@ -37,10 +37,13 @@
 				<div class="row">
 				<h1 style="color:white; font-family: 'Cabin Sketch', cursive;font-size:25vw; display:inline-block;"><strong>DRIVER</strong></h1>
 				</div>
-				<p style="color:white; display:inline-block;"><strong>¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</strong></p>
+				<div class="row">
+				<p class="alert alert-info" role="alert" style="color:grey; display:inline-block;"><strong>¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</strong></p>
+				</div>
 			</header>
 			
 			<nav class="container">
+			
 				<ul class="list-inline">
 				 	 <li><a class="btn btn-default" href="${applicationScope.rutaBase}/catalogo">CATALOGO</a></li>
 				 	 <li><a class="btn btn-primary" href="${applicationScope.rutaBase}/login">LOGIN</a></li>
@@ -49,7 +52,7 @@
 				</ul>
 			</nav>
 			<nav class="container" <c:if test="${sessionScope.usuario.id_roles != '1'}">
-						style="display:none;"
+						 style="display:none;"
 					</c:if>>
 			<div class="dropdown" style="display:inline-block">
 				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownProductos" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

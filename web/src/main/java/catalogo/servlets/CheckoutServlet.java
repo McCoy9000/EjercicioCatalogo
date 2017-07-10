@@ -121,12 +121,12 @@ public class CheckoutServlet extends HttpServlet {
 		//Se inicializa una factura con el id del usuario y la fecha actual
 							Factura factura = new Factura(usuario.getId(), new Date());
 		
-		//Se declara el array de productos en la factura y el precio total para mostrar en la jsp
+		//Se declara el array de productos en la factura, el precio total y el usuario para mostrar en la jsp
 		//de factura
 							Producto[] productosFactura = null;
 							BigDecimal ivaFactura = BigDecimal.ZERO;
 							BigDecimal precioFactura = BigDecimal.ZERO;
-
+							Usuario usuarioFactura = null;
 		// Abrir conexión para todas las tablas e iniciar transacción
 							productosReservados.abrir();
 							productosVendidos.reutilizarConexion(productosReservados);
@@ -151,6 +151,8 @@ public class CheckoutServlet extends HttpServlet {
 								ivaFactura = facturas.getIvaTotal(id_factura);								
 		//Se calcula el precio total de la factura
 								precioFactura = facturas.getPrecioTotal(id_factura);
+		//El usuario de la factura es quien está haciendo la compra
+								usuarioFactura = usuario;
 		//Si todas las operaciones han salido, se confirma la transacción y se obtiene un nuevo carrito
 								productosReservados.confirmarTransaccion();
 								log.info("Carrito de la compra liquidado");
@@ -162,6 +164,7 @@ public class CheckoutServlet extends HttpServlet {
 							} finally {
 		//Se cierra la conexión con la BDD
 								productosReservados.cerrar();
+								facturas.cerrar();
 							}
 		//La factura obtenida se almacena en sesión para mostrarla en la jsp. Si la operación falla,
 		//aparecerá una factura en blanco con número 0
@@ -169,6 +172,7 @@ public class CheckoutServlet extends HttpServlet {
 							session.setAttribute("productosFactura", productosFactura);
 							session.setAttribute("ivaFactura", ivaFactura);
 							session.setAttribute("precioFactura", precioFactura);
+							session.setAttribute("usuarioFactura", usuarioFactura);
 		//Se almacena el nuevo carrito en sesión. Si la operación ha fallado este carrito será el
 		//antiguo
 							session.setAttribute("carrito", carrito);

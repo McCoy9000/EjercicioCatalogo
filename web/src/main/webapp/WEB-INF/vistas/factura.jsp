@@ -35,7 +35,7 @@
 		
 	<div class="col-xs-5 col-xs-offset-2 col-md-5 col-md-offset-2" style="text-align:right">
 		<address>
-			<strong>${usuario.nombre_completo}</strong><br>
+			<strong>${sessionScope.usuarioFactura.nombre_completo}</strong><br>
 			c/del Usuario s/n<br>
 			Usuariolandia, US 98080<br>
 			98765432-X<br>

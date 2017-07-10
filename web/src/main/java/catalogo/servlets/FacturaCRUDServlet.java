@@ -15,6 +15,7 @@ import catalogo.constantes.Constantes;
 import catalogo.dal.FacturaDAO;
 import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
+import catalogo.tipos.Usuario;
 
 @WebServlet("/admin/facturacrud")
 public class FacturaCRUDServlet extends HttpServlet {
@@ -55,6 +56,7 @@ public class FacturaCRUDServlet extends HttpServlet {
 				Producto[] productosFactura;
 				BigDecimal ivaFactura;
 				BigDecimal precioFactura;
+				Usuario usuarioFactura;
 				
 				int id = 0;
 				
@@ -75,13 +77,15 @@ public class FacturaCRUDServlet extends HttpServlet {
 				
 				precioFactura = facturas.getPrecioTotal(id);
 				
+				usuarioFactura = facturas.findUserByFacturaId(id);
+				
 				facturas.cerrar();
 				
 				session.setAttribute("factura", factura);
 				session.setAttribute("productosFactura", productosFactura);
 				session.setAttribute("ivaFactura", ivaFactura);
 				session.setAttribute("precioFactura", precioFactura);
-				
+				session.setAttribute("usuarioFactura", usuarioFactura);
 				request.getRequestDispatcher(Constantes.RUTA_FACTURA_FACTURA).forward(request, response);
 				
 				
