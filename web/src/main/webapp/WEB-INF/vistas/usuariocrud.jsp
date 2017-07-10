@@ -1,11 +1,11 @@
 <%@ include file="includes/cabecera.jsp"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="container">
 <h2>Mantenimiento de usuarios</h2>
 </div>
-
 <div class="container">
 	<div class="table-responsive">
 		<table id="usuarios" class="table table:hover">
@@ -13,7 +13,7 @@
 				<tr>
 					<th>Rol</th>
 					<th>Nombre de usuario</th>
-					<th>Contraseña</th>
+					<th>ContraseÃ±a</th>
 					<th>Nombre completo</th>
 					<th></th>
 				</tr>

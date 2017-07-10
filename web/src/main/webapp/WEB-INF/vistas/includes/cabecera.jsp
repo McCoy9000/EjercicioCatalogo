@@ -32,13 +32,13 @@
 		</head>
 		
 		<body style="padding-bottom:10px">
-		<div id="img-pit" style="background:url(${applicationScope.rutaBase}/img/pit-race.jpg) 0px 0px/100% no-repeat fixed ; padding-bottom:10px">
+		<div id="img-pit" style="background:url(${applicationScope.rutaBase}/img/tire-track1.jpg) 0px 0px/100% no-repeat fixed ; padding-bottom:10px">
 			<header class="container">
 				<div class="row">
-				<h1 style="color:white; font-family: 'Cabin Sketch', cursive;font-size:25vw; display:inline-block;"><strong>DRIVER</strong></h1>
+				<h1 style="color:white; font-family: 'Cabin Sketch', cursive;font-size:19vw; display:inline-block; margin:15px;"><strong>DRIVER</strong></h1>
 				</div>
 				<div class="row">
-				<p class="alert alert-info" role="alert" style="color:grey; display:inline-block;"><strong>¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</strong></p>
+				<p style="color:white; display:inline-block; margin-left:15px;"><strong>¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</strong></p>
 				</div>
 			</header>
 			
