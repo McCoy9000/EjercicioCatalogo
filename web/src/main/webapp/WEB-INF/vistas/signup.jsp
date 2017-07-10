@@ -23,7 +23,7 @@
 <input id="nombre_completo" class="form-control" name="nombre_completo" placeholder="Nombre completo" maxlength="25"/>
 </fieldset>
 <fieldset class="form-group">
-<input type="submit" class="btn btn-primary" value="ALTA">
+<input type="submit" class="btn btn-default" style="background:#ffd800; border:none;"  value="ALTA">
 </fieldset>
 </form>
 <div class="alert alert-danger" role="alert" <c:if test="${sessionScope.errorSignup==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorSignup}</div>

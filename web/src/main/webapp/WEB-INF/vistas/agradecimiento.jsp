@@ -13,7 +13,7 @@
 		<body style="background:url(${applicationScope.rutaBase}/img/pit-race.jpg) 0px 0px/cover no-repeat fixed ; padding:50px">
 		<div class="container">
 			<h1 style="color:white"><strong>Gracias por comprar en Driver</strong></h1>
-			<a class="btn btn-primary" href="${applicationScope.rutaBase}/factura?op=factura">Imprimir factura</a>
+			<a class="btn btn-default" style="background:#ffd800; border:none;" href="${applicationScope.rutaBase}/factura?op=factura">Imprimir factura</a>
 		</div>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
    			<script src="js/bootstrap.min.js"></script>

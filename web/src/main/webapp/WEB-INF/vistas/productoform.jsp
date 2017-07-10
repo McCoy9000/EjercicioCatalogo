@@ -78,7 +78,7 @@
 			</div>
 		</fieldset>
 		<fieldset class="form-group">
-			<input type="submit" class="btn btn-primary" value="${fn:toUpperCase(param.op)}"  
+			<input type="submit" class="btn btn-default" style="background:#ffd800; border:none;" value="${fn:toUpperCase(param.op)}"  
 				<c:if test="${param.op == null or param.op == ''}">
 			  		style="display:none;"
 			  	</c:if>
