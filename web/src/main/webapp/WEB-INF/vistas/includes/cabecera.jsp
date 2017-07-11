@@ -40,12 +40,13 @@
 				</div>
 				<div class="col-xs-2 col-md-1 col-lg-1 col-lg-offset-11" style="margin-top:30px;">
 				<div class="dropdown">
-				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownLogin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:none; margin-top:30px;">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownLogin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:solid grey 1px; margin-top:30px;">
 					<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right" style="background-color:#ECC007;" aria-labelledby="dropdownLogin">
-				<li><a style="background-color:#ECC007;" href="${applicationScope.rutaBase}/login"><strong>LOGIN</strong></a></li>
-				<li><a style="background-color:#ECC007;" href="${applicationScope.rutaBase}/login?op=logout"><strong>LOGOUT</strong></a></li>
+				<li><a class="btn btn-default" style="background-color:#ECC007; border:none;" href="${applicationScope.rutaBase}/login"><strong>LOGIN o SIGNUP</strong></a></li>
+				<li><a class="btn btn-default" style="background:#ECC007; border:none;" href="${applicationScope.rutaBase}/catalogo"><strong>CATALOGO</strong></a></li>
+				<li><a class="btn btn-default" style="background-color:#ECC007; border:none;" href="${applicationScope.rutaBase}/login?op=logout"><strong>LOGOUT</strong></a></li>
 				</ul>
 				</div>
 				</div>
@@ -55,15 +56,15 @@
 				</div>
 			</header>
 			
-			<nav class="container">
+		<!--	<nav class="container">
 			
-				<ul class="list-inline">
+				  	<ul class="list-inline">
 				 	 <li><a class="btn btn-default" style="background:#ECC007; border:none;" href="${applicationScope.rutaBase}/catalogo"><strong>CATALOGO</strong></a></li>
-				 	<!--  <li><a class="btn btn-primary" href="${applicationScope.rutaBase}/login">LOGIN</a></li>
-					 <li><a class="btn btn-default" href="${applicationScope.rutaBase}/login?op=logout">LOGOUT</a></li>  -->
+				 <li><a class="btn btn-primary" href="${applicationScope.rutaBase}/login">LOGIN</a></li>
+					 <li><a class="btn btn-default" href="${applicationScope.rutaBase}/login?op=logout">LOGOUT</a></li> 
 					 
 				</ul>
-			</nav>
+			</nav> -->
 			<nav class="container" <c:if test="${sessionScope.usuario.id_roles != '1'}">
 						 style="display:none;"
 					</c:if>>

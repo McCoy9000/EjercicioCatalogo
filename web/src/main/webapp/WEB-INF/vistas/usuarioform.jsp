@@ -21,7 +21,7 @@
 			  required="required" value="${usuario.id}"/>
 		</fieldset>
 		<fieldset class="form-group">
-			<label for="username">Nombre de usuario</label> 
+			<label for="username">Nombre de usuario <span style="color:red">*</span></label> 
 			
 			<input id="username" name="username" class="form-control"
 			  required="required" placeholder="Nombre de usuario" value="${usuario.username}" 
@@ -39,7 +39,7 @@
 			required="required"
 			</c:if>
 		>
-			<label for="password">Contraseña</label> 
+			<label for="password">Contraseña <span style="color:red">*</span></label> 
 			<input type="password" id="password" class="form-control"
 				name="password" placeholder="Contraseña"/>
 		</fieldset>
@@ -50,7 +50,7 @@
 			required="required"
 			</c:if>
 		>
-			<label for="password2">Repita la contraseña</label> 
+			<label for="password2">Repita la contraseña <span style="color:red">*</span></label> 
 			<input type="password" id="password2" class="form-control"
 				name="password2" placeholder="Contraseña"/>
 		</fieldset>

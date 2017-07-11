@@ -7,15 +7,15 @@
 <div class="col-md-6">
 <form action="alta" method="post">
 <fieldset class="form-group">
-<label for="username">Nombre de usuario</label>
+<label for="username">Nombre de usuario <span style="color:red">*</span></label>
 <input id="username" class="form-control" name="username" placeholder="Nombre de usuario" maxlength="16" required="required"/>
 </fieldset>
 <fieldset class="form-group">
-<label for="password">Contraseña</label>
+<label for="password">Contraseña <span style="color:red">*</span></label>
 <input id="password" class="form-control" name="password" type="password" placeholder="Contraseña" maxlength="16" required="required"/>
 </fieldset>
 <fieldset class="form-group">
-<label for="password2">Repita la contraseña</label>
+<label for="password2">Repita la contraseña <span style="color:red">*</span></label>
 <input id="password2" class="form-control" name="password2" type="password" placeholder="Contraseña" maxlength="16" required="required"/>
 </fieldset>
 <fieldset class="form-group">
