@@ -57,7 +57,7 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Inicializar el DAO de usuarios y hacerlo accesible a través del ServletContext
 
-		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + path + "/WEB-INF/db/driver.db");
+		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp"+"/WEB-INF/db/driver.db");
 
 		application.setAttribute("usuarios", usuarios);
 
@@ -80,7 +80,7 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Inicializar el DAO de productos y hacerlo accesible a través del ServletContext
 
-		ProductoDAO productos = ProductoDAOFactory.getProductoDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + path + "/WEB-INF/db/driver.db");
+		ProductoDAO productos = ProductoDAOFactory.getProductoDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + "/WEB-INF/db/driver.db");
 
 		application.setAttribute("productos", productos);
 
@@ -104,17 +104,17 @@ public class InicializacionListener implements ServletContextListener {
 		// Inicializar el DAO de ProductosReservados y ProductosVendidos
 		// y hacerlos accesibles a través del ServletContext
 
-		ProductoDAO productosReservados = ProductoDAOFactory.getProductoReservadoDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + path + "/WEB-INF/db/driver.db");
+		ProductoDAO productosReservados = ProductoDAOFactory.getProductoReservadoDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + "/WEB-INF/db/driver.db");
 
 		application.setAttribute("productosReservados", productosReservados);
 
-		ProductoDAO productosVendidos = ProductoDAOFactory.getProductoVendidoDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + path + "/WEB-INF/db/driver.db");
+		ProductoDAO productosVendidos = ProductoDAOFactory.getProductoVendidoDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + "/WEB-INF/db/driver.db");
 
 		application.setAttribute("productosVendidos", productosVendidos);
 
 		// Inicializar el DAO de facturas y hacerlo accesible a través del ServletContext
 
-		FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + path + "/WEB-INF/db/driver.db");
+		FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + "/WEB-INF/db/driver.db");
 
 		application.setAttribute("facturas", facturas);
 
