@@ -51,13 +51,15 @@ public class InicializacionListener implements ServletContextListener {
 		application.setAttribute("rutaBase", path);
 		log.info("Almacenada la ruta relativa de la aplicación: " + path);
 
+		String realPath = application.getRealPath("/WEB-INF/db/driver.db");
+		log.info("Almacenada la ruta real de la base de datos: " + realPath);
 		// Configurar Log4j
 
 		PropertyConfigurator.configure(InicializacionListener.class.getClassLoader().getResource("log4j.properties"));
 
 		// Inicializar el DAO de usuarios y hacerlo accesible a través del ServletContext
 
-		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp"+"/WEB-INF/db/driver.db");
+		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO("jdbc:sqlite:" + realPath);
 
 		application.setAttribute("usuarios", usuarios);
 
@@ -80,7 +82,7 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Inicializar el DAO de productos y hacerlo accesible a través del ServletContext
 
-		ProductoDAO productos = ProductoDAOFactory.getProductoDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + "/WEB-INF/db/driver.db");
+		ProductoDAO productos = ProductoDAOFactory.getProductoDAO("jdbc:sqlite:" + realPath);
 
 		application.setAttribute("productos", productos);
 
@@ -104,17 +106,17 @@ public class InicializacionListener implements ServletContextListener {
 		// Inicializar el DAO de ProductosReservados y ProductosVendidos
 		// y hacerlos accesibles a través del ServletContext
 
-		ProductoDAO productosReservados = ProductoDAOFactory.getProductoReservadoDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + "/WEB-INF/db/driver.db");
+		ProductoDAO productosReservados = ProductoDAOFactory.getProductoReservadoDAO("jdbc:sqlite:" + realPath);
 
 		application.setAttribute("productosReservados", productosReservados);
 
-		ProductoDAO productosVendidos = ProductoDAOFactory.getProductoVendidoDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + "/WEB-INF/db/driver.db");
+		ProductoDAO productosVendidos = ProductoDAOFactory.getProductoVendidoDAO("jdbc:sqlite:" + realPath);
 
 		application.setAttribute("productosVendidos", productosVendidos);
 
 		// Inicializar el DAO de facturas y hacerlo accesible a través del ServletContext
 
-		FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO("jdbc:sqlite:C:/Users/Dragonslayer/Programacion/git/repositorios/EjercicioCatalogo/web/src/main/webapp" + "/WEB-INF/db/driver.db");
+		FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO("jdbc:sqlite:" + realPath);
 
 		application.setAttribute("facturas", facturas);
 
@@ -154,16 +156,16 @@ public class InicializacionListener implements ServletContextListener {
 
 		usuarios.abrir();
 
-		if (usuarios.findAll().length != 0) {
-			try {
-				usuarios.deleteUsuarios();
-				log.info("Tabla de usuarios borrada");
-			} catch (Exception e) {
-				e.printStackTrace();
-				log.info(e.getMessage());
-				log.info("No se pudo borrar la tabla de usuarios");
-			}
-		}
+		// if (usuarios.findAll().length != 0) {
+		// try {
+		// usuarios.deleteUsuarios();
+		// log.info("Tabla de usuarios borrada");
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// log.info(e.getMessage());
+		// log.info("No se pudo borrar la tabla de usuarios");
+		// }
+		// }
 
 		Usuario usuario = new Usuario(1, "admin", admin, "admin");
 
@@ -197,10 +199,10 @@ public class InicializacionListener implements ServletContextListener {
 		productos.iniciarTransaccion();
 
 		try {
-			if (productos.findAll().length != 0) {
-				productos.deleteProductos();
-				log.info("Borrada tabla de productos");
-			}
+			// if (productos.findAll().length != 0) {
+			// productos.deleteProductos();
+			// log.info("Borrada tabla de productos");
+			// }
 
 			if (productos.findAll().length == 0) {
 
