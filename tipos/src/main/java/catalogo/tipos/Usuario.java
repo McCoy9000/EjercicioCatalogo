@@ -1,6 +1,7 @@
 package catalogo.tipos;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class Usuario implements Serializable {
 
@@ -12,8 +13,13 @@ public class Usuario implements Serializable {
 	private String nombre_completo;
 	private String password;
 	private String username;
+	private String documento;
+	private int direccion;
+	private LocalDate fechaDeNacimiento;
+	private int empresa;
 
-	public Usuario(int id, int id_roles, String nombre_completo, String password, String username) {
+
+	public Usuario(int id, int id_roles, String nombre_completo, String username, String password) {
 		super();
 		this.id = id;
 		this.id_roles = id_roles;
@@ -22,7 +28,7 @@ public class Usuario implements Serializable {
 		this.username = username;
 	}
 
-	public Usuario(int id_roles, String nombre_completo, String password, String username) {
+	public Usuario(int id_roles, String nombre_completo, String username, String password) {
 		super();
 
 		this.id_roles = id_roles;
@@ -83,15 +89,68 @@ public class Usuario implements Serializable {
 		this.username = username;
 	}
 
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
+	}
+
+	public int getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(int direccion) {
+		this.direccion = direccion;
+	}
+
+	public LocalDate getFechaDeNacimiento() {
+		return fechaDeNacimiento;
+	}
+
+	public void setFechaDeNacimiento(LocalDate fechaDeNacimiento) {
+		this.fechaDeNacimiento = fechaDeNacimiento;
+	}
+
+	public int getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(int empresa) {
+		this.empresa = empresa;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", id_roles=" + id_roles
+				+ ", nombre_completo=" + nombre_completo + ", password="
+				+ password + ", username=" + username + ", documento="
+				+ documento + ", direccion=" + direccion
+				+ ", fechaDeNacimiento=" + fechaDeNacimiento + ", empresa="
+				+ empresa + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + direccion;
+		result = prime * result
+				+ ((documento == null) ? 0 : documento.hashCode());
+		result = prime * result + empresa;
+		result = prime
+				* result
+				+ ((fechaDeNacimiento == null) ? 0 : fechaDeNacimiento
+						.hashCode());
 		result = prime * result + id;
 		result = prime * result + id_roles;
-		result = prime * result + ((nombre_completo == null) ? 0 : nombre_completo.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		result = prime * result
+				+ ((nombre_completo == null) ? 0 : nombre_completo.hashCode());
+		result = prime * result
+				+ ((password == null) ? 0 : password.hashCode());
+		result = prime * result
+				+ ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -104,6 +163,20 @@ public class Usuario implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
+		if (direccion != other.direccion)
+			return false;
+		if (documento == null) {
+			if (other.documento != null)
+				return false;
+		} else if (!documento.equals(other.documento))
+			return false;
+		if (empresa != other.empresa)
+			return false;
+		if (fechaDeNacimiento == null) {
+			if (other.fechaDeNacimiento != null)
+				return false;
+		} else if (!fechaDeNacimiento.equals(other.fechaDeNacimiento))
+			return false;
 		if (id != other.id)
 			return false;
 		if (id_roles != other.id_roles)
@@ -124,11 +197,6 @@ public class Usuario implements Serializable {
 		} else if (!username.equals(other.username))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", id_roles=" + id_roles + ", nombre_completo=" + nombre_completo + ", password=" + password + ", username=" + username + "]";
 	}
 
 }

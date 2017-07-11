@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import catalogo.constantes.Constantes;
 import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Usuario;
+import catalogo.tipos.UsuarioMascara;
 
 @WebServlet("/admin/usuariocrud")
 public class UsuarioCRUDServlet extends HttpServlet {
@@ -41,7 +42,7 @@ public class UsuarioCRUDServlet extends HttpServlet {
 		if (op == null) {
 
 			usuarios.abrir();
-			Usuario[] usuariosArr = usuarios.findAll();
+			UsuarioMascara[] usuariosArr = usuarios.findAllMasks();
 			usuarios.cerrar();
 
 			application.setAttribute("usuariosArr", usuariosArr);

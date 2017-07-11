@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import catalogo.tipos.Usuario;
+import catalogo.tipos.UsuarioMascara;
 
 public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
@@ -17,7 +18,8 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	private final static String UPDATE = "UPDATE usuarios " + "SET username = ?, password = ?, nombre_completo = ?, id_roles = ? " + "WHERE id = ?";
 	private final static String DELETE = "DELETE FROM usuarios WHERE id = ?";
 	private final static String DELETE_TABLE_USUARIOS = "DELETE FROM usuarios";
-	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete;
+	private final static String FIND_ALL_MASKS = "SELECT usuarios.id, username, password, nombre_completo, rol FROM usuarios, roles WHERE roles.id=usuarios.id_roles";
+	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete, psDeleteUsers, psFindAllMasks;
 
 	public UsuarioDAOMySQL(String url) {
 		super(url);
@@ -27,6 +29,40 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 	}
 
+	public UsuarioMascara[] findAllMasks() {
+		
+		ArrayList<UsuarioMascara> usuarios = new ArrayList<>();
+		ResultSet rs = null;
+		
+		try {
+			psFindAllMasks = con.prepareStatement(FIND_ALL_MASKS);
+			
+			rs = psFindAllMasks.executeQuery();
+			
+			UsuarioMascara usuario;
+			
+			while (rs.next()) {
+				usuario = new UsuarioMascara();
+				
+				usuario.setId(rs.getInt("id"));
+				usuario.setRol(rs.getString("rol"));
+				usuario.setNombre_completo(rs.getString("nombre_completo"));
+				usuario.setPassword(rs.getString("password"));
+				usuario.setUsername(rs.getString("username"));
+				
+				usuarios.add(usuario);
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Error en findAllMasks", e);
+		} finally {
+			cerrar(psFindAllMasks, rs);
+		}
+		
+		return usuarios.toArray(new UsuarioMascara[usuarios.size()]);
+		
+		
+	}
+	
 	public Usuario[] findAll() {
 
 		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
@@ -194,14 +230,14 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 	public void deleteUsuarios() {
 		try {
-			psDelete = con.prepareStatement(DELETE_TABLE_USUARIOS);
+			psDeleteUsers = con.prepareStatement(DELETE_TABLE_USUARIOS);
 
-			psDelete.executeUpdate();
+			psDeleteUsers.executeUpdate();
 
 		} catch (Exception e) {
 			throw new DAOException("Error en delete table", e);
 		} finally {
-			cerrar(psDelete);
+			cerrar(psDeleteUsers);
 		}
 	}
 

@@ -111,8 +111,8 @@ public class AltaServlet extends HttpServlet {
 		// id_roles se asigna directamente como usuario estándar
 		int id_roles = 2;
 		// Se crea un objeto usuario con el que trabajar a partir de esos datos
-		Usuario usuario = new Usuario(id_roles, nombre_completo, password, username);
-
+		Usuario usuario = new Usuario(id_roles, nombre_completo, username, password);
+		//TODO User
 		// Se declara e inicializan las booleanas a partir de las cuales se desarrollará la lógica del servlet
 		boolean nombreDemasiadoLargo = false;
 		if (username != null) {

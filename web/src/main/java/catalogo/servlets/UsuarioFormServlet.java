@@ -133,7 +133,8 @@ public class UsuarioFormServlet extends HttpServlet {
 
 			case "alta":
 
-				usuario = new Usuario(id_roles, nombre_completo, password, username);
+				usuario = new Usuario(id_roles, nombre_completo, username, password);
+				//TODO user
 				if (password != null && password != "" && password.equals(password2)) {
 					usuarios.abrir();
 					try {
@@ -162,7 +163,8 @@ public class UsuarioFormServlet extends HttpServlet {
 
 			case "modificar":
 				usuarios.abrir();
-				usuario = new Usuario(id, id_roles, nombre_completo, password, username);
+				usuario = new Usuario(id, id_roles, nombre_completo, username, password);
+				//TODO user
 				if (!("admin").equals(usuario.getUsername())) {
 					if (password != null && password != "" && password.equals(password2)) {
 						try {

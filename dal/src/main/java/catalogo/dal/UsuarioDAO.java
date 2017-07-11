@@ -1,9 +1,12 @@
 package catalogo.dal;
 
 import catalogo.tipos.Usuario;
+import catalogo.tipos.UsuarioMascara;
 
 public interface UsuarioDAO extends IpartekDAO {
 	public Usuario[] findAll();
+	
+	public UsuarioMascara[] findAllMasks();
 
 	public Usuario findById(int id);
 
