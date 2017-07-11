@@ -31,7 +31,7 @@
 			<link href="https://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet">
 		</head>
 		
-		<body style="background:lightgrey; padding-bottom:10px">
+		<body style="background:#F5F6F7; padding-bottom:10px">
 		<div id="img-pit" style="background:url(${applicationScope.rutaBase}/img/tire-track1.jpg) 0px 0px/100% no-repeat fixed ; padding-bottom:10px">
 			<header class="container">
 				<div class="row">
