@@ -19,7 +19,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	private final static String DELETE_TABLE_USUARIOS = "DELETE FROM usuarios";
 	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete;
 
-	public UsuarioDAOMySQL(String url, String mysqlUser, String mysqlPass) {
+	public UsuarioDAOMySQL(String url) {
 		super(url);
 	}
 

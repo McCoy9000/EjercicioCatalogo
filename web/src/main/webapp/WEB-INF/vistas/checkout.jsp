@@ -9,14 +9,14 @@
 
 <nav class="container">
 	<ul class="list-inline">
-		<li><a class="btn btn-default" style="background:#ffd800; border:none;" href="?op=vaciarcarrito"><strong>Vaciar carrito</strong></a>
-		<li><a class="btn btn-default" style="background:#ffd800; border:none;" onclick="window.open('?op=pagar', '_self'); window.open('${applicationScope.rutaBase}/factura', '_blank', 'width=500,height=400')"><strong>PAGAR ${sessionScope.numeroProductos} producto<span <c:if test="${sessionScope.numeroProductos==1}">style="display:none;"</c:if>>s</span></strong></a></li>
+		<li><a class="btn btn-default" style="background:#ECC007; border:none;" href="?op=vaciarcarrito"><strong>Vaciar carrito</strong></a>
+		<li><a class="btn btn-default" style="background:#ECC007; border:none;" onclick="window.open('?op=pagar', '_self'); window.open('${applicationScope.rutaBase}/factura', '_blank', 'width=500,height=400')"><strong>PAGAR ${sessionScope.numeroProductos} producto<span <c:if test="${sessionScope.numeroProductos==1}">style="display:none;"</c:if>>s</span></strong></a></li>
 		<li>Total a pagar: ${sessionScope.precioTotal} € IVA incl.</li>
 	</ul>
 </nav>
 <div class="container">
 <div class="table-responsive">
-<table class="table table-hover" id="catalogo">
+<table class="table" id="catalogo">
 	<thead>
 		<tr>
 			

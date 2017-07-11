@@ -9,12 +9,12 @@
 </div>
 <nav class="container">
 	<ul class="list-inline">
-	<li><a class="btn btn-default" style="background:#ffd800; border:#ffd800;" href="${applicationScope.rutaBase}/checkout"><strong>CHECKOUT &#128722; (${sessionScope.numeroProductos})</strong></a></li>
+	<li><a class="btn btn-default" style="background:#ECC007; border:#ECC007;" href="${applicationScope.rutaBase}/checkout"><strong>CHECKOUT &#128722; (${sessionScope.numeroProductos})</strong></a></li>
 	</ul>
 </nav>
 <div class="container">
 <div class="table-responsive">
-<table id="catalogo" class="table table-hover">
+<table id="catalogo" class="table">
 	<thead>
 		<tr>
 			
@@ -41,7 +41,7 @@
 						<input type="number" max="${articulo.cantidad}" min="1" id="cantidad" name="cantidad" value="1"/>
 						<input type="hidden" id ="groupId" name="groupId" value="${articulo.groupId}"/>
 						<input type="hidden" id="op" name="op" value="anadir"/>
-						<input type="submit" class="btn btn-default" style="background:#ffd800; border:none;" value="AÑADIR"/>
+						<input type="submit" class="btn btn-default" style="background:#ECC007; border:none;" value="AÑADIR"/>
 					</form>
 				</td>
 			</tr>

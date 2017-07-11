@@ -28,37 +28,37 @@
 			    $('#usuarios').DataTable();
 			} );
 			</script>
-			<link href="https://fonts.googleapis.com/css?family=Cabin+Sketch" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet">
 		</head>
 		
-		<body style="background:#929397; padding-bottom:10px">
+		<body style="background:lightgrey; padding-bottom:10px">
 		<div id="img-pit" style="background:url(${applicationScope.rutaBase}/img/tire-track1.jpg) 0px 0px/100% no-repeat fixed ; padding-bottom:10px">
 			<header class="container">
 				<div class="row">
-				<div class="col-xs-10 col-md-11">
-				<h1 style="color:#ffd800; font-family: 'Cabin Sketch', cursive;font-size:19vw; display:inline-block; margin:15px;"><strong>DRIVER</strong></h1>
+				<div class="col-xs-10 col-md-11 col-lg-12">
+				<h1 style="color:#ECC007; font-family:'Special Elite', sans-serif; font-size:19vw; display:inline-block; margin-top:50px;">DRIVER</h1>
 				</div>
-				<div class="col-xs-2 col-md-1" style="margin-top:30px;">
+				<div class="col-xs-2 col-md-1 col-lg-1 col-lg-offset-11" style="margin-top:30px;">
 				<div class="dropdown">
-				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownLogin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ffd800; border:none;">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownLogin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:none;">
 					<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
 				</button>
-				<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLogin">
-				<li><a href="${applicationScope.rutaBase}/login"><strong>LOGIN</strong></a></li>
-				<li><a href="${applicationScope.rutaBase}/login?op=logout"><strong>LOGOUT</strong></a></li>
+				<ul class="dropdown-menu dropdown-menu-right" style="background-color:#ECC007;" aria-labelledby="dropdownLogin">
+				<li><a style="background-color:#ECC007;" href="${applicationScope.rutaBase}/login"><strong>LOGIN</strong></a></li>
+				<li><a style="background-color:#ECC007;" href="${applicationScope.rutaBase}/login?op=logout"><strong>LOGOUT</strong></a></li>
 				</ul>
 				</div>
 				</div>
 				</div>
 				<div class="row">
-				<p style="color:#ffd800; display:inline-block; margin-left:15px;"><strong>¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</strong></p>
+				<p style="color:#ECC007; display:inline-block; margin-left:15px;"><strong>¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</strong></p>
 				</div>
 			</header>
 			
 			<nav class="container">
 			
 				<ul class="list-inline">
-				 	 <li><a class="btn btn-default" style="background:#ffd800; border:none;" href="${applicationScope.rutaBase}/catalogo"><strong>CATALOGO</strong></a></li>
+				 	 <li><a class="btn btn-default" style="background:#ECC007; border:none;" href="${applicationScope.rutaBase}/catalogo"><strong>CATALOGO</strong></a></li>
 				 	<!--  <li><a class="btn btn-primary" href="${applicationScope.rutaBase}/login">LOGIN</a></li>
 					 <li><a class="btn btn-default" href="${applicationScope.rutaBase}/login?op=logout">LOGOUT</a></li>  -->
 					 
@@ -68,7 +68,7 @@
 						 style="display:none;"
 					</c:if>>
 			<div class="dropdown" style="display:inline-block">
-				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownProductos" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ffd800; border:none; margin-bottom:5px;" >
+				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownProductos" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:none; margin-bottom:5px;" >
 				<strong>PRODUCTOS</strong>
 				<span class="caret"></span>
 				</button>
@@ -78,7 +78,7 @@
 				</ul>
 			</div>
 			<div class="dropdown" style="display:inline-block">
-				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownUsuarios" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ffd800; border:none; margin-bottom:5px;">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownUsuarios" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:none; margin-bottom:5px;">
 				<strong>USUARIOS</strong>
 				<span class="caret"></span>
 				</button>
@@ -88,7 +88,7 @@
 				</ul>
 			</div>
 			<div class="dropdown" style="display:inline-block">
-				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownFacturas" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ffd800; border:none; margin-bottom:5px;">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownFacturas" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:none; margin-bottom:5px;">
 				<strong>FACTURAS</strong>
 				<span class="caret"></span>
 				</button>

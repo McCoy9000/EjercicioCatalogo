@@ -9,4 +9,8 @@ public class UsuarioDAOFactory {
 		return usuarios;
 
 	}
+	
+	public static UsuarioDAO getUsuarioDAO(String url) {
+		return new UsuarioDAOMySQL(url);
+	}
 }

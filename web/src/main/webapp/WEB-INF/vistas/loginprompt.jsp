@@ -13,7 +13,7 @@
 		<body style="background:url(${applicationScope.rutaBase}/img/pit-race.jpg) 0px 0px/cover no-repeat fixed ; padding:50px">
 		<div class="container">
 			<h1 style="color:white"><strong>Debes loguearte para poder finalizar tu compra</strong></h1>
-			<input class="btn btn-default" style="background:#ffd800; border:none;" type="button" value="Cerrar esta ventana" onclick="self.close()">
+			<input class="btn btn-default" style="background:#ECC007; border:none;" type="button" value="Cerrar esta ventana" onclick="self.close()">
 		</div>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     		<script src="js/bootstrap.min.js"></script>

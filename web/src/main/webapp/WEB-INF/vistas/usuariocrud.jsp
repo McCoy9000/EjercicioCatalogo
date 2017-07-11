@@ -8,7 +8,7 @@
 </div>
 <div class="container">
 	<div class="table-responsive">
-		<table id="usuarios" class="table table:hover">
+		<table id="usuarios" class="table">
 			<thead>
 				<tr>
 					<th>Rol</th>

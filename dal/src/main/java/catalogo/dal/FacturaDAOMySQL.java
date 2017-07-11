@@ -26,6 +26,14 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	
 	private PreparedStatement psFindAll, psFindById, psInsert, psUpdate, psDelete, psFindProdByFacturaId, psRegister, psGetMaxId, psFindUserByFacturaId;
 
+	public FacturaDAOMySQL() {
+		super();
+	}
+	
+	public FacturaDAOMySQL(String url) {
+		super(url);
+	}
+	
 	public Factura[] findAll() {
 		ArrayList<Factura> facturas = new ArrayList<Factura>();
 		ResultSet rs = null;

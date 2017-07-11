@@ -25,7 +25,7 @@ public class ProductoReservadoDAOMySQL extends IpartekDAOMySQL implements Produc
 	private final static String DELETE_TABLE_PRODUCTOS = "DELETE FROM productos_reservados";
 	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete;
 
-	public ProductoReservadoDAOMySQL(String url, String mysqlUser, String mysqlPass) {
+	public ProductoReservadoDAOMySQL(String url) {
 		super(url);
 	}
 

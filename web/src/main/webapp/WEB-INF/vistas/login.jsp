@@ -26,7 +26,7 @@
 </div>
 </div>
 <div class="container">
-	<a class="btn btn-default" style="background:#ffd800; border:none;" href="${applicationScope.rutaBase}/alta">¡ALTA!</a>
+	<a class="btn btn-default" style="background:#ECC007; border:none;" href="${applicationScope.rutaBase}/alta">¡ALTA!</a>
 </div>
 
 
