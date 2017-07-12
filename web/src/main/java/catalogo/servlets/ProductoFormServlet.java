@@ -36,6 +36,8 @@ public class ProductoFormServlet extends HttpServlet {
 		// Recoger el objeto application del ServletContext
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession();
+
+		// Borrar los errores que puedan venir en sesión
 		session.removeAttribute("errorLogin");
 		session.removeAttribute("errorSignup");
 		session.removeAttribute("errorUsuario");
@@ -43,7 +45,7 @@ public class ProductoFormServlet extends HttpServlet {
 
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
 
-		// Regocoger la opción elegida por el usuario en el formulario enviada por url
+		// Recoger la opción elegida por el usuario en el formulario enviada por url
 		String op = request.getParameter("opform");
 
 		// Declaro aquí los dispatcher porque en un momento me dio un problema extraño por declararlos en el momento en que
@@ -107,6 +109,19 @@ public class ProductoFormServlet extends HttpServlet {
 			precio = BigDecimal.ZERO;
 		}
 
+		int cantidad;
+
+		if (request.getParameter("cantidad") != null) {
+			try {
+				cantidad = Integer.parseInt(request.getParameter("cantidad"));
+			} catch (Exception e) {
+				cantidad = 1;
+				log.info("Error al parsear la cantidad");
+			}
+		} else {
+			cantidad = 1;
+		}
+
 		// Lógica del servlet según la opción elegida por el usuario y enviada por el navegador
 		// encapsulada en opform.
 		if (op == null) {
@@ -130,25 +145,25 @@ public class ProductoFormServlet extends HttpServlet {
 					request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=alta").forward(request, response);
 				} else {
 					productos.abrir();
-					if (productos != null && !productos.validar(producto)) {
-						try {
-							productos.insert(producto);
-							session.removeAttribute("errorProducto");
-							log.info("Producto dado de alta");
-							rutaListado.forward(request, response);
-						} catch (DAOException e) {
-							session.setAttribute("errorProducto", "Error al dar de alta el producto. Inténtelo de nuevo");
-							request.setAttribute("producto", producto);
-							request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=alta").forward(request, response);
-						} finally {
-							productos.cerrar();
-						}
-					} else {
-						session.setAttribute("errorProducto", "El producto ya existe");
-						request.setAttribute("producto", producto);
-						rutaFormulario.forward(request, response);
-					}
 
+					productos.iniciarTransaccion();
+
+					try {
+						for (int i = 0; i < cantidad; i++) {
+							productos.insert(producto);
+						}
+						productos.confirmarTransaccion();
+						session.removeAttribute("errorProducto");
+						log.info("Producto dado de alta");
+						rutaListado.forward(request, response);
+					} catch (DAOException e) {
+						productos.deshacerTransaccion();
+						session.setAttribute("errorProducto", "Error al dar de alta el producto. Inténtelo de nuevo");
+						request.setAttribute("producto", producto);
+						request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=alta").forward(request, response);
+					} finally {
+						productos.cerrar();
+					}
 				}
 				break;
 			case "modificar":

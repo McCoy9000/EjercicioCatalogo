@@ -77,6 +77,18 @@
 				 min="0" class="form-control"/>
 			</div>
 		</fieldset>
+		<fieldset class="form-group"
+			<c:if test="${param.op == 'borrar' or param.op == 'modificar'}">
+				style="display:none;"
+			</c:if>
+		>
+			<label for="cantidad">Cantidad</label>
+			<div class="input-group">
+			<input type="number" id="cantidad" name="cantidad" value="1"
+				min="1" class="form-control"/>
+			</div>
+		</fieldset>
+		
 		<fieldset class="form-group">
 			<input type="submit" class="btn btn-default" style="background:#ECC007; border:none;" value="${fn:toUpperCase(param.op)}"  
 				<c:if test="${param.op == null or param.op == ''}">
