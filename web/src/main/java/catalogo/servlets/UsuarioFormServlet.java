@@ -57,7 +57,7 @@ public class UsuarioFormServlet extends HttpServlet {
 			id = 0;
 		}
 
-		String username, rawpassword, rawpassword2, password = null, password2 = null, nombre_completo;
+		String username, rawpassword, rawpassword2, password = null, password2 = null, nombre_completo, apellidos;
 
 		Encriptador miEncriptador = null;
 		byte[] encryptedpass = null, encryptedpass2 = null;
@@ -107,10 +107,17 @@ public class UsuarioFormServlet extends HttpServlet {
 			password2 = Base64.getMimeEncoder().encodeToString(encryptedpass2);
 
 		}
+		
 		if (request.getParameter("nombre_completo") != null) {
 			nombre_completo = request.getParameter("nombre_completo").trim();
 		} else {
 			nombre_completo = request.getParameter("nombre_completo");
+		}
+
+		if (request.getParameter("apellidos") != null) {
+			apellidos = request.getParameter("apellidos").trim();
+		} else {
+			apellidos = request.getParameter("apellidos");
 		}
 
 		int id_roles;
@@ -124,7 +131,7 @@ public class UsuarioFormServlet extends HttpServlet {
 		RequestDispatcher rutaListado = request.getRequestDispatcher(Constantes.RUTA_SERVLET_LISTADO_USUARIO);
 
 		if (op == null) {
-			usuario = new Usuario(id_roles, nombre_completo, password, username);
+			usuario = new Usuario(id_roles, nombre_completo, apellidos, username, password);
 			session.removeAttribute("errorUsuario");
 			request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_USUARIO + "?op=alta").forward(request, response);
 		} else {
@@ -133,8 +140,8 @@ public class UsuarioFormServlet extends HttpServlet {
 
 			case "alta":
 
-				usuario = new Usuario(id_roles, nombre_completo, username, password);
-				//TODO user
+				usuario = new Usuario(id_roles, nombre_completo, apellidos, username, password);
+				
 				if (password != null && password != "" && password.equals(password2)) {
 					usuarios.abrir();
 					if(!usuarios.validarNombre(usuario)) {					
@@ -169,13 +176,12 @@ public class UsuarioFormServlet extends HttpServlet {
 				break;
 
 			case "modificar":
-				usuario = new Usuario(id, id_roles, nombre_completo, username, password);
-				//TODO user
+				usuario = new Usuario(id, id_roles, nombre_completo, apellidos, username, password);
+				
 				if (!("admin").equals(usuario.getUsername())) {
 					if (password != null && password != "" && password.equals(password2)) {
 						usuarios.abrir();
-						if(!usuarios.validarNombre(usuario)) {
-													
+																			
 						try {
 							usuarios.update(usuario);
 							session.removeAttribute("errorUsuario");
@@ -191,12 +197,7 @@ public class UsuarioFormServlet extends HttpServlet {
 						}
 						session.removeAttribute("errorUsuario");
 						rutaListado.forward(request, response);
-						} else {
-							usuarios.cerrar();
-							session.setAttribute("errorUsuario", "El usuario ya existe");
-							request.setAttribute("usuario", usuario);
-							request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_USUARIO + "?op=alta").forward(request, response);
-						}
+						
 					} else {
 						session.setAttribute("errorUsuario", "Las contraseñas deben ser iguales");
 						request.setAttribute("usuario", usuario);

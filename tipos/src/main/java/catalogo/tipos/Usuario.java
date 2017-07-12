@@ -11,6 +11,7 @@ public class Usuario implements Serializable {
 	private int id;
 	private int id_roles;
 	private String nombre_completo;
+	private String apellidos;
 	private String password;
 	private String username;
 	private String documento;
@@ -19,20 +20,22 @@ public class Usuario implements Serializable {
 	private int empresa;
 
 
-	public Usuario(int id, int id_roles, String nombre_completo, String username, String password) {
+	public Usuario(int id, int id_roles, String nombre_completo, String apellidos, String username, String password) {
 		super();
 		this.id = id;
 		this.id_roles = id_roles;
 		this.nombre_completo = nombre_completo;
+		this.apellidos = apellidos;
 		this.password = password;
 		this.username = username;
 	}
 
-	public Usuario(int id_roles, String nombre_completo, String username, String password) {
+	public Usuario(int id_roles, String nombre_completo, String apellidos, String username, String password) {
 		super();
 
 		this.id_roles = id_roles;
 		this.nombre_completo = nombre_completo;
+		this.apellidos = apellidos;
 		this.password = password;
 		this.username = username;
 	}
@@ -71,6 +74,14 @@ public class Usuario implements Serializable {
 
 	public void setNombre_completo(String nombre_completo) {
 		this.nombre_completo = nombre_completo;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
 
 	public String getPassword() {
@@ -124,17 +135,19 @@ public class Usuario implements Serializable {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", id_roles=" + id_roles
-				+ ", nombre_completo=" + nombre_completo + ", password="
-				+ password + ", username=" + username + ", documento="
-				+ documento + ", direccion=" + direccion
-				+ ", fechaDeNacimiento=" + fechaDeNacimiento + ", empresa="
-				+ empresa + "]";
+				+ ", nombre_completo=" + nombre_completo + ", apellidos="
+				+ apellidos + ", password=" + password + ", username="
+				+ username + ", documento=" + documento + ", direccion="
+				+ direccion + ", fechaDeNacimiento=" + fechaDeNacimiento
+				+ ", empresa=" + empresa + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((apellidos == null) ? 0 : apellidos.hashCode());
 		result = prime * result + direccion;
 		result = prime * result
 				+ ((documento == null) ? 0 : documento.hashCode());
@@ -163,6 +176,11 @@ public class Usuario implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
+		if (apellidos == null) {
+			if (other.apellidos != null)
+				return false;
+		} else if (!apellidos.equals(other.apellidos))
+			return false;
 		if (direccion != other.direccion)
 			return false;
 		if (documento == null) {

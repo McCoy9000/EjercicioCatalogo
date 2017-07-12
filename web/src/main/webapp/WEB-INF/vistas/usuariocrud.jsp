@@ -13,7 +13,8 @@
 				<tr>
 					<th>Nombre de usuario</th>
 					<th>Contraseña</th>
-					<th>Nombre completo</th>
+					<th>Nombre</th>
+					<th>Apellidos</th>
 					<th>Rol</th>
 					<th></th>
 				</tr>
@@ -24,6 +25,7 @@
 						<td>${usuario.username}</td>	
 						<td>${usuario.password}</td>
 						<td>${usuario.nombre_completo}</td>
+						<td>${usuario.apellidos}</td>
 						<td>${usuario.rol}</td>
 						<td>
 							<a class="btn btn-success" href="${applicationScope.rutaBase}/admin/usuariocrud?op=modificar&id=${usuario.id}">Modificar</a>

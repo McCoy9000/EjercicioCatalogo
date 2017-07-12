@@ -1,12 +1,12 @@
 package catalogo.tipos;
 
-import java.time.LocalDate;
 
 public class UsuarioMascara {
 
 	private int id;
 	private String rol;
 	private String nombre_completo;
+	private String apellidos;
 	private String password;
 	private String username;
 	private String documento;
@@ -15,7 +15,7 @@ public class UsuarioMascara {
 	private String empresa;
 	
 	public UsuarioMascara() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public int getId() {
@@ -40,6 +40,14 @@ public class UsuarioMascara {
 
 	public void setNombre_completo(String nombre_completo) {
 		this.nombre_completo = nombre_completo;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
 
 	public String getPassword() {

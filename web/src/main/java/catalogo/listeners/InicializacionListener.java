@@ -167,8 +167,8 @@ public class InicializacionListener implements ServletContextListener {
 		// }
 		// }
 
-		Usuario usuario = new Usuario(1, "admin", "admin", admin);
-		//TODO user
+		Usuario usuario = new Usuario(1, "admin", "admin", "admin", admin);
+
 		if (!usuarios.validar(usuario)) {
 			try {
 				usuarios.insert(usuario);
@@ -180,8 +180,8 @@ public class InicializacionListener implements ServletContextListener {
 			}
 		}
 
-		usuario = new Usuario(2, "mikel", "mikel", mikel);
-		//TODO user
+		usuario = new Usuario(2, "Mikel", "Cuenca", "mikel", mikel);
+		
 		if (!usuarios.validar(usuario)) {
 			try {
 				usuarios.insert(usuario);

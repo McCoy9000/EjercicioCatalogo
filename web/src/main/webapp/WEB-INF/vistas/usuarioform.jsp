@@ -59,10 +59,20 @@
 			</c:if>
 			
 		>
-			<label for="nombre_completo">Nombre completo</label> 
+			<label for="nombre_completo">Nombre</label> 
 			<input id="nombre_completo" class="form-control"
-				name="nombre_completo" placeholder="Nombre completo" value="${usuario.nombre_completo}"/>
+				name="nombre_completo" placeholder="Nombre" value="${usuario.nombre_completo}"/>
 		</fieldset>
+		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
+			style="display:none;"
+			</c:if>
+			
+		>
+			<label for="apellidos">Apellidos</label> 
+			<input id="apellidos" class="form-control"
+				name="apellidos" placeholder="Apellidos" value="${usuario.apellidos}"/>
+		</fieldset>
+
 		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
 			</c:if>

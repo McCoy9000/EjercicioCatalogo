@@ -13,12 +13,12 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 	private final static String FIND_ALL = "SELECT * FROM usuarios";
 	private final static String FIND_BY_ID = "SELECT * FROM usuarios WHERE id = ?";
-	private final static String INSERT = "INSERT INTO usuarios (username, password, nombre_completo, id_roles)" + " VALUES (?, ?, ?, ?)";
+	private final static String INSERT = "INSERT INTO usuarios (username, password, nombre_completo, apellidos, id_roles)" + " VALUES (?, ?, ?, ?, ?)";
 	private final static String FIND_BY_NAME = "SELECT * FROM usuarios WHERE username = ?";
-	private final static String UPDATE = "UPDATE usuarios " + "SET username = ?, password = ?, nombre_completo = ?, id_roles = ? " + "WHERE id = ?";
+	private final static String UPDATE = "UPDATE usuarios " + "SET username = ?, password = ?, nombre_completo = ?, apellidos = ?, id_roles = ? " + "WHERE id = ?";
 	private final static String DELETE = "DELETE FROM usuarios WHERE id = ?";
 	private final static String DELETE_TABLE_USUARIOS = "DELETE FROM usuarios";
-	private final static String FIND_ALL_MASKS = "SELECT usuarios.id, username, password, nombre_completo, rol FROM usuarios, roles WHERE roles.id=usuarios.id_roles";
+	private final static String FIND_ALL_MASKS = "SELECT usuarios.id, username, password, nombre_completo, apellidos, rol FROM usuarios, roles WHERE roles.id=usuarios.id_roles";
 	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete, psDeleteUsers, psFindAllMasks;
 
 	public UsuarioDAOMySQL(String url) {
@@ -47,6 +47,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 				usuario.setId(rs.getInt("id"));
 				usuario.setRol(rs.getString("rol"));
 				usuario.setNombre_completo(rs.getString("nombre_completo"));
+				usuario.setApellidos(rs.getString("apellidos"));
 				usuario.setPassword(rs.getString("password"));
 				usuario.setUsername(rs.getString("username"));
 				
@@ -82,6 +83,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 				usuario.setId(rs.getInt("id"));
 				usuario.setId_roles(rs.getInt("id_roles"));
 				usuario.setNombre_completo(rs.getString("nombre_completo"));
+				usuario.setApellidos(rs.getString("apellidos"));
 				usuario.setPassword(rs.getString("password"));
 				usuario.setUsername(rs.getString("username"));
 
@@ -112,6 +114,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 				usuario.setId(rs.getInt("id"));
 				usuario.setId_roles(rs.getInt("id_roles"));
 				usuario.setNombre_completo(rs.getString("nombre_completo"));
+				usuario.setApellidos(rs.getString("apellidos"));
 				usuario.setPassword(rs.getString("password"));
 				usuario.setUsername(rs.getString("username"));
 			}
@@ -141,6 +144,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 				usuario.setId(rs.getInt("id"));
 				usuario.setId_roles(rs.getInt("id_roles"));
 				usuario.setNombre_completo(rs.getString("nombre_completo"));
+				usuario.setApellidos(rs.getString("apellidos"));
 				usuario.setPassword(rs.getString("password"));
 				usuario.setUsername(rs.getString("username"));
 			}
@@ -162,7 +166,8 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 			psInsert.setString(1, usuario.getUsername());
 			psInsert.setString(2, usuario.getPassword());
 			psInsert.setString(3, usuario.getNombre_completo());
-			psInsert.setInt(4, usuario.getId_roles());
+			psInsert.setString(4, usuario.getApellidos());
+			psInsert.setInt(5, usuario.getId_roles());
 
 			int res = psInsert.executeUpdate();
 
@@ -190,9 +195,10 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 			psUpdate.setString(1, usuario.getUsername());
 			psUpdate.setString(2, usuario.getPassword());
 			psUpdate.setString(3, usuario.getNombre_completo());
-			psUpdate.setInt(4, usuario.getId_roles());
+			psUpdate.setString(4, usuario.getApellidos());
+			psUpdate.setInt(5, usuario.getId_roles());
 
-			psUpdate.setInt(5, usuario.getId());
+			psUpdate.setInt(6, usuario.getId());
 
 			int res = psUpdate.executeUpdate();
 

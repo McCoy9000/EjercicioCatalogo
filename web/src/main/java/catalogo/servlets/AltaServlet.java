@@ -55,7 +55,7 @@ public class AltaServlet extends HttpServlet {
 		// listener de la aplicación
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");
 		// Se recogen los valores de los atributos de usuario introducidos en el formulario de alta
-		String username, rawpassword, rawpassword2, password = null, password2 = null, nombre_completo;
+		String username, rawpassword, rawpassword2, password = null, password2 = null, nombre_completo, apellidos;
 
 		Encriptador miEncriptador = null;
 		byte[] encryptedpass = null, encryptedpass2 = null;
@@ -108,11 +108,17 @@ public class AltaServlet extends HttpServlet {
 			nombre_completo = request.getParameter("nombre_completo");
 		}
 
+		if (request.getParameter("apellidos") != null) {
+			apellidos = request.getParameter("apellidos").trim();
+		} else {
+			apellidos = request.getParameter("apellidos");
+		}
+
 		// id_roles se asigna directamente como usuario estándar
 		int id_roles = 2;
 		// Se crea un objeto usuario con el que trabajar a partir de esos datos
-		Usuario usuario = new Usuario(id_roles, nombre_completo, username, password);
-		//TODO User
+		Usuario usuario = new Usuario(id_roles, nombre_completo, apellidos, username, password);
+		
 		// Se declara e inicializan las booleanas a partir de las cuales se desarrollará la lógica del servlet
 		boolean nombreDemasiadoLargo = false;
 		if (username != null) {
