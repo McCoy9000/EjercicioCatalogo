@@ -298,7 +298,7 @@ public class ProductoReservadoDAOMySQL extends IpartekDAOMySQL implements Produc
 
 		for (List<Producto> grupoProductos : this.getAlmacen().values()) {
 
-			Articulo muestra = new Articulo(grupoProductos.get(0).getGroupId(), grupoProductos.get(0).getNombre(), grupoProductos.get(0).getDescripcion(), grupoProductos.get(0).getPrecio(),
+			Articulo muestra = new Articulo(grupoProductos.get(0).getId(), grupoProductos.get(0).getGroupId(), grupoProductos.get(0).getNombre(), grupoProductos.get(0).getDescripcion(), grupoProductos.get(0).getPrecio(),
 					this.getStock(grupoProductos.get(0)));
 			catalogo[i] = muestra;
 			i++;

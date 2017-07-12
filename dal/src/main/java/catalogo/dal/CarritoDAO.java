@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import catalogo.tipos.Articulo;
 import catalogo.tipos.Producto;
 
 public interface CarritoDAO {
@@ -23,5 +24,7 @@ public interface CarritoDAO {
 	public int getStock(Producto producto);
 
 	public Producto[] getCatalogo();
+	
+	public Articulo [] getCatalogoArticulos();
 
 }

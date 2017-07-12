@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSessionBindingListener;
 import org.apache.log4j.Logger;
 
 import catalogo.constantes.Constantes;
+import catalogo.tipos.Articulo;
 import catalogo.tipos.Carrito;
 import catalogo.tipos.Producto;
 
@@ -108,6 +109,22 @@ public class CarritoDAOColeccion implements CarritoDAO, Serializable, HttpSessio
 
 		return catalogo;
 
+	}
+	
+	public Articulo[] getCatalogoArticulos() {
+
+		Articulo[] catalogo = new Articulo[this.getAlmacen().size()];
+		int i = 0;
+
+		for (List<Producto> grupoProductos : this.getAlmacen().values()) {
+
+			Articulo muestra = new Articulo(grupoProductos.get(0).getId(), grupoProductos.get(0).getGroupId(), grupoProductos.get(0).getNombre(), grupoProductos.get(0).getDescripcion(), grupoProductos.get(0).getPrecio(),
+					this.getStock(grupoProductos.get(0)));
+			catalogo[i] = muestra;
+			i++;
+
+		}
+		return catalogo;
 	}
 
 	@Override

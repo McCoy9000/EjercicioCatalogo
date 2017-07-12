@@ -18,6 +18,7 @@ import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
 import catalogo.dal.FacturaDAO;
 import catalogo.dal.ProductoDAO;
+import catalogo.tipos.Articulo;
 import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
@@ -54,10 +55,12 @@ public class CheckoutServlet extends HttpServlet {
 		//Se declara un producto genérico para trabajar con él
 		Producto producto;
 		//Se obtienen datos para mostrar en la jsp de checkout
+		Articulo [] articulosCarritoArr = carrito.getCatalogoArticulos();
 		Producto[] productosCarritoArr = carrito.buscarTodosLosProductos();
 		Integer numeroProductos = productosCarritoArr.length;
 		BigDecimal precioTotal = carrito.precioTotal();
 		//Se introducen estos datos en el objeto session para mostrarlos en la jsp
+		session.setAttribute("articulosCarritoArr", articulosCarritoArr);
 		session.setAttribute("productosCarritoArr", productosCarritoArr);
 		session.setAttribute("numeroProductos", numeroProductos);
 		session.setAttribute("precioTotal", precioTotal);
@@ -220,6 +223,7 @@ public class CheckoutServlet extends HttpServlet {
 							}
 		//El carrito y sus datos se vuelven a introducir en sesión		
 							session.setAttribute("carrito", carrito);
+							session.setAttribute("articulosCarritoArr", carrito.getCatalogoArticulos());
 							session.setAttribute("productosCarritoArr", carrito.buscarTodosLosProductos());
 							session.setAttribute("numeroProductos", carrito.buscarTodosLosProductos().length);
 							session.setAttribute("precioTotal", carrito.precioTotal());

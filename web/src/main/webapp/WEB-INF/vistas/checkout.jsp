@@ -24,18 +24,20 @@
 			<th style="text-align:center">Descripción</th>
 			<th style="text-align:center">Imagen</th>
 			<th style="text-align:center">Precio</th>
+			<th style="text-align:center">Cantidad</th>
 			<th style="text-align:center"></th>
 			
 		</tr>
 	</thead>
 	
 	<tbody>
-		<c:forEach items="${sessionScope.productosCarritoArr}" var="producto">
+		<c:forEach items="${sessionScope.articulosCarritoArr}" var="producto">
 			<tr id="carrito">
 				<td style="text-align:center; vertical-align: middle;">${producto.nombre}</td>
 				<td style="text-align:center; vertical-align: middle;">${producto.descripcion}</td>
 				<td style="text-align:center; vertical-align: middle;"><img src="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" width="128"/></td>
 				<td style="text-align:center; vertical-align: middle;">${producto.precio} €</td>
+				<td style="text-align:center; vertical-align: middle;">${producto.cantidad}</td>
 				<td style="text-align:center; vertical-align: middle;"><a class="btn btn-default" href="?op=quitar&id=${producto.id}#carrito">Quitar</a></td>
 			</tr>
 		</c:forEach>
