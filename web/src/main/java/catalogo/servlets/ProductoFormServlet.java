@@ -154,7 +154,7 @@ public class ProductoFormServlet extends HttpServlet {
 						}
 						productos.confirmarTransaccion();
 						session.removeAttribute("errorProducto");
-						log.info("Producto dado de alta");
+						log.info("Producto(s) dado(s) de alta");
 						rutaListado.forward(request, response);
 					} catch (DAOException e) {
 						productos.deshacerTransaccion();
