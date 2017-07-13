@@ -33,13 +33,13 @@
 		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 					style="display:none"
 					</c:if>>
-			<label for="groupId">GroupId</label> 
+			<label for="groupId">Grupo de productos <span style="color:red">*</span></label> 
 			<select id="groupId" name="groupId" class="form-control">
-				<option <c:if test="${producto.groupId == '0'}">selected="selected"</c:if> >0</option>
-				<option <c:if test="${producto.groupId == '1'}">selected="selected"</c:if> >1</option>
-				<option <c:if test="${producto.groupId == '2'}">selected="selected"</c:if> >2</option>
-				<option <c:if test="${producto.groupId == '3'}">selected="selected"</c:if> >3</option>
-				<option <c:if test="${producto.groupId == '4'}">selected="selected"</c:if> >4</option>
+				<option>Nuevo grupo de productos</option>
+				<c:forEach items="${applicationScope.catalogo}" var="grupo">
+				<option>${grupo.groupId} - ${grupo.nombre}</option>
+				</c:forEach>
+				
 			</select>
 			<!-- <input <c:if test="${param.op == 'borrar'}">
 					readonly="readonly"
@@ -103,7 +103,13 @@
 	</form>
 	<div class="alert alert-danger" role="alert" <c:if test="${sessionScope.errorProducto==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorProducto}</div>
 	</div>
+	<div class="col-md-6" style="color:grey">
+	<p>Seleccione un grupo de productos y una cantidad para dar de alta más productos dentro de un grupo.</p>
+	<p>Seleccione "Nuevo grupo de productos" e introduzca un nombre, descripción, precio y cantidad para dar de 
+	alta productos de un grupo aún no existente.</p>
 	</div>
+	</div>
+	
 </div>	
 
 	

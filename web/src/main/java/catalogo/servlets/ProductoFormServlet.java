@@ -2,6 +2,7 @@ package catalogo.servlets;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Iterator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -17,6 +18,7 @@ import org.apache.log4j.Logger;
 import catalogo.constantes.Constantes;
 import catalogo.dal.DAOException;
 import catalogo.dal.ProductoDAO;
+import catalogo.tipos.Articulo;
 import catalogo.tipos.Producto;
 
 @WebServlet("/admin/productoform")
@@ -70,13 +72,25 @@ public class ProductoFormServlet extends HttpServlet {
 			id = 0;
 		}
 
-		int groupId;
+		int groupId = 0;
+		int k = 0;
 
 		if (request.getParameter("id") != null) {
-			try {
-				groupId = Integer.parseInt(request.getParameter("groupId"));
-			} catch (Exception e) {
-				groupId = 0;
+			if (!(request.getParameter("groupId").equals("Nuevo grupo de productos"))) {
+				try {
+					groupId = Integer.parseInt(request.getParameter("groupId").split("\\ - ")[0]);
+				} catch (Exception e) {
+					groupId = 0;
+				}
+			} else {
+				productos.abrir();
+				Iterator<Integer> it = productos.getAlmacen().keySet().iterator();
+				while (it.hasNext()) {
+					if ((k = (Integer) it.next()) > groupId) {
+						groupId = k;
+					}
+					groupId += 1;
+				}
 			}
 		} else {
 			groupId = 0;
@@ -84,11 +98,27 @@ public class ProductoFormServlet extends HttpServlet {
 
 		String nombre, descripcion;
 
-		if (request.getParameter("nombre") != null) {
-			nombre = request.getParameter("nombre").trim();
+		if (request.getParameter("groupId") != null) {
+			if (!(request.getParameter("groupId").equals("Nuevo grupo de productos"))) {
+				nombre = request.getParameter("groupId").split("\\ - ")[1];
+			} else {
+				if (request.getParameter("nombre") != null) {
+					nombre = request.getParameter("nombre").trim();
+				} else {
+					nombre = request.getParameter("nombre");
+				}
+			}
 		} else {
-			nombre = request.getParameter("nombre");
+			if (request.getParameter("nombre") != null) {
+				nombre = request.getParameter("nombre").trim();
+			} else {
+				nombre = request.getParameter("nombre");
+			}
 		}
+
+		/*
+		 * if (request.getParameter("nombre") != null) { nombre = request.getParameter("nombre").trim(); } else { nombre = request.getParameter("nombre"); }
+		 */
 
 		if (request.getParameter("descripcion") != null) {
 			descripcion = request.getParameter("descripcion").trim();
@@ -121,6 +151,13 @@ public class ProductoFormServlet extends HttpServlet {
 		} else {
 			cantidad = 1;
 		}
+
+		productos.abrir();
+
+		Articulo[] catalogo = productos.getCatalogo();
+		application.setAttribute("catalogo", catalogo);
+
+		productos.cerrar();
 
 		// Lógica del servlet según la opción elegida por el usuario y enviada por el navegador
 		// encapsulada en opform.
@@ -168,7 +205,6 @@ public class ProductoFormServlet extends HttpServlet {
 				break;
 			case "modificar":
 
-				productos.abrir();
 				// Aquí hay que declarar un nuevo producto con los datos recogidos del formulario.
 				producto = new Producto(id, groupId, nombre, descripcion, precio);
 
@@ -177,6 +213,7 @@ public class ProductoFormServlet extends HttpServlet {
 					request.setAttribute("producto", producto);
 					request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=modificar").forward(request, response);
 				} else {
+					productos.abrir();
 					try {
 						productos.update(producto);
 						session.removeAttribute("errorProducto");
