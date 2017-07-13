@@ -15,36 +15,28 @@
 <div class="row">
 <div class="col-md-6">
 	<form action="${applicationScope.rutaBase}/admin/productoform" method="post">
-		<fieldset class="form-group"
-			<c:if test="${param.op == 'alta' or param.op == null or param.op == ''}">
-				style="display:none;"
-			</c:if> 
-		>
+		<fieldset class="form-group" style="display:none;">
 			<label for="id">Id</label> 
 			
 			<input id="id" name="id" type="number" class="form-control"
-			  required="required"  value="${producto.id}" 
-			  
-				<c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
-					readonly="readonly"
-			  	</c:if> 
-		  	>
+			  required="required"  value="${producto.id}" readonly="readonly">
 		</fieldset>
-		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
-					style="display:none"
-					</c:if>>
+		<fieldset class="form-group" 
+			<c:if test="${param.op == 'borrar'}">
+				style="display:none"
+			</c:if>>
 			<label for="groupId">Grupo de productos <span style="color:red">*</span></label> 
-			<select id="groupId" name="groupId" class="form-control">
+			<select id="groupId" name="groupId" class="form-control" 
+				<c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
+					disabled="disabled"
+			  	</c:if> 
+			>
 				<option>Nuevo grupo de productos</option>
 				<c:forEach items="${applicationScope.catalogo}" var="grupo">
-				<option>${grupo.groupId} - ${grupo.nombre}</option>
+				<option <c:if test="${producto.groupId == grupo.groupId}">selected="selected"</c:if>>${grupo.groupId} - ${grupo.nombre}</option>
 				</c:forEach>
 				
 			</select>
-			<!-- <input <c:if test="${param.op == 'borrar'}">
-					readonly="readonly"
-					</c:if> id="groupId" name="groupId" type="number" min="0" class="form-control"
-				required="required"  value="${producto.groupId}"/> -->
 		</fieldset>
 		<fieldset class="form-group">
 			<label for="nombre">Nombre</label> 
@@ -57,19 +49,16 @@
 		<fieldset class="form-group" 
 			<c:if test="${param.op == 'borrar'}">
 				style="display:none;"
-			</c:if>
-		>
+			</c:if>>
 			<label for="descripcion">Descripción</label> 
 			
 			<textarea rows="3" id="descripcion" name="descripcion" placeholder="Descripción"
 				  class="form-control">${producto.descripcion}</textarea>
 		</fieldset>
-		
 		<fieldset class="form-group" 
 			<c:if test="${param.op == 'borrar'}">
 				style="display:none;"
-			</c:if>
-		>
+			</c:if>>
 			<label for="precio">Precio</label>
 			<div class="input-group"> 
 			<div class="input-group-addon">€</div>
@@ -80,8 +69,7 @@
 		<fieldset class="form-group"
 			<c:if test="${param.op == 'borrar' or param.op == 'modificar'}">
 				style="display:none;"
-			</c:if>
-		>
+			</c:if>>
 			<label for="cantidad">Cantidad</label>
 			<div class="input-group">
 			<input type="number" id="cantidad" name="cantidad" value="1"
@@ -93,8 +81,7 @@
 			<input type="submit" class="btn btn-default" style="background:#ECC007; border:none;" value="${fn:toUpperCase(param.op)}"  
 				<c:if test="${param.op == null or param.op == ''}">
 			  		style="display:none;"
-			  	</c:if>
-			/>
+			  	</c:if>/>
 			
 			
 			<input type="hidden" name="opform" value="${param.op}" />

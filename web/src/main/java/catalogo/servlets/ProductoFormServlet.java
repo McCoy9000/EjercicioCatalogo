@@ -3,6 +3,7 @@ package catalogo.servlets;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -116,9 +117,6 @@ public class ProductoFormServlet extends HttpServlet {
 			}
 		}
 
-		/*
-		 * if (request.getParameter("nombre") != null) { nombre = request.getParameter("nombre").trim(); } else { nombre = request.getParameter("nombre"); }
-		 */
 
 		if (request.getParameter("descripcion") != null) {
 			descripcion = request.getParameter("descripcion").trim();
@@ -171,6 +169,7 @@ public class ProductoFormServlet extends HttpServlet {
 			case "alta":
 
 				producto = new Producto(groupId, nombre, descripcion, precio);
+				productos.abrir();
 
 				if (nombre == null || nombre == "") {
 					session.setAttribute("errorProducto", "Debes introducir un nombre de producto");
@@ -181,7 +180,6 @@ public class ProductoFormServlet extends HttpServlet {
 					request.setAttribute("producto", producto);
 					request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=alta").forward(request, response);
 				} else {
-					productos.abrir();
 
 					productos.iniciarTransaccion();
 
@@ -214,11 +212,19 @@ public class ProductoFormServlet extends HttpServlet {
 					request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_PRODUCTO + "?op=modificar").forward(request, response);
 				} else {
 					productos.abrir();
+					List<Producto> grupoProductos = productos.getAlmacen().get(groupId);
+					productos.iniciarTransaccion();
+					
 					try {
-						productos.update(producto);
+						for(Producto p : grupoProductos) {
+							producto.setId(p.getId());;
+							productos.update(producto);
+						}
+						productos.confirmarTransaccion();
 						session.removeAttribute("errorProducto");
 						log.info("Producto modificado");
 					} catch (DAOException e) {
+						productos.deshacerTransaccion();
 						log.info("Error al modificar el producto");
 						log.info(e.getMessage());
 						session.setAttribute("errorProducto", "Error al modificar el producto. Inténtelo de nuevo");
