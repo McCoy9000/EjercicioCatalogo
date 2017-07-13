@@ -9,7 +9,7 @@ public class Producto implements Serializable {
 
 	private int id;
 	private int groupId;
-	private String nombre, descripcion, errores;
+	private String nombre, descripcion;
 	private BigDecimal precio;
 	private int imagen;
 
@@ -90,14 +90,6 @@ public class Producto implements Serializable {
 
 	public void setPrecio(BigDecimal precio) {
 		this.precio = precio.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-	}
-
-	public String getErrores() {
-		return errores;
-	}
-
-	public void setErrores(String errores) {
-		this.errores = errores;
 	}
 
 	@Override
