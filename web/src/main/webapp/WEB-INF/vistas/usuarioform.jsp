@@ -5,11 +5,11 @@
 	<jsp:useBean id="usuario" scope="request"
 		class="catalogo.tipos.Usuario" />
 	
-	<div class="container">
+<!-- 	<div class="container">
 		<h2>Formulario de usuarios</h2>
-	</div>
+	</div> -->
 
-<div class="container">
+<div class="container" style="margin-top:2em">
 <div class="row">
 <div class="col-md-6">
 	<form action="${applicationScope.rutaBase}/admin/usuarioform" method="post">

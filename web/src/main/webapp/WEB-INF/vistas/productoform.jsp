@@ -4,14 +4,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<div class="container">
+<!-- <div class="container">
 	<h2>Formulario de productos</h2>
-</div>
+</div> -->
 	
 	<jsp:useBean id="producto" scope="request"
 		class="catalogo.tipos.Producto" />
 
-<div class="container">
+<div class="container" style="margin-top:2em">
 <div class="row">
 <div class="col-md-6">
 	<form action="${applicationScope.rutaBase}/admin/productoform" method="post">

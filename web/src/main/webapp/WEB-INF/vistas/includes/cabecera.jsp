@@ -43,10 +43,10 @@
 				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownLogin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:solid grey 1px; margin-top:30px;">
 					<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
 				</button>
-				<ul class="dropdown-menu dropdown-menu-right" style="background-color:#ECC007;" aria-labelledby="dropdownLogin">
-				<li><a class="btn btn-default" style="background-color:#ECC007; border:none;" href="${applicationScope.rutaBase}/login"><strong>LOGIN o SIGNUP</strong></a></li>
-				<li><a class="btn btn-default" style="background:#ECC007; border:none;" href="${applicationScope.rutaBase}/catalogo"><strong>CATALOGO</strong></a></li>
-				<li><a class="btn btn-default" style="background-color:#ECC007; border:none;" href="${applicationScope.rutaBase}/login?op=logout"><strong>LOGOUT</strong></a></li>
+				<ul class="dropdown-menu dropdown-menu-right" " aria-labelledby="dropdownLogin">
+				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/login"><strong>LOGIN o SIGNUP</strong></a></li>
+				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/catalogo"><strong>CATALOGO</strong></a></li>
+				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/login?op=logout"><strong>LOGOUT</strong></a></li>
 				</ul>
 				</div>
 				</div>

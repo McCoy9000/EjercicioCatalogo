@@ -3,10 +3,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<div class="container">
+<!-- <div class="container">
 <h2>Mantenimiento de usuarios</h2>
-</div>
-<div class="container">
+</div> -->
+<div class="container" style="margin-top:2em">
 	<div class="table-responsive">
 		<table id="usuarios" class="table">
 			<thead>
@@ -22,12 +22,12 @@
 			<tbody>
 				<c:forEach items="${applicationScope.usuariosArr}" var="usuario">
 					<tr>
-						<td>${usuario.username}</td>	
-						<td>${usuario.password}</td>
-						<td>${usuario.nombre_completo}</td>
-						<td>${usuario.apellidos}</td>
-						<td>${usuario.rol}</td>
-						<td>
+						<td style="vertical-align: middle;">${usuario.username}</td>	
+						<td style="vertical-align: middle;">${usuario.password}</td>
+						<td style="vertical-align: middle;">${usuario.nombre_completo}</td>
+						<td style="vertical-align: middle;">${usuario.apellidos}</td>
+						<td style="vertical-align: middle;">${usuario.rol}</td>
+						<td style="vertical-align: middle;">
 							<a class="btn btn-success" href="${applicationScope.rutaBase}/admin/usuariocrud?op=modificar&id=${usuario.id}">Modificar</a>
 							<a class="btn btn-danger" href="${applicationScope.rutaBase}/admin/usuariocrud?op=borrar&id=${usuario.id}">Borrar</a>
 						</td>

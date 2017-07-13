@@ -1,11 +1,19 @@
 <%@ include file="includes/cabecera.jsp"%>
 
-<div class="container">
+<!-- <div class="container">
 	<h2>Login</h2>
-</div>
+</div>  -->
 
-<div class="container">
+<div class="container" style="margin-top:2em">
 <div class="row">
+<div class="col-md-6">
+<div class="jumbotron">
+<h1>¡Date ahora de alta!</h1>
+<p>Tan solo te llevará unos pocos segundos...</p>
+<p><a class="btn btn-primary btn-lg" style="background:#ECC007; border:none; color:black" href="${applicationScope.rutaBase}/alta">ALTA</a>
+</p>
+</div>
+</div>
 <div class="col-md-6">
 <form action="login" method="post">
 	<fieldset class="form-group">
@@ -25,9 +33,10 @@
 
 </div>
 </div>
+<!-- 
 <div class="container">
 	<a class="btn btn-default" style="background:#ECC007; border:none;" href="${applicationScope.rutaBase}/alta">¡ALTA!</a>
-</div>
+</div>  -->
 
 
 <%@ include file="includes/pie.jsp"%>

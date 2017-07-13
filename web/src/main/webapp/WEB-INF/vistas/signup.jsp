@@ -1,8 +1,8 @@
 <%@ include file="includes/cabecera.jsp"%>
-<div class="container">
+<!-- <div class="container">
 	<h2>Alta</h2>
-</div>
-<div class="container">
+</div> -->
+<div class="container" style="margin-top:2em">
 <div class="row">
 <div class="col-md-6">
 <form action="alta" method="post">

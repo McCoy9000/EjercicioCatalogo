@@ -3,15 +3,15 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<div class="container">
+<!-- <div class="container">
 	<h2>Checkout</h2>
-</div>
+</div>  -->
 
-<nav class="container">
+<nav class="container" style="margin-top:2em">
 	<ul class="list-inline">
 		<li><a class="btn btn-default" style="background:#ECC007; border:none;" href="?op=vaciarcarrito"><strong>Vaciar carrito</strong></a>
 		<li><a class="btn btn-default" style="background:#ECC007; border:none;" onclick="window.open('?op=pagar', '_self'); window.open('${applicationScope.rutaBase}/factura', '_blank', 'width=500,height=400')"><strong>PAGAR ${sessionScope.numeroProductos} producto<span <c:if test="${sessionScope.numeroProductos==1}">style="display:none;"</c:if>>s</span></strong></a></li>
-		<li>Total a pagar: ${sessionScope.precioTotal} € IVA incl.</li>
+		<li class="bg-success" style="margin:1em"><strong>Total a pagar:</strong> ${sessionScope.precioTotal} € IVA incl.</li>
 	</ul>
 </nav>
 <div class="container">
