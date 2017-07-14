@@ -34,6 +34,8 @@ public class FacturaCRUDServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
+		session.removeAttribute("errorFactura");
+		
 		String op = request.getParameter("op");
 
 		if (op == null) {

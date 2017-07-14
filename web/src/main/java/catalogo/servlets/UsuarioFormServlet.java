@@ -39,9 +39,7 @@ public class UsuarioFormServlet extends HttpServlet {
 
 		ServletContext application = getServletContext();
 		HttpSession session = request.getSession();
-		session.removeAttribute("errorLogin");
-		session.removeAttribute("errorSignup");
-		session.removeAttribute("errorProducto");
+
 		session.removeAttribute("errorUsuario");
 
 		UsuarioDAO usuarios = (UsuarioDAO) application.getAttribute("usuarios");

@@ -41,9 +41,6 @@ public class ProductoFormServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		// Borrar los errores que puedan venir en sesión
-		session.removeAttribute("errorLogin");
-		session.removeAttribute("errorSignup");
-		session.removeAttribute("errorUsuario");
 		session.removeAttribute("errorProducto");
 
 		ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");

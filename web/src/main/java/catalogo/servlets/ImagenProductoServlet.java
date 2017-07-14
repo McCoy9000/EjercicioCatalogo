@@ -19,7 +19,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FilenameUtils;
 
 import catalogo.constantes.Constantes;
 
@@ -52,6 +51,7 @@ public class ImagenProductoServlet extends HttpServlet {
 			try {
 		        List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 		        if(items == null) {
+					request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_IMAGEN_PRODUCTOS + "?op=subir").forward(request, response);
 					return;
 		        } else {
 		        
@@ -62,8 +62,6 @@ public class ImagenProductoServlet extends HttpServlet {
 			                
 			            } else {
 			                // Process form file field (input type="file").
-			                String fieldName = item.getFieldName();
-			                String fileName = FilenameUtils.getName(item.getName());
 			                InputStream fileContent = item.getInputStream();
 			                byte[] buffer = new byte[fileContent.available()];
 			                fileContent.read(buffer);
@@ -71,6 +69,8 @@ public class ImagenProductoServlet extends HttpServlet {
 			                File foto = new File(realPath + File.separator + grupoProductos + ".jpg");
 			                OutputStream outStream = new FileOutputStream(foto);
 			                outStream.write(buffer);
+			                //TODO En ocasiones outStream.write(buffer) arroja una excepción relacionada con 
+			                // "un archivo con una seccion asignada a usuario abierta"
 			                fileContent.close();
 			                outStream.close();
 			            }

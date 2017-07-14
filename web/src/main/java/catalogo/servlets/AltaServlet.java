@@ -47,9 +47,6 @@ public class AltaServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
 		// Borrado de errores en sesión por si llegan aquí desde los formularios CRUD
-		session.removeAttribute("errorProducto");
-		session.removeAttribute("errorUsuario");
-		session.removeAttribute("errorLogin");
 		session.removeAttribute("errorSignup");
 		// Se obtiene el conjunto de usuarios extraído de la BBDD e introducido en el objeto application en el
 		// listener de la aplicación

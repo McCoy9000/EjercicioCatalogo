@@ -43,9 +43,6 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		ServletContext application = request.getServletContext();
 		// Borrado de errores en sesión por si llegan aquí desde los formularios CRUD
-		session.removeAttribute("errorProducto");
-		session.removeAttribute("errorUsuario");
-		session.removeAttribute("errorSignup");
 		session.removeAttribute("errorLogin");
 		// Recogida de datos de la request
 		String username, rawpassword, password = null;
