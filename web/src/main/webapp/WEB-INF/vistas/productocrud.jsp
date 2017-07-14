@@ -28,7 +28,7 @@
 						<td style="vertical-align: middle;">${producto.nombre}</td>
 						<td style="vertical-align: middle;">${producto.descripcion}</td>
 						<td style="vertical-align: middle;"><object data="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128" type="image/png">
-							<img src="${applicationScope.rutaBase}/img/0.jpg" class="img-thumbnail" height="128"/></object></td>
+							<img src="${applicationScope.rutaBase}/img/0.jpg" class="img-thumbnail" height="128" width="128"/></object></td>
 						<td style="vertical-align: middle;">${producto.precio} €</td>
 						<td style="vertical-align: middle;">
 							<a class="btn btn-success" href="${applicationScope.rutaBase}/admin/productocrud?op=modificar&id=${producto.id}">Modificar</a>

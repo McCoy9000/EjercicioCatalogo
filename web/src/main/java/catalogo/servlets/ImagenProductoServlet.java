@@ -1,6 +1,7 @@
 package catalogo.servlets;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,14 +20,17 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.log4j.Logger;
 
 import catalogo.constantes.Constantes;
+import catalogo.dal.ProductoDAO;
 
 @WebServlet("/admin/imagenproducto")
 public class ImagenProductoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	
+	private static Logger log = Logger.getLogger(ImagenProductoServlet.class);
+
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -38,6 +42,11 @@ public class ImagenProductoServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			
 			session.removeAttribute("errorImagen");
+			
+			ProductoDAO productos = (ProductoDAO) application.getAttribute("productos");
+			productos.abrir();
+			application.setAttribute("catalogo", productos.getCatalogo());
+			productos.cerrar();
 			
 			String realPath = application.getRealPath("/img/");
 			String op = request.getParameter("op");
@@ -62,17 +71,36 @@ public class ImagenProductoServlet extends HttpServlet {
 			                
 			            } else {
 			                // Process form file field (input type="file").
-			                InputStream fileContent = item.getInputStream();
+			            	InputStream fileContent = null;
+			            	OutputStream outStream = null;
+			            	try {
+			            	fileContent = item.getInputStream();
 			                byte[] buffer = new byte[fileContent.available()];
 			                fileContent.read(buffer);
-			                System.out.println(realPath);
+			                
 			                File foto = new File(realPath + File.separator + grupoProductos + ".jpg");
-			                OutputStream outStream = new FileOutputStream(foto);
+			                outStream = new FileOutputStream(foto);
+			                //Tras haber modificado cualquier imagen o haber subido una nueva, al intentar sobreescribir
+			                //una imagen ya existente, el constructor de FileOutputStream lanza una excepción
+			                //FileNotFoundException por estar el archivo de imagen bloqueado por el sistema de mapping
+			                //de archivos de windows. Es necesario esperar al garbage collector para poder lanzar el 
+			                //método sin errores.
 			                outStream.write(buffer);
-			                //TODO En ocasiones outStream.write(buffer) arroja una excepción relacionada con 
+			                log.info("Imagen cargada con éxito.");
+			                } catch (FileNotFoundException fnfe) {
+			                	fnfe.printStackTrace();
+			                	log.info("Error al sobreescribir el archivo de imagen. Esperando al garbage collector.");
+			    		        session.setAttribute("errorImagen", "Error al sobreescribir el archivo de imagen. Inténtelo de nuevo más tarde");
+			    				request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_IMAGEN_PRODUCTOS + "?op=subir").forward(request, response);
+			                	return;
+			                } finally {
 			                // "un archivo con una seccion asignada a usuario abierta"
 			                fileContent.close();
-			                outStream.close();
+			                if (outStream != null) {
+			                	outStream.close();
+			                }
+			                System.gc();
+			                }
 			            }
 			        }
 		        }
@@ -80,7 +108,8 @@ public class ImagenProductoServlet extends HttpServlet {
 		    } catch (FileUploadException e) {
 		        session.setAttribute("errorImagen", "Error al subir archivo de imagen. ¿Está seguro de haber seleccionado un archivo JPG para la subida?");
 				request.getRequestDispatcher(Constantes.RUTA_FORMULARIO_IMAGEN_PRODUCTOS + "?op=subir").forward(request, response);
-		        throw new ServletException("Cannot parse multipart request.", e);
+				e.printStackTrace();
+				return;
 		    }
 			request.getRequestDispatcher(Constantes.RUTA_LISTADO_PRODUCTO).forward(request, response);
 			}
