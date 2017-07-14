@@ -62,7 +62,7 @@
 			<label for="precio">Precio</label>
 			<div class="input-group"> 
 			<div class="input-group-addon">€</div>
-			<input id="precio" name="precio" placeholder="Precio" value="${producto.precio}"
+			<input type="number" id="precio" name="precio" placeholder="Precio" value="${producto.precio}"
 				 min="0" class="form-control"/>
 			</div>
 		</fieldset>

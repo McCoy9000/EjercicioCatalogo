@@ -32,7 +32,7 @@
 			<tr id="${articulo.groupId}">
 				<td style="vertical-align: middle;">${articulo.nombre}</td>
 				<td style="vertical-align: middle;">${articulo.descripcion}</td>
-				<td style="vertical-align: middle;"><object data="${applicationScope.rutaBase}/img/${articulo.imagen}.jpg" height="128" width="128" type="image/png">
+				<td style="vertical-align: middle;"><object data="${applicationScope.rutaBase}/img/${articulo.imagen}.jpg" height="128" type="image/png">
 					<img src="${applicationScope.rutaBase}/img/0.jpg" class="img-thumbnail" height="128" width="128"/></object></td>
 				<td style="vertical-align: middle;">${articulo.precio} €</td>
 				<td style="vertical-align: middle;">${articulo.cantidad}</td>
