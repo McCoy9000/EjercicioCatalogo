@@ -8,7 +8,7 @@ public class FacturaMascara {
 	private String fecha;
 	
 	public FacturaMascara() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public FacturaMascara(int id, String numero_factura, String usuario, String fecha) {

@@ -97,6 +97,7 @@
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
 					<li><a href="${applicationScope.rutaBase}/admin/facturacrud">Mantenimiento</a></li>
+					<li><a href="${applicationScope.rutaBase}/admin/facturacrud?op=devolucion">Devoluciones</a></li>
 					<!-- <li><a href="${applicationScope.rutaBase}/admin/facturaform">Alta</a></li> -->
 				</ul>
 			</div>

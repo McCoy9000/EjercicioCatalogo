@@ -89,7 +89,10 @@ public class FacturaCRUDServlet extends HttpServlet {
 				session.setAttribute("precioFactura", precioFactura);
 				session.setAttribute("usuarioFactura", usuarioFactura);
 				request.getRequestDispatcher(Constantes.RUTA_FACTURA_FACTURA).forward(request, response);
-				
+				break;
+			case "devolucion":
+				request.getRequestDispatcher("/WEB-INF/vistas/devolucionform.jsp").forward(request, response);
+				break;
 				
 			}
 
