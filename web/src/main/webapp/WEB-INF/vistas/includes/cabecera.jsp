@@ -46,6 +46,7 @@
 				<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLogin">
 				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/login"><strong>LOGIN o SIGNUP</strong></a></li>
 				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/catalogo"><strong>CATALOGO</strong></a></li>
+				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/facturasusuario"><strong>MIS FACTURAS</strong></a></li>
 				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/login?op=logout"><strong>LOGOUT</strong></a></li>
 				</ul>
 				</div>

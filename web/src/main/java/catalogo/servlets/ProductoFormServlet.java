@@ -74,7 +74,7 @@ public class ProductoFormServlet extends HttpServlet {
 		int k = 0;
 
 		if (request.getParameter("id") != null) {
-			if (!(request.getParameter("groupId").equals("Nuevo grupo de productos"))) {
+			if (!(("Nuevo grupo de productos").equals(request.getParameter("groupId")))) {
 				try {
 					groupId = Integer.parseInt(request.getParameter("groupId").split("\\ - ")[0]);
 				} catch (Exception e) {
@@ -97,7 +97,7 @@ public class ProductoFormServlet extends HttpServlet {
 		String nombre, descripcion;
 
 		if (request.getParameter("groupId") != null) {
-			if (!(request.getParameter("groupId").equals("Nuevo grupo de productos"))) {
+			if (!(("Nuevo grupo de productos").equals(request.getParameter("groupId")))) {
 				nombre = request.getParameter("groupId").split("\\ - ")[1];
 			} else {
 				if (request.getParameter("nombre") != null) {
@@ -200,9 +200,16 @@ public class ProductoFormServlet extends HttpServlet {
 				break;
 			case "modificar":
 
-				// Aquí hay que declarar un nuevo producto con los datos recogidos del formulario.
+				// Aquí hay que declarar un nuevo producto con los datos recogidos del formulario. Como en el caso
+				//modificar, el campo groupId está deshabilitado y no lo envía, hay que extraerlo a través del id.
+				//Como el nombre se extrae del mismo campo, para este caso solicitamos el parametro "nombre".
+				nombre = request.getParameter("nombre");
+				productos.abrir();
+				groupId = productos.findById(id).getGroupId();
+				productos.cerrar();
 				producto = new Producto(id, groupId, nombre, descripcion, precio);
-
+				
+				
 				if (nombre == null || nombre == "") {
 					session.setAttribute("errorProducto", "Debes introducir un nombre de producto");
 					request.setAttribute("producto", producto);

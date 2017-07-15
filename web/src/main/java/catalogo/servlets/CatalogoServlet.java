@@ -1,6 +1,7 @@
 package catalogo.servlets;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import catalogo.constantes.Constantes;
 import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
 import catalogo.dal.ProductoDAO;
@@ -166,6 +168,17 @@ public class CatalogoServlet extends HttpServlet {
 
 				break;
 
+			
+			case "ver":
+				int id = Integer.parseInt(request.getParameter("id"));
+				productos.abrir();
+				Producto producto = productos.findById(id);
+				producto.setPrecio(producto.getPrecio().multiply(Constantes.IVA.add(BigDecimal.ONE)).setScale(2, BigDecimal.ROUND_HALF_EVEN));
+				productos.cerrar();
+				session.setAttribute("producto", producto);
+				request.getRequestDispatcher("/WEB-INF/vistas/producto.jsp").forward(request, response);
+				break;
+			
 			default:
 
 				request.getRequestDispatcher("/WEB-INF/vistas/catalogo.jsp").forward(request, response);

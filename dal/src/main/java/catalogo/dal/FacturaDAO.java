@@ -3,6 +3,7 @@ package catalogo.dal;
 import java.math.BigDecimal;
 
 import catalogo.tipos.Factura;
+import catalogo.tipos.FacturaMascara;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
 
@@ -25,6 +26,8 @@ public interface FacturaDAO extends IpartekDAO {
 	public Producto[] findProductoByFacturaId(int id);
 
 	public Usuario findUserByFacturaId(int id);
+	
+	public FacturaMascara[] findMasksByUserId(int id);
 
 	public int insertFacturaProducto(int id_factura, int id_producto);
 

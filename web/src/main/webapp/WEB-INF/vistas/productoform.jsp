@@ -26,11 +26,11 @@
 				style="display:none"
 			</c:if>>
 			<label for="groupId">Grupo de productos <span style="color:red">*</span></label> 
-			<select id="groupId" name="groupId" class="form-control" 
+			<select id="groupId" name="groupId" class="form-control"
 				<c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
 					disabled="disabled"
-			  	</c:if> 
-			>
+			  	</c:if>
+			 >
 				<option>Nuevo grupo de productos</option>
 				<c:forEach items="${applicationScope.catalogo}" var="grupo">
 				<option <c:if test="${producto.groupId == grupo.groupId}">selected="selected"</c:if>>${grupo.groupId} - ${grupo.nombre}</option>

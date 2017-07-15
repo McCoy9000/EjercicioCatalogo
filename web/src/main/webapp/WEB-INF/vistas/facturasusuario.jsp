@@ -12,16 +12,16 @@
 			<thead>
 				<tr>
 					<th>Número de factura</th>
-					<th>Id de usuario</th>
+					<th>Usuario</th>
 					<th>Fecha</th>
 					<th></th>
 					</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${applicationScope.facturasArr}" var="factura">
+				<c:forEach items="${sessionScope.facturasUsuarioArr}" var="factura">
 					<tr>
 						<td>${factura.numero_factura}</td>
-						<td>${factura.id_usuarios}</td>
+						<td>${factura.usuario}</td>
 						<td>${factura.fecha}</td>
 						<td>
 							<a class="btn btn-success" onclick="window.open('${applicationScope.rutaBase}/admin/facturacrud?op=ver&id=${factura.id}', '_blank', 'width=400,height=400')">Ver</a>

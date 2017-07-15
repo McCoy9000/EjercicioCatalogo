@@ -19,7 +19,6 @@
 		<tr>
 			
 			<th>Nombre producto</th>
-			<th>Descripción</th>
 			<th>Imagen</th>
 			<th>Precio</th>
 			<th>Stock</th>
@@ -30,10 +29,9 @@
 	<tbody>
 		<c:forEach items="${applicationScope.catalogo}" var="articulo">
 			<tr id="${articulo.groupId}">
-				<td style="vertical-align: middle;">${articulo.nombre}</td>
-				<td style="vertical-align: middle;">${articulo.descripcion}</td>
-				<td style="vertical-align: middle;"><object data="${applicationScope.rutaBase}/img/${articulo.imagen}.jpg" height="128" type="image/png">
-					<img src="${applicationScope.rutaBase}/img/0.jpg" class="img-thumbnail" height="128" width="128"/></object></td>
+				<td style="vertical-align: middle;"><a  onclick="window.open('${applicationScope.rutaBase}/catalogo?op=ver&id=${articulo.id}', '_blank', 'width=800,height=600')">${articulo.nombre}</a></td>
+				<td style="vertical-align: middle;"><a  onclick="window.open('${applicationScope.rutaBase}/catalogo?op=ver&id=${articulo.id}', '_blank', 'width=800,height=600')"><object data="${applicationScope.rutaBase}/img/${articulo.imagen}.jpg" height="128" type="image/png">
+					<img src="${applicationScope.rutaBase}/img/0.jpg" class="img-thumbnail" height="128" width="128"/></object></a></td>
 				<td style="vertical-align: middle;">${articulo.precio} €</td>
 				<td style="vertical-align: middle;">${articulo.cantidad}</td>
 				<td id="anadir" style="text-align:center; vertical-align:middle;">
