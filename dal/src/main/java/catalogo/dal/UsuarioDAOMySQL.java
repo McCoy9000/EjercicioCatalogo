@@ -11,14 +11,14 @@ import catalogo.tipos.UsuarioMascara;
 
 public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
-	private final static String FIND_ALL = "SELECT * FROM usuarios";
+	private final static String FIND_ALL = "SELECT * FROM usuarios WHERE NOT id_roles = '3'";
 	private final static String FIND_BY_ID = "SELECT * FROM usuarios WHERE id = ?";
 	private final static String INSERT = "INSERT INTO usuarios (username, password, nombre_completo, apellidos, id_roles)" + " VALUES (?, ?, ?, ?, ?)";
 	private final static String FIND_BY_NAME = "SELECT * FROM usuarios WHERE username = ?";
 	private final static String UPDATE = "UPDATE usuarios " + "SET username = ?, password = ?, nombre_completo = ?, apellidos = ?, id_roles = ? " + "WHERE id = ?";
 	private final static String DELETE = "DELETE FROM usuarios WHERE id = ?";
 	private final static String DELETE_TABLE_USUARIOS = "DELETE FROM usuarios";
-	private final static String FIND_ALL_MASKS = "SELECT usuarios.id, username, password, nombre_completo, apellidos, rol FROM usuarios, roles WHERE roles.id=usuarios.id_roles";
+	private final static String FIND_ALL_MASKS = "SELECT usuarios.id, username, password, nombre_completo, apellidos, rol FROM usuarios, roles WHERE roles.id=usuarios.id_roles AND NOT id_roles = '3'";
 	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete, psDeleteUsers, psFindAllMasks;
 
 	public UsuarioDAOMySQL(String url) {
