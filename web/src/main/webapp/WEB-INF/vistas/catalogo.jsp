@@ -4,9 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<!-- <div class="container">
-	<h2>Catálogo</h2>
-</div> -->
+
 <nav class="container" style="margin-top:2em">
 	<ul class="list-inline">
 	<li><a class="btn btn-default" style="background:#ECC007; border:#ECC007;" href="${applicationScope.rutaBase}/checkout"><strong>CHECKOUT &#128722; (${sessionScope.numeroProductos})</strong></a></li>

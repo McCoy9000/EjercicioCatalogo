@@ -28,6 +28,11 @@
 			    $('#usuarios').DataTable();
 			} );
 			</script>
+			<script>
+			$(document).ready( function () {
+			    $('#facturas').DataTable();
+			} );
+			</script>
 			<link href="https://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet">
 		</head>
 		

@@ -8,7 +8,7 @@
 </div> -->
 <div class="container" style="margin-top:2em">
 	<div class="table-responsive">
-		<table id="facturas" class="table table-hover">
+		<table id="facturas" class="table">
 			<thead>
 				<tr>
 					<th>Número de factura</th>

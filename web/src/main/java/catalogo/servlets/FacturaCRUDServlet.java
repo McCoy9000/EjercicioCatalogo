@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import catalogo.constantes.Constantes;
 import catalogo.dal.FacturaDAO;
 import catalogo.tipos.Factura;
+import catalogo.tipos.FacturaMascara;
 import catalogo.tipos.Producto;
 import catalogo.tipos.Usuario;
 
@@ -42,7 +43,7 @@ public class FacturaCRUDServlet extends HttpServlet {
 
 			facturas.abrir();
 
-			Factura[] facturasArr = facturas.findAll();
+			FacturaMascara[] facturasArr = facturas.findAllMasks();
 
 			application.setAttribute("facturasArr", facturasArr);
 

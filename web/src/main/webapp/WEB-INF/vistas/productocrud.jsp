@@ -3,9 +3,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!-- <div class="container">
-<h2>Mantenimiento de productos</h2>
-</div> -->
+
 <div class="container" style="margin-top:2em">
 	<div class="table-responsive">
 		<table id="productos" class="table">

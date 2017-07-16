@@ -15,6 +15,7 @@ import catalogo.tipos.Usuario;
 
 public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	private final static String FIND_ALL = "SELECT * FROM facturas";
+	private final static String FIND_ALL_MASKS = "SELECT facturas.id, facturas.numero_factura, usuarios.nombre_completo, usuarios.apellidos, facturas.fecha FROM facturas, usuarios WHERE usuarios.id=facturas.id_usuarios";
 	private final static String FIND_BY_ID = "SELECT * FROM facturas WHERE id = ?";
 	private final static String INSERT = "INSERT INTO facturas (numero_factura, id_usuarios, fecha)" + " VALUES (?, ?, ?)";
 	private final static String UPDATE = "UPDATE facturas " + "SET numero_factura = ?, id_usuarios = ?,fecha = ?" + "WHERE id = ?";
@@ -26,7 +27,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	private final static String FIND_USER_BY_FACTURA_ID = "SELECT * FROM usuarios AS u, facturas AS f WHERE f.id = ? AND u.id = f.id_usuarios";
 	private final static String FIND_MASKS_BY_USER_ID = "SELECT facturas.id, facturas.numero_factura, usuarios.nombre_completo, usuarios.apellidos, facturas.fecha FROM facturas, usuarios WHERE usuarios.id=facturas.id_usuarios AND facturas.id_usuarios=?";
 
-	private PreparedStatement psFindAll, psFindById, psInsert, psUpdate, psDelete, psFindProdByFacturaId, psRegister, psGetMaxId, psFindUserByFacturaId, psMasksByUserId;
+	private PreparedStatement psFindAll, psFindAllMasks, psFindById, psInsert, psUpdate, psDelete, psFindProdByFacturaId, psRegister, psGetMaxId, psFindUserByFacturaId, psMasksByUserId;
 
 	public FacturaDAOMySQL() {
 		super();
@@ -64,6 +65,38 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 			cerrar(psFindAll, rs);
 		}
 		return facturas.toArray(new Factura[facturas.size()]);
+	}
+
+	public FacturaMascara[] findAllMasks() {
+		
+		ArrayList<FacturaMascara> facturas = new ArrayList<>();
+		ResultSet rs = null;
+		
+		try {
+			psFindAllMasks = con.prepareStatement(FIND_ALL_MASKS);
+			rs = psFindAllMasks.executeQuery();
+			
+			FacturaMascara factura;
+			
+			while (rs.next()) {
+				factura = new FacturaMascara();
+				
+				factura.setId(rs.getInt("id"));
+				factura.setNumero_factura(rs.getString("numero_factura"));
+				factura.setUsuario(rs.getString("apellidos") + ", " + rs.getString("nombre_completo"));
+				factura.setFecha(rs.getDate("fecha").toString());
+				
+				facturas.add(factura);
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Error en findAllMasks", e);
+		} finally {
+			cerrar(psFindAllMasks, rs);
+		}
+		
+		return facturas.toArray(new FacturaMascara[facturas.size()]);
+		
+		
 	}
 
 	public Factura findById(int id) {

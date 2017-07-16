@@ -3,16 +3,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!-- <div class="container">
-	<h2>Mantenimiento de facturas</h2> 
-</div> -->
+
 <div class="container" style="margin-top:2em">
 	<div class="table-responsive">
-		<table id="facturas" class="table table-hover">
+		<table id="facturas" class="table">
 			<thead>
 				<tr>
 					<th>Número de factura</th>
-					<th>Id de usuario</th>
+					<th>Usuario</th>
 					<th>Fecha</th>
 					<th></th>
 					</tr>
@@ -21,7 +19,7 @@
 				<c:forEach items="${applicationScope.facturasArr}" var="factura">
 					<tr>
 						<td>${factura.numero_factura}</td>
-						<td>${factura.id_usuarios}</td>
+						<td>${factura.usuario}</td>
 						<td>${factura.fecha}</td>
 						<td>
 							<a class="btn btn-success" onclick="window.open('${applicationScope.rutaBase}/admin/facturacrud?op=ver&id=${factura.id}', '_blank', 'width=400,height=400')">Ver</a>

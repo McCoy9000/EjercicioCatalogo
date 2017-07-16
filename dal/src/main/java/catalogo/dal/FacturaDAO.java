@@ -10,6 +10,8 @@ import catalogo.tipos.Usuario;
 public interface FacturaDAO extends IpartekDAO {
 	
 	public Factura[] findAll();
+	
+	public FacturaMascara[] findAllMasks();
 
 	public Factura findById(int id);
 
