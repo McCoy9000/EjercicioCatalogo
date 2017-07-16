@@ -32,30 +32,19 @@
 		</head>
 		
 		<body style="background:#F5F6F7; padding-bottom:10px">
-		<div id="img-pit" style="background:url(${applicationScope.rutaBase}/img/tire-track1.jpg) 0px 0px/100% no-repeat fixed ; padding-bottom:10px">
+			<div id="img-pit" style="background:url(${applicationScope.rutaBase}/img/tire-track1.jpg) 0px 0px/100% no-repeat fixed ; padding-bottom:10px">
+
 			<header class="container">
+	
 				<div class="row">
 				<div class="col-xs-10 col-md-11 col-lg-12">
 				<h1 style="color:#ECC007; font-family:'Special Elite', sans-serif; font-size:19vw; display:inline-block; margin-top:50px;">DRIVER</h1>
 				</div>
-				<div class="col-xs-2 col-md-1 col-lg-1 col-lg-offset-11" style="margin-top:30px;">
-				<div class="dropdown">
-				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownLogin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:solid grey 1px; margin-top:30px;">
-					<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-				</button>
-				<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLogin">
-				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/login"><strong>LOGIN o SIGNUP</strong></a></li>
-				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/catalogo"><strong>CATALOGO</strong></a></li>
-				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/facturasusuario"><strong>MIS FACTURAS</strong></a></li>
-				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/login?op=logout"><strong>LOGOUT</strong></a></li>
-				</ul>
-				</div>
-				</div>
+
 				</div>
 				<div class="row">
 				<p style="color:#ECC007; display:inline-block; margin-left:15px;"><strong>¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</strong></p>
 				</div>
-			</header>
 			
 		<!--	<nav class="container">
 			
@@ -66,7 +55,51 @@
 					 
 				</ul>
 			</nav> -->
-			<nav class="container" <c:if test="${sessionScope.usuario.id_roles != '1'}">
+			<div class="row">
+				<div class="col-xs-1 col-md-1 col-lg-1">
+				<div class="dropdown">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownLogin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:solid grey 1px;">
+					<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu" aria-labelledby="dropdownLogin">
+				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/login">LOGIN o ALTA</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/catalogo">CATALOGO</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/facturasusuario">MIS FACTURAS</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/login?op=logout">CERRAR SESIÓN</a></li>
+				</ul>
+				</div>
+				</div>
+			
+			
+			<div class="col-xs-1 col-xs-offset-1 col-md-1 col-lg-1" <c:if test="${sessionScope.usuario.id_roles != '1'}">
+						 style="display:none;"
+					</c:if>>
+				<div class="dropdown">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownProductos" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:solid grey 1px; margin-bottom:5px;" >
+				<strong>ADMINISTRACION</strong>
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu" aria-labelledby="dropdownLogin">
+				<li class="dropdown-header">USUARIOS</li>
+					<li><a href="${applicationScope.rutaBase}/admin/usuariocrud">Mantenimiento</a></li>
+					<li><a href="${applicationScope.rutaBase}/admin/usuarioform">Alta</a></li>
+				<li role="separator" class="divider"></li>
+				<li class="dropdown-header">PRODUCTOS</li>
+					<li><a href="${applicationScope.rutaBase}/admin/productocrud">Mantenimiento</a></li>
+					<li><a href="${applicationScope.rutaBase}/admin/productoform">Alta</a></li>
+					<li><a href="${applicationScope.rutaBase}/admin/imagenproducto?op=subir">Subir imagen</a></li>
+				<li role="separator" class="divider"></li>
+				<li class="dropdown-header">FACTURAS</li>
+					<li><a href="${applicationScope.rutaBase}/admin/facturacrud">Mantenimiento</a></li>
+					<li><a href="${applicationScope.rutaBase}/admin/facturacrud?op=devolucion">Devoluciones</a></li>
+				</ul>
+				</div>
+				</div>
+				
+			<!-- <nav class="col-xs-1 col-xs-offset-6 col-md-1 col-md-offset-9 col-lg-6" <c:if test="${sessionScope.usuario.id_roles != '1'}">
 						 style="display:none;"
 					</c:if>>
 			<div class="dropdown" style="display:inline-block">
@@ -98,10 +131,11 @@
 				<ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
 					<li><a href="${applicationScope.rutaBase}/admin/facturacrud">Mantenimiento</a></li>
 					<li><a href="${applicationScope.rutaBase}/admin/facturacrud?op=devolucion">Devoluciones</a></li>
-					<!-- <li><a href="${applicationScope.rutaBase}/admin/facturaform">Alta</a></li> -->
 				</ul>
 			</div>
-			</nav>
-			
+			</nav>  -->
 			
 			</div>
+			</header>
+			</div>
+			
