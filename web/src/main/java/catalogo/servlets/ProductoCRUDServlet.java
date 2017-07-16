@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import catalogo.constantes.Constantes;
 import catalogo.dal.ProductoDAO;
+import catalogo.tipos.Articulo;
 import catalogo.tipos.Producto;
 
 @WebServlet("/admin/productocrud")
@@ -42,7 +43,7 @@ public class ProductoCRUDServlet extends HttpServlet {
 
 			productos.abrir();
 
-			Producto[] productosArr = productos.findAll();
+			Articulo[] productosArr = productos.getCatalogo();
 
 			productos.cerrar();
 

@@ -81,14 +81,13 @@ public class DevolucionFormServlet extends HttpServlet {
 			facturas.reutilizarConexion(productos);
 			int i = 0;
 			int j = 0;
-			int k = 0;
 			
 			productos.iniciarTransaccion();
 				try {
 					i = facturas.insert(factura);
 					j = productos.insert(producto);
 					producto.setPrecio(importe);
-					k = productosVendidos.insert(productos.findById(j));
+					productosVendidos.insert(productos.findById(j));
 					productos.delete(j);
 					facturas.insertFacturaProducto(i, j);
 					productos.confirmarTransaccion();

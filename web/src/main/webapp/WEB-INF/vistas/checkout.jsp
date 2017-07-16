@@ -16,12 +16,11 @@
 </nav>
 <div class="container">
 <div class="table-responsive">
-<table class="table" id="catalogo">
+<table class="table" id="checkout">
 	<thead>
 		<tr>
 			
 			<th style="text-align:center">Nombre producto</th>
-			<th style="text-align:center">Descripción</th>
 			<th style="text-align:center">Imagen</th>
 			<th style="text-align:center">Precio</th>
 			<th style="text-align:center">Cantidad</th>
@@ -34,7 +33,6 @@
 		<c:forEach items="${sessionScope.articulosCarritoArr}" var="producto">
 			<tr id="carrito">
 				<td style="text-align:center; vertical-align: middle;">${producto.nombre}</td>
-				<td style="text-align:center; vertical-align: middle;">${producto.descripcion}</td>
 				<td style="text-align:center; vertical-align: middle;"><img src="${applicationScope.rutaBase}/img/${producto.imagen}.jpg" height="128"/></td>
 				<td style="text-align:center; vertical-align: middle;">${producto.precio} €</td>
 				<td style="text-align:center; vertical-align: middle;">${producto.cantidad}</td>
@@ -43,10 +41,10 @@
 		</c:forEach>
 			<tr id="total">
 				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
 				<th style="text-align:right;">TOTAL</th>
 				<td style="text-align:center">${sessionScope.precioTotal} €</td>
 				<td style="text-align:center"></td>
+				<td></td>
 			</tr>
 	</tbody>
 </table>
