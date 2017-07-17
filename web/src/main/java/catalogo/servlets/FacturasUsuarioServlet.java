@@ -20,7 +20,8 @@ import catalogo.tipos.Usuario;
 
 @WebServlet("/facturasusuario")
 public class FacturasUsuarioServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 7854898201744246941L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -31,6 +32,8 @@ public class FacturasUsuarioServlet extends HttpServlet {
 		ServletContext application = request.getServletContext();
 		HttpSession session = request.getSession();
 
+		session.removeAttribute("errorFactura");
+		
 		Usuario usuario = (Usuario) session.getAttribute("usuario");
 
 		FacturaDAO facturas = (FacturaDAO) application.getAttribute("facturas");
@@ -47,7 +50,7 @@ public class FacturasUsuarioServlet extends HttpServlet {
 				facturas.cerrar();
 			}
 			session.setAttribute("facturasUsuarioArr", facturasUsuarioArr);
-			request.getRequestDispatcher("/WEB-INF/vistas/facturasusuario.jsp").forward(request, response);
+			request.getRequestDispatcher(Constantes.RUTA_LISTADO_FACTURA_USUARIOS).forward(request, response);
 			return;
 		} else {
 

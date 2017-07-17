@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import catalogo.constantes.Constantes;
 import catalogo.dal.UsuarioDAO;
 import catalogo.encriptacion.Encriptador;
 import catalogo.tipos.Usuario;
@@ -26,13 +27,9 @@ import catalogo.tipos.Usuario;
 @WebServlet("/alta")
 public class AltaServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -325036965413542652L;
+	
 	private static Logger log = Logger.getLogger(AltaServlet.class);
-
-	private final String RUTA = "/WEB-INF/vistas/";
-	private final String RUTA_LOGIN = RUTA + "login.jsp";
-	private final String RUTA_ALTA = RUTA + "signup.jsp";
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -147,8 +144,8 @@ public class AltaServlet extends HttpServlet {
 		}
 
 		// Declaro los dispatcher aquí porque en un momento me dieron un extraño error al declararlos en el punto que los necesitaba
-		RequestDispatcher login = request.getRequestDispatcher(RUTA_LOGIN);
-		RequestDispatcher alta = request.getRequestDispatcher(RUTA_ALTA);
+		RequestDispatcher login = request.getRequestDispatcher(Constantes.RUTA_LOGIN);
+		RequestDispatcher alta = request.getRequestDispatcher(Constantes.RUTA_ALTA);
 
 		// LÓGICA DEL SERVLET
 		if (sinDatos) {
