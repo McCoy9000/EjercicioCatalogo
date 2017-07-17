@@ -54,14 +54,25 @@ public class DevolucionFormServlet extends HttpServlet {
 		
 		BigDecimal importe = null;
 		
-		if (request.getParameter("importe") != null) {
-			importe = new BigDecimal(request.getParameter("importe"));
+		if ((request.getParameter("importe") != null) && (request.getParameter("importe") != "")) {
+			try {
+				importe = new BigDecimal(request.getParameter("importe"));
+			} catch (NumberFormatException nfe) {
+				session.setAttribute("errorDevolucion", "Debes introducir un importe negativo para hacer una devolución");
+				request.getRequestDispatcher("/WEB-INF/vistas/devolucionform.jsp?op=devolucion").forward(request, response);
+				return;
+			}
+			
 			if (BigDecimal.ZERO.compareTo(importe) < 0) {
 				session.setAttribute("errorDevolucion", "Debe introducir un importe negativo para hacer una devolución");
 				request.getRequestDispatcher("/WEB-INF/vistas/devolucionform.jsp?op=devolucion").forward(request, response);
 				return;
 			}
 			
+		} else {
+			session.setAttribute("errorDevolucion", "Debe introducir un importe negativo para hacer una devolución");
+			request.getRequestDispatcher("/WEB-INF/vistas/devolucionform.jsp?op=devolucion").forward(request, response);
+			return;
 		}
 		
 		usuarios.abrir();
