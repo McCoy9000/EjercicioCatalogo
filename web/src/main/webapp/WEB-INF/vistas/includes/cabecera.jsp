@@ -51,15 +51,7 @@
 				<p style="color:#ECC007; display:inline-block; margin-left:15px;"><strong>¡Bienvenido<span <c:if test="${sessionScope.usuario.username==null}">style="display:none"</c:if>> </span>${sessionScope.usuario.username}!</strong></p>
 				</div>
 			
-		<!--	<nav class="container">
-			
-				  	<ul class="list-inline">
-				 	 <li><a class="btn btn-default" style="background:#ECC007; border:none;" href="${applicationScope.rutaBase}/catalogo"><strong>CATALOGO</strong></a></li>
-				 <li><a class="btn btn-primary" href="${applicationScope.rutaBase}/login">LOGIN</a></li>
-					 <li><a class="btn btn-default" href="${applicationScope.rutaBase}/login?op=logout">LOGOUT</a></li> 
-					 
-				</ul>
-			</nav> -->
+
 			<div class="row">
 				<div class="col-xs-1 col-md-1 col-lg-1">
 				<div class="dropdown">
