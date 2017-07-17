@@ -4,8 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-
-	<jsp:useBean id="producto" scope="request"
+<jsp:useBean id="producto" scope="request"
 		class="catalogo.tipos.Producto" />
 
 <div class="container" style="margin-top:2em">
@@ -19,12 +18,12 @@
 			  required="required"  value="${producto.id}" readonly="readonly">
 		</fieldset>
 		<fieldset class="form-group" 
-			<c:if test="${param.op == 'borrar'}">
+			<c:if test="${param.op == 'borrar' or param.op == 'modificar'}">
 				style="display:none"
 			</c:if>>
 			<label for="groupId">Grupo de productos <span style="color:red">*</span></label> 
 			<select id="groupId" name="groupId" class="form-control"
-				<c:if test="${param.op == 'modificar' or param.op == 'borrar'}">
+				<c:if test="${param.op == 'modificar'}">
 					disabled="disabled"
 			  	</c:if>
 			 >
@@ -64,7 +63,7 @@
 			</div>
 		</fieldset>
 		<fieldset class="form-group"
-			<c:if test="${param.op == 'borrar' or param.op == 'modificar'}">
+			<c:if test="${param.op == 'modificar'}">
 				style="display:none;"
 			</c:if>>
 			<label for="cantidad">Cantidad</label>
@@ -82,6 +81,7 @@
 			
 			
 			<input type="hidden" name="opform" value="${param.op}" />
+			<input type="hidden" name="grupo" value="${producto.groupId}" />
 		</fieldset>
 		
 	</form>

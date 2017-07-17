@@ -243,15 +243,21 @@ public class ProductoFormServlet extends HttpServlet {
 				}
 				break;
 			case "borrar":
-
+				groupId = Integer.parseInt(request.getParameter("grupo"));
 				productos.abrir();
-				producto = productos.findById(id);
-
+				productos.iniciarTransaccion();
+				producto = productos.getAlmacen().get(groupId).get(0);
+				
 				try {
-					productos.delete(producto);
+					for (int i= 0; i < cantidad; i++) {
+						producto = productos.getAlmacen().get(groupId).get(i);
+						productos.delete(producto);
+					}
 					session.removeAttribute("errorProducto");
+					productos.confirmarTransaccion();
 					log.info("Producto borrado");
 				} catch (DAOException e) {
+					productos.deshacerTransaccion();
 					log.info("Error al borrar el producto");
 					log.info(e.getMessage());
 					session.setAttribute("errorProducto", "Error al borrar el producto. Inténtelo de nuevo");

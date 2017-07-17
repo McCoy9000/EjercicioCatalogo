@@ -1,13 +1,11 @@
 <%@ include file="includes/cabecera.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 	<jsp:useBean id="usuario" scope="request"
 		class="catalogo.tipos.Usuario" />
-	
-<!-- 	<div class="container">
-		<h2>Formulario de usuarios</h2>
-	</div> -->
 
 <div class="container" style="margin-top:2em">
 <div class="row">
@@ -39,9 +37,9 @@
 			required="required"
 			</c:if>
 		>
-			<label for="password">Contraseña <span style="color:red">*</span></label> 
+			<label for="password">ContraseÃ±a <span style="color:red">*</span></label> 
 			<input type="password" id="password" class="form-control"
-				name="password" placeholder="Contraseña"/>
+				name="password" placeholder="ContraseÃ±a"/>
 		</fieldset>
 		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
@@ -50,9 +48,9 @@
 			required="required"
 			</c:if>
 		>
-			<label for="password2">Repita la contraseña <span style="color:red">*</span></label> 
+			<label for="password2">Repita la contraseÃ±a <span style="color:red">*</span></label> 
 			<input type="password" id="password2" class="form-control"
-				name="password2" placeholder="Contraseña"/>
+				name="password2" placeholder="ContraseÃ±a"/>
 		</fieldset>
 		<fieldset class="form-group" <c:if test="${param.op == 'borrar'}">
 			style="display:none;"
