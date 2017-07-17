@@ -83,7 +83,7 @@
 						 style="display:none;"
 					</c:if>>
 				<div class="dropdown">
-				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownProductos" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:solid grey 1px; margin-bottom:5px;" >
+				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownProductos" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:solid grey 1px;" >
 				<strong>ADMINISTRACION</strong>
 				<span class="caret"></span>
 				</button>
@@ -104,41 +104,7 @@
 				</div>
 				</div>
 				
-			<!-- <nav class="col-xs-1 col-xs-offset-6 col-md-1 col-md-offset-9 col-lg-6" <c:if test="${sessionScope.usuario.id_roles != '1'}">
-						 style="display:none;"
-					</c:if>>
-			<div class="dropdown" style="display:inline-block">
-				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownProductos" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:none; margin-bottom:5px;" >
-				<strong>PRODUCTOS</strong>
-				<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownProductos">
-					<li><a href="${applicationScope.rutaBase}/admin/productocrud">Mantenimiento</a></li>
-					<li><a href="${applicationScope.rutaBase}/admin/productoform">Alta</a></li>
-					<li><a href="${applicationScope.rutaBase}/admin/imagenproducto?op=subir">Subir imagen</a></li>
-				</ul>
-			</div>
-			<div class="dropdown" style="display:inline-block">
-				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownUsuarios" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:none; margin-bottom:5px;">
-				<strong>USUARIOS</strong>
-				<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownUsuarios">
-					<li><a href="${applicationScope.rutaBase}/admin/usuariocrud">Mantenimiento</a></li>
-					<li><a href="${applicationScope.rutaBase}/admin/usuarioform">Alta</a></li>
-				</ul>
-			</div>
-			<div class="dropdown" style="display:inline-block">
-				<button class="btn btn-default dropdown-toggle" type="button" id="dopdownFacturas" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background:#ECC007; border:none; margin-bottom:5px;">
-				<strong>FACTURAS</strong>
-				<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownFacturas">
-					<li><a href="${applicationScope.rutaBase}/admin/facturacrud">Mantenimiento</a></li>
-					<li><a href="${applicationScope.rutaBase}/admin/facturacrud?op=devolucion">Devoluciones</a></li>
-				</ul>
-			</div>
-			</nav>  -->
+
 			
 			</div>
 			</header>

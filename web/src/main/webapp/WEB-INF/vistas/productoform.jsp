@@ -90,10 +90,10 @@
 	</form>
 	<div class="alert alert-danger" role="alert" <c:if test="${sessionScope.errorProducto==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorProducto}</div>
 	</div>
-	<div class="col-md-6" style="color:grey">
-	<p>Seleccione un grupo de productos y una cantidad para dar de alta más productos dentro de un grupo.</p>
-	<p>Seleccione "Nuevo grupo de productos" e introduzca un nombre, descripción, precio y cantidad para dar de 
-	alta productos de un grupo aún no existente.</p>
+	<div class="col-md-6" style="color:grey; <c:if test="${param.op == 'borrar' or param.op == 'modificar'}">
+		display:none; </c:if>">
+	<p>Para dar de alta varios productos de un grupo ya existente, seleccione un grupo de productos y una cantidad.</p>
+	<p>Para dar de alta productos de un grupo aún no existente, seleccione "Nuevo grupo de productos" e introduzca un nombre, descripción, precio y cantidad.</p>
 	</div>
 	</div>
 	
