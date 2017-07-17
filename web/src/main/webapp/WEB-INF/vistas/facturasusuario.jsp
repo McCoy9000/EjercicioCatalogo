@@ -24,7 +24,7 @@
 						<td>${factura.usuario}</td>
 						<td>${factura.fecha}</td>
 						<td>
-							<a class="btn btn-success" onclick="window.open('${applicationScope.rutaBase}/admin/facturacrud?op=ver&id=${factura.id}', '_blank', 'width=400,height=400')">Ver</a>
+							<a class="btn btn-success" onclick="window.open('${applicationScope.rutaBase}/facturasusuario?op=ver&id=${factura.id}', '_blank', 'width=400,height=400')">Ver</a>
 						</td>
 					</tr>
 				</c:forEach>

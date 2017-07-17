@@ -20,7 +20,7 @@ import catalogo.tipos.Usuario;
 
 @WebServlet("/admin/facturacrud")
 public class FacturaCRUDServlet extends HttpServlet {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,7 +36,7 @@ public class FacturaCRUDServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		session.removeAttribute("errorFactura");
-		
+
 		String op = request.getParameter("op");
 
 		if (op == null) {
@@ -50,40 +50,41 @@ public class FacturaCRUDServlet extends HttpServlet {
 			request.getRequestDispatcher(Constantes.RUTA_LISTADO_FACTURA).forward(request, response);
 
 		} else {
-			
+
 			switch (op) {
-			
+
 			case "ver":
-				
+
 				Factura factura;
 				Producto[] productosFactura;
 				BigDecimal ivaFactura;
 				BigDecimal precioFactura;
 				Usuario usuarioFactura;
-				
+
 				int id = 0;
-				
+
 				try {
 					id = Integer.parseInt(request.getParameter("id"));
 				} catch (Exception e) {
 					session.setAttribute("errorFactura", "Error al recuperar la factura. Inténtelo de nuevo");
 					request.getRequestDispatcher(Constantes.RUTA_ERROR_FACTURA).forward(request, response);
+					return;
 				}
-				
+
 				facturas.abrir();
-				
+
 				factura = facturas.findById(id);
-				
+
 				productosFactura = facturas.findProductoByFacturaId(id);
-				
+
 				ivaFactura = facturas.getIvaTotal(id);
-				
+
 				precioFactura = facturas.getPrecioTotal(id);
-				
+
 				usuarioFactura = facturas.findUserByFacturaId(id);
-				
+
 				facturas.cerrar();
-				
+
 				session.setAttribute("factura", factura);
 				session.setAttribute("productosFactura", productosFactura);
 				session.setAttribute("ivaFactura", ivaFactura);
@@ -94,7 +95,7 @@ public class FacturaCRUDServlet extends HttpServlet {
 			case "devolucion":
 				request.getRequestDispatcher("/WEB-INF/vistas/devolucionform.jsp").forward(request, response);
 				break;
-				
+
 			}
 
 		}
