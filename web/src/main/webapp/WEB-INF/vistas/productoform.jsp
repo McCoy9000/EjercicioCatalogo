@@ -4,10 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<!-- <div class="container">
-	<h2>Formulario de productos</h2>
-</div> -->
-	
+
 	<jsp:useBean id="producto" scope="request"
 		class="catalogo.tipos.Producto" />
 

@@ -45,6 +45,11 @@
 	</form>
 	<div class="alert alert-danger" role="alert" <c:if test="${sessionScope.errorImagen==null}">style="display:none"</c:if>><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ${sessionScope.errorImagen}</div>
 	</div>
+	
+	<div class="col-md-6" style="color:grey;">
+	<p>Tras modificar la imagen de un producto ya existente, es posible que su navegador no actualice inmediatamente a la nueva imagen.</p><p>Para verla, pulse F12 y, a continuación, botón derecho del ratón sobre el botón de refresco de página 
+	del navegador y elija "Vaciar caché y recargar de manera forzada". Después, pulse de nuevo F12 para cerrar la consola de desarrollador.</p>
+	</div>
 	</div>
 	
 </div>	
