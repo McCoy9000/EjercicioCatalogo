@@ -6,7 +6,7 @@
 
 
 <div id="perfil" class="container">
-<div class="bg-info" style="margin:1em">
+<div class="bg-warning" style="margin:1em">
 <div class="row">
 	<div class="col-xs-3 col-md-3" style="margin:1em"><label for="username">Username</label><p id="username">${sessionScope.usuarioMascara.username}</p>
 	</div>
@@ -14,7 +14,7 @@
 	</div>
 </div>
 </div>
-<div  class="bg-info" style="margin:1em">
+<div  class="bg-warning" style="margin:1em">
 <div class="row">
 	 
 	<div class="col-xs-3 col-md-3" style="margin:1em"><label for="nombre">Nombre</label><p id="nombre">${sessionScope.usuarioMascara.nombre_completo}</p>
@@ -29,7 +29,7 @@
 	</div>
 </div>
 </div>
-<div  class="bg-info" style="margin:1em">
+<div  class="bg-warning" style="margin:1em">
 <div class="row">
 	<div class="col-xs-3 col-md-3" style="margin:1em"><label for="direccion">Dirección</label><p id="direccion">${sessionScope.usuarioMascara.direccion}</p>
 	</div>
@@ -45,7 +45,7 @@
 	</div>
 </div>
 </div>
-<div  class="bg-info" style="margin:1em">
+<div  class="bg-warning" style="margin:1em">
 <div class="row">
 	<div class="col-xs-3 col-md-3" style="margin:1em"><label for="empresa">Empresa</label><p id="empresa">${sessionScope.usuarioMascara.empresa}</p>
 	</div>
