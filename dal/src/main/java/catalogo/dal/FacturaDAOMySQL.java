@@ -32,11 +32,11 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	public FacturaDAOMySQL() {
 		super();
 	}
-	
+
 	public FacturaDAOMySQL(String url) {
 		super(url);
 	}
-	
+
 	public Factura[] findAll() {
 		ArrayList<Factura> facturas = new ArrayList<Factura>();
 		ResultSet rs = null;
@@ -68,24 +68,24 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	}
 
 	public FacturaMascara[] findAllMasks() {
-		
+
 		ArrayList<FacturaMascara> facturas = new ArrayList<>();
 		ResultSet rs = null;
-		
+
 		try {
 			psFindAllMasks = con.prepareStatement(FIND_ALL_MASKS);
 			rs = psFindAllMasks.executeQuery();
-			
+
 			FacturaMascara factura;
-			
+
 			while (rs.next()) {
 				factura = new FacturaMascara();
-				
+
 				factura.setId(rs.getInt("id"));
 				factura.setNumero_factura(rs.getString("numero_factura"));
 				factura.setUsuario(rs.getString("apellidos") + ", " + rs.getString("nombre_completo"));
 				factura.setFecha(rs.getDate("fecha").toString());
-				
+
 				facturas.add(factura);
 			}
 		} catch (SQLException e) {
@@ -93,10 +93,9 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		} finally {
 			cerrar(psFindAllMasks, rs);
 		}
-		
+
 		return facturas.toArray(new FacturaMascara[facturas.size()]);
-		
-		
+
 	}
 
 	public Factura findById(int id) {
@@ -237,7 +236,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	}
 
 	public Usuario findUserByFacturaId(int id) {
-		
+
 		ResultSet rs = null;
 
 		Usuario usuario = null;
@@ -256,8 +255,16 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 				usuario.setUsername(rs.getString("username"));
 				usuario.setPassword(rs.getString("password"));
 				usuario.setNombre_completo(rs.getString("nombre_completo"));
+				usuario.setApellidos(rs.getString("apellidos"));
+				usuario.setDocumento(rs.getString("documento"));
+				usuario.setTelefono(rs.getString("telefono"));
+				usuario.setDireccion(rs.getString("direccion"));
+				usuario.setCodigoPostal(rs.getString("codigo_postal"));
+				usuario.setCiudad(rs.getString("ciudad"));
+				usuario.setRegion(rs.getString("region"));
+				usuario.setPais(rs.getString("pais"));
+				usuario.setEmpresa(rs.getString("empresa"));
 
-				
 			}
 		} catch (Exception e) {
 			throw new DAOException("Error al buscar el cliente de la factura", e);
@@ -267,27 +274,27 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 
 		return usuario;
 	}
-	
+
 	public FacturaMascara[] findMasksByUserId(int id) {
-		
+
 		ArrayList<FacturaMascara> facturas = new ArrayList<>();
 		ResultSet rs = null;
-		
+
 		try {
 			psMasksByUserId = con.prepareStatement(FIND_MASKS_BY_USER_ID);
 			psMasksByUserId.setInt(1, id);
 			rs = psMasksByUserId.executeQuery();
-			
+
 			FacturaMascara factura;
-			
+
 			while (rs.next()) {
 				factura = new FacturaMascara();
-				
+
 				factura.setId(rs.getInt("id"));
 				factura.setNumero_factura(rs.getString("numero_factura"));
 				factura.setUsuario(rs.getString("apellidos") + ", " + rs.getString("nombre_completo"));
 				factura.setFecha(rs.getDate("fecha").toString());
-				
+
 				facturas.add(factura);
 			}
 		} catch (SQLException e) {
@@ -295,10 +302,9 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		} finally {
 			cerrar(psMasksByUserId, rs);
 		}
-		
+
 		return facturas.toArray(new FacturaMascara[facturas.size()]);
-		
-		
+
 	}
 
 	public void deleteFacturas() {
@@ -338,59 +344,56 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		return 1;
 
 	}
-	
+
 	public int getMaxId() {
-		
+
 		ResultSet rs;
 		int maxId = 0;
 		try {
 			psGetMaxId = con.prepareStatement(GET_MAX_ID);
-			
+
 			rs = psGetMaxId.executeQuery();
-			
-			if(rs != null){
-				
-			
-			
-			while(rs.next()) {
-								
-				maxId = rs.getInt(1);
-				
-			}
+
+			if (rs != null) {
+
+				while (rs.next()) {
+
+					maxId = rs.getInt(1);
+
+				}
 			}
 		} catch (SQLException e) {
 			throw new DAOException("Error al obtener maxId", e);
 		} finally {
 			cerrar(psGetMaxId);
 		}
-		
+
 		return maxId;
 	}
-	
-	
+
 	public BigDecimal getIvaTotal(int id) {
 		BigDecimal ivaTotal = BigDecimal.ZERO;
 		try {
-		for (Producto p: this.findProductoByFacturaId(id)){
-			ivaTotal = ivaTotal.add(p.getPrecio().multiply(Constantes.IVA));
-		}
+			for (Producto p : this.findProductoByFacturaId(id)) {
+				ivaTotal = ivaTotal.add(p.getPrecio().multiply(Constantes.IVA));
+			}
 		} catch (Exception e) {
 			throw new DAOException("Error al obtener el IVA total", e);
 		}
-		
+
 		ivaTotal = ivaTotal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-		
+
 		return ivaTotal;
 	}
-	
+
 	public BigDecimal getPrecioTotal(int id) {
-		
+
 		BigDecimal precioTotalSinIva = BigDecimal.ZERO;
 		BigDecimal precioTotal = BigDecimal.ZERO;
 		try {
-		for (Producto p: this.findProductoByFacturaId(id)){
-			precioTotalSinIva = precioTotalSinIva.add(p.getPrecio());
-		}
+			for (Producto p : this.findProductoByFacturaId(id)) {
+				precioTotalSinIva = precioTotalSinIva.add(p.getPrecio());
+			}
 		} catch (Exception e) {
 			throw new DAOException("Error al obtener el precio total", e);
 		}
@@ -414,5 +417,4 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		}
 	}
 
-	
 }

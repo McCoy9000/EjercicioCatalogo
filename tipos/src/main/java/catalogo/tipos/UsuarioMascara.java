@@ -1,6 +1,5 @@
 package catalogo.tipos;
 
-
 public class UsuarioMascara {
 
 	private int id;
@@ -16,14 +15,11 @@ public class UsuarioMascara {
 	private String ciudad;
 	private String region;
 	private String pais;
-	private String fechaDeNacimiento;
 	private String empresa;
-	
+
 	public UsuarioMascara() {
-		
+
 	}
-	
-	
 
 	public int getId() {
 		return id;
@@ -85,13 +81,9 @@ public class UsuarioMascara {
 		return telefono;
 	}
 
-
-
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-
-
 
 	public String getDireccion() {
 		return direccion;
@@ -131,14 +123,6 @@ public class UsuarioMascara {
 
 	public void setPais(String pais) {
 		this.pais = pais;
-	}
-
-	public String getFechaDeNacimiento() {
-		return fechaDeNacimiento;
-	}
-
-	public void setFechaDeNacimiento(String fechaDeNacimiento) {
-		this.fechaDeNacimiento = fechaDeNacimiento;
 	}
 
 	public String getEmpresa() {

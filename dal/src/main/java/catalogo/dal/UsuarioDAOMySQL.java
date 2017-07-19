@@ -13,10 +13,12 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 	private final static String FIND_ALL = "SELECT * FROM usuarios WHERE NOT id_roles = '3'";
 	private final static String FIND_BY_ID = "SELECT * FROM usuarios WHERE id = ?";
-	private final static String FIND_MASK_BY_ID = "SELECT usuarios.id, username, password, nombre_completo, apellidos, documento, fecha_nacimiento, empresa, direccion, codigo_postal, ciudad, region, pais FROM usuarios WHERE usuarios.id=?";
+	private final static String FIND_MASK_BY_ID = "SELECT usuarios.id, username, password, nombre_completo, apellidos, documento, telefono, empresa, direccion, codigo_postal, ciudad, region, pais FROM usuarios WHERE usuarios.id=?";
 	private final static String INSERT = "INSERT INTO usuarios (username, password, nombre_completo, apellidos, id_roles)" + " VALUES (?, ?, ?, ?, ?)";
 	private final static String FIND_BY_NAME = "SELECT * FROM usuarios WHERE username = ?";
-	private final static String UPDATE = "UPDATE usuarios " + "SET username = ?, password = ?, nombre_completo = ?, apellidos = ?, id_roles = ? , documento = ?, telefono = ?, direccion = ?, codigo_postal = ?, ciudad = ? , region = ?, pais = ?, fecha_nacimiento = ?, empresa = ? " + "WHERE id = ?";
+	private final static String UPDATE = "UPDATE usuarios "
+			+ "SET username = ?, password = ?, nombre_completo = ?, apellidos = ?, id_roles = ? , documento = ?, telefono = ?, direccion = ?, codigo_postal = ?, ciudad = ? , region = ?, pais = ?, empresa = ? "
+			+ "WHERE id = ?";
 	private final static String DELETE = "DELETE FROM usuarios WHERE id = ?";
 	private final static String DELETE_TABLE_USUARIOS = "DELETE FROM usuarios";
 	private final static String FIND_ALL_MASKS = "SELECT usuarios.id, username, password, nombre_completo, apellidos, rol FROM usuarios, roles WHERE roles.id=usuarios.id_roles AND NOT id_roles = '3'";
@@ -31,27 +33,27 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	}
 
 	public UsuarioMascara[] findAllMasks() {
-		
+
 		ArrayList<UsuarioMascara> usuarios = new ArrayList<>();
 		ResultSet rs = null;
-		
+
 		try {
 			psFindAllMasks = con.prepareStatement(FIND_ALL_MASKS);
-			
+
 			rs = psFindAllMasks.executeQuery();
-			
+
 			UsuarioMascara usuario;
-			
+
 			while (rs.next()) {
 				usuario = new UsuarioMascara();
-				
+
 				usuario.setId(rs.getInt("id"));
 				usuario.setRol(rs.getString("rol"));
 				usuario.setNombre_completo(rs.getString("nombre_completo"));
 				usuario.setApellidos(rs.getString("apellidos"));
 				usuario.setPassword(rs.getString("password"));
 				usuario.setUsername(rs.getString("username"));
-				
+
 				usuarios.add(usuario);
 			}
 		} catch (SQLException e) {
@@ -59,12 +61,11 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		} finally {
 			cerrar(psFindAllMasks, rs);
 		}
-		
+
 		return usuarios.toArray(new UsuarioMascara[usuarios.size()]);
-		
-		
+
 	}
-	
+
 	public Usuario[] findAll() {
 
 		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
@@ -128,7 +129,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 		return usuario;
 	}
-	
+
 	public UsuarioMascara findMaskById(int id) {
 		UsuarioMascara usuario = null;
 		ResultSet rs = null;
@@ -154,7 +155,6 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 				usuario.setCiudad(rs.getString("ciudad"));
 				usuario.setRegion(rs.getString("region"));
 				usuario.setPais(rs.getString("pais"));
-				usuario.setFechaDeNacimiento(rs.getString("fecha_nacimiento"));
 				usuario.setEmpresa(rs.getString("empresa"));
 			}
 
@@ -243,10 +243,9 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 			psUpdate.setString(10, usuario.getCiudad());
 			psUpdate.setString(11, usuario.getRegion());
 			psUpdate.setString(12, usuario.getPais());
-			psUpdate.setDate(13, new java.sql.Date(usuario.getFechaDeNacimiento().getTime()));
-			psUpdate.setString(14, usuario.getEmpresa());
+			psUpdate.setString(13, usuario.getEmpresa());
 
-			psUpdate.setInt(15, usuario.getId());
+			psUpdate.setInt(14, usuario.getId());
 
 			int res = psUpdate.executeUpdate();
 

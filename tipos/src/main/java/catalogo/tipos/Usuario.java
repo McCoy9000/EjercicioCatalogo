@@ -1,7 +1,6 @@
 package catalogo.tipos;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Usuario implements Serializable {
 
@@ -21,9 +20,7 @@ public class Usuario implements Serializable {
 	private String ciudad;
 	private String region;
 	private String pais;
-	private Date fechaDeNacimiento;
 	private String empresa;
-
 
 	public Usuario(int id, int id_roles, String nombre_completo, String apellidos, String username, String password) {
 		super();
@@ -161,14 +158,6 @@ public class Usuario implements Serializable {
 		this.pais = pais;
 	}
 
-	public Date getFechaDeNacimiento() {
-		return fechaDeNacimiento;
-	}
-
-	public void setFechaDeNacimiento(Date fechaDeNacimiento) {
-		this.fechaDeNacimiento = fechaDeNacimiento;
-	}
-
 	public String getEmpresa() {
 		return empresa;
 	}
@@ -179,44 +168,29 @@ public class Usuario implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", id_roles=" + id_roles
-				+ ", nombre_completo=" + nombre_completo + ", apellidos="
-				+ apellidos + ", password=" + password + ", username="
-				+ username + ", documento=" + documento + ", direccion="
-				+ direccion + ", codigoPostal=" + codigoPostal + ", ciudad="
-				+ ciudad + ", region=" + region + ", pais=" + pais
-				+ ", fechaDeNacimiento=" + fechaDeNacimiento + ", empresa="
-				+ empresa + "]";
+		return "Usuario [id=" + id + ", id_roles=" + id_roles + ", nombre_completo=" + nombre_completo + ", apellidos=" + apellidos + ", password=" + password + ", username=" + username
+				+ ", documento=" + documento + ", telefono=" + telefono + ", direccion=" + direccion + ", codigoPostal=" + codigoPostal + ", ciudad=" + ciudad + ", region=" + region + ", pais="
+				+ pais + ", empresa=" + empresa + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((apellidos == null) ? 0 : apellidos.hashCode());
+		result = prime * result + ((apellidos == null) ? 0 : apellidos.hashCode());
 		result = prime * result + ((ciudad == null) ? 0 : ciudad.hashCode());
-		result = prime * result
-				+ ((codigoPostal == null) ? 0 : codigoPostal.hashCode());
-		result = prime * result
-				+ ((direccion == null) ? 0 : direccion.hashCode());
-		result = prime * result
-				+ ((documento == null) ? 0 : documento.hashCode());
+		result = prime * result + ((codigoPostal == null) ? 0 : codigoPostal.hashCode());
+		result = prime * result + ((direccion == null) ? 0 : direccion.hashCode());
+		result = prime * result + ((documento == null) ? 0 : documento.hashCode());
 		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
-		result = prime
-				* result
-				+ ((fechaDeNacimiento == null) ? 0 : fechaDeNacimiento
-						.hashCode());
 		result = prime * result + id;
 		result = prime * result + id_roles;
-		result = prime * result
-				+ ((nombre_completo == null) ? 0 : nombre_completo.hashCode());
+		result = prime * result + ((nombre_completo == null) ? 0 : nombre_completo.hashCode());
 		result = prime * result + ((pais == null) ? 0 : pais.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((region == null) ? 0 : region.hashCode());
-		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
+		result = prime * result + ((telefono == null) ? 0 : telefono.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -259,11 +233,6 @@ public class Usuario implements Serializable {
 				return false;
 		} else if (!empresa.equals(other.empresa))
 			return false;
-		if (fechaDeNacimiento == null) {
-			if (other.fechaDeNacimiento != null)
-				return false;
-		} else if (!fechaDeNacimiento.equals(other.fechaDeNacimiento))
-			return false;
 		if (id != other.id)
 			return false;
 		if (id_roles != other.id_roles)
@@ -288,6 +257,11 @@ public class Usuario implements Serializable {
 				return false;
 		} else if (!region.equals(other.region))
 			return false;
+		if (telefono == null) {
+			if (other.telefono != null)
+				return false;
+		} else if (!telefono.equals(other.telefono))
+			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
@@ -295,6 +269,5 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-
 
 }

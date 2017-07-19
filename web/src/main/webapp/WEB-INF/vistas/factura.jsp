@@ -27,7 +27,7 @@
 		  c/Kalea 9, 9ºB<br>
 		  Bilbao, BI 48080<br>
 		  A-12345678<br>
-		  <abbr title="Phone">P:</abbr> +34 666 666 666
+		  <abbr title="Teléfono">T:</abbr> +34 666 666 666
 		  <a href="mailto:#">facturacion@driver.com</a>
 		</address>
 	</div>
@@ -36,9 +36,10 @@
 	<div class="col-xs-5 col-xs-offset-2 col-md-5 col-md-offset-2" style="text-align:right">
 		<address>
 			<strong>${sessionScope.usuarioFactura.nombre_completo} ${sessionScope.usuarioFactura.apellidos}</strong><br>
-			c/del Usuario s/n<br>
-			Usuariolandia, US 98080<br>
-			98765432-X<br>
+			${sessionScope.usuarioFactura.direccion}<br>
+			${sessionScope.usuarioFactura.codigoPostal}<br>
+			${sessionScope.usuarioFactura.region}, ${sessionScope.usuarioFactura.pais}<br>
+			${sessionScope.usuarioFactura.documento}<br>
 		</address>
 	</div>
 </div>
