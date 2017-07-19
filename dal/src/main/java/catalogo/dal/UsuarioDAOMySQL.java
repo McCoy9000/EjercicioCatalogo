@@ -13,13 +13,14 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 	private final static String FIND_ALL = "SELECT * FROM usuarios WHERE NOT id_roles = '3'";
 	private final static String FIND_BY_ID = "SELECT * FROM usuarios WHERE id = ?";
+	private final static String FIND_MASK_BY_ID = "SELECT usuarios.id, username, password, nombre_completo, apellidos, documento, fecha_nacimiento, empresa, direccion, codigo_postal, ciudad, region, pais FROM usuarios WHERE usuarios.id=?";
 	private final static String INSERT = "INSERT INTO usuarios (username, password, nombre_completo, apellidos, id_roles)" + " VALUES (?, ?, ?, ?, ?)";
 	private final static String FIND_BY_NAME = "SELECT * FROM usuarios WHERE username = ?";
-	private final static String UPDATE = "UPDATE usuarios " + "SET username = ?, password = ?, nombre_completo = ?, apellidos = ?, id_roles = ? " + "WHERE id = ?";
+	private final static String UPDATE = "UPDATE usuarios " + "SET username = ?, password = ?, nombre_completo = ?, apellidos = ?, id_roles = ? , documento = ?, telefono = ?, direccion = ?, codigo_postal = ?, ciudad = ? , region = ?, pais = ?, fecha_nacimiento = ?, empresa = ? " + "WHERE id = ?";
 	private final static String DELETE = "DELETE FROM usuarios WHERE id = ?";
 	private final static String DELETE_TABLE_USUARIOS = "DELETE FROM usuarios";
 	private final static String FIND_ALL_MASKS = "SELECT usuarios.id, username, password, nombre_completo, apellidos, rol FROM usuarios, roles WHERE roles.id=usuarios.id_roles AND NOT id_roles = '3'";
-	private PreparedStatement psFindAll, psFindById, psFindByName, psInsert, psUpdate, psDelete, psDeleteUsers, psFindAllMasks;
+	private PreparedStatement psFindAll, psFindById, psFindMaskById, psFindByName, psInsert, psUpdate, psDelete, psDeleteUsers, psFindAllMasks;
 
 	public UsuarioDAOMySQL(String url) {
 		super(url);
@@ -127,6 +128,44 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 		return usuario;
 	}
+	
+	public UsuarioMascara findMaskById(int id) {
+		UsuarioMascara usuario = null;
+		ResultSet rs = null;
+
+		try {
+			psFindMaskById = con.prepareStatement(FIND_MASK_BY_ID);
+
+			psFindMaskById.setInt(1, id);
+			rs = psFindMaskById.executeQuery();
+
+			if (rs.next()) {
+				usuario = new UsuarioMascara();
+
+				usuario.setId(rs.getInt("id"));
+				usuario.setNombre_completo(rs.getString("nombre_completo"));
+				usuario.setApellidos(rs.getString("apellidos"));
+				usuario.setPassword(rs.getString("password"));
+				usuario.setUsername(rs.getString("username"));
+				usuario.setDocumento(rs.getString("documento"));
+				usuario.setTelefono(rs.getString("telefono"));
+				usuario.setDireccion(rs.getString("direccion"));
+				usuario.setCodigoPostal(rs.getString("codigo_postal"));
+				usuario.setCiudad(rs.getString("ciudad"));
+				usuario.setRegion(rs.getString("region"));
+				usuario.setPais(rs.getString("pais"));
+				usuario.setFechaDeNacimiento(rs.getString("fecha_nacimiento"));
+				usuario.setEmpresa(rs.getString("empresa"));
+			}
+
+		} catch (Exception e) {
+			throw new DAOException("Error en findMaskById", e);
+		} finally {
+			cerrar(psFindMaskById, rs);
+		}
+
+		return usuario;
+	}
 
 	public Usuario findByName(String username) {
 		Usuario usuario = null;
@@ -197,8 +236,17 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 			psUpdate.setString(3, usuario.getNombre_completo());
 			psUpdate.setString(4, usuario.getApellidos());
 			psUpdate.setInt(5, usuario.getId_roles());
+			psUpdate.setString(6, usuario.getDocumento());
+			psUpdate.setString(7, usuario.getTelefono());
+			psUpdate.setString(8, usuario.getDireccion());
+			psUpdate.setString(9, usuario.getCodigoPostal());
+			psUpdate.setString(10, usuario.getCiudad());
+			psUpdate.setString(11, usuario.getRegion());
+			psUpdate.setString(12, usuario.getPais());
+			psUpdate.setDate(13, new java.sql.Date(usuario.getFechaDeNacimiento().getTime()));
+			psUpdate.setString(14, usuario.getEmpresa());
 
-			psUpdate.setInt(6, usuario.getId());
+			psUpdate.setInt(15, usuario.getId());
 
 			int res = psUpdate.executeUpdate();
 

@@ -18,6 +18,8 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import catalogo.constantes.Constantes;
+import catalogo.dal.DireccionDAO;
+import catalogo.dal.DireccionDAOFactory;
 import catalogo.dal.FacturaDAO;
 import catalogo.dal.FacturaDAOFactory;
 import catalogo.dal.ProductoDAO;
@@ -57,11 +59,15 @@ public class InicializacionListener implements ServletContextListener {
 
 		PropertyConfigurator.configure(InicializacionListener.class.getClassLoader().getResource("log4j.properties"));
 
-		// Inicializar el DAO de usuarios y hacerlo accesible a través del ServletContext
+		// Inicializar el DAO de usuarios y direcciones y hacerlos accesibles a través del ServletContext
 
 		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO("jdbc:sqlite:" + realPath);
 
+		DireccionDAO direcciones = DireccionDAOFactory.getDireccionDAO("jdbc:sqlite:" + realPath);
+		
 		application.setAttribute("usuarios", usuarios);
+		
+		application.setAttribute("direcciones", direcciones);
 
 		// Crear un array con todos los usuarios y dejarlo disponible en el ServletContext
 

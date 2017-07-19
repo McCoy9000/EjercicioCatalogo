@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @WebFilter("/factura")
-public class LoginPromptFilter implements Filter {
+public class FacturaFilter implements Filter {
 
-	public LoginPromptFilter() {
+	public FacturaFilter() {
 	}
 
 	@Override

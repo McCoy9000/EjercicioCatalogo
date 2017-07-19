@@ -14,6 +14,10 @@ public class Constantes {
 	public static final String RUTA_FORMULARIO_USUARIO = "/WEB-INF/vistas/usuarioform.jsp";
 	public static final String RUTA_LISTADO_USUARIO = "/WEB-INF/vistas/usuariocrud.jsp";
 	public static final String RUTA_SERVLET_LISTADO_USUARIO = "/admin/usuariocrud";
+	public static final String RUTA_PERFIL_USUARIO = "/WEB-INF/vistas/usuarioperfil.jsp";
+	public static final String RUTA_FORMULARIO_PERFIL_USUARIO = "/WEB-INF/vistas/usuarioperfilform.jsp";
+	public static final String RUTA_SERVLET_PERFIL_USUARIO = "/WEB-INF/vistas/usuarioperfil";
+	
 	
 	public static final String RUTA_FORMULARIO_PRODUCTO = "/WEB-INF/vistas/productoform.jsp";
 	public static final String RUTA_LISTADO_PRODUCTO = "/WEB-INF/vistas/productocrud.jsp";
