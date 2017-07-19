@@ -15,17 +15,17 @@ import catalogo.tipos.Usuario;
 
 public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 	private final static String FIND_ALL = "SELECT * FROM facturas";
-	private final static String FIND_ALL_MASKS = "SELECT facturas.id, facturas.numero_factura, usuarios.nombre_completo, usuarios.apellidos, facturas.fecha FROM facturas, usuarios WHERE usuarios.id=facturas.id_usuarios";
+	private final static String FIND_ALL_MASKS = "SELECT facturas.id, facturas.numero_factura, compradores.nombre_completo, compradores.apellidos, facturas.fecha FROM facturas, compradores WHERE compradores.id=facturas.id_usuarios";
 	private final static String FIND_BY_ID = "SELECT * FROM facturas WHERE id = ?";
-	private final static String INSERT = "INSERT INTO facturas (numero_factura, id_usuarios, fecha)" + " VALUES (?, ?, ?)";
+	private final static String INSERT = "INSERT INTO facturas (numero_factura, id_usuarios, id_comprador, fecha)" + " VALUES (?, ?, ?, ?)";
 	private final static String UPDATE = "UPDATE facturas " + "SET numero_factura = ?, id_usuarios = ?,fecha = ?" + "WHERE id = ?";
 	private final static String DELETE = "DELETE FROM facturas WHERE id = ?";
 	private final static String FIND_PROD_BY_FACTURA_ID = "SELECT * FROM productos_vendidos as pv, facturas_productos as fp WHERE fp.id_facturas = ? AND pv.id = fp.id_productos";
 	private final static String DELETE_TABLE_FACTURAS = "DELETE FROM facturas";
 	private final static String REGISTER_PRODUCTS = "INSERT INTO facturas_productos (id_facturas, id_productos) VALUES (?, ?)";
 	private final static String GET_MAX_ID = "SELECT MAX(ID) FROM facturas";
-	private final static String FIND_USER_BY_FACTURA_ID = "SELECT * FROM usuarios AS u, facturas AS f WHERE f.id = ? AND u.id = f.id_usuarios";
-	private final static String FIND_MASKS_BY_USER_ID = "SELECT facturas.id, facturas.numero_factura, usuarios.nombre_completo, usuarios.apellidos, facturas.fecha FROM facturas, usuarios WHERE usuarios.id=facturas.id_usuarios AND facturas.id_usuarios=?";
+	private final static String FIND_USER_BY_FACTURA_ID = "SELECT * FROM compradores AS u, facturas AS f WHERE f.id = ? AND u.id = f.id_usuarios";
+	private final static String FIND_MASKS_BY_USER_ID = "SELECT facturas.id, facturas.id_comprador, facturas.numero_factura, compradores.nombre_completo, compradores.apellidos, facturas.fecha FROM facturas, compradores WHERE compradores.id=facturas.id_usuarios AND facturas.id_comprador=?";
 
 	private PreparedStatement psFindAll, psFindAllMasks, psFindById, psInsert, psUpdate, psDelete, psFindProdByFacturaId, psRegister, psGetMaxId, psFindUserByFacturaId, psMasksByUserId;
 
@@ -133,7 +133,8 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 
 			psInsert.setString(1, factura.getNumero_factura());
 			psInsert.setInt(2, factura.getId_usuarios());
-			psInsert.setDate(3, new java.sql.Date(factura.getFecha().getTime()));
+			psInsert.setInt(3, factura.getId_comprador());
+			psInsert.setDate(4, new java.sql.Date(factura.getFecha().getTime()));
 
 			int res = psInsert.executeUpdate();
 

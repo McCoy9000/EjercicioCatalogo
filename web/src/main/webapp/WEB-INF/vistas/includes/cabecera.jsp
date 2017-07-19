@@ -63,9 +63,9 @@
 				<li role="separator" class="divider"></li>
 				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/catalogo">CATALOGO</a></li>
 				<li role="separator" class="divider"></li>
-				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/facturasusuario">MIS FACTURAS</a></li>
-				<li role="separator" class="divider"></li>
 				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/usuarioperfil?op=ver">MI PERFIL</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/facturasusuario">MIS FACTURAS</a></li>
 				<li role="separator" class="divider"></li>
 				<li><a class="btn btn-default" style="border:none;" href="${applicationScope.rutaBase}/login?op=logout">CERRAR SESIÓN</a></li>
 				</ul>

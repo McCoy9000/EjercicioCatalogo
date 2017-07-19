@@ -180,6 +180,8 @@ public class UsuarioPerfilServlet extends HttpServlet {
 					usuarios.cerrar();
 
 					session.setAttribute("usuarioMascara", usuario);
+					session.setAttribute("usuario", usuario);
+					session.setAttribute("usuarioFactura", usuario);
 					session.removeAttribute("errorPerfil");
 					request.getRequestDispatcher(Constantes.RUTA_PERFIL_USUARIO).forward(request, response);
 					return;

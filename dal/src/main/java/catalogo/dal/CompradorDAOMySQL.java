@@ -9,26 +9,26 @@ import java.util.ArrayList;
 import catalogo.tipos.Usuario;
 import catalogo.tipos.UsuarioMascara;
 
-public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
+public class CompradorDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
-	private final static String FIND_ALL = "SELECT * FROM usuarios WHERE NOT id_roles = '3'";
-	private final static String FIND_BY_ID = "SELECT * FROM usuarios WHERE id = ?";
-	private final static String FIND_MASK_BY_ID = "SELECT usuarios.id, username, password, nombre_completo, apellidos, documento, telefono, empresa, direccion, codigo_postal, ciudad, region, pais FROM usuarios WHERE usuarios.id=?";
-	private final static String INSERT = "INSERT INTO usuarios (username, password, nombre_completo, apellidos, id_roles)" + " VALUES (?, ?, ?, ?, ?)";
-	private final static String FIND_BY_NAME = "SELECT * FROM usuarios WHERE username = ?";
-	private final static String UPDATE = "UPDATE usuarios "
+	private final static String FIND_ALL = "SELECT * FROM compradores WHERE NOT id_roles = '3'";
+	private final static String FIND_BY_ID = "SELECT * FROM compradores WHERE id = ?";
+	private final static String FIND_MASK_BY_ID = "SELECT compradores.id, username, password, nombre_completo, apellidos, documento, telefono, empresa, direccion, codigo_postal, ciudad, region, pais FROM compradores WHERE compradores.id=?";
+	private final static String INSERT = "INSERT INTO compradores (username, password, nombre_completo, apellidos, id_roles, documento, telefono, empresa, direccion, codigo_postal, ciudad, region, pais)" + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private final static String FIND_BY_NAME = "SELECT * FROM compradores WHERE username = ?";
+	private final static String UPDATE = "UPDATE compradores "
 			+ "SET username = ?, password = ?, nombre_completo = ?, apellidos = ?, id_roles = ? , documento = ?, telefono = ?, direccion = ?, codigo_postal = ?, ciudad = ? , region = ?, pais = ?, empresa = ? "
 			+ "WHERE id = ?";
-	private final static String DELETE = "DELETE FROM usuarios WHERE id = ?";
-	private final static String DELETE_TABLE_USUARIOS = "DELETE FROM usuarios";
-	private final static String FIND_ALL_MASKS = "SELECT usuarios.id, username, password, nombre_completo, apellidos, rol FROM usuarios, roles WHERE roles.id=usuarios.id_roles AND NOT id_roles = '3'";
+	private final static String DELETE = "DELETE FROM compradores WHERE id = ?";
+	private final static String DELETE_TABLE_USUARIOS = "DELETE FROM compradores";
+	private final static String FIND_ALL_MASKS = "SELECT compradores.id, username, password, nombre_completo, apellidos, rol FROM compradores, roles WHERE roles.id=compradores.id_roles AND NOT id_roles = '3'";
 	private PreparedStatement psFindAll, psFindById, psFindMaskById, psFindByName, psInsert, psUpdate, psDelete, psDeleteUsers, psFindAllMasks;
 
-	public UsuarioDAOMySQL(String url) {
+	public CompradorDAOMySQL(String url) {
 		super(url);
 	}
 
-	public UsuarioDAOMySQL() {
+	public CompradorDAOMySQL() {
 
 	}
 
@@ -186,14 +186,6 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 				usuario.setApellidos(rs.getString("apellidos"));
 				usuario.setPassword(rs.getString("password"));
 				usuario.setUsername(rs.getString("username"));
-				usuario.setDocumento(rs.getString("documento"));
-				usuario.setTelefono(rs.getString("telefono"));
-				usuario.setDireccion(rs.getString("direccion"));
-				usuario.setCodigoPostal(rs.getString("codigo_postal"));
-				usuario.setCiudad(rs.getString("ciudad"));
-				usuario.setRegion(rs.getString("region"));
-				usuario.setPais(rs.getString("pais"));
-				usuario.setEmpresa(rs.getString("empresa"));
 			}
 
 		} catch (Exception e) {
@@ -215,6 +207,14 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 			psInsert.setString(3, usuario.getNombre_completo());
 			psInsert.setString(4, usuario.getApellidos());
 			psInsert.setInt(5, usuario.getId_roles());
+			psInsert.setString(6, usuario.getDocumento());
+			psInsert.setString(7, usuario.getTelefono());
+			psInsert.setString(8, usuario.getDireccion());
+			psInsert.setString(9, usuario.getCodigoPostal());
+			psInsert.setString(10, usuario.getCiudad());
+			psInsert.setString(11, usuario.getRegion());
+			psInsert.setString(12, usuario.getPais());
+			psInsert.setString(13, usuario.getEmpresa());
 
 			int res = psInsert.executeUpdate();
 

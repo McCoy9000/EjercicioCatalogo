@@ -18,6 +18,7 @@ import catalogo.dal.CarritoDAO;
 import catalogo.dal.CarritoDAOFactory;
 import catalogo.dal.FacturaDAO;
 import catalogo.dal.ProductoDAO;
+import catalogo.dal.UsuarioDAO;
 import catalogo.tipos.Articulo;
 import catalogo.tipos.Factura;
 import catalogo.tipos.Producto;
@@ -122,8 +123,13 @@ public class CheckoutServlet extends HttpServlet {
 						} else {
 		//Si hay un usuario identificado se obtiene el DAO de facturas almacenado en el ServletContext
 							FacturaDAO facturas = (FacturaDAO) application.getAttribute("facturas");
+							UsuarioDAO compradores = (UsuarioDAO) application.getAttribute("compradores");
 		//Se inicializa una factura con el id del usuario y la fecha actual
-							Factura factura = new Factura(usuario.getId(), new Date());
+							compradores.abrir();
+							int idComprador = compradores.insert(usuario);
+							compradores.cerrar();
+									
+							Factura factura = new Factura(idComprador, usuario.getId(), new Date());
 		
 		//Se declara el array de productos en la factura, el precio total y el usuario para mostrar en la jsp
 		//de factura
