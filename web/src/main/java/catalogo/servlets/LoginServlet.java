@@ -167,6 +167,7 @@ public class LoginServlet extends HttpServlet {
 				session.removeAttribute("errorLogin");
 				session.setAttribute("logueado", "si");
 				session.setAttribute("usuario", usuario);
+				session.setAttribute("usuarioFactura", usuario);
 				// Se le envía al catálogo
 				catalogo.forward(request, response);
 			}
