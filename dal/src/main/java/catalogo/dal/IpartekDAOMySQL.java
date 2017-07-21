@@ -8,8 +8,18 @@ public class IpartekDAOMySQL implements IpartekDAO {
 
 	protected Connection con;
 	
-	private String url = "jdbc:sqlite:C:\\SQLite\\driver.db";
-
+	private String url = "jdbc:postgresql://localhost:5432/driver";
+	private String mysqlUser = "Mikel";
+	private String mysqlPass = "tuput4m4dr3";
+	
+	
+	public IpartekDAOMySQL(String url, String mysqlUser, String mysqlPass) {
+		this();
+		this.url = url;
+		this.mysqlUser = mysqlUser;
+		this.mysqlPass = mysqlPass;
+	}
+	
 	
 	public IpartekDAOMySQL(String url) {
 		this();
@@ -19,7 +29,7 @@ public class IpartekDAOMySQL implements IpartekDAO {
 	
 	public IpartekDAOMySQL() {
 		try {
-			Class.forName("org.sqlite.JDBC").newInstance();
+			Class.forName("org.postgresql.Driver").newInstance();
 		} catch (InstantiationException e) {
 			throw new DAOException(e.getMessage(), e);
 		} catch (IllegalAccessException e) {
@@ -33,7 +43,7 @@ public class IpartekDAOMySQL implements IpartekDAO {
 	
 	public void abrir() {
 		try {
-			con = DriverManager.getConnection(url);
+			con = DriverManager.getConnection(url, mysqlUser, mysqlPass);
 		} catch (SQLException e) {
 			throw new DAOException("Error de conexión a la base de datos", e);
 		} catch (Exception e) {

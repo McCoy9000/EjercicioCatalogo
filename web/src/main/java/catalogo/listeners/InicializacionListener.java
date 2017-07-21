@@ -59,9 +59,9 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Inicializar el DAO de usuarios y compradores y hacerlos accesibles a través del ServletContext
 
-		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO("jdbc:sqlite:" + realPath);
+		UsuarioDAO usuarios = UsuarioDAOFactory.getUsuarioDAO();
 
-		UsuarioDAO compradores = UsuarioDAOFactory.getCompradorDAO("jdbc:sqlite:" + realPath);
+		UsuarioDAO compradores = UsuarioDAOFactory.getCompradorDAO();
 
 		application.setAttribute("usuarios", usuarios);
 
@@ -86,7 +86,7 @@ public class InicializacionListener implements ServletContextListener {
 
 		// Inicializar el DAO de productos y hacerlo accesible a través del ServletContext
 
-		ProductoDAO productos = ProductoDAOFactory.getProductoDAO("jdbc:sqlite:" + realPath);
+		ProductoDAO productos = ProductoDAOFactory.getProductoDAO();
 
 		application.setAttribute("productos", productos);
 
@@ -110,17 +110,17 @@ public class InicializacionListener implements ServletContextListener {
 		// Inicializar el DAO de ProductosReservados y ProductosVendidos
 		// y hacerlos accesibles a través del ServletContext
 
-		ProductoDAO productosReservados = ProductoDAOFactory.getProductoReservadoDAO("jdbc:sqlite:" + realPath);
+		ProductoDAO productosReservados = ProductoDAOFactory.getProductoReservadoDAO();
 
 		application.setAttribute("productosReservados", productosReservados);
 
-		ProductoDAO productosVendidos = ProductoDAOFactory.getProductoVendidoDAO("jdbc:sqlite:" + realPath);
+		ProductoDAO productosVendidos = ProductoDAOFactory.getProductoVendidoDAO();
 
 		application.setAttribute("productosVendidos", productosVendidos);
 
 		// Inicializar el DAO de facturas y hacerlo accesible a través del ServletContext
 
-		FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO("jdbc:sqlite:" + realPath);
+		FacturaDAO facturas = FacturaDAOFactory.getFacturaDAO();
 
 		application.setAttribute("facturas", facturas);
 

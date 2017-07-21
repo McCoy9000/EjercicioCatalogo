@@ -17,4 +17,12 @@ public class UsuarioDAOFactory {
 	public static UsuarioDAO getCompradorDAO(String url) {
 		return new CompradorDAOMySQL(url);
 	}
+	
+	public static UsuarioDAO getCompradorDAO() {
+
+		UsuarioDAO usuarios = new CompradorDAOMySQL();
+
+		return usuarios;
+
+	}
 }
