@@ -8,7 +8,7 @@ public class IpartekDAOMySQL implements IpartekDAO {
 
 	protected Connection con;
 	
-	private String url = "jdbc:postgresql://localhost:5432/driver";
+	private String url = "jdbc:postgres://fvgnqfvntiqegx:0dd45f5b83cc46dd88c3b86820627e3e9f9794cf44924f14810d332b4ca4f01f@ec2-107-20-250-195.compute-1.amazonaws.com:5432/db7mlk8ek0n021_=/usr/bin/env";
 	private String mysqlUser = "Mikel";
 	private String mysqlPass = "tuput4m4dr3";
 	
@@ -43,7 +43,7 @@ public class IpartekDAOMySQL implements IpartekDAO {
 	
 	public void abrir() {
 		try {
-			con = DriverManager.getConnection(url, mysqlUser, mysqlPass);
+			con = DriverManager.getConnection(url);
 		} catch (SQLException e) {
 			throw new DAOException("Error de conexión a la base de datos", e);
 		} catch (Exception e) {
