@@ -14,7 +14,8 @@ public class CompradorDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	private final static String FIND_ALL = "SELECT * FROM compradores WHERE NOT id_roles = '3'";
 	private final static String FIND_BY_ID = "SELECT * FROM compradores WHERE id = ?";
 	private final static String FIND_MASK_BY_ID = "SELECT compradores.id, username, password, nombre_completo, apellidos, documento, telefono, empresa, direccion, codigo_postal, ciudad, region, pais FROM compradores WHERE compradores.id=?";
-	private final static String INSERT = "INSERT INTO compradores (username, password, nombre_completo, apellidos, id_roles, documento, telefono, empresa, direccion, codigo_postal, ciudad, region, pais)" + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private final static String INSERT = "INSERT INTO compradores (username, password, nombre_completo, apellidos, id_roles, documento, telefono, empresa, direccion, codigo_postal, ciudad, region, pais)"
+			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final static String FIND_BY_NAME = "SELECT * FROM compradores WHERE username = ?";
 	private final static String UPDATE = "UPDATE compradores "
 			+ "SET username = ?, password = ?, nombre_completo = ?, apellidos = ?, id_roles = ? , documento = ?, telefono = ?, direccion = ?, codigo_postal = ?, ciudad = ? , region = ?, pais = ?, empresa = ? "
@@ -29,7 +30,7 @@ public class CompradorDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	}
 
 	public CompradorDAOMySQL() {
-
+		super();
 	}
 
 	public UsuarioMascara[] findAllMasks() {

@@ -29,7 +29,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 	}
 
 	public UsuarioDAOMySQL() {
-
+		super();
 	}
 
 	public UsuarioMascara[] findAllMasks() {

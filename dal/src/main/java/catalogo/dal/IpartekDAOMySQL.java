@@ -7,26 +7,24 @@ import java.sql.SQLException;
 public class IpartekDAOMySQL implements IpartekDAO {
 
 	protected Connection con;
-	
-	private String url = "jdbc:postgres://fvgnqfvntiqegx:0dd45f5b83cc46dd88c3b86820627e3e9f9794cf44924f14810d332b4ca4f01f@ec2-107-20-250-195.compute-1.amazonaws.com:5432/db7mlk8ek0n021_=/usr/bin/env";
-	private String mysqlUser = "Mikel";
-	private String mysqlPass = "tuput4m4dr3";
-	
-	
+
+	private String url = "jdbc:postgresql://ec2-50-17-217-166.compute-1.amazonaws.com:5432/dalspvc80kevn7";
+	private String mysqlUser = "yxmlvawotaeszy";
+	private String mysqlPass = "e9d296f2a4ae6c0a6d3a2df66754faf2c52d05617ed971707b970f0e579fc6c4";
+
 	public IpartekDAOMySQL(String url, String mysqlUser, String mysqlPass) {
 		this();
 		this.url = url;
 		this.mysqlUser = mysqlUser;
 		this.mysqlPass = mysqlPass;
 	}
-	
-	
+
 	public IpartekDAOMySQL(String url) {
-		this();
+
 		this.url = url;
-		
+
 	}
-	
+
 	public IpartekDAOMySQL() {
 		try {
 			Class.forName("org.postgresql.Driver").newInstance();
@@ -40,10 +38,10 @@ public class IpartekDAOMySQL implements IpartekDAO {
 			throw new DAOException("ERROR NO ESPERADO", e);
 		}
 	}
-	
+
 	public void abrir() {
 		try {
-			con = DriverManager.getConnection(url);
+			con = DriverManager.getConnection(url, mysqlUser, mysqlPass);
 		} catch (SQLException e) {
 			throw new DAOException("Error de conexión a la base de datos", e);
 		} catch (Exception e) {
@@ -53,7 +51,7 @@ public class IpartekDAOMySQL implements IpartekDAO {
 
 	public void cerrar() {
 		try {
-			if(con != null && !con.isClosed()) {
+			if (con != null && !con.isClosed()) {
 				con.close();
 			}
 			con = null;
@@ -89,12 +87,9 @@ public class IpartekDAOMySQL implements IpartekDAO {
 			throw new DAOException("Error al deshacer transacción", e);
 		}
 	}
-	
+
 	public void reutilizarConexion(IpartekDAO dao) {
-		con = ((IpartekDAOMySQL)dao).con;
+		con = ((IpartekDAOMySQL) dao).con;
 	}
-	
+
 }
-
-	
-
